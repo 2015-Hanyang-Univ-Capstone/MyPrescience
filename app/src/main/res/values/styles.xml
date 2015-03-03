@@ -1,7 +1,9 @@
 <resources>
 
-    <style name="center_white_text">
+    <style name="base_center_white_text">
         <item name="android:gravity">center</item>
+        <item name="android:background">#93c3c7</item>
+        <item name="android:textColor">#ffffff</item>
     </style>
 
 </resources>

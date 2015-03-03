@@ -13,10 +13,10 @@
         android:id="@+id/logoView"
         android:src="@drawable/logo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="112dp" />
+        android:layout_marginTop="112dp"/>
 
     <TextView
-        style="@style/center_white_text"
+        style="@style/base_center_white_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/welcome"
@@ -31,5 +31,15 @@
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="84dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guestButton"
+        android:text="Guest Login"
+        android:layout_below="@+id/authButton"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_marginTop="42dp" />
 
 </RelativeLayout>
