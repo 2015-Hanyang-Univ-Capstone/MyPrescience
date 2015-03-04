@@ -16,7 +16,6 @@
             style="@style/base_center_white_text"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/select_genre"
             android:id="@+id/top"
             android:layout_gravity="center_horizontal"
             />
@@ -53,14 +52,9 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp">
 
-        <GridLayout
-            android:layout_width="match_parent"
+        <ListView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/gridLayout"
-            android:columnCount="2"
-            android:useDefaultMargins="true"
-            android:background="#8C8C8C">
-            </GridLayout>
-
+            android:id="@+id/songListView"/>
     </ScrollView>
 </LinearLayout>

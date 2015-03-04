@@ -1,13 +1,17 @@
 package com.myprescience.application.myprescience;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import java.util.Vector;
@@ -18,6 +22,7 @@ public class RecommendActivity extends Activity{
     private Vector<CheckBox> checkBoxVector;
     private ProgressBar progressBar;
     private TextView textView;
+    private ImageButton rightButton;
     private int selectCount = 0;
 
     @Override
@@ -25,10 +30,23 @@ public class RecommendActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommend);
 
+        rightButton = (ImageButton) findViewById(R.id.nextButton);
+        rightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RecommendActivity.this, SongListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
         // 장르 리스트
         int pixels = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 170, getResources().getDisplayMetrics());
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         textView = (TextView) findViewById(R.id.top);
+        rightButton.setVisibility(ImageButton.INVISIBLE);
+        rightButton.invalidate();
+
         CompoundButton.OnCheckedChangeListener listener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -41,11 +59,16 @@ public class RecommendActivity extends Activity{
                 progressBar.setProgress(progress);
                 progressBar.invalidate();
 
-                if(selectCount > 2)
+                if(selectCount > 2) {
                     textView.setText(selectCount + "개 선택되었습니다.");
-                else
+                    rightButton.setVisibility(ImageButton.VISIBLE);
+                }
+                else {
                     textView.setText("장르를 3개 이상 선택하세요.");
+                    rightButton.setVisibility(ImageButton.INVISIBLE);
+                }
                 textView.invalidate();
+                rightButton.invalidate();
             }
         };
 
@@ -65,6 +88,7 @@ public class RecommendActivity extends Activity{
         gridLayout = (GridLayout) findViewById(R.id.gridLayout);
         for(CheckBox cb : checkBoxVector)
             gridLayout.addView(cb);
+
     }
 
     @Override
