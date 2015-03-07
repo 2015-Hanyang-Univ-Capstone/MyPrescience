@@ -50,7 +50,7 @@ public class SongListActivity extends Activity {
         songListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast toast = Toast.makeText(SongListActivity.this, songListAdapter.getItem(position).rating+"", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(SongListActivity.this, position+"", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
