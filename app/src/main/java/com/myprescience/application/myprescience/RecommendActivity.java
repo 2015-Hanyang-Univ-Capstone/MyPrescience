@@ -2,7 +2,6 @@ package com.myprescience.application.myprescience;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -14,6 +13,7 @@ import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import java.util.Vector;
 
 
@@ -73,13 +73,14 @@ public class RecommendActivity extends Activity{
         };
 
         // 장르 초기화
+        int[] genreArray = {R.drawable.button_pop, R.drawable.button_hiphop, R.drawable.button_rock,
+                R.drawable.button_jazz, R.drawable.button_electro, R.drawable.button_classic};
         checkBoxVector = new Vector<>();
-        for(int i=0; i<10; i++){
+        for(int mGenre : genreArray){
             CheckBox mCB = new CheckBox(this);
+            mCB.setButtonDrawable(mGenre);
             mCB.setWidth(pixels);
             mCB.setHeight(pixels);
-            mCB.setText(i + "");
-            mCB.setBackgroundColor(0xB2EBF4);
             mCB.setOnCheckedChangeListener(listener);
             checkBoxVector.add(mCB);
         }
