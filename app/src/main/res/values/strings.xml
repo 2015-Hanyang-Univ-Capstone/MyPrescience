@@ -12,5 +12,15 @@
     <string name="title_activity_recommend">RecommendActivity</string>
     <string name="select_genre">장르를 3개 이상 선택하세요.</string>
     <string name="title_activity_song_list">SongListActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="title_section1">홈</string>
+    <string name="title_section2">평가하기</string>
+    <string name="title_section3">로그아웃</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example"></string>
 
 </resources>

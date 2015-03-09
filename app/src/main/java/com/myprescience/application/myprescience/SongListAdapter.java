@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,14 +20,24 @@ import java.util.ArrayList;
  * 리스트 뷰에 곡 정보를 추가하기 위한 어댑터 클래스
  * addItem()으로 리스트에 곡 추가
  */
+
 public class SongListAdapter extends BaseAdapter{
 
     private Context mContext = null;
     private ArrayList<SongData> mListData = new ArrayList<>();
+    private ViewHolder holder;
+    private ProgressBar progressBar;
+    private int ratingCount;
+    private TextView textView;
+    private ImageButton rightButton;
 
-    public SongListAdapter(Context mContext) {
+    public SongListAdapter(Context mContext, int _ratingCount, ProgressBar _progressBar, TextView _textView, ImageButton _rightButton) {
         super();
         this.mContext = mContext;
+        progressBar = _progressBar;
+        ratingCount = _ratingCount;
+        textView = _textView;
+        rightButton = _rightButton;
     }
 
     public void addItem(Drawable _album, String _title, String _artist, int _rating){
@@ -37,10 +49,8 @@ public class SongListAdapter extends BaseAdapter{
         mListData.add(temp);
     }
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
 
@@ -59,11 +69,9 @@ public class SongListAdapter extends BaseAdapter{
 
         SongData mData = mListData.get(position);
 
-        if (mData.albumArt != null) {
-            holder.albumImageView.setVisibility(View.VISIBLE);
+        holder.albumImageView.setVisibility(View.VISIBLE);
+        if (mData.albumArt != null){
             holder.albumImageView.setImageDrawable(mData.albumArt);
-        }else{
-            holder.albumImageView.setVisibility(View.GONE);
         }
 
         holder.titleTextView.setText(mData.title);
@@ -75,9 +83,26 @@ public class SongListAdapter extends BaseAdapter{
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 if(!fromUser) return;
-                mListData.get((Integer)ratingBar.getTag()).rating = (int)(rating*2);
+
+                int index = (Integer)ratingBar.getTag();
+                if(mListData.get(index).rating == 0) {
+                    ratingCount++;
+                    progressBar.setProgress((int)(Math.min(1, ratingCount/(double)SongListActivity.MIN_SELECTED_SONG)*100));
+                    progressBar.invalidate();
+
+                    textView.setText(ratingCount + "곡을 평가했습니다.");
+                    textView.invalidate();
+
+                    if(ratingCount >= SongListActivity.MIN_SELECTED_SONG)
+                        rightButton.setVisibility(ImageButton.VISIBLE);
+                }
+
+                mListData.get(index).rating = (int)(rating*2);
+                Toast toast = Toast.makeText(mContext, "평가되었습니다!", Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
+
         return convertView;
     }
 

@@ -11,10 +11,12 @@
         android:layout_gravity="center_horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/icon_none"
             android:id="@+id/albumArtView"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center" />
 
         <LinearLayout
             android:orientation="vertical"

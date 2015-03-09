@@ -31,8 +31,6 @@
     </FrameLayout>
 
 
-
-
     <ProgressBar
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_width="fill_parent"

@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -20,8 +18,8 @@ import java.util.Vector;
  * 장르 선택 액티비티
  */
 
-
 public class RecommendActivity extends Activity{
+    public static Activity sRecommendActivity;
     private GridLayout gridLayout;
     private Vector<CheckBox> checkBoxVector;
     private ProgressBar progressBar;
@@ -40,6 +38,7 @@ public class RecommendActivity extends Activity{
         rightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sRecommendActivity = RecommendActivity.this;
                 Intent intent = new Intent(RecommendActivity.this, SongListActivity.class);
                 startActivity(intent);
             }
@@ -97,7 +96,5 @@ public class RecommendActivity extends Activity{
         gridLayout = (GridLayout) findViewById(R.id.gridLayout);
         for(CheckBox cb : checkBoxVector)
             gridLayout.addView(cb);
-        
-
     }
 }
