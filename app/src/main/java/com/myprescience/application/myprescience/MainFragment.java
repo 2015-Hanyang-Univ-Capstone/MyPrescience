@@ -18,6 +18,10 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
 
+/**
+ * facebook 로그인용 fragment
+ */
+
 public class MainFragment extends Fragment {
 
     private static final String TAG = MainFragment.class.getSimpleName();

@@ -15,6 +15,8 @@ import java.util.ArrayList;
 
 /**
  * Created by hyeon-seob on 15. 3. 4..
+ * 리스트 뷰에 곡 정보를 추가하기 위한 어댑터 클래스
+ * addItem()으로 리스트에 곡 추가
  */
 public class SongListAdapter extends BaseAdapter{
 
@@ -34,6 +36,7 @@ public class SongListAdapter extends BaseAdapter{
         temp.rating = _rating;
         mListData.add(temp);
     }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

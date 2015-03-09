@@ -14,6 +14,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * 곡 리스트 출력하는 액티비티
+ */
+
 
 public class SongListActivity extends Activity {
     private static int minNum = 10;

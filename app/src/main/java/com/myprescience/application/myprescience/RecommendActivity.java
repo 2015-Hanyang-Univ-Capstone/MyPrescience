@@ -16,6 +16,10 @@ import android.widget.TextView;
 
 import java.util.Vector;
 
+/**
+ * 장르 선택 액티비티
+ */
+
 
 public class RecommendActivity extends Activity{
     private GridLayout gridLayout;
@@ -30,6 +34,8 @@ public class RecommendActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommend);
 
+
+        // 다음 버튼
         rightButton = (ImageButton) findViewById(R.id.nextButton);
         rightButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +53,8 @@ public class RecommendActivity extends Activity{
         rightButton.setVisibility(ImageButton.INVISIBLE);
         rightButton.invalidate();
 
+
+        // 장르가 3개이상 선택되면 다음 버튼 나타남, 3개 미만일 떈 다시 사라짐
         CompoundButton.OnCheckedChangeListener listener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -89,28 +97,7 @@ public class RecommendActivity extends Activity{
         gridLayout = (GridLayout) findViewById(R.id.gridLayout);
         for(CheckBox cb : checkBoxVector)
             gridLayout.addView(cb);
+        
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_recommend, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }
