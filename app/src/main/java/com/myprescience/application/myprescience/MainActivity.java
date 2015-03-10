@@ -1,25 +1,26 @@
 package com.myprescience.application.myprescience;
 
 import android.app.Activity;
-import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.content.Context;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.support.v4.widget.DrawerLayout;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
-
-    private final long FINISH_INTERVAL_TIME = 2000;
-    private long backPressedTime = 0;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -44,10 +45,6 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-
-        // 이전 액티비티 종료
-        RecommendActivity.sRecommendActivity.finish();
-        SongListActivity.sSonglistActivity.finish();
     }
 
     @Override
@@ -149,17 +146,4 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
-    @Override
-    public void onBackPressed(){
-        long tempTime = System.currentTimeMillis();
-        long intervalTime = tempTime - backPressedTime;
-
-        if ( 0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime ) {
-            super.onBackPressed();
-        }
-        else{
-            backPressedTime = tempTime;
-            Toast.makeText(getApplicationContext(), "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
-        }
-    }
 }

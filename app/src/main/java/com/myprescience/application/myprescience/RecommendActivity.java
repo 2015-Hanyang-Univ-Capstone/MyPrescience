@@ -80,8 +80,8 @@ public class RecommendActivity extends Activity{
         };
 
         // 장르 초기화
-        int[] genreArray = {R.drawable.button_pop, R.drawable.button_hiphop, R.drawable.button_rock,
-                R.drawable.button_jazz, R.drawable.button_electro, R.drawable.button_classic};
+        int[] genreArray = {R.drawable.button_pop, R.drawable.button_hiphop, R.drawable.button_rnb, R.drawable.button_rock,
+                R.drawable.button_dance, R.drawable.button_jazz, R.drawable.button_electro, R.drawable.button_classic};
         checkBoxVector = new Vector<>();
         for(int mGenre : genreArray){
             CheckBox mCB = new CheckBox(this);

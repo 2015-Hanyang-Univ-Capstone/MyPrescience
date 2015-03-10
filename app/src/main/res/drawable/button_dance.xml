@@ -2,11 +2,10 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:state_checked="true"
-        android:drawable="@drawable/icon_electro">
+        android:drawable="@drawable/icon_dance">
     </item>
     <item
         android:state_checked="false"
-        android:drawable="@drawable/icon_electro">
+        android:drawable="@drawable/icon_dance">
     </item>
-
 </selector>
