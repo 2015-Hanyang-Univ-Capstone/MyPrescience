@@ -46,7 +46,6 @@ public class RecommendActivity extends Activity{
 
 
         // 장르 리스트
-        int pixels = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 170, getResources().getDisplayMetrics());
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         textView = (TextView) findViewById(R.id.top);
         rightButton.setVisibility(ImageButton.INVISIBLE);
@@ -80,14 +79,16 @@ public class RecommendActivity extends Activity{
         };
 
         // 장르 초기화
+        int width = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
+        int height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics());
         int[] genreArray = {R.drawable.button_pop, R.drawable.button_hiphop, R.drawable.button_rnb, R.drawable.button_rock,
                 R.drawable.button_dance, R.drawable.button_jazz, R.drawable.button_electro, R.drawable.button_classic};
         checkBoxVector = new Vector<>();
         for(int mGenre : genreArray){
             CheckBox mCB = new CheckBox(this);
             mCB.setButtonDrawable(mGenre);
-            mCB.setWidth(pixels);
-            mCB.setHeight(pixels);
+            mCB.setWidth(width);
+            mCB.setHeight(height);
             mCB.setOnCheckedChangeListener(listener);
             checkBoxVector.add(mCB);
         }

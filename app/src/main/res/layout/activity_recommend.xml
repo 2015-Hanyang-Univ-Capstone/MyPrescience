@@ -46,14 +46,13 @@
         android:layout_height="match_parent"
         android:id="@+id/scrollView"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:fillViewport="true">
+        android:layout_marginRight="10dp">
 
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/gridLayout"
-            android:layout_gravity="center_horizontal"
+            android:useDefaultMargins="true"
             android:columnCount="2">
        </GridLayout>
 
