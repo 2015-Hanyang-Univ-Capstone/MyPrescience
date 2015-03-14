@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.facebook.AppEventsLogger;
+import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 
 import java.util.Arrays;
@@ -38,6 +39,14 @@ public class LoginActivity extends FragmentActivity {
 
         LoginButton authButton = (LoginButton) findViewById(R.id.authButton);
         authButton.setReadPermissions(Arrays.asList("public_profile"));
+        authButton.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
+            @Override
+            public void onUserInfoFetched(GraphUser graphUser) {
+                if(graphUser != null){
+                    Toast.makeText(LoginActivity.this, graphUser.getName()+"로 로그인되었습니다!", Toast.LENGTH_SHORT);
+                }
+            }
+        });
 
         // 임시용 게스트 로그인 버튼
         guestButton = (Button) findViewById(R.id.guestButton);
@@ -52,7 +61,6 @@ public class LoginActivity extends FragmentActivity {
                 finish();
             }
         });
-
     }
 
     @Override
