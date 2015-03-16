@@ -8,6 +8,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.facebook.AppEventsLogger;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 
@@ -22,28 +26,57 @@ public class LoginActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        if (savedInstanceState == null) {
-//            // Add the fragment on initial activity setup
-//            mainFragment = new MainFragment();
-//            getSupportFragmentManager()
-//                    .beginTransaction()
-//                    .add(android.R.id.content, mainFragment)
-//                    .commit();
-//        } else {
-//            // Or set the fragment from restored state info
-//            mainFragment = (MainFragment) getSupportFragmentManager()
-//                    .findFragmentById(android.R.id.content);
-//        }
-
+        if (savedInstanceState == null) {
+            // Add the fragment on initial activity setup
+            mainFragment = new MainFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(android.R.id.content, mainFragment)
+                    .commit();
+        } else {
+            // Or set the fragment from restored state info
+            mainFragment = (MainFragment) getSupportFragmentManager()
+                    .findFragmentById(android.R.id.content);
+        }
         setContentView(R.layout.activity_login);
 
+
+        // 현제 페이스북 로그인 세션 확인
         LoginButton authButton = (LoginButton) findViewById(R.id.authButton);
+        Session session = Session.getActiveSession();
+        if(session != null){
+            if(session.isOpened()){
+                Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+                    // callback after Graph API response with user object
+                    @Override
+                    public void onCompleted(GraphUser user, Response response) {
+                        Toast.makeText(LoginActivity.this, user.getName()+"님 환영합니다!", Toast.LENGTH_LONG).show();
+
+                        Intent intent = new Intent(LoginActivity.this, RecommendActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+            }
+        }
+
+        // 페이스북 로그인
         authButton.setReadPermissions(Arrays.asList("public_profile"));
-        authButton.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
+        authButton.setSessionStatusCallback(new Session.StatusCallback() {
             @Override
-            public void onUserInfoFetched(GraphUser graphUser) {
-                if(graphUser != null){
-                    Toast.makeText(LoginActivity.this, graphUser.getName()+"로 로그인되었습니다!", Toast.LENGTH_SHORT);
+            public void call(Session session, SessionState state, Exception exception) {
+                if (session.isOpened()) {
+                    Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+                        // callback after Graph API response with user object
+                        @Override
+                        public void onCompleted(GraphUser user, Response response) {
+                            Toast.makeText(LoginActivity.this, user.getName()+"님 환영합니다!", Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(LoginActivity.this, RecommendActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
                 }
             }
         });

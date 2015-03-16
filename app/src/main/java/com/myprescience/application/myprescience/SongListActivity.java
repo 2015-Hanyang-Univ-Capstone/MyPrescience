@@ -52,8 +52,7 @@ public class SongListActivity extends Activity {
         songListView = (ListView) findViewById(R.id.songListView);
         songListView.setAdapter(songListAdapter);
         for(int i=0; i<50; i++)
-            songListAdapter.addItem(null,i+"",i+"",0);
-
+            songListAdapter.addItem(null,i+"번째 곡 타이틀",i+"번째 곡 아티스트",0);
     }
 
     @Override
