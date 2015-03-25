@@ -1,6 +1,9 @@
 package com.myprescience.application.myprescience;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -16,12 +19,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.model.GraphUser;
 
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
-
+    private String facebookUserName;
+    private String facebookUserId;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -37,14 +48,39 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        RecommendActivity.sRecommendActivity.finish();
+        SongListActivity.sSonglistActivity.finish();
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
+
+
+        Session session = Session.getActiveSession();
+
+        if(session != null && session.isOpened()){
+            Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+                // callback after Graph API response with user object
+                @Override
+                public void onCompleted(GraphUser user, Response response) {
+                    facebookUserName = user.getUsername();
+                    facebookUserId = user.getId();
+                }
+            });
+        }
+
+//        // 프로필 이미지와 이름
+//        ImageView facebookProfileImageView = (ImageView) drawerLayout.findViewById(R.id.facebookProfileImageView);
+//        facebookProfileImageView.setImageURI(Uri.parse("https://graph.facebook.com/" + facebookUserId + "/picture?type=normal"));
+//
+//        TextView facebookUserNameTextView = (TextView) drawerLayout.findViewById(R.id.facebookUserNameTextView);
+//        facebookUserNameTextView.setText(facebookUserName);
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
     }
 
     @Override
