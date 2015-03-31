@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.myprescience.R;
 import com.myprescience.util.Indicator;
@@ -23,6 +24,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * 곡 리스트 출력하는 액티비티
@@ -72,8 +75,34 @@ public class SongListActivity extends Activity {
 
         new getSongTask().execute(TEST_URL);
 
-        for(int i=1; i<4; i++)
-            songListAdapter.addItem(null,i+"번째 곡 타이틀",i+"번째 곡 아티스트",0);
+//        String songJSON = null;
+//        try {
+//            songJSON = new getSongTask().execute(TEST_URL).get();
+//
+//            JSONParser jsonParser = new JSONParser();
+//            JSONArray songArray = (JSONArray) jsonParser.parse(songJSON);
+//
+//            for(int i = 0; i < 5; i ++) {
+//
+//                JSONObject song = (JSONObject) jsonParser.parse(songArray.get(i).toString());
+//
+//                String title = (String)song.get("title");
+//                String artist = (String)song.get("artist");
+//
+//                songListAdapter.addItem(null, title, artist, 0);
+//
+//                Toast.makeText(getApplicationContext(), "TEST", Toast.LENGTH_LONG);
+//            }
+//
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        }
+
+
     }
 
     class getSongTask extends AsyncTask<String, String, String> {
@@ -89,13 +118,12 @@ public class SongListActivity extends Activity {
         @Override
         protected void onPostExecute(String songJSON) {
             super.onPostExecute(songJSON);
-            Log.e("songJSON", songJSON);
 
             try {
                 JSONParser jsonParser = new JSONParser();
                 JSONArray songArray = (JSONArray) jsonParser.parse(songJSON);
 
-                for(int i = 0; i < 5; i ++) {
+                for(int i = 0; i < songArray.size(); i ++) {
 
                     JSONObject song = (JSONObject) jsonParser.parse(songArray.get(i).toString());
 
@@ -103,6 +131,8 @@ public class SongListActivity extends Activity {
                     String artist = (String)song.get("artist");
 
                     songListAdapter.addItem(null, title, artist, 0);
+
+                    Toast.makeText(getApplicationContext(), "TEST", Toast.LENGTH_LONG);
                 }
 //                    String spotifyTrackID = "tracks/"+(String)song.get("track_spotify_id");
 //                    if(spotifyTrackID.equals("tracks/")) {
@@ -111,6 +141,8 @@ public class SongListActivity extends Activity {
 //                    } else {
 //                        new getTrackTask().execute(spotifyAPI+spotifyTrackID);
 //                    }
+
+                songListAdapter.notifyDataSetChanged();
 
                 if ( mIndicator.isShowing())
                     mIndicator.hide();
