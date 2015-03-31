@@ -1,6 +1,7 @@
 package com.myprescience.ui;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +43,7 @@ public class SongListAdapter extends BaseAdapter{
         rightButton = _rightButton;
     }
 
-    public void addItem(Drawable _album, String _title, String _artist, int _rating){
+    public void addItem(Bitmap _album, String _title, String _artist, int _rating){
         SongData temp = new SongData();
         temp.albumArt = _album;
         temp.title = _title;
@@ -73,7 +74,7 @@ public class SongListAdapter extends BaseAdapter{
 
         holder.albumImageView.setVisibility(View.VISIBLE);
         if (mData.albumArt != null){
-            holder.albumImageView.setImageDrawable(mData.albumArt);
+            holder.albumImageView.setImageBitmap(mData.albumArt);
         }
 
         holder.titleTextView.setText(mData.title);

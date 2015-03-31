@@ -3,6 +3,7 @@ package com.myprescience.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.CheckBox;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.myprescience.R;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -29,6 +31,8 @@ public class RecommendActivity extends Activity{
     private ImageButton rightButton;
     private int selectCount = 0;
 
+    public ArrayList<String> selectGenre = new ArrayList<String>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +46,7 @@ public class RecommendActivity extends Activity{
             public void onClick(View v) {
                 sRecommendActivity = RecommendActivity.this;
                 Intent intent = new Intent(RecommendActivity.this, SongListActivity.class);
+                intent.putExtra("selectGenre",selectGenre);
                 startActivity(intent);
             }
         });
@@ -58,8 +63,13 @@ public class RecommendActivity extends Activity{
         CompoundButton.OnCheckedChangeListener listener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                String genre = (String) buttonView.getContentDescription();
+
                 if(isChecked) selectCount++;
-                else selectCount--;
+                else {
+                    selectCount--;
+//                    selectGenre.substring(0, (selectGenre.length() - genre.length()) );
+                }
 
                 int progress;
                 if(selectCount >= 3) progress = 100;
@@ -77,6 +87,12 @@ public class RecommendActivity extends Activity{
                 }
                 textView.invalidate();
                 rightButton.invalidate();
+
+                if(selectGenre.indexOf(genre) == -1)
+                    selectGenre.add(genre);
+                else
+                    selectGenre.remove(genre);
+                Log.e("selectGenre", selectGenre.toString());
             }
         };
 
@@ -85,13 +101,25 @@ public class RecommendActivity extends Activity{
         int height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics());
         int[] genreArray = {R.drawable.button_pop, R.drawable.button_hiphop, R.drawable.button_rnb, R.drawable.button_rock,
                 R.drawable.button_dance, R.drawable.button_jazz, R.drawable.button_electro, R.drawable.button_classic};
+        String[] genreStrArray = {"pop", "hiphop", "rnb", "rock", "club", "country", "electronic"};
         checkBoxVector = new Vector<>();
-        for(int mGenre : genreArray){
+//        for(int mGenre : genreArray){
+//            CheckBox mCB = new CheckBox(this);
+//            mCB.setButtonDrawable(mGenre);
+//            mCB.setWidth(width);
+//            mCB.setHeight(height);
+//            mCB.setOnCheckedChangeListener(listener);
+//            mCB.setText(genreStrArray[]);
+//            checkBoxVector.add(mCB);
+//        }
+
+        for(int i = 0; i < genreStrArray.length; i++){
             CheckBox mCB = new CheckBox(this);
-            mCB.setButtonDrawable(mGenre);
+            mCB.setButtonDrawable(genreArray[i]);
             mCB.setWidth(width);
             mCB.setHeight(height);
             mCB.setOnCheckedChangeListener(listener);
+            mCB.setContentDescription(genreStrArray[i]);
             checkBoxVector.add(mCB);
         }
 

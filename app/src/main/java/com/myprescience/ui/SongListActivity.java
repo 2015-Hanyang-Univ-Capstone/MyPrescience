@@ -4,13 +4,17 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -24,6 +28,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+
 /**
  * 곡 리스트 출력하는 액티비티
  */
@@ -33,7 +43,9 @@ public class SongListActivity extends Activity {
     public static Activity sSonglistActivity;
     // 추천 받을 최소 곡 수
     public static int MIN_SELECTED_SONG = 5;
-    public static String TEST_URL = "http://166.104.245.89/MyPrescience/db/BillboardTop.php?query=selectGenreTop&genres=pop,rock,hiphop";
+    public static String BBT_API = "http://166.104.245.89/MyPrescience/db/BillboardTop.php?query=selectGenreTop&genres=";
+    private String spotifyAPI = "https://api.spotify.com/v1/";
+
     private JSON mJson = new JSON();
     private Indicator mIndicator;
 
@@ -70,10 +82,10 @@ public class SongListActivity extends Activity {
         songListView = (ListView) findViewById(R.id.songListView);
         songListView.setAdapter(songListAdapter);
 
-        new getSongTask().execute(TEST_URL);
-
-        for(int i=1; i<4; i++)
-            songListAdapter.addItem(null,i+"번째 곡 타이틀",i+"번째 곡 아티스트",0);
+        Intent intent = getIntent();
+        ArrayList<String> selectGenre = intent.getExtras().getStringArrayList("selectGenre");
+        String genres = TextUtils.join(",", selectGenre);
+        new getSongTask().execute(BBT_API+genres);
     }
 
     class getSongTask extends AsyncTask<String, String, String> {
@@ -89,28 +101,32 @@ public class SongListActivity extends Activity {
         @Override
         protected void onPostExecute(String songJSON) {
             super.onPostExecute(songJSON);
-            Log.e("songJSON", songJSON);
 
             try {
                 JSONParser jsonParser = new JSONParser();
                 JSONArray songArray = (JSONArray) jsonParser.parse(songJSON);
 
-                for(int i = 0; i < 5; i ++) {
+                for(int i = 0; i < 20; i ++) {
 
                     JSONObject song = (JSONObject) jsonParser.parse(songArray.get(i).toString());
 
                     String title = (String)song.get("title");
                     String artist = (String)song.get("artist");
 
-                    songListAdapter.addItem(null, title, artist, 0);
+                    final String spotifyAlbumID = "albums/"+(String)song.get("album_spotify_id");
+                    Bitmap albumArt = null;
+                    if(!spotifyAlbumID.equals("albums/"))
+                        try {
+                            albumArt = new getAlbumTask().execute(spotifyAPI+spotifyAlbumID).get();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
+                    songListAdapter.addItem(albumArt, title, artist, 0);
                 }
-//                    String spotifyTrackID = "tracks/"+(String)song.get("track_spotify_id");
-//                    if(spotifyTrackID.equals("tracks/")) {
-//                        trackNumTextView.setText(mErrorMsg.NOT_FOUND);
-//                        popularityProgressBar.setProgress(0);
-//                    } else {
-//                        new getTrackTask().execute(spotifyAPI+spotifyTrackID);
-//                    }
+
+                songListAdapter.notifyDataSetChanged();
 
                 if ( mIndicator.isShowing())
                     mIndicator.hide();
@@ -126,6 +142,61 @@ public class SongListActivity extends Activity {
             super.onPreExecute();
                 if ( !mIndicator.isShowing())
                     mIndicator.show();
+        }
+    }
+
+    /* Album JSON
+       Parameter - String(url)
+       Callback - genres, images */
+    class getAlbumTask extends AsyncTask<String, String, Bitmap> {
+
+        public getAlbumTask(){
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... url) {
+            String spotifyAlbumJSON = mJson.getStringFromUrl(url[0]);
+
+            Log.e("url", url[0]);
+
+            JSONParser jsonParser = new JSONParser();
+            JSONObject album = null;
+            try {
+                album = (JSONObject) jsonParser.parse(spotifyAlbumJSON);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            Log.e("album", album.toString());
+
+            JSONArray images = (JSONArray) album.get("images");
+            JSONObject image = (JSONObject) images.get(2);
+            // Image 역시 UI Thread에서 바로 작업 불가.
+            Bitmap myBitmap = null;
+            try {
+                URL urlConnection = new URL((String)image.get("url"));
+                HttpURLConnection connection = (HttpURLConnection) urlConnection
+                        .openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                myBitmap = BitmapFactory.decodeStream(input);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return myBitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap albumArt) {
+            super.onPostExecute(albumArt);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if ( !mIndicator.isShowing())
+                mIndicator.show();
         }
     }
 
