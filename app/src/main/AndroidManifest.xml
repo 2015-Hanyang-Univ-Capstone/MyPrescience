@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.myprescience.application.myprescience" >
+    package="com.myprescience" >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -13,7 +13,7 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".IntroActivity"
+            android:name="com.myprescience.ui.IntroActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Light.NoTitleBar"
             android:screenOrientation="portrait">
@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name="com.myprescience.ui.LoginActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Light.NoTitleBar"
             android:screenOrientation="portrait">
@@ -35,21 +35,40 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity>
         <activity
-            android:name=".RecommendActivity"
+            android:name="com.myprescience.ui.RecommendActivity"
             android:label="@string/title_activity_recommend"
             android:theme="@android:style/Theme.Light.NoTitleBar"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".SongListActivity"
+            android:name="com.myprescience.ui.SongListActivity"
             android:label="@string/title_activity_song_list"
             android:theme="@android:style/Theme.Light.NoTitleBar"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.myprescience.ui.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/CustomActionBarTheme"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.myprescience.ui.SongActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.myprescience.ui.ArtistActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name="com.myprescience.ui.AlbumActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
             android:screenOrientation="portrait" >
         </activity>
     </application>

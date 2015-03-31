@@ -1,4 +1,4 @@
-package com.myprescience.application.myprescience;
+package com.myprescience.ui;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -12,6 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.myprescience.R;
 
 import java.util.ArrayList;
 

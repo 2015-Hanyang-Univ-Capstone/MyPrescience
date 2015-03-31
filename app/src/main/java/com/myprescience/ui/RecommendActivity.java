@@ -1,4 +1,4 @@
-package com.myprescience.application.myprescience;
+package com.myprescience.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +11,8 @@ import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.myprescience.R;
 
 import java.util.Vector;
 

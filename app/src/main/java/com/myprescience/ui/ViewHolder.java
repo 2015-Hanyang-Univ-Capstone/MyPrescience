@@ -1,4 +1,4 @@
-package com.myprescience.application.myprescience;
+package com.myprescience.ui;
 
 import android.widget.ImageView;
 import android.widget.RatingBar;

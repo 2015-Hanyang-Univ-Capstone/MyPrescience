@@ -1,9 +1,12 @@
-package com.myprescience.application.myprescience;
+package com.myprescience.ui;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.myprescience.R;
+
 
 public class IntroActivity extends Activity {
 

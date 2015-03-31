@@ -1,4 +1,4 @@
-package com.myprescience.application.myprescience;
+package com.myprescience.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
+import com.myprescience.R;
 
 import java.util.Arrays;
 

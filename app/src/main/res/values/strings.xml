@@ -13,6 +13,7 @@
     <string name="select_genre">장르를 3개 이상 선택하세요.</string>
     <string name="title_activity_song_list">SongListActivity</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_artist">ArtistActivity</string>
 
     <string name="title_section1">MYP 홈</string>
     <string name="title_section2">곡 평가하기</string>

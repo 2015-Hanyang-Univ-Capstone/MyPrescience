@@ -1,4 +1,4 @@
-package com.myprescience.application.myprescience;
+package com.myprescience.application.ui;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
