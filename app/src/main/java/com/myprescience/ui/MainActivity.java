@@ -72,11 +72,6 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-
-
-        Intent intent = new Intent(MainActivity.this, SongActivity.class);
-        startActivity(intent);
-
     }
 
     @Override

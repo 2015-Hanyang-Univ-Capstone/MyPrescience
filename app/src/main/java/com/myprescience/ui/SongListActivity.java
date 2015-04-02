@@ -43,7 +43,8 @@ public class SongListActivity extends Activity {
     public static Activity sSonglistActivity;
     // 추천 받을 최소 곡 수
     public static int MIN_SELECTED_SONG = 5;
-    public static String BBT_API = "http://166.104.245.89/MyPrescience/db/BillboardTop.php?query=selectGenreTop&genres=";
+//    public static String BBT_API = "http://166.104.245.89/MyPrescience/db/BillboardTop.php?query=selectGenreTop&genres=";
+    public static String BBT_API = "http://218.37.215.185/MyPrescience/db/BillboardTop.php?query=selectGenreTop&genres=";
     private String spotifyAPI = "https://api.spotify.com/v1/";
 
     private JSON mJson = new JSON();
@@ -85,12 +86,12 @@ public class SongListActivity extends Activity {
         Intent intent = getIntent();
         ArrayList<String> selectGenre = intent.getExtras().getStringArrayList("selectGenre");
         String genres = TextUtils.join(",", selectGenre);
-        new getSongTask().execute(BBT_API+genres);
+        new getSimpleSongTask().execute(BBT_API+genres);
     }
 
-    class getSongTask extends AsyncTask<String, String, String> {
+    class getSimpleSongTask extends AsyncTask<String, String, String> {
 
-        public getSongTask(){
+        public getSimpleSongTask(){
         }
 
         @Override
@@ -106,10 +107,11 @@ public class SongListActivity extends Activity {
                 JSONParser jsonParser = new JSONParser();
                 JSONArray songArray = (JSONArray) jsonParser.parse(songJSON);
 
-                for(int i = 0; i < 20; i ++) {
+                for(int i = 0; i < 10; i ++) {
 
                     JSONObject song = (JSONObject) jsonParser.parse(songArray.get(i).toString());
 
+                    String id = (String)song.get("id");
                     String title = (String)song.get("title");
                     String artist = (String)song.get("artist");
 
@@ -123,9 +125,8 @@ public class SongListActivity extends Activity {
                         } catch (ExecutionException e) {
                             e.printStackTrace();
                         }
-                    songListAdapter.addItem(albumArt, title, artist, 0);
+                    songListAdapter.addItem(id, albumArt, title, artist, 0);
                 }
-
                 songListAdapter.notifyDataSetChanged();
 
                 if ( mIndicator.isShowing())

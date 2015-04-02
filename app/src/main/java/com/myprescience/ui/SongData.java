@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
  * 곡 정보를 저장하는 클래스
  */
 public class SongData {
+    public String id;
     public Bitmap albumArt;
     public String title;
     public String artist;

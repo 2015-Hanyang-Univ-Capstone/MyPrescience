@@ -41,9 +41,12 @@ import java.net.URL;
 
 public class SongActivity extends Activity {
 
-    String TEST_URL = "http://166.104.245.89/MyPrescience/db/song.php?query=selectAllWithId&id=SOMMVMU146F2B49B1F";
+//    String TEST_URL = "http://166.104.245.89/MyPrescience/db/song.php?query=selectAllWithId&id=SOMMVMU146F2B49B1F";
 //    String TEST_URL = "http://166.104.245.89/MyPrescience/db/song.php?query=selectAllWithId&id=SOBJUAM137AC4050DE";
+//    String SONG_API = "http://166.104.245.89/MyPrescience/db/song.php?query=selectAllWithId&id=";
+    String SONG_API = "http://218.37.215.185/MyPrescience/db/song.php?query=selectAllWithId&id=";
     String spotifyAPI = "https://api.spotify.com/v1/";
+    String SONG_ID;
 
     Indicator mIndicator;
     JSON json;
@@ -69,6 +72,9 @@ public class SongActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.song);
+
+        Intent intent = getIntent();
+        SONG_ID = intent.getExtras().getString("song_id");
 
         mIndicator = new Indicator(this);
         json = new JSON();
@@ -113,7 +119,7 @@ public class SongActivity extends Activity {
 
         previewButton = (ImageButton) findViewById(R.id.previewButton);
 
-        new getSongTask().execute(TEST_URL);
+        new getSongTask().execute(SONG_API+SONG_ID);
 
     }
 
