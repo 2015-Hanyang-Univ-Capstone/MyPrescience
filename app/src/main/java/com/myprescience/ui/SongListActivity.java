@@ -44,7 +44,8 @@ public class SongListActivity extends Activity {
     // 추천 받을 최소 곡 수
     public static int MIN_SELECTED_SONG = 5;
 //    public static String BBT_API = "http://166.104.245.89/MyPrescience/db/BillboardTop.php?query=selectGenreTop&genres=";
-    public static String BBT_API = "http://218.37.215.185/MyPrescience/db/BillboardTop.php?query=selectGenreTop&genres=";
+//    public static String BBT_API = "http://218.37.215.185/MyPrescience/db/BillboardTop.php?query=selectGenreTop&genres=";
+    public static String BBT_API = "http://172.200.152.155:8888/MyPrescience/db/BillboardTop.php?query=selectGenreTop&genres=";
     private String spotifyAPI = "https://api.spotify.com/v1/";
 
     private JSON mJson = new JSON();
@@ -191,13 +192,6 @@ public class SongListActivity extends Activity {
         @Override
         protected void onPostExecute(Bitmap albumArt) {
             super.onPostExecute(albumArt);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            if ( !mIndicator.isShowing())
-                mIndicator.show();
         }
     }
 

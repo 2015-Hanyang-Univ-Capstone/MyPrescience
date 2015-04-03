@@ -44,7 +44,9 @@ public class SongActivity extends Activity {
 //    String TEST_URL = "http://166.104.245.89/MyPrescience/db/song.php?query=selectAllWithId&id=SOMMVMU146F2B49B1F";
 //    String TEST_URL = "http://166.104.245.89/MyPrescience/db/song.php?query=selectAllWithId&id=SOBJUAM137AC4050DE";
 //    String SONG_API = "http://166.104.245.89/MyPrescience/db/song.php?query=selectAllWithId&id=";
-    String SONG_API = "http://218.37.215.185/MyPrescience/db/song.php?query=selectAllWithId&id=";
+//    String SONG_API = "http://218.37.215.185/MyPrescience/db/song.php?query=selectAllWithId&id=";
+    String SONG_API = "http://172.200.152.155:8888/MyPrescience/db/song.php?query=selectAllWithId&id=";
+
     String spotifyAPI = "https://api.spotify.com/v1/";
     String SONG_ID;
 
