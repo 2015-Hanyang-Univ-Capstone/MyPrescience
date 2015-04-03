@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +19,17 @@ import android.widget.Toast;
 
 import com.myprescience.R;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.util.ArrayList;
+
+import static com.myprescience.util.JSON.INSERT_RATING;
+import static com.myprescience.util.JSON.RATING_API;
+import static com.myprescience.util.JSON.SERVER_ADDRESS;
+import static com.myprescience.util.JSON.getStringFromUrl;
 
 /**
  * Created by hyeon-seob on 15. 3. 4..
@@ -27,6 +39,7 @@ import java.util.ArrayList;
 
 public class SongListAdapter extends BaseAdapter{
 
+    private int userId;
     private Context mContext = null;
     private ArrayList<SongData> mListData = new ArrayList<>();
     private ViewHolder holder;
@@ -35,13 +48,14 @@ public class SongListAdapter extends BaseAdapter{
     private TextView textView;
     private ImageButton rightButton;
 
-    public SongListAdapter(Context mContext, int _ratingCount, ProgressBar _progressBar, TextView _textView, ImageButton _rightButton) {
+    public SongListAdapter(Context mContext, int _ratingCount, ProgressBar _progressBar, TextView _textView, ImageButton _rightButton, int _userId) {
         super();
         this.mContext = mContext;
         progressBar = _progressBar;
         ratingCount = _ratingCount;
         textView = _textView;
         rightButton = _rightButton;
+        this.userId = _userId;
     }
 
     public void addItem(String _id, Bitmap _album, String _title, String _artist, int _rating){
@@ -112,6 +126,10 @@ public class SongListAdapter extends BaseAdapter{
                 }
 
                 mListData.get(index).rating = (int)(rating*2);
+
+                new insertRatingTask().execute(SERVER_ADDRESS+RATING_API+INSERT_RATING+
+                        "user_id=" + userId + "&song_id=" + mListData.get(index).id + "&rating=" + mListData.get(index).rating);
+
                 Toast toast = Toast.makeText(mContext, "평가되었습니다!", Toast.LENGTH_SHORT);
                 toast.show();
             }
@@ -133,5 +151,15 @@ public class SongListAdapter extends BaseAdapter{
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    class insertRatingTask extends AsyncTask<String, String, Void> {
+
+        @Override
+        protected Void doInBackground(String... url) {
+            String userIdJSON = getStringFromUrl(url[0]);
+            Log.e("userIdJSON", userIdJSON);
+            return null;
+        }
     }
 }

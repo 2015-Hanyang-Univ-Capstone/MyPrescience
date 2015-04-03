@@ -19,16 +19,18 @@ public class JSON {
     static public String SERVER_ADDRESS = "http://172.200.152.155:8888/MyPrescience/db";
     static public String SPOTIFY_API = "https://api.spotify.com/v1/";
 
-    static public String USER = "/User.php?query=";
+    static public String USER_API = "/User.php?query=";
     static public String INSERT_FACEBOOK_ID = "insertUser&facebookId=";
+    static public String USER_ID_WITH_FACEBOOK_ID = "searchUser&facebookId=";
 
-    static public String SONG = "/Song.php?query=";
+    static public String SONG_API = "/Song.php?query=";
     static public String SONG_WITH_ID = "selectAllWithId&id=";
 
-    static public String BILLBOARDTOP = "/BillboardTop.php?query=";
+    static public String BILLBOARDTOP_API = "/BillboardTop.php?query=";
     static public String BBT_WITH_GENRE = "selectGenreTop&genres=";
 
-
+    static public String RATING_API = "/Rating.php?query=";
+    static public String INSERT_RATING = "insertRating&";
 
     // Url으로부터 Server의 JSON - return (String)
     static public String getStringFromUrl(String url) {

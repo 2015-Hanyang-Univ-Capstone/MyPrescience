@@ -27,7 +27,6 @@ import android.widget.TextView;
 import com.myprescience.R;
 import com.myprescience.util.ErrorMsg;
 import com.myprescience.util.Indicator;
-import com.myprescience.util.JSON;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -39,7 +38,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import static com.myprescience.util.JSON.SERVER_ADDRESS;
-import static com.myprescience.util.JSON.SONG;
+import static com.myprescience.util.JSON.SONG_API;
 import static com.myprescience.util.JSON.SONG_WITH_ID;
 import static com.myprescience.util.JSON.SPOTIFY_API;
 import static com.myprescience.util.JSON.getStringFromUrl;
@@ -51,7 +50,7 @@ public class SongActivity extends Activity {
 //    String TEST_URL = "http://166.104.245.89/MyPrescience/db/song.php?query=selectAllWithId&id=SOBJUAM137AC4050DE";
 //    String SONG_API = "http://166.104.245.89/MyPrescience/db/song.php?query=selectAllWithId&id=";
 //    String SONG_API = "http://218.37.215.185/MyPrescience/db/song.php?query=selectAllWithId&id=";
-    String SONG_API = SERVER_ADDRESS+SONG+SONG_WITH_ID;
+    String SONG_URL = SERVER_ADDRESS+SONG_API+SONG_WITH_ID;
     String SONG_ID;
 
     Indicator mIndicator;
@@ -123,7 +122,7 @@ public class SongActivity extends Activity {
 
         previewButton = (ImageButton) findViewById(R.id.previewButton);
 
-        new getSongTask().execute(SONG_API+SONG_ID);
+        new getSongTask().execute(SONG_URL+SONG_ID);
 
     }
 

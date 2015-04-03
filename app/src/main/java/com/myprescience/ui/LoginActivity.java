@@ -33,7 +33,7 @@ import java.util.Arrays;
 
 import static com.myprescience.util.JSON.INSERT_FACEBOOK_ID;
 import static com.myprescience.util.JSON.SERVER_ADDRESS;
-import static com.myprescience.util.JSON.USER;
+import static com.myprescience.util.JSON.USER_API;
 import static com.myprescience.util.JSON.getStringFromUrl;
 
 
@@ -71,7 +71,7 @@ public class LoginActivity extends FragmentActivity {
                     public void onCompleted(GraphUser user, Response response) {
                         Toast.makeText(LoginActivity.this, user.getName()+"님 환영합니다!", Toast.LENGTH_LONG).show();
 
-                        new insertUserTask().execute(SERVER_ADDRESS+USER+INSERT_FACEBOOK_ID+user.getId());
+                        new insertUserTask().execute(SERVER_ADDRESS+USER_API+INSERT_FACEBOOK_ID+user.getId());
 
                         Intent intent = new Intent(LoginActivity.this, RecommendActivity.class);
                         startActivity(intent);
@@ -119,18 +119,9 @@ public class LoginActivity extends FragmentActivity {
 
     class insertUserTask extends AsyncTask<String, String, String> {
 
-        public insertUserTask(){
-        }
-
         @Override
         protected String doInBackground(String... url) {
             return getStringFromUrl(url[0]);
-        }
-
-        @Override
-        protected void onPostExecute(String result){
-            super.onPostExecute(result);
-            Log.e("result", result);
         }
     }
 
