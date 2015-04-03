@@ -15,8 +15,23 @@ import java.io.InputStreamReader;
  * Created by dongjun on 15. 3. 27..
  */
 public class JSON {
+
+    static public String SERVER_ADDRESS = "http://172.200.152.155:8888/MyPrescience/db";
+    static public String SPOTIFY_API = "https://api.spotify.com/v1/";
+
+    static public String USER = "/User.php?query=";
+    static public String INSERT_FACEBOOK_ID = "insertUser&facebookId=";
+
+    static public String SONG = "/Song.php?query=";
+    static public String SONG_WITH_ID = "selectAllWithId&id=";
+
+    static public String BILLBOARDTOP = "/BillboardTop.php?query=";
+    static public String BBT_WITH_GENRE = "selectGenreTop&genres=";
+
+
+
     // Url으로부터 Server의 JSON - return (String)
-    public String getStringFromUrl(String url) {
+    static public String getStringFromUrl(String url) {
         DefaultHttpClient httpclient = new DefaultHttpClient();
 
         HttpGet post = new HttpGet(url);

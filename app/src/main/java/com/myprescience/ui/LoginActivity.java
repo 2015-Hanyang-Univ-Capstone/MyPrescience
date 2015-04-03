@@ -1,8 +1,12 @@
 package com.myprescience.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -15,8 +19,22 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 import com.myprescience.R;
+import com.myprescience.util.JSON;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Arrays;
+
+import static com.myprescience.util.JSON.INSERT_FACEBOOK_ID;
+import static com.myprescience.util.JSON.SERVER_ADDRESS;
+import static com.myprescience.util.JSON.USER;
+import static com.myprescience.util.JSON.getStringFromUrl;
 
 
 public class LoginActivity extends FragmentActivity {
@@ -52,6 +70,8 @@ public class LoginActivity extends FragmentActivity {
                     @Override
                     public void onCompleted(GraphUser user, Response response) {
                         Toast.makeText(LoginActivity.this, user.getName()+"님 환영합니다!", Toast.LENGTH_LONG).show();
+
+                        new insertUserTask().execute(SERVER_ADDRESS+USER+INSERT_FACEBOOK_ID+user.getId());
 
                         Intent intent = new Intent(LoginActivity.this, RecommendActivity.class);
                         startActivity(intent);
@@ -95,6 +115,23 @@ public class LoginActivity extends FragmentActivity {
                 finish();
             }
         });
+    }
+
+    class insertUserTask extends AsyncTask<String, String, String> {
+
+        public insertUserTask(){
+        }
+
+        @Override
+        protected String doInBackground(String... url) {
+            return getStringFromUrl(url[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String result){
+            super.onPostExecute(result);
+            Log.e("result", result);
+        }
     }
 
     @Override

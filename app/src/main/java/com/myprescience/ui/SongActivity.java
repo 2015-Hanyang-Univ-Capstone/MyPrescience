@@ -38,6 +38,12 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import static com.myprescience.util.JSON.SERVER_ADDRESS;
+import static com.myprescience.util.JSON.SONG;
+import static com.myprescience.util.JSON.SONG_WITH_ID;
+import static com.myprescience.util.JSON.SPOTIFY_API;
+import static com.myprescience.util.JSON.getStringFromUrl;
+
 
 public class SongActivity extends Activity {
 
@@ -45,13 +51,10 @@ public class SongActivity extends Activity {
 //    String TEST_URL = "http://166.104.245.89/MyPrescience/db/song.php?query=selectAllWithId&id=SOBJUAM137AC4050DE";
 //    String SONG_API = "http://166.104.245.89/MyPrescience/db/song.php?query=selectAllWithId&id=";
 //    String SONG_API = "http://218.37.215.185/MyPrescience/db/song.php?query=selectAllWithId&id=";
-    String SONG_API = "http://172.200.152.155:8888/MyPrescience/db/song.php?query=selectAllWithId&id=";
-
-    String spotifyAPI = "https://api.spotify.com/v1/";
+    String SONG_API = SERVER_ADDRESS+SONG+SONG_WITH_ID;
     String SONG_ID;
 
     Indicator mIndicator;
-    JSON json;
     ErrorMsg mErrorMsg;
 
     private ScrollView scrollView;
@@ -79,7 +82,6 @@ public class SongActivity extends Activity {
         SONG_ID = intent.getExtras().getString("song_id");
 
         mIndicator = new Indicator(this);
-        json = new JSON();
         mErrorMsg = new ErrorMsg();
 
         scrollView = (ScrollView) findViewById(R.id.scrollView);
@@ -142,7 +144,7 @@ public class SongActivity extends Activity {
 
         @Override
         protected String doInBackground(String... url) {
-            return json.getStringFromUrl(url[0]);
+            return getStringFromUrl(url[0]);
         }
 
         @Override
@@ -192,7 +194,7 @@ public class SongActivity extends Activity {
 
         @Override
         protected String doInBackground(String... url) {
-            return json.getStringFromUrl(url[0]);
+            return getStringFromUrl(url[0]);
         }
 
         @Override
@@ -278,7 +280,7 @@ public class SongActivity extends Activity {
 
         @Override
         protected String doInBackground(String... url) {
-            return json.getStringFromUrl(url[0]);
+            return getStringFromUrl(url[0]);
         }
 
         @Override
@@ -333,7 +335,7 @@ public class SongActivity extends Activity {
                     trackNumTextView.setText(mErrorMsg.NOT_FOUND);
                     popularityProgressBar.setProgress(0);
                 } else {
-                    new getTrackTask().execute(spotifyAPI+spotifyTrackID);
+                    new getTrackTask().execute(SPOTIFY_API+spotifyTrackID);
                 }
 
                 final String spotifyArtistID = "artists/"+(String)song.get("artist_spotify_id");
@@ -385,7 +387,7 @@ public class SongActivity extends Activity {
                     });
 
                 } else {
-                    new getAlbumTask().execute(spotifyAPI+spotifyAlbumID);
+                    new getAlbumTask().execute(SPOTIFY_API+spotifyAlbumID);
 
                     mAlbumButton.setOnClickListener(new OnClickListener() {
 

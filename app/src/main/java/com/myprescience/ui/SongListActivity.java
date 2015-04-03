@@ -34,6 +34,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import static com.myprescience.util.JSON.BBT_WITH_GENRE;
+import static com.myprescience.util.JSON.BILLBOARDTOP;
+import static com.myprescience.util.JSON.SERVER_ADDRESS;
+import static com.myprescience.util.JSON.SPOTIFY_API;
+import static com.myprescience.util.JSON.getStringFromUrl;
+
 /**
  * 곡 리스트 출력하는 액티비티
  */
@@ -45,10 +51,8 @@ public class SongListActivity extends Activity {
     public static int MIN_SELECTED_SONG = 5;
 //    public static String BBT_API = "http://166.104.245.89/MyPrescience/db/BillboardTop.php?query=selectGenreTop&genres=";
 //    public static String BBT_API = "http://218.37.215.185/MyPrescience/db/BillboardTop.php?query=selectGenreTop&genres=";
-    public static String BBT_API = "http://172.200.152.155:8888/MyPrescience/db/BillboardTop.php?query=selectGenreTop&genres=";
-    private String spotifyAPI = "https://api.spotify.com/v1/";
+    public static String BBT_API = SERVER_ADDRESS+BILLBOARDTOP+BBT_WITH_GENRE;
 
-    private JSON mJson = new JSON();
     private Indicator mIndicator;
 
     private int selectCount = 0;
@@ -97,7 +101,7 @@ public class SongListActivity extends Activity {
 
         @Override
         protected String doInBackground(String... url) {
-            return mJson.getStringFromUrl(url[0]);
+            return getStringFromUrl(url[0]);
         }
 
         @Override
@@ -120,7 +124,7 @@ public class SongListActivity extends Activity {
                     Bitmap albumArt = null;
                     if(!spotifyAlbumID.equals("albums/"))
                         try {
-                            albumArt = new getAlbumTask().execute(spotifyAPI+spotifyAlbumID).get();
+                            albumArt = new getAlbumTask().execute(SPOTIFY_API+spotifyAlbumID).get();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         } catch (ExecutionException e) {
@@ -157,7 +161,7 @@ public class SongListActivity extends Activity {
 
         @Override
         protected Bitmap doInBackground(String... url) {
-            String spotifyAlbumJSON = mJson.getStringFromUrl(url[0]);
+            String spotifyAlbumJSON = getStringFromUrl(url[0]);
 
             Log.e("url", url[0]);
 
