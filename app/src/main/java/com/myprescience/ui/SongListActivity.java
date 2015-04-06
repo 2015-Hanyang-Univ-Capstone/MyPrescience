@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -63,6 +64,9 @@ public class SongListActivity extends Activity {
     private ListView songListView;
     private SongListAdapter songListAdapter;
     private ProgressBar progressBar;
+    private boolean mLockListView = false;
+
+    private int mListCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +111,29 @@ public class SongListActivity extends Activity {
         ArrayList<String> selectGenre = intent.getExtras().getStringArrayList("selectGenre");
         String genres = TextUtils.join(",", selectGenre);
         new getSimpleSongTask().execute(BBT_API+genres);
+
+        // 스크롤 했을 때 마지막 셀이 보인다면 추가로 로딩
+        songListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                // 현재 가장 처음에 보이는 셀번호와 보여지는 셀번호를 더한값이
+                // 전체의 숫자와 동일해지면 가장 아래로 스크롤 되었다고 가정
+                int count = totalItemCount - visibleItemCount;
+
+                if(firstVisibleItem >= count && totalItemCount != 0
+                        && mLockListView == false){
+
+                    mListCount += 10;
+
+                    // 추가 로딩부분 구현해야됨
+                }
+            }
+        });
     }
 
     class getSimpleSongTask extends AsyncTask<String, String, String> {
@@ -122,12 +149,14 @@ public class SongListActivity extends Activity {
         @Override
         protected void onPostExecute(String songJSON) {
             super.onPostExecute(songJSON);
+            mLockListView = true;
 
             try {
                 JSONParser jsonParser = new JSONParser();
                 JSONArray songArray = (JSONArray) jsonParser.parse(songJSON);
 
-                for(int i = 0; i < 10; i ++) {
+                // mListCount는 추가 로드할 때 마다 10씩 증가
+                for(int i = mListCount; i < mListCount+10; i ++) {
 
                     JSONObject song = (JSONObject) jsonParser.parse(songArray.get(i).toString());
 
@@ -156,6 +185,7 @@ public class SongListActivity extends Activity {
                 e.printStackTrace();
             }
 
+            mLockListView = false;
         }
 
         @Override
@@ -209,6 +239,7 @@ public class SongListActivity extends Activity {
 
             JSONArray images = (JSONArray) album.get("images");
             JSONObject image = (JSONObject) images.get(2);
+
             // Image 역시 UI Thread에서 바로 작업 불가.
             Bitmap myBitmap = null;
             try {
@@ -231,25 +262,5 @@ public class SongListActivity extends Activity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_song_list, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }
