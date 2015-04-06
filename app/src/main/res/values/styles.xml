@@ -30,6 +30,30 @@
         <item name="background">@color/color_base_light_blue</item>
     </style>
 
+    <!-- the theme applied to the application or activity -->
+    <style name="CustomMySongActionBarTheme"
+        parent="@style/Theme.AppCompat.Light">
+        <item name="android:actionBarStyle">@style/MySongActionBar</item>
+        <item name="android:actionBarTabTextStyle">@style/MyActionBarTabText</item>
+        <item name="android:actionMenuTextColor">#ffffff</item>
+
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/MySongActionBar</item>
+        <item name="actionBarTabTextStyle">@style/MyActionBarTabText</item>
+        <item name="actionMenuTextColor">#ffffff</item>
+    </style>
+
+    <!-- MySong ActionBar styles -->
+    <style name="MySongActionBar"
+        parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
+        <item name="android:background">@color/color_base_background</item>
+
+        <!-- Support library compatibility -->
+        <item name="titleTextStyle">@style/MyActionBarTitleText</item>
+        <item name="background">@color/color_base_background</item>
+    </style>
+
     <!-- ActionBar title text -->
     <style name="MyActionBarTitleText"
         parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">

@@ -44,7 +44,7 @@
         <activity
             android:name="com.myprescience.ui.SongListActivity"
             android:label="@string/title_activity_song_list"
-            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:theme="@style/CustomActionBarTheme"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -56,20 +56,27 @@
         <activity
             android:name="com.myprescience.ui.SongActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:theme="@style/CustomActionBarTheme"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.myprescience.ui.ArtistActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:theme="@style/CustomActionBarTheme"
             android:screenOrientation="portrait" >
         </activity>
 
         <activity
             android:name="com.myprescience.ui.AlbumActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:theme="@style/CustomActionBarTheme"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name="com.myprescience.ui.MySongListActivity"
+            android:label="@string/title_section3"
+            android:theme="@style/CustomActionBarTheme"
             android:screenOrientation="portrait" >
         </activity>
     </application>

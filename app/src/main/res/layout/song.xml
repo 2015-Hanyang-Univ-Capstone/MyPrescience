@@ -25,7 +25,8 @@ android:id="@+id/scrollView" >
                 <ImageView
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:id="@+id/albumArtView" />
+                    android:id="@+id/albumArtView"
+                    android:background="@drawable/icon_none"/>
 
                 <LinearLayout
                     android:orientation="horizontal"

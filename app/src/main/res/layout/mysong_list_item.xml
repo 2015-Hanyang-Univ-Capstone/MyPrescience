@@ -1,0 +1,59 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@android:drawable/dialog_holo_light_frame" >
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/albumArtView"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/icon_none"/>
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ratingBar"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="fitCenter"
+            style="?android:attr/ratingBarStyleSmall"
+            android:rating="10" />
+
+        </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:layout_marginTop="3dp"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textSize="20px">
+        </TextView>
+
+        <TextView
+            android:id="@+id/artistTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Artist"
+            android:layout_marginTop="3px"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"
+            android:textSize="17px" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

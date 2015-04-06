@@ -40,8 +40,8 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecommendActivity.sRecommendActivity.finish();
-        SongListActivity.sSonglistActivity.finish();
+//        RecommendActivity.sRecommendActivity.finish();
+//        SongListActivity.sSonglistActivity.finish();
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -89,10 +89,14 @@ public class MainActivity extends ActionBarActivity
                 mTitle = getString(R.string.title_section1);
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+//                mTitle = getString(R.string.title_section2);
+                Intent section2 = new Intent(this, RecommendActivity.class);
+                startActivity(section2);
                 break;
             case 3:
-                mTitle = getString(R.string.title_section3);
+//                mTitle = getString(R.string.title_section3);
+                Intent section3 = new Intent(this, MySongListActivity.class);
+                startActivity(section3);
                 break;
         }
     }

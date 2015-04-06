@@ -73,7 +73,8 @@ public class LoginActivity extends FragmentActivity {
 
                         new insertUserTask().execute(SERVER_ADDRESS+USER_API+INSERT_FACEBOOK_ID+user.getId());
 
-                        Intent intent = new Intent(LoginActivity.this, RecommendActivity.class);
+//                        Intent intent = new Intent(LoginActivity.this, RecommendActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                     }

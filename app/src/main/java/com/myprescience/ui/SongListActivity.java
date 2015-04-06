@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,8 +54,10 @@ public class SongListActivity extends Activity {
     public static int MIN_SELECTED_SONG = 5;
 //    public static String BBT_API = "http://166.104.245.89/MyPrescience/db/BillboardTop.php?query=selectGenreTop&genres=";
 //    public static String BBT_API = "http://218.37.215.185/MyPrescience/db/BillboardTop.php?query=selectGenreTop&genres=";
-    public static String BBT_API = SERVER_ADDRESS+BILLBOARDTOP_API+BBT_WITH_GENRE;
-    public static int userId;
+    final private String BBT_API = SERVER_ADDRESS+BILLBOARDTOP_API+BBT_WITH_GENRE;
+    private int userId;
+    private String genres;
+    private int totalListSize;
 
     private Indicator mIndicator;
 
@@ -66,7 +69,7 @@ public class SongListActivity extends Activity {
     private ProgressBar progressBar;
     private boolean mLockListView = false;
 
-    private int mListCount = 0;
+    private int mListCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,7 @@ public class SongListActivity extends Activity {
             }
         }
 
+        mListCount = 0;
         mIndicator = new Indicator(this);
 
         rightButton = (ImageButton) findViewById(R.id.nextButton);
@@ -109,7 +113,7 @@ public class SongListActivity extends Activity {
 
         Intent intent = getIntent();
         ArrayList<String> selectGenre = intent.getExtras().getStringArrayList("selectGenre");
-        String genres = TextUtils.join(",", selectGenre);
+        genres = TextUtils.join(",", selectGenre);
         new getSimpleSongTask().execute(BBT_API+genres);
 
         // 스크롤 했을 때 마지막 셀이 보인다면 추가로 로딩
@@ -123,15 +127,27 @@ public class SongListActivity extends Activity {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 // 현재 가장 처음에 보이는 셀번호와 보여지는 셀번호를 더한값이
                 // 전체의 숫자와 동일해지면 가장 아래로 스크롤 되었다고 가정
-                int count = totalItemCount - visibleItemCount;
+//                int count = totalItemCount - visibleItemCount;
+                if ( (totalItemCount > 0) && ((firstVisibleItem + visibleItemCount) == totalItemCount) && (mLockListView == false) ) {
 
-                if(firstVisibleItem >= count && totalItemCount != 0
-                        && mLockListView == false){
+                    Log.e("totalItemCount", totalItemCount+"");
+                    Log.e("visibleItemCount", visibleItemCount+"");
+                    Log.e("firstVisibleItem", firstVisibleItem+"");
+                    Log.e("totalListSize", totalListSize+"");
 
-                    mListCount += 10;
+                    if(totalItemCount+10 < totalListSize)
+                        mListCount += 10;
+                    else if(totalItemCount+10 > totalListSize && !(totalItemCount >= totalListSize))
+                     mListCount += totalListSize - (totalItemCount+1);
 
-                    // 추가 로딩부분 구현해야됨
+                    new getSimpleSongTask().execute(BBT_API + genres);
+                    mLockListView = true;
                 }
+//                if(firstVisibleItem >= count && totalItemCount != 0
+//                        && mLockListView == false){
+//
+//                    // 추가 로딩부분 구현해야됨
+//                }
             }
         });
     }
@@ -149,13 +165,15 @@ public class SongListActivity extends Activity {
         @Override
         protected void onPostExecute(String songJSON) {
             super.onPostExecute(songJSON);
-            mLockListView = true;
+//            mLockListView = true;
 
             try {
                 JSONParser jsonParser = new JSONParser();
                 JSONArray songArray = (JSONArray) jsonParser.parse(songJSON);
+                totalListSize = songArray.size();
 
                 // mListCount는 추가 로드할 때 마다 10씩 증가
+                Log.e("mListCount", mListCount+"");
                 for(int i = mListCount; i < mListCount+10; i ++) {
 
                     JSONObject song = (JSONObject) jsonParser.parse(songArray.get(i).toString());
@@ -166,20 +184,17 @@ public class SongListActivity extends Activity {
 
                     final String spotifyAlbumID = "albums/"+(String)song.get("album_spotify_id");
                     Bitmap albumArt = null;
-                    if(!spotifyAlbumID.equals("albums/"))
+                    if(!spotifyAlbumID.equals("albums/")) {
                         try {
-                            albumArt = new getAlbumTask().execute(SPOTIFY_API+spotifyAlbumID).get();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
+                            new addAlbumArtTask().execute(SPOTIFY_API + spotifyAlbumID, id, title, artist);
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    songListAdapter.addItem(id, albumArt, title, artist, 0);
+                    } else {
+//                        songListAdapter.addItem(id, albumArt, title, artist, 0);
+                    }
                 }
                 songListAdapter.notifyDataSetChanged();
-
-                if ( mIndicator.isShowing())
-                    mIndicator.hide();
 
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -217,17 +232,14 @@ public class SongListActivity extends Activity {
         }
     }
 
-    /* Album JSON
-       Parameter - String(url)
-       Callback - genres, images */
-    class getAlbumTask extends AsyncTask<String, String, Bitmap> {
+    class addAlbumArtTask extends AsyncTask<String, String, Void> {
 
-        public getAlbumTask(){
+        public addAlbumArtTask(){
         }
 
         @Override
-        protected Bitmap doInBackground(String... url) {
-            String spotifyAlbumJSON = getStringFromUrl(url[0]);
+        protected Void doInBackground(String... parameter) {
+            String spotifyAlbumJSON = getStringFromUrl(parameter[0]);
 
             JSONParser jsonParser = new JSONParser();
             JSONObject album = null;
@@ -253,14 +265,22 @@ public class SongListActivity extends Activity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return myBitmap;
+            songListAdapter.addItem(parameter[1], myBitmap, parameter[2], parameter[3], 0);
+
+            if(songListAdapter.getCount() > 4) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        songListAdapter.notifyDataSetChanged();
+                    }
+                });
+
+                if ( mIndicator.isShowing())
+                    mIndicator.hide();
+            }
+
+            return null;
         }
 
-        @Override
-        protected void onPostExecute(Bitmap albumArt) {
-            super.onPostExecute(albumArt);
-        }
     }
-
-
 }

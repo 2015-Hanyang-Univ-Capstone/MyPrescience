@@ -94,7 +94,7 @@ public class SongActivity extends Activity {
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 
         LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
-        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(2).setColorFilter(Color.parseColor("#FFD700"), PorterDuff.Mode.SRC_ATOP);
 
         ratindCountTextView = (TextView) findViewById(R.id.ratindCountTextView);
         albumNameTextView = (TextView) findViewById(R.id.albumNameTextView);
