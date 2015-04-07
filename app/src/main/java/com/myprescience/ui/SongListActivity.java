@@ -138,14 +138,15 @@ public class SongListActivity extends Activity {
                     if(totalItemCount+10 < totalListSize)
                         mListCount += 10;
                     else if(totalItemCount+10 > totalListSize && !(totalItemCount >= totalListSize))
-                     mListCount += totalListSize - (totalItemCount+1);
+                     mListCount = totalListSize - (10+1);
 
                     new getSimpleSongTask().execute(BBT_API + genres);
                     mLockListView = true;
                 }
 //                if(firstVisibleItem >= count && totalItemCount != 0
 //                        && mLockListView == false){
-//
+//                    mListCount += 10;
+//                    new getSimpleSongTask().execute(BBT_API + genres);
 //                    // 추가 로딩부분 구현해야됨
 //                }
             }

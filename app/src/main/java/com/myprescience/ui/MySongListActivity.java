@@ -76,7 +76,7 @@ public class MySongListActivity extends ActionBarActivity {
         mySongListAdapter = new MySongListAdapter(this, userId);
         gridView.setAdapter(mySongListAdapter);
 
-        new getSimpleSongTask().execute("http://218.37.215.185/MyPrescience/db/rating.php?query=selectSongs&user_id=8");
+        new getSimpleSongTask().execute(SERVER_ADDRESS+"/rating.php?query=selectSongs&user_id=8");
     }
 
     class searchUserTask extends AsyncTask<String, String, Void> {
