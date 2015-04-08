@@ -42,7 +42,7 @@ public class ArtistActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.artist);
+        setContentView(R.layout.activity_artist);
 
         mIndicator = new Indicator(this);
         json = new JSON();

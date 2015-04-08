@@ -75,6 +75,13 @@
 
         <activity
             android:name="com.myprescience.ui.MySongListActivity"
+            android:label="@string/title_mysong_List"
+            android:theme="@style/CustomActionBarTheme"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name="com.myprescience.ui.MyPageActivity"
             android:label="@string/title_section3"
             android:theme="@style/CustomActionBarTheme"
             android:screenOrientation="portrait" >

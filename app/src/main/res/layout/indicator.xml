@@ -3,33 +3,47 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-    android:background="#FFF">
+    android:background="#44000000">
 	<!--<ProgressBar-->
 		<!--android:layout_width="40dp"-->
 		<!--android:layout_height="40dp"-->
 		<!--android:layout_centerInParent="true"-->
         <!--android:id="@+id/progressBar" />-->
 
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:id="@+id/logoView"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:src="@drawable/logo"/>
+        android:background="@drawable/indicator_background"
+        android:paddingTop="20dp">
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="25dp"
-        android:id="@+id/logoTextView"
-        android:layout_below="@id/logoView"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/logo_text"/>
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/logoView"
+            android:src="@drawable/logo"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:id="@+id/logoTextView"
+            android:layout_below="@id/logoView"
+            android:src="@drawable/logo_text"/>
+
+    </LinearLayout>
 
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:id="@+id/progressBar"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"/>
+
+
+
 
 </RelativeLayout>

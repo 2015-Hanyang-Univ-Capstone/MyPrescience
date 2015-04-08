@@ -70,6 +70,7 @@ public class SongListActivity extends Activity {
     private boolean mLockListView = false;
 
     private int mListCount;
+    private int mListAddCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +91,7 @@ public class SongListActivity extends Activity {
         }
 
         mListCount = 0;
+        mListAddCount = 5;
         mIndicator = new Indicator(this);
 
         rightButton = (ImageButton) findViewById(R.id.nextButton);
@@ -107,14 +109,17 @@ public class SongListActivity extends Activity {
         textView.setText("최소 "+ MIN_SELECTED_SONG +"곡 이상 평가해주세요.");
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        songListAdapter = new SongListAdapter(this, selectCount, progressBar, textView, rightButton, userId);
-        songListView = (ListView) findViewById(R.id.songListView);
-        songListView.setAdapter(songListAdapter);
+
 
         Intent intent = getIntent();
         ArrayList<String> selectGenre = intent.getExtras().getStringArrayList("selectGenre");
         genres = TextUtils.join(",", selectGenre);
+
         new getSimpleSongTask().execute(BBT_API+genres);
+
+        songListAdapter = new SongListAdapter(SongListActivity.this, selectCount, progressBar, textView, rightButton, userId);
+        songListView = (ListView) findViewById(R.id.songListView);
+        songListView.setAdapter(songListAdapter);
 
         // 스크롤 했을 때 마지막 셀이 보인다면 추가로 로딩
         songListView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -127,30 +132,46 @@ public class SongListActivity extends Activity {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 // 현재 가장 처음에 보이는 셀번호와 보여지는 셀번호를 더한값이
                 // 전체의 숫자와 동일해지면 가장 아래로 스크롤 되었다고 가정
-//                int count = totalItemCount - visibleItemCount;
-                if ( (totalItemCount > 0) && ((firstVisibleItem + visibleItemCount) == totalItemCount) && (mLockListView == false) ) {
-
-                    Log.e("totalItemCount", totalItemCount+"");
-                    Log.e("visibleItemCount", visibleItemCount+"");
-                    Log.e("firstVisibleItem", firstVisibleItem+"");
-                    Log.e("totalListSize", totalListSize+"");
-
-                    if(totalItemCount+10 < totalListSize)
-                        mListCount += 10;
-                    else if(totalItemCount+10 > totalListSize && !(totalItemCount >= totalListSize))
-                     mListCount = totalListSize - (10+1);
-
+                if ( (totalItemCount+mListAddCount < totalListSize) && ((firstVisibleItem + visibleItemCount) == totalItemCount) && (mLockListView == false) ) {
+                    mListCount += mListAddCount;
+//                        else if(totalItemCount+10 > totalListSize && !(totalItemCount >= totalListSize))
+//                            mListCount = totalListSize - (10+1);
                     new getSimpleSongTask().execute(BBT_API + genres);
                     mLockListView = true;
+                } else if(totalItemCount+mListAddCount > totalListSize && totalListSize != 0) {
+                    mListAddCount =  totalListSize - (mListCount + 1);
+                    songListView.setOnScrollListener(null);
                 }
-//                if(firstVisibleItem >= count && totalItemCount != 0
-//                        && mLockListView == false){
-//                    mListCount += 10;
-//                    new getSimpleSongTask().execute(BBT_API + genres);
-//                    // 추가 로딩부분 구현해야됨
-//                }
             }
         });
+    }
+
+    class searchUserTask extends AsyncTask<String, String, Void> {
+
+        @Override
+        protected Void doInBackground(String... url) {
+            String userIdJSON = getStringFromUrl(url[0]);
+            JSONParser jsonParser = new JSONParser();
+            JSONArray users = null;
+            try {
+                users = (JSONArray) jsonParser.parse(userIdJSON);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            if(users != null) {
+                JSONObject user = (JSONObject) users.get(0);
+                userId = Integer.parseInt((String)user.get("user_id"));
+                Log.e("userId", userId+"");
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+        }
     }
 
     class getSimpleSongTask extends AsyncTask<String, String, String> {
@@ -175,32 +196,29 @@ public class SongListActivity extends Activity {
 
                 // mListCount는 추가 로드할 때 마다 10씩 증가
                 Log.e("mListCount", mListCount+"");
-                for(int i = mListCount; i < mListCount+10; i ++) {
+                Log.e("mListAddCount", mListAddCount+"");
+                for(int i = mListCount; i < mListCount+mListAddCount; i ++) {
 
                     JSONObject song = (JSONObject) jsonParser.parse(songArray.get(i).toString());
 
                     String id = (String)song.get("id");
                     String title = (String)song.get("title");
                     String artist = (String)song.get("artist");
+                    String spotifyAlbumID = "albums/"+(String)song.get("album_spotify_id");
 
-                    final String spotifyAlbumID = "albums/"+(String)song.get("album_spotify_id");
-                    Bitmap albumArt = null;
-                    if(!spotifyAlbumID.equals("albums/")) {
-                        try {
-                            new addAlbumArtTask().execute(SPOTIFY_API + spotifyAlbumID, id, title, artist);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-//                        songListAdapter.addItem(id, albumArt, title, artist, 0);
+                    songListAdapter.addItem(id, spotifyAlbumID, title, artist, 0);
+
+                    if(songListAdapter.getCount() > 4) {
+                        songListAdapter.notifyDataSetChanged();
+
+                        if ( mIndicator.isShowing())
+                            mIndicator.hide();
                     }
                 }
-                songListAdapter.notifyDataSetChanged();
 
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
             mLockListView = false;
         }
 
@@ -212,76 +230,4 @@ public class SongListActivity extends Activity {
         }
     }
 
-    class searchUserTask extends AsyncTask<String, String, Void> {
-
-        @Override
-        protected Void doInBackground(String... url) {
-            String userIdJSON = getStringFromUrl(url[0]);
-            JSONParser jsonParser = new JSONParser();
-            JSONArray users = null;
-            try {
-                users = (JSONArray) jsonParser.parse(userIdJSON);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            if(users != null) {
-                JSONObject user = (JSONObject) users.get(0);
-                userId = Integer.parseInt((String)user.get("user_id"));
-            }
-            return null;
-        }
-    }
-
-    class addAlbumArtTask extends AsyncTask<String, String, Void> {
-
-        public addAlbumArtTask(){
-        }
-
-        @Override
-        protected Void doInBackground(String... parameter) {
-            String spotifyAlbumJSON = getStringFromUrl(parameter[0]);
-
-            JSONParser jsonParser = new JSONParser();
-            JSONObject album = null;
-            try {
-                album = (JSONObject) jsonParser.parse(spotifyAlbumJSON);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            JSONArray images = (JSONArray) album.get("images");
-            JSONObject image = (JSONObject) images.get(2);
-
-            // Image 역시 UI Thread에서 바로 작업 불가.
-            Bitmap myBitmap = null;
-            try {
-                URL urlConnection = new URL((String)image.get("url"));
-                HttpURLConnection connection = (HttpURLConnection) urlConnection
-                        .openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                myBitmap = BitmapFactory.decodeStream(input);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            songListAdapter.addItem(parameter[1], myBitmap, parameter[2], parameter[3], 0);
-
-            if(songListAdapter.getCount() > 4) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        songListAdapter.notifyDataSetChanged();
-                    }
-                });
-
-                if ( mIndicator.isShowing())
-                    mIndicator.hide();
-            }
-
-            return null;
-        }
-
-    }
 }

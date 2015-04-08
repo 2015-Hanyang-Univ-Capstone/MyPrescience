@@ -3,6 +3,7 @@ package com.myprescience.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
@@ -20,11 +21,20 @@ import android.widget.Toast;
 
 import com.myprescience.R;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 import static com.myprescience.util.JSON.INSERT_RATING;
 import static com.myprescience.util.JSON.RATING_API;
 import static com.myprescience.util.JSON.SERVER_ADDRESS;
+import static com.myprescience.util.JSON.SPOTIFY_API;
 import static com.myprescience.util.JSON.getStringFromUrl;
 
 /**
@@ -43,7 +53,7 @@ public class MySongListAdapter extends BaseAdapter {
         this.userId = _userId;
     }
 
-    public void addItem(String _id, Bitmap _album, String _title, String _artist, int _rating){
+    public void addItem(String _id, String _album, String _title, String _artist, int _rating){
         SongData temp = new SongData();
         temp.id = _id;
         temp.albumArt = _album;
@@ -68,7 +78,6 @@ public class MySongListAdapter extends BaseAdapter {
 
             LayerDrawable stars = (LayerDrawable) holder.ratingBar.getProgressDrawable();
             stars.getDrawable(2).setColorFilter(Color.parseColor("#FFD700"), PorterDuff.Mode.SRC_ATOP);
-            stars.getDrawable(0).setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
 
             convertView.setTag(holder);
         }else{
@@ -76,12 +85,6 @@ public class MySongListAdapter extends BaseAdapter {
         }
 
         final SongData mData = mListData.get(position);
-
-        holder.albumImageView.setVisibility(View.VISIBLE);
-        if (mData.albumArt != null){
-            holder.albumImageView.setImageBitmap(mData.albumArt);
-        }
-
         holder.albumImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,6 +97,17 @@ public class MySongListAdapter extends BaseAdapter {
         holder.titleTextView.setText(mData.title);
         holder.artistTextView.setText(mData.artist);
         holder.ratingBar.setProgress(mData.rating);
+
+        holder.position = position;
+
+        if(!(mData.albumArt).equals("albums/")) {
+            try {
+                new LoadAlbumArt(position, holder).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, SPOTIFY_API+mData.albumArt);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        holder.ratingBar.setTag(position);
 
         return convertView;
     }
@@ -120,6 +134,56 @@ public class MySongListAdapter extends BaseAdapter {
             String userIdJSON = getStringFromUrl(url[0]);
             Log.e("userIdJSON", userIdJSON);
             return null;
+        }
+    }
+
+    class LoadAlbumArt extends AsyncTask<String, String, Bitmap> {
+
+        private int mPosition;
+        private ViewHolder mHolder = null;
+
+        public LoadAlbumArt(int positon, ViewHolder holder){
+            this.mPosition = positon;
+            this.mHolder = holder;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... url) {
+            String spotifyAlbumJSON = getStringFromUrl(url[0]);
+
+            JSONParser jsonParser = new JSONParser();
+            JSONObject album = null;
+            try {
+                album = (JSONObject) jsonParser.parse(spotifyAlbumJSON);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            JSONArray images = (JSONArray) album.get("images");
+            JSONObject image = (JSONObject) images.get(1);
+
+            // Image 역시 UI Thread에서 바로 작업 불가.
+            Bitmap myBitmap = null;
+            try {
+                URL urlConnection = new URL((String)image.get("url"));
+                HttpURLConnection connection = (HttpURLConnection) urlConnection
+                        .openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                myBitmap = BitmapFactory.decodeStream(input);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return myBitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap albumArt) {
+            super.onPostExecute(albumArt);
+            if (mHolder.position == mPosition) {
+                mHolder.albumImageView.setImageBitmap(albumArt);
+            }
         }
     }
 

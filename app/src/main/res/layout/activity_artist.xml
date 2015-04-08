@@ -16,16 +16,15 @@
             android:background="#FFF" >
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_gravity="center"
-                android:id="@+id/albumImageView" />
+                android:id="@+id/artistImageView" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Name"
                 android:id="@+id/nameTextView"
                 android:layout_gravity="center" />
@@ -33,33 +32,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Artist"
-                android:id="@+id/artistTextView"
-                android:layout_gravity="center" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Genres"
                 android:id="@+id/genresTextView"
-                android:layout_gravity="center" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="release"
-                android:id="@+id/releaseTextView"
-                android:layout_gravity="center" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="CopyRight"
-                android:id="@+id/copyrightTextView"
                 android:layout_gravity="center" />
 
             <LinearLayout
@@ -70,7 +45,7 @@
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Popularity : " />
@@ -89,32 +64,31 @@
                     android:progressDrawable="@drawable/greenprogress" />
 
             </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:drawable/dialog_holo_light_frame"
-            android:layout_margin="3dp"
-            android:gravity="center">
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/color_base_light_blue"
-                android:gravity="center"
-                android:padding="10dp"
-                android:id="@+id/trackLinearLayout">
+                android:layout_gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="List."
-                    android:textColor="#FFF"
-                    android:layout_gravity="center" />
+                    android:id="@+id/followersTextView"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="1.7" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="명이 이 노래를 좋아합니다!" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="(Spotify)" />
 
             </LinearLayout>
 

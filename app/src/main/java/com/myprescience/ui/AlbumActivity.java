@@ -47,7 +47,7 @@ public class AlbumActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.album);
+        setContentView(R.layout.activity_album);
 
         mIndicator = new Indicator(this);
         mJson = new JSON();

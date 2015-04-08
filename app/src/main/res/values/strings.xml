@@ -16,8 +16,10 @@
     <string name="title_activity_artist">ArtistActivity</string>
 
     <string name="title_section1">MYP 홈</string>
-    <string name="title_section2">곡 평가하기</string>
-    <string name="title_section3">나의 보관함</string>
+    <string name="title_section2">노래 평가하기</string>
+    <string name="title_section3">마이 페이지</string>
+
+    <string name="title_mysong_List">나의 노래</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

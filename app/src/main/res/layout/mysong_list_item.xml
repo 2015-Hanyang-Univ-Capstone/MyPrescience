@@ -2,7 +2,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@android:drawable/dialog_holo_light_frame" >
+    android:background="@drawable/background" >
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -11,7 +11,7 @@
         <ImageView
             android:id="@+id/albumArtView"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="150dp"
             android:background="@drawable/icon_none"/>
 
         <RatingBar
@@ -30,7 +30,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:padding="2dp">
 
         <TextView
             android:id="@+id/titleTextView"
@@ -40,6 +41,8 @@
             android:layout_marginTop="3dp"
             android:layout_gravity="center"
             android:textStyle="bold"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
             android:textSize="20px">
         </TextView>
 
@@ -50,6 +53,8 @@
             android:text="Artist"
             android:layout_marginTop="3px"
             android:layout_marginBottom="10dp"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
             android:layout_gravity="center"
             android:textSize="17px" />
 

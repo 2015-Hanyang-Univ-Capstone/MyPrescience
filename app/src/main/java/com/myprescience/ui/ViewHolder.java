@@ -13,4 +13,5 @@ public class ViewHolder {
     public TextView titleTextView;
     public TextView artistTextView;
     public RatingBar ratingBar;
+    public int position;
 }

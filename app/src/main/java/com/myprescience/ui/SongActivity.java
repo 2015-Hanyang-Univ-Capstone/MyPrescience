@@ -75,7 +75,7 @@ public class SongActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.song);
+        setContentView(R.layout.activity_song);
 
         Intent intent = getIntent();
         SONG_ID = intent.getExtras().getString("song_id");

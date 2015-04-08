@@ -8,7 +8,7 @@ import android.graphics.Bitmap;
  */
 public class SongData {
     public String id;
-    public Bitmap albumArt;
+    public String albumArt;
     public String title;
     public String artist;
     public int rating;

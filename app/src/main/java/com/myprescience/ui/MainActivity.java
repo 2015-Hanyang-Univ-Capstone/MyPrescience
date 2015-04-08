@@ -95,7 +95,7 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 3:
 //                mTitle = getString(R.string.title_section3);
-                Intent section3 = new Intent(this, MySongListActivity.class);
+                Intent section3 = new Intent(this, MyPageActivity.class);
                 startActivity(section3);
                 break;
         }
