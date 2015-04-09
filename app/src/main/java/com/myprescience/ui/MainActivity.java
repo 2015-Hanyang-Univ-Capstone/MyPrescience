@@ -20,6 +20,8 @@ import com.facebook.Session;
 import com.facebook.model.GraphUser;
 import com.myprescience.R;
 
+import static com.myprescience.ui.SongListActivity.RATING;
+
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -90,7 +92,8 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 2:
 //                mTitle = getString(R.string.title_section2);
-                Intent section2 = new Intent(this, RecommendActivity.class);
+                Intent section2 = new Intent(this, SongListActivity.class);
+                section2.putExtra("mode", RATING);
                 startActivity(section2);
                 break;
             case 3:

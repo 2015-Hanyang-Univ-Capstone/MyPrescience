@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.Session;
 import com.facebook.Request;
@@ -37,7 +38,9 @@ import java.util.concurrent.ExecutionException;
 
 import static com.myprescience.util.JSON.BBT_WITH_GENRE;
 import static com.myprescience.util.JSON.BILLBOARDTOP_API;
+import static com.myprescience.util.JSON.RANDOM_SONGS;
 import static com.myprescience.util.JSON.SERVER_ADDRESS;
+import static com.myprescience.util.JSON.SONG_API;
 import static com.myprescience.util.JSON.SPOTIFY_API;
 import static com.myprescience.util.JSON.USER_API;
 import static com.myprescience.util.JSON.USER_ID_WITH_FACEBOOK_ID;
@@ -51,11 +54,9 @@ import static com.myprescience.util.JSON.getStringFromUrl;
 public class SongListActivity extends Activity {
     public static Activity sSonglistActivity;
     // 추천 받을 최소 곡 수
-    public static int MIN_SELECTED_SONG = 5;
-//    public static String BBT_API = "http://166.104.245.89/MyPrescience/db/BillboardTop.php?query=selectGenreTop&genres=";
-//    public static String BBT_API = "http://218.37.215.185/MyPrescience/db/BillboardTop.php?query=selectGenreTop&genres=";
-    final private String BBT_API = SERVER_ADDRESS+BILLBOARDTOP_API+BBT_WITH_GENRE;
-    private int userId;
+    public static int MIN_SELECTED_SONG = 5, RATING = 0, BBT = 1;
+
+    private int userId, mode;
     private String genres;
     private int totalListSize;
 
@@ -112,10 +113,8 @@ public class SongListActivity extends Activity {
 
 
         Intent intent = getIntent();
-        ArrayList<String> selectGenre = intent.getExtras().getStringArrayList("selectGenre");
-        genres = TextUtils.join(",", selectGenre);
-
-        new getSimpleSongTask().execute(BBT_API+genres);
+        mode = intent.getExtras().getInt("mode");
+        selectSongsWithMode(mode, intent);
 
         songListAdapter = new SongListAdapter(SongListActivity.this, selectCount, progressBar, textView, rightButton, userId);
         songListView = (ListView) findViewById(R.id.songListView);
@@ -132,14 +131,16 @@ public class SongListActivity extends Activity {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 // 현재 가장 처음에 보이는 셀번호와 보여지는 셀번호를 더한값이
                 // 전체의 숫자와 동일해지면 가장 아래로 스크롤 되었다고 가정
-                if ( (totalItemCount+mListAddCount < totalListSize) && ((firstVisibleItem + visibleItemCount) == totalItemCount) && (mLockListView == false) ) {
+                if ( (totalItemCount+mListAddCount < totalListSize) && ((firstVisibleItem + visibleItemCount) == totalItemCount)
+                        && (mLockListView == false) && (totalItemCount > 0) ) {
                     mListCount += mListAddCount;
 //                        else if(totalItemCount+10 > totalListSize && !(totalItemCount >= totalListSize))
 //                            mListCount = totalListSize - (10+1);
-                    new getSimpleSongTask().execute(BBT_API + genres);
+                    selectSongsWithMode(mode, getIntent());
                     mLockListView = true;
                 } else if(totalItemCount+mListAddCount > totalListSize && totalListSize != 0) {
                     mListAddCount =  totalListSize - (mListCount + 1);
+                    Toast.makeText(getApplicationContext(), "노래를 전부 가져왔습니다." , Toast.LENGTH_LONG);
                     songListView.setOnScrollListener(null);
                 }
             }
@@ -195,8 +196,6 @@ public class SongListActivity extends Activity {
                 totalListSize = songArray.size();
 
                 // mListCount는 추가 로드할 때 마다 10씩 증가
-                Log.e("mListCount", mListCount+"");
-                Log.e("mListAddCount", mListAddCount+"");
                 for(int i = mListCount; i < mListCount+mListAddCount; i ++) {
 
                     JSONObject song = (JSONObject) jsonParser.parse(songArray.get(i).toString());
@@ -227,6 +226,20 @@ public class SongListActivity extends Activity {
             super.onPreExecute();
                 if ( !mIndicator.isShowing())
                     mIndicator.show();
+        }
+    }
+
+    private void selectSongsWithMode(int mode, Intent intent) {
+        switch(mode) {
+            case 0 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+RANDOM_SONGS);
+                break;
+            case 1 :
+                ArrayList<String> selectGenre = intent.getExtras().getStringArrayList("selectGenre");
+                genres = TextUtils.join(",", selectGenre);
+
+                new getSimpleSongTask().execute(SERVER_ADDRESS+BILLBOARDTOP_API+BBT_WITH_GENRE+genres);
+                break;
         }
     }
 

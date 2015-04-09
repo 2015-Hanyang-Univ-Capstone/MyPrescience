@@ -25,8 +25,7 @@ android:id="@+id/scrollView" >
                 <ImageView
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:id="@+id/albumArtView"
-                    android:background="@drawable/icon_none"/>
+                    android:id="@+id/albumArtView" />
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -49,7 +48,6 @@ android:id="@+id/scrollView" >
                         android:layout_marginTop="7dp"
                         android:background="#FFF"
                         android:contentDescription="TestPlayPause"
-                        android:onClick="onClick"
                         android:src="@drawable/button_play" />
 
                 </LinearLayout>

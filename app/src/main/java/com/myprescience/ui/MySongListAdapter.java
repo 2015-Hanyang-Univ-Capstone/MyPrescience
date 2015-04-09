@@ -106,6 +106,8 @@ public class MySongListAdapter extends BaseAdapter {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else {
+            holder.albumImageView.setImageResource(R.drawable.icon_none);
         }
         holder.ratingBar.setTag(position);
 

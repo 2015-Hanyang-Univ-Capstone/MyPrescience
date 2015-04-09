@@ -15,7 +15,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_artist">ArtistActivity</string>
 
-    <string name="title_section1">MYP 홈</string>
+    <string name="title_section1">Home</string>
     <string name="title_section2">노래 평가하기</string>
     <string name="title_section3">마이 페이지</string>
 

@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -174,13 +175,6 @@ public class SongActivity extends Activity {
             new ImageLoadTask((String)image.get("url"), albumArtView).execute();
             albumNameTextView.setText((String)album.get("name"));
         }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            if ( !mIndicator.isShowing())
-                mIndicator.show();
-        }
     }
 
     /* Track JSON
@@ -213,37 +207,19 @@ public class SongActivity extends Activity {
 
             trackNumTextView.setText("No." + track.get("track_number") + " Track");
             mPlayer = new MediaPlayer();
-            mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    previewButton.setImageResource(R.drawable.button_play);
-                }
-            });
 
             String preview = (String) track.get("preview_url");
-            new setSourceTask(mPlayer).execute(preview);
+            if(preview != null) {
+                new setSourceTask(mPlayer).execute(preview);
+            } else {
+                previewButton.setImageResource(R.drawable.not_exist);
 
-            previewButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!mPlayer.isPlaying()) {
-                        mPlayer.start();
-                        previewButton.setImageResource(R.drawable.button_pause);
-                    } else {
-                        mPlayer.pause();
-                        previewButton.setImageResource(R.drawable.button_play);
-                    }
-                }
-            });
+                if ( mIndicator.isShowing())
+                    mIndicator.hide();
+            }
 
         }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            if ( !mIndicator.isShowing())
-                mIndicator.show();
-        }
     }
 
     /* set Preview Source
@@ -265,6 +241,34 @@ public class SongActivity extends Activity {
                 e.printStackTrace();
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    previewButton.setImageResource(R.drawable.button_play);
+                }
+            });
+
+            previewButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!mPlayer.isPlaying()) {
+                        mPlayer.start();
+                        previewButton.setImageResource(R.drawable.button_pause);
+                    } else {
+                        mPlayer.pause();
+                        previewButton.setImageResource(R.drawable.button_play);
+                    }
+                }
+            });
+
+            if(mIndicator.isShowing())
+                mIndicator.hide();
         }
     }
 
@@ -333,6 +337,9 @@ public class SongActivity extends Activity {
                 if(spotifyTrackID.equals("tracks/")) {
                     trackNumTextView.setText(mErrorMsg.NOT_FOUND);
                     popularityProgressBar.setProgress(0);
+
+                    if ( mIndicator.isShowing())
+                        mIndicator.hide();
                 } else {
                     new getTrackTask().execute(SPOTIFY_API+spotifyTrackID);
                 }
@@ -359,9 +366,6 @@ public class SongActivity extends Activity {
                             startActivity(intent);
                             overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                         }
-
-
-
                     }
                 });
 
@@ -369,6 +373,7 @@ public class SongActivity extends Activity {
                 if(spotifyAlbumID.equals("albums/")) {
                     genreTextView.setText(mErrorMsg.NOT_FOUND);
                     albumNameTextView.setText(mErrorMsg.NOT_FOUND);
+                    albumArtView.setImageResource(R.drawable.icon_none);
 
                     mAlbumButton.setOnClickListener(new OnClickListener() {
                         @Override
@@ -399,10 +404,6 @@ public class SongActivity extends Activity {
                         }
                     });
                 }
-
-                if ( mIndicator.isShowing())
-                    mIndicator.hide();
-
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -452,18 +453,8 @@ public class SongActivity extends Activity {
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
             imageView.setImageBitmap(result);
-            if (mIndicator.isShowing())
-                mIndicator.hide();
             overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            if ( !mIndicator.isShowing())
-                mIndicator.show();
-        }
-
     }
 
     @Override

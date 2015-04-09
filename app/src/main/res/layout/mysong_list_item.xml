@@ -6,13 +6,15 @@
 
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" >
 
         <ImageView
             android:id="@+id/albumArtView"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@drawable/icon_none"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            />
 
         <RatingBar
             android:layout_width="wrap_content"

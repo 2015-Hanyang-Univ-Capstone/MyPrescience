@@ -32,9 +32,11 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import static com.myprescience.util.JSON.FACEBOOK_PROFILE;
 import static com.myprescience.util.JSON.SERVER_ADDRESS;
 import static com.myprescience.util.JSON.USER_API;
 import static com.myprescience.util.JSON.USER_ID_WITH_FACEBOOK_ID;
+import static com.myprescience.util.JSON.WIDTH_150;
 import static com.myprescience.util.JSON.getStringFromUrl;
 
 /**
@@ -70,7 +72,7 @@ public class MyPageActivity extends ActionBarActivity {
                     @Override
                     public void onCompleted(GraphUser user, Response response) {
                         new searchUserTask().execute(SERVER_ADDRESS + USER_API + USER_ID_WITH_FACEBOOK_ID + user.getId());
-                        new LoadProfileImage().execute("https://graph.facebook.com/758710737579360/picture?width=150");
+                        new LoadProfileImage().execute(FACEBOOK_PROFILE+user.getId()+WIDTH_150);
                         nameTextView.setText(user.getName());
                     }
                 });

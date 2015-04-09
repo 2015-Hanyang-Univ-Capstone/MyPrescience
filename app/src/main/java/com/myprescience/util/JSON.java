@@ -26,12 +26,16 @@ public class JSON {
 
     static public String SONG_API = "/Song.php?query=";
     static public String SONG_WITH_ID = "selectAllWithId&id=";
+    static public String RANDOM_SONGS = "selectRanSongs";
 
     static public String BILLBOARDTOP_API = "/BillboardTop.php?query=";
     static public String BBT_WITH_GENRE = "selectGenreTop&genres=";
 
     static public String RATING_API = "/Rating.php?query=";
     static public String INSERT_RATING = "insertRating&";
+
+    static public String FACEBOOK_PROFILE = "https://graph.facebook.com/";
+    static public String WIDTH_150 = "/picture?width=150";
 
     // Url으로부터 Server의 JSON - return (String)
     static public String getStringFromUrl(String url) {
