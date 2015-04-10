@@ -104,18 +104,18 @@ public class LoginActivity extends FragmentActivity {
         });
 
         // 임시용 게스트 로그인 버튼
-        guestButton = (Button) findViewById(R.id.guestButton);
-        guestButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast toast = Toast.makeText(LoginActivity.this, "게스트로 시작합니다.", Toast.LENGTH_SHORT);
-                toast.show();
-
-                Intent intent = new Intent(LoginActivity.this, RecommendActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+//        guestButton = (Button) findViewById(R.id.guestButton);
+//        guestButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast toast = Toast.makeText(LoginActivity.this, "게스트로 시작합니다.", Toast.LENGTH_SHORT);
+//                toast.show();
+//
+//                Intent intent = new Intent(LoginActivity.this, RecommendActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
     }
 
     class insertUserTask extends AsyncTask<String, String, String> {
