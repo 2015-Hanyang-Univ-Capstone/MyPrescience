@@ -680,10 +680,10 @@ android:id="@+id/scrollView" >
                 android:textColor="@color/color_base_blue"
                 android:text="Youtube" />
 
-            <VideoView
+            <WebView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/videoView"
+                android:layout_height="200dp"
+                android:id="@+id/YoutubeWebView"
                 android:layout_gravity="center_horizontal" />
 
         </LinearLayout>

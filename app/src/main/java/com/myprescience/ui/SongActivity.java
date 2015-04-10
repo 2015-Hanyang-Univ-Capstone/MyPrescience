@@ -17,6 +17,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -24,6 +27,7 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.myprescience.R;
 import com.myprescience.util.ErrorMsg;
@@ -69,6 +73,7 @@ public class SongActivity extends Activity {
     private Button mArtistButton, mAlbumButton;
     private ImageButton previewButton;
     private MediaPlayer mPlayer;
+    private WebView mYoutubeVideoView;
 
     private String[] modes = {"Minor", "Major"};
     private String[] keys = {"C", "C#", "D", "E♭", "E", "F", "F#", "G", "A♭", "A", "B♭", "B"};
@@ -123,7 +128,16 @@ public class SongActivity extends Activity {
 
         previewButton = (ImageButton) findViewById(R.id.previewButton);
 
+        mYoutubeVideoView = (WebView) findViewById(R.id.YoutubeWebView);
+
         new getSongTask().execute(SONG_URL+SONG_ID);
+
+        mYoutubeVideoView.getSettings().setJavaScriptEnabled(true);
+        mYoutubeVideoView.getSettings().setPluginState(WebSettings.PluginState.ON);
+        mYoutubeVideoView.getSettings().setSupportMultipleWindows(true);
+        mYoutubeVideoView.loadUrl("http://www.youtube.com/embed/" + "60A_f8clKog" + "?autoplay=1&vq=small");
+        // YouTube Search에서 끝에 concert를 더하고, JSON Parsing해서 VideoId만 가져오기.r
+        mYoutubeVideoView.setWebChromeClient(new WebChromeClient());
 
     }
 
