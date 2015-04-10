@@ -141,7 +141,7 @@ public class SongListAdapter extends BaseAdapter{
                 new insertRatingTask().execute(SERVER_ADDRESS+RATING_API+INSERT_RATING+
                         "user_id=" + userId + "&song_id=" + mListData.get(index).id + "&rating=" + mListData.get(index).rating);
 
-                Toast toast = Toast.makeText(mContext, "평가되었습니다!", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(mContext, rating+"/5.0점으로 평가되었습니다!", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });

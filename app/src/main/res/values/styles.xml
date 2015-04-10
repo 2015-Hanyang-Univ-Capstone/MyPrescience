@@ -70,8 +70,10 @@
 
     <style name="CustomRatingBar" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/custom_rating_bar</item>
-        <item name="android:maxWidth">210dp</item>
+        <item name="android:maxWidth">200dp</item>
         <item name="android:numStars">5</item>
+        <item name="android:stepSize">0.5</item>
+        <item name="android:max">5</item>
         <item name="android:rating">0</item>
     </style>
 
