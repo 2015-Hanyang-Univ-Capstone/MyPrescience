@@ -38,13 +38,11 @@
                 android:layout_gravity="left" />
 
             <RatingBar
-                style="@style/RtlOverlay.Widget.AppCompat.ActionBar.TitleItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRatingBar"
                 android:id="@+id/ratingBar"
-                android:layout_gravity="center_horizontal"
-                android:numStars="5"
-                />
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_gravity="left" />
             </LinearLayout>
 
         </LinearLayout>

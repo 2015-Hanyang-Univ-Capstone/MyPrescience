@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/custom_ratingbar_background"
+        android:drawable="@drawable/custom_ratingbar_empty"/>
+
+    <item android:id="@+id/custom_ratingbar_secondaryProgress"
+        android:drawable="@drawable/custom_ratingbar_empty" />
+
+    <item android:id="@+id/custom_ratingbar_progress"
+        android:drawable="@drawable/custom_ratingbar_filled" />
+</layer-list>

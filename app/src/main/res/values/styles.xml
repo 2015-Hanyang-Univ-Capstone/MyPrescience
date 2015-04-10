@@ -68,4 +68,11 @@
         <!-- The textColor property is backward compatible with the Support Library -->
     </style>
 
+    <style name="CustomRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/custom_rating_bar</item>
+        <item name="android:maxWidth">250dp</item>
+        <item name="android:numStars">5</item>
+        <item name="android:rating">0</item>
+    </style>
+
 </resources>
