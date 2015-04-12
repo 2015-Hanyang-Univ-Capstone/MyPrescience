@@ -32,8 +32,12 @@ import java.net.URL;
 import java.util.Arrays;
 
 import static com.myprescience.util.JSON.INSERT_FACEBOOK_ID;
+import static com.myprescience.util.JSON.RATING_API;
+import static com.myprescience.util.JSON.SELECT_SONG_COUNT;
 import static com.myprescience.util.JSON.SERVER_ADDRESS;
 import static com.myprescience.util.JSON.USER_API;
+import static com.myprescience.util.JSON.USER_ID;
+import static com.myprescience.util.JSON.USER_ID_WITH_FACEBOOK_ID;
 import static com.myprescience.util.JSON.getStringFromUrl;
 
 
@@ -72,6 +76,7 @@ public class LoginActivity extends FragmentActivity {
                         Toast.makeText(LoginActivity.this, user.getName()+"님 환영합니다!", Toast.LENGTH_LONG).show();
 
                         new insertUserTask().execute(SERVER_ADDRESS+USER_API+INSERT_FACEBOOK_ID+user.getId());
+                        new searchUserTask().execute(SERVER_ADDRESS+USER_API+USER_ID_WITH_FACEBOOK_ID+user.getId());
 
 //                        Intent intent = new Intent(LoginActivity.this, RecommendActivity.class);
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -116,6 +121,27 @@ public class LoginActivity extends FragmentActivity {
 //                finish();
 //            }
 //        });
+    }
+
+    class searchUserTask extends AsyncTask<String, String, Void> {
+
+        @Override
+        protected Void doInBackground(String... url) {
+            String userIdJSON = getStringFromUrl(url[0]);
+            JSONParser jsonParser = new JSONParser();
+            JSONArray users = null;
+            try {
+                users = (JSONArray) jsonParser.parse(userIdJSON);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            if(users != null) {
+                JSONObject user = (JSONObject) users.get(0);
+                USER_ID = Integer.parseInt((String)user.get("user_id"));
+            }
+            return null;
+        }
     }
 
     class insertUserTask extends AsyncTask<String, String, String> {

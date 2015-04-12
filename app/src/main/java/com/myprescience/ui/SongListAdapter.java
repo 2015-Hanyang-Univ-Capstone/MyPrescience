@@ -129,7 +129,7 @@ public class SongListAdapter extends BaseAdapter{
                     progressBar.setProgress((int)(Math.min(1, ratingCount/(double)SongListActivity.MIN_SELECTED_SONG)*100));
                     progressBar.invalidate();
 
-                    textView.setText(ratingCount + "곡을 평가했습니다.");
+//                    textView.setText(ratingCount + "곡을 평가했습니다.");
                     textView.invalidate();
 
                     if(ratingCount >= SongListActivity.MIN_SELECTED_SONG)

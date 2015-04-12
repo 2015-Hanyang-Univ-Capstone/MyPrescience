@@ -1,20 +1,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/background" >
 
-    <FrameLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" >
-
-        <ImageView
-            android:id="@+id/albumArtView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            />
+        android:orientation="vertical"
+        android:layout_gravity="center">
 
         <RatingBar
             android:layout_width="wrap_content"
@@ -26,10 +20,17 @@
             style="?android:attr/ratingBarStyleSmall"
             android:rating="10" />
 
-        </FrameLayout>
+        <ImageView
+            android:id="@+id/albumArtView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"/>
+
+    </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center"
@@ -40,12 +41,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Title"
-            android:layout_marginTop="3dp"
             android:layout_gravity="center"
             android:textStyle="bold"
             android:paddingLeft="1dp"
             android:paddingRight="1dp"
-            android:textSize="20px">
+            android:textSize="15dp">
         </TextView>
 
         <TextView
@@ -53,12 +53,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Artist"
-            android:layout_marginTop="3px"
             android:layout_marginBottom="10dp"
             android:paddingLeft="1dp"
             android:paddingRight="1dp"
             android:layout_gravity="center"
-            android:textSize="17px" />
+            android:textSize="12dp" />
 
     </LinearLayout>
 

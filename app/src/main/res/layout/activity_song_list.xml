@@ -30,6 +30,11 @@
 
     </FrameLayout>
 
+    <FrameLayout
+        android:id="@+id/filterFragment_Container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
     <ProgressBar
         style="@android:style/Widget.ProgressBar.Horizontal"
@@ -46,5 +51,7 @@
         android:id="@+id/songListView"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"/>
+
+
 
 </LinearLayout>

@@ -686,6 +686,14 @@ android:id="@+id/scrollView" >
                 android:id="@+id/YoutubeWebView"
                 android:layout_gravity="center_horizontal" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/color_base_blue"
+                android:text="영상은 Live를 기본으로 가져옵니다!\n재생이 안되는 특정컨텐츠가 있습니다. \n그 특정 컨텐츠는 YouTube에서 보기를 눌러, \nYouTube App에서 시청해주시기 바립니다." />
+
         </LinearLayout>
 
     </LinearLayout>

@@ -1,17 +1,16 @@
 package com.myprescience.ui;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -30,20 +29,19 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import static com.myprescience.util.JSON.BBT_WITH_GENRE;
 import static com.myprescience.util.JSON.BILLBOARDTOP_API;
 import static com.myprescience.util.JSON.RANDOM_SONGS;
+import static com.myprescience.util.JSON.RATING_API;
+import static com.myprescience.util.JSON.SELECT_SONG_COUNT;
 import static com.myprescience.util.JSON.SERVER_ADDRESS;
 import static com.myprescience.util.JSON.SONG_API;
-import static com.myprescience.util.JSON.SPOTIFY_API;
 import static com.myprescience.util.JSON.USER_API;
+import static com.myprescience.util.JSON.USER_ID;
 import static com.myprescience.util.JSON.USER_ID_WITH_FACEBOOK_ID;
+import static com.myprescience.util.JSON.getLevel;
 import static com.myprescience.util.JSON.getStringFromUrl;
 
 /**
@@ -52,17 +50,21 @@ import static com.myprescience.util.JSON.getStringFromUrl;
 
 
 public class SongListActivity extends Activity {
+
+    private static final String LIST_FRAGMENT_TAG = "list_fragment";
+
     public static Activity sSonglistActivity;
     // 추천 받을 최소 곡 수
     public static int MIN_SELECTED_SONG = 5, RATING = 0, BBT = 1;
 
-    private int userId, mode;
+    private int mode, song_count;
     private String genres;
     private int totalListSize;
 
     private Indicator mIndicator;
 
     private int selectCount = 0;
+    private FrameLayout mFilterFragment;
     private ImageButton rightButton;
     private TextView textView;
     private ListView songListView;
@@ -78,45 +80,58 @@ public class SongListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_list);
 
-        Session session = Session.getActiveSession();
-        if(session != null){
-            if(session.isOpened()){
-                Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
-                    // callback after Graph API response with user object
-                    @Override
-                    public void onCompleted(GraphUser user, Response response) {
-                        new searchUserTask().execute(SERVER_ADDRESS+USER_API+USER_ID_WITH_FACEBOOK_ID+user.getId());
-                    }
-                });
-            }
-        }
+//        Session session = Session.getActiveSession();
+//        if(session != null){
+//            if(session.isOpened()){
+//                Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+//                    // callback after Graph API response with user object
+//                    @Override
+//                    public void onCompleted(GraphUser user, Response response) {
+//                        new searchUserTask().execute(SERVER_ADDRESS+USER_API+USER_ID_WITH_FACEBOOK_ID+user.getId());
+//                    }
+//                });
+//            }
+//        }
 
         mListCount = 0;
         mListAddCount = 5;
         mIndicator = new Indicator(this);
 
+        mFilterFragment = (FrameLayout) findViewById(R.id.filterFragment_Container);
         rightButton = (ImageButton) findViewById(R.id.nextButton);
-        rightButton.setVisibility(ImageButton.INVISIBLE);
-        rightButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sSonglistActivity = SongListActivity.this;
-                Intent intent = new Intent(SongListActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
         textView = (TextView) findViewById(R.id.top);
-        textView.setText("최소 "+ MIN_SELECTED_SONG +"곡 이상 평가해주세요.");
-
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
+        if(mode == BBT) {
+            textView.setText("최소 " + MIN_SELECTED_SONG + "곡 이상 평가해주세요.");
+
+            rightButton.setVisibility(ImageButton.INVISIBLE);
+            rightButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sSonglistActivity = SongListActivity.this;
+                    Intent intent = new Intent(SongListActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+            });
+        } else if(mode == RATING) {
+            MIN_SELECTED_SONG = 300;
+            rightButton.setImageResource(R.drawable.filter_menu);
+            rightButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int FragmentView = (mFilterFragment.getVisibility() == View.GONE)?
+                            View.VISIBLE : View.GONE;
+                    toggleList(FragmentView);
+                }
+            });
+        }
 
         Intent intent = getIntent();
         mode = intent.getExtras().getInt("mode");
         selectSongsWithMode(mode, intent);
 
-        songListAdapter = new SongListAdapter(SongListActivity.this, selectCount, progressBar, textView, rightButton, userId);
+        songListAdapter = new SongListAdapter(SongListActivity.this, selectCount, progressBar, textView, rightButton, USER_ID);
         songListView = (ListView) findViewById(R.id.songListView);
         songListView.setAdapter(songListAdapter);
 
@@ -147,10 +162,50 @@ public class SongListActivity extends Activity {
         });
     }
 
-    class searchUserTask extends AsyncTask<String, String, Void> {
+    private void toggleList(int Visibility) {
+        Fragment f = getFragmentManager().findFragmentByTag(LIST_FRAGMENT_TAG);
+        if (f != null) {
+            getFragmentManager().popBackStack();
+        } else {
+            getFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.slide_up,
+                            R.anim.slide_down,
+                            R.anim.slide_up,
+                            R.anim.slide_down)
+                    .add(R.id.filterFragment_Container, SlidingListFragment
+                                    .instantiate(this, SlidingListFragment.class.getName()),
+                            LIST_FRAGMENT_TAG
+                    ).addToBackStack(null).commit();
+        }
+        mFilterFragment.setVisibility(Visibility);
+    }
+
+//    class searchUserTask extends AsyncTask<String, String, Void> {
+//
+//        @Override
+//        protected Void doInBackground(String... url) {
+//            String userIdJSON = getStringFromUrl(url[0]);
+//            JSONParser jsonParser = new JSONParser();
+//            JSONArray users = null;
+//            try {
+//                users = (JSONArray) jsonParser.parse(userIdJSON);
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//
+//            if(users != null) {
+//                JSONObject user = (JSONObject) users.get(0);
+//                userId = Integer.parseInt((String)user.get("user_id"));
+//                new selectSongCountTask().execute(SERVER_ADDRESS+RATING_API+SELECT_SONG_COUNT+userId);
+//            }
+//            return null;
+//        }
+//    }
+
+    class selectSongCountTask extends AsyncTask<String, String, Integer> {
 
         @Override
-        protected Void doInBackground(String... url) {
+        protected Integer doInBackground(String... url) {
             String userIdJSON = getStringFromUrl(url[0]);
             JSONParser jsonParser = new JSONParser();
             JSONArray users = null;
@@ -162,16 +217,14 @@ public class SongListActivity extends Activity {
 
             if(users != null) {
                 JSONObject user = (JSONObject) users.get(0);
-                userId = Integer.parseInt((String)user.get("user_id"));
-                Log.e("userId", userId+"");
-
+                song_count = Integer.parseInt((String)user.get("song_count"));
             }
-            return null;
+            return song_count;
         }
 
         @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
+        protected void onPostExecute(Integer song_count) {
+            textView.setText(getLevel(song_count));
         }
     }
 

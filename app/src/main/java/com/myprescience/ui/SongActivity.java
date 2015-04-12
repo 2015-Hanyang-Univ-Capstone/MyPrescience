@@ -13,6 +13,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.view.View.OnClickListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -30,6 +32,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.myprescience.R;
+import com.myprescience.util.ChromeClient;
 import com.myprescience.util.ErrorMsg;
 import com.myprescience.util.Indicator;
 
@@ -39,22 +42,25 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import static com.myprescience.util.JSON.SERVER_ADDRESS;
 import static com.myprescience.util.JSON.SONG_API;
 import static com.myprescience.util.JSON.SONG_WITH_ID;
 import static com.myprescience.util.JSON.SPOTIFY_API;
+import static com.myprescience.util.JSON.VIDEO_SMALL;
+import static com.myprescience.util.JSON.YOUTUBE_API;
+import static com.myprescience.util.JSON.YOUTUBE_EMBED;
+import static com.myprescience.util.JSON.YOUTUBE_RESULT_ONE;
+import static com.myprescience.util.JSON.YOUTUBE_API_KEY;
 import static com.myprescience.util.JSON.getStringFromUrl;
 
 
 public class SongActivity extends Activity {
 
-//    String TEST_URL = "http://166.104.245.89/MyPrescience/db/song.php?query=selectAllWithId&id=SOMMVMU146F2B49B1F";
-//    String TEST_URL = "http://166.104.245.89/MyPrescience/db/song.php?query=selectAllWithId&id=SOBJUAM137AC4050DE";
-//    String SONG_API = "http://166.104.245.89/MyPrescience/db/song.php?query=selectAllWithId&id=";
-//    String SONG_API = "http://218.37.215.185/MyPrescience/db/song.php?query=selectAllWithId&id=";
     String SONG_URL = SERVER_ADDRESS+SONG_API+SONG_WITH_ID;
     String SONG_ID;
 
@@ -135,9 +141,12 @@ public class SongActivity extends Activity {
         mYoutubeVideoView.getSettings().setJavaScriptEnabled(true);
         mYoutubeVideoView.getSettings().setPluginState(WebSettings.PluginState.ON);
         mYoutubeVideoView.getSettings().setSupportMultipleWindows(true);
-        mYoutubeVideoView.loadUrl("http://www.youtube.com/embed/" + "60A_f8clKog" + "?autoplay=1&vq=small");
-        // YouTube Search에서 끝에 concert를 더하고, JSON Parsing해서 VideoId만 가져오기.r
-        mYoutubeVideoView.setWebChromeClient(new WebChromeClient());
+
+        mYoutubeVideoView.setWebChromeClient(new ChromeClient(this));
+        mYoutubeVideoView.setWebViewClient(new WebViewClient());
+
+//        mYoutubeVideoView.loadUrl("http://www.youtube.com/embed/" + "60A_f8clKog" + "?autoplay=1&vq=small");
+        // YouTube Search에서 끝에 concert를 더하고, JSON Parsing해서 VideoId만 가져오기.
 
     }
 
@@ -219,7 +228,7 @@ public class SongActivity extends Activity {
             long popularity = (long) track.get("popularity");
             popularityProgressBar.setProgress((int) popularity);
 
-            trackNumTextView.setText("No." + track.get("track_number") + " Track");
+            trackNumTextView.setText("Track." + track.get("track_number"));
             mPlayer = new MediaPlayer();
 
             String preview = (String) track.get("preview_url");
@@ -249,8 +258,8 @@ public class SongActivity extends Activity {
         @Override
         protected Void doInBackground(String... url) {
             try {
-                mPlayer.setDataSource(url[0]); // setup song from http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3 URL to mediaplayer data source
-                mPlayer.prepare(); // you must call this method after setup the datasource in setDataSource method. After calling prepare() the instance of MediaPlayer starts load data from URL to internal buffer.
+                mPlayer.setDataSource(url[0]);
+                mPlayer.prepare();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -418,7 +427,12 @@ public class SongActivity extends Activity {
                         }
                     });
                 }
+                String keyword = title+" "+artist + " concert";
+                new setYouTubeTask().execute(YOUTUBE_API + URLEncoder.encode(keyword, "utf-8") + YOUTUBE_RESULT_ONE+YOUTUBE_API_KEY);
+
             } catch (ParseException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
 
@@ -468,6 +482,34 @@ public class SongActivity extends Activity {
             super.onPostExecute(result);
             imageView.setImageBitmap(result);
             overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        }
+    }
+
+    class setYouTubeTask extends AsyncTask<String, String, String> {
+
+
+        public setYouTubeTask(){
+        }
+
+        @Override
+        protected String doInBackground(String... url) {
+            return getStringFromUrl(url[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String youtubeJSON) {
+            super.onPostExecute(youtubeJSON);
+
+            JSONParser jsonParser = new JSONParser();
+            try {
+                JSONObject youtube = (JSONObject) jsonParser.parse(youtubeJSON);
+                JSONArray items = (JSONArray) youtube.get("items");
+                JSONObject id = (JSONObject) ((JSONObject) items.get(0)).get("id");
+                String video_id = (String)id.get("videoId");
+                mYoutubeVideoView.loadUrl(YOUTUBE_EMBED + video_id + VIDEO_SMALL);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
     }
 
