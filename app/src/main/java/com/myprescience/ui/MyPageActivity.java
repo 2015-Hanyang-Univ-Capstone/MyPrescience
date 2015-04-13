@@ -32,12 +32,12 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static com.myprescience.util.JSON.FACEBOOK_PROFILE;
-import static com.myprescience.util.JSON.SERVER_ADDRESS;
-import static com.myprescience.util.JSON.USER_API;
-import static com.myprescience.util.JSON.USER_ID_WITH_FACEBOOK_ID;
-import static com.myprescience.util.JSON.WIDTH_150;
-import static com.myprescience.util.JSON.getStringFromUrl;
+import static com.myprescience.util.Server.FACEBOOK_PROFILE;
+import static com.myprescience.util.Server.SERVER_ADDRESS;
+import static com.myprescience.util.Server.USER_API;
+import static com.myprescience.util.Server.USER_ID_WITH_FACEBOOK_ID;
+import static com.myprescience.util.Server.WIDTH_150;
+import static com.myprescience.util.Server.getStringFromUrl;
 
 /**
  * Created by dongjun on 15. 4. 6..

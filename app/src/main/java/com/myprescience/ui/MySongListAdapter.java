@@ -13,11 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.myprescience.R;
 
@@ -31,11 +29,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import static com.myprescience.util.JSON.INSERT_RATING;
-import static com.myprescience.util.JSON.RATING_API;
-import static com.myprescience.util.JSON.SERVER_ADDRESS;
-import static com.myprescience.util.JSON.SPOTIFY_API;
-import static com.myprescience.util.JSON.getStringFromUrl;
+import static com.myprescience.util.Server.SPOTIFY_API;
+import static com.myprescience.util.Server.getStringFromUrl;
 
 /**
  * Created by dongjun on 15. 4. 6..

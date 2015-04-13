@@ -14,9 +14,10 @@ import java.io.InputStreamReader;
 /**
  * Created by dongjun on 15. 3. 27..
  */
-public class JSON {
+public class Server {
 
     static public int USER_ID = 0;
+    static public int MODE, RANDOM_MODE = 0, FIRST_MODE = 1, KPOP_MODE = 2, POP_MODE = 3, BILLBOARDHOT_MODE = 4;
 
     static public String SERVER_ADDRESS = "http://218.37.215.185/MyPrescience/db";
 //    static public String SERVER_ADDRESS = "http://172.200.152.155:8888/MyPrescience/db";
@@ -29,13 +30,14 @@ public class JSON {
 
     static public String SONG_API = "/Song.php?query=";
     static public String SONG_WITH_ID = "selectAllWithId&id=";
-    static public String RANDOM_SONGS = "selectRanSongs";
+    static public String RANDOM_SONGS = "selectRanSongs&user_id=";
 
     static public String BILLBOARDTOP_API = "/BillboardTop.php?query=";
     static public String BBT_WITH_GENRE = "selectGenreTop&genres=";
 
     static public String RATING_API = "/Rating.php?query=";
     static public String INSERT_RATING = "insertRating&";
+    static public String SELECT_MYSONGS = "selectSongs&user_id=";
     static public String SELECT_SONG_COUNT = "selectSongCount&user_id=";
 
     static public String FACEBOOK_PROFILE = "https://graph.facebook.com/";

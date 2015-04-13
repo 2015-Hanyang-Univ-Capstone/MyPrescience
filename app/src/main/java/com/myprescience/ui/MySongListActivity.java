@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.widget.AbsListView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -19,10 +20,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import static com.myprescience.util.JSON.SERVER_ADDRESS;
-import static com.myprescience.util.JSON.USER_API;
-import static com.myprescience.util.JSON.USER_ID_WITH_FACEBOOK_ID;
-import static com.myprescience.util.JSON.getStringFromUrl;
+import static com.myprescience.util.Server.RATING_API;
+import static com.myprescience.util.Server.SELECT_MYSONGS;
+import static com.myprescience.util.Server.SERVER_ADDRESS;
+import static com.myprescience.util.Server.USER_API;
+import static com.myprescience.util.Server.USER_ID;
+import static com.myprescience.util.Server.USER_ID_WITH_FACEBOOK_ID;
+import static com.myprescience.util.Server.getStringFromUrl;
 
 /**
  * Created by dongjun on 15. 4. 6..
@@ -80,14 +84,21 @@ public class MySongListActivity extends ActionBarActivity {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 // 현재 가장 처음에 보이는 셀번호와 보여지는 셀번호를 더한값이
                 // 전체의 숫자와 동일해지면 가장 아래로 스크롤 되었다고 가정
+
+                Log.e("totalItemCount", totalItemCount+"");
+                Log.e("mListAddCount", mListAddCount+"");
+                Log.e("totalListSize", totalListSize+"");
                 if ( (totalItemCount+mListAddCount < totalListSize) && ((firstVisibleItem + visibleItemCount) == totalItemCount) && (mLockListView == false) ) {
                     mListCount += mListAddCount;
 //                        else if(totalItemCount+10 > totalListSize && !(totalItemCount >= totalListSize))
 //                            mListCount = totalListSize - (10+1);
-                    new getSimpleSongTask().execute(SERVER_ADDRESS+"/rating.php?query=selectSongs&user_id=8");
+                    new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+USER_ID);
                     mLockListView = true;
-                } else if(totalItemCount+mListAddCount > totalListSize && totalListSize != 0) {
-                    mListAddCount =  totalListSize - (mListCount + 1);
+                } else if(totalItemCount + mListAddCount >= totalListSize && totalListSize != 0) {
+                    mListCount += mListAddCount;
+                    mListAddCount =  totalListSize - mListCount;
+                    new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+USER_ID);
+                    Toast.makeText(getApplicationContext(), "노래를 전부 가져왔습니다.", Toast.LENGTH_LONG);
                     gridView.setOnScrollListener(null);
                 }
             }

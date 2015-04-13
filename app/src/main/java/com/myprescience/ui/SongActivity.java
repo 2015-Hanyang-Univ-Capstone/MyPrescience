@@ -8,17 +8,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -29,7 +26,6 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.myprescience.R;
 import com.myprescience.util.ChromeClient;
@@ -47,16 +43,16 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import static com.myprescience.util.JSON.SERVER_ADDRESS;
-import static com.myprescience.util.JSON.SONG_API;
-import static com.myprescience.util.JSON.SONG_WITH_ID;
-import static com.myprescience.util.JSON.SPOTIFY_API;
-import static com.myprescience.util.JSON.VIDEO_SMALL;
-import static com.myprescience.util.JSON.YOUTUBE_API;
-import static com.myprescience.util.JSON.YOUTUBE_EMBED;
-import static com.myprescience.util.JSON.YOUTUBE_RESULT_ONE;
-import static com.myprescience.util.JSON.YOUTUBE_API_KEY;
-import static com.myprescience.util.JSON.getStringFromUrl;
+import static com.myprescience.util.Server.SERVER_ADDRESS;
+import static com.myprescience.util.Server.SONG_API;
+import static com.myprescience.util.Server.SONG_WITH_ID;
+import static com.myprescience.util.Server.SPOTIFY_API;
+import static com.myprescience.util.Server.VIDEO_SMALL;
+import static com.myprescience.util.Server.YOUTUBE_API;
+import static com.myprescience.util.Server.YOUTUBE_EMBED;
+import static com.myprescience.util.Server.YOUTUBE_RESULT_ONE;
+import static com.myprescience.util.Server.YOUTUBE_API_KEY;
+import static com.myprescience.util.Server.getStringFromUrl;
 
 
 public class SongActivity extends Activity {

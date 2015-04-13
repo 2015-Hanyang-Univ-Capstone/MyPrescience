@@ -20,7 +20,7 @@ import com.facebook.Session;
 import com.facebook.model.GraphUser;
 import com.myprescience.R;
 
-import static com.myprescience.ui.SongListActivity.RATING;
+import static com.myprescience.util.Server.RANDOM_MODE;
 
 
 public class MainActivity extends ActionBarActivity
@@ -93,7 +93,7 @@ public class MainActivity extends ActionBarActivity
             case 2:
 //                mTitle = getString(R.string.title_section2);
                 Intent section2 = new Intent(this, SongListActivity.class);
-                section2.putExtra("mode", RATING);
+                section2.putExtra("mode", RANDOM_MODE);
                 startActivity(section2);
                 break;
             case 3:

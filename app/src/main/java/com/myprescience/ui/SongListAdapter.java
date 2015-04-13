@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,11 +29,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import static com.myprescience.util.JSON.INSERT_RATING;
-import static com.myprescience.util.JSON.RATING_API;
-import static com.myprescience.util.JSON.SERVER_ADDRESS;
-import static com.myprescience.util.JSON.SPOTIFY_API;
-import static com.myprescience.util.JSON.getStringFromUrl;
+import static com.myprescience.util.Server.INSERT_RATING;
+import static com.myprescience.util.Server.RATING_API;
+import static com.myprescience.util.Server.SERVER_ADDRESS;
+import static com.myprescience.util.Server.SPOTIFY_API;
+import static com.myprescience.util.Server.getStringFromUrl;
 
 /**
  * Created by hyeon-seob on 15. 3. 4..
@@ -126,8 +125,7 @@ public class SongListAdapter extends BaseAdapter{
                 int index = (Integer)ratingBar.getTag();
                 if(mListData.get(index).rating == 0) {
                     ratingCount++;
-                    progressBar.setProgress((int)(Math.min(1, ratingCount/(double)SongListActivity.MIN_SELECTED_SONG)*100));
-                    progressBar.invalidate();
+                    setProgress(ratingCount);
 
 //                    textView.setText(ratingCount + "곡을 평가했습니다.");
                     textView.invalidate();
@@ -147,6 +145,11 @@ public class SongListAdapter extends BaseAdapter{
         });
 
         return convertView;
+    }
+
+    public void setProgress(int count) {
+        progressBar.setProgress((int)(Math.min(1, count/(double)SongListActivity.MIN_SELECTED_SONG)*100));
+        progressBar.invalidate();
     }
 
     @Override
@@ -197,20 +200,22 @@ public class SongListAdapter extends BaseAdapter{
             }
 
             JSONArray images = (JSONArray) album.get("images");
-            JSONObject image = (JSONObject) images.get(2);
-
-            // Image 역시 UI Thread에서 바로 작업 불가.
             Bitmap myBitmap = null;
-            try {
-                URL urlConnection = new URL((String)image.get("url"));
-                HttpURLConnection connection = (HttpURLConnection) urlConnection
-                        .openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                myBitmap = BitmapFactory.decodeStream(input);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if(images.size() != 0) {
+                JSONObject image = (JSONObject) images.get(2);
+                // Image 역시 UI Thread에서 바로 작업 불가.
+                try {
+                    URL urlConnection = new URL((String) image.get("url"));
+                    HttpURLConnection connection = (HttpURLConnection) urlConnection
+                            .openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
+                    InputStream input = connection.getInputStream();
+                    myBitmap = BitmapFactory.decodeStream(input);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return myBitmap;
         }

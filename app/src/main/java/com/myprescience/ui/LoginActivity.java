@@ -1,13 +1,9 @@
 package com.myprescience.ui;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -19,26 +15,20 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 import com.myprescience.R;
-import com.myprescience.util.JSON;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Arrays;
 
-import static com.myprescience.util.JSON.INSERT_FACEBOOK_ID;
-import static com.myprescience.util.JSON.RATING_API;
-import static com.myprescience.util.JSON.SELECT_SONG_COUNT;
-import static com.myprescience.util.JSON.SERVER_ADDRESS;
-import static com.myprescience.util.JSON.USER_API;
-import static com.myprescience.util.JSON.USER_ID;
-import static com.myprescience.util.JSON.USER_ID_WITH_FACEBOOK_ID;
-import static com.myprescience.util.JSON.getStringFromUrl;
+import static com.myprescience.util.Server.INSERT_FACEBOOK_ID;
+import static com.myprescience.util.Server.SERVER_ADDRESS;
+import static com.myprescience.util.Server.USER_API;
+import static com.myprescience.util.Server.USER_ID;
+import static com.myprescience.util.Server.USER_ID_WITH_FACEBOOK_ID;
+import static com.myprescience.util.Server.getStringFromUrl;
 
 
 public class LoginActivity extends FragmentActivity {

@@ -18,7 +18,7 @@ import com.myprescience.R;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import static com.myprescience.ui.SongListActivity.BBT;
+import static com.myprescience.util.Server.FIRST_MODE;
 
 /**
  * 장르 선택 액티비티
@@ -48,7 +48,7 @@ public class RecommendActivity extends Activity{
             public void onClick(View v) {
                 sRecommendActivity = RecommendActivity.this;
                 Intent intent = new Intent(RecommendActivity.this, SongListActivity.class);
-                intent.putExtra("mode",BBT);
+                intent.putExtra("mode",FIRST_MODE);
                 intent.putExtra("selectGenre",selectGenre);
                 startActivity(intent);
             }

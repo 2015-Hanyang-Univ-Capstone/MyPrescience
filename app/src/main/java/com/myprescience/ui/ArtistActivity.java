@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.myprescience.R;
 import com.myprescience.util.Indicator;
-import com.myprescience.util.JSON;
+import com.myprescience.util.Server;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -34,7 +34,7 @@ public class ArtistActivity extends Activity {
     int size64x64 = 2;
 
     Indicator mIndicator;
-    JSON json;
+    Server json;
     ImageView artistImageView;
     TextView nameTextView, genresTextview, followersTextView;
     ProgressBar popularityProgressBar;
@@ -45,7 +45,7 @@ public class ArtistActivity extends Activity {
         setContentView(R.layout.activity_artist);
 
         mIndicator = new Indicator(this);
-        json = new JSON();
+        json = new Server();
 
         artistImageView = (ImageView) findViewById(R.id.artistImageView);
         nameTextView = (TextView) findViewById(R.id.nameTextView);

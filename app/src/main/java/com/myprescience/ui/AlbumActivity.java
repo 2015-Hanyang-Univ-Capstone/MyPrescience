@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.myprescience.R;
 import com.myprescience.util.Indicator;
-import com.myprescience.util.JSON;
+import com.myprescience.util.Server;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -38,7 +38,7 @@ public class AlbumActivity extends Activity{
     int mSize64x64 = 2;
 
     Indicator mIndicator;
-    JSON mJson;
+    Server mJson;
     LinearLayout mTrackLinearLayout;
     ImageView mAlbumImageView;
     TextView mNameTextView, mGenresTextview, mFollowersTextView, mReleaseTextView, mCopyrightTextView;
@@ -50,7 +50,7 @@ public class AlbumActivity extends Activity{
         setContentView(R.layout.activity_album);
 
         mIndicator = new Indicator(this);
-        mJson = new JSON();
+        mJson = new Server();
 
         mAlbumImageView = (ImageView) findViewById(R.id.albumImageView);
         mNameTextView = (TextView) findViewById(R.id.nameTextView);
