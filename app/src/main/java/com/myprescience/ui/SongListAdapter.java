@@ -232,7 +232,9 @@ public class SongListAdapter extends BaseAdapter{
         protected void onPostExecute(Bitmap mAlbumArt) {
             super.onPostExecute(mAlbumArt);
             songData.setAlbumArt(mAlbumArt);
-            mHolder.albumImageView.setImageBitmap(mAlbumArt);
+            if (mHolder.position == mPosition) {
+                mHolder.albumImageView.setImageBitmap(mAlbumArt);
+            }
         }
     }
 }
