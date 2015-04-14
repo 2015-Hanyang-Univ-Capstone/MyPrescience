@@ -62,13 +62,14 @@ public class SongListAdapter extends BaseAdapter{
         this.userId = _userId;
     }
 
-    public void addItem(String _id, String _album, String _title, String _artist, int _rating){
+    public void addItem(String _id, String _albumArtURL, String _title, String _artist, int _rating){
         SongData temp = new SongData();
         temp.id = _id;
-        temp.albumArt = _album;
         temp.title = _title;
         temp.artist = _artist;
         temp.rating = _rating;
+        temp.albumUrl = _albumArtURL;
+        temp.albumArt = null;
         mListData.add(temp);
     }
 
@@ -99,24 +100,29 @@ public class SongListAdapter extends BaseAdapter{
                 v.getContext().startActivity(intent);
             }
         });
-
         holder.titleTextView.setText(mData.title);
         holder.artistTextView.setText(mData.artist);
         holder.ratingBar.setProgress(mData.rating);
 
         holder.position = position;
 
-        if(!(mData.albumArt).equals("albums/")) {
-            try {
-                new LoadAlbumArt(position, holder).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, SPOTIFY_API+mData.albumArt);
-            } catch (Exception e) {
-                e.printStackTrace();
+        // 앨범아트 가져오기
+        // Spotify에 앨범아트 정보가 있을 경우
+        if(!(mData.albumUrl).equals("albums/")) {
+            if(mData.albumArt == null) {
+                holder.albumImageView.setImageResource(R.drawable.icon_loading);
+                try {
+                    new LoadAlbumArt(position, holder, mData).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, SPOTIFY_API + mData.albumUrl);
+                } catch (Exception e) { e.printStackTrace(); }
             }
+            else
+                holder.albumImageView.setImageBitmap(mData.albumArt);
+
         } else {
             holder.albumImageView.setImageResource(R.drawable.icon_none);
         }
-        holder.ratingBar.setTag(position);
 
+        holder.ratingBar.setTag(position);
         holder.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -181,10 +187,12 @@ public class SongListAdapter extends BaseAdapter{
 
         private int mPosition;
         private ViewHolder mHolder = null;
+        private SongData songData;
 
-        public LoadAlbumArt(int positon, ViewHolder holder){
+        public LoadAlbumArt(int positon, ViewHolder holder, SongData mSongData){
             this.mPosition = positon;
             this.mHolder = holder;
+            this.songData = mSongData;
         }
 
         @Override
@@ -221,11 +229,10 @@ public class SongListAdapter extends BaseAdapter{
         }
 
         @Override
-        protected void onPostExecute(Bitmap albumArt) {
-            super.onPostExecute(albumArt);
-            if (mHolder.position == mPosition) {
-                mHolder.albumImageView.setImageBitmap(albumArt);
-            }
+        protected void onPostExecute(Bitmap mAlbumArt) {
+            super.onPostExecute(mAlbumArt);
+            songData.setAlbumArt(mAlbumArt);
+            mHolder.albumImageView.setImageBitmap(mAlbumArt);
         }
     }
 }

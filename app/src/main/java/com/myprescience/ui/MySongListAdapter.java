@@ -51,7 +51,7 @@ public class MySongListAdapter extends BaseAdapter {
     public void addItem(String _id, String _album, String _title, String _artist, int _rating){
         SongData temp = new SongData();
         temp.id = _id;
-        temp.albumArt = _album;
+        temp.albumUrl = _album;
         temp.title = _title;
         temp.artist = _artist;
         temp.rating = _rating;
@@ -95,9 +95,9 @@ public class MySongListAdapter extends BaseAdapter {
 
         holder.position = position;
 
-        if(!(mData.albumArt).equals("albums/")) {
+        if(!(mData.albumUrl).equals("albums/")) {
             try {
-                new LoadAlbumArt(position, holder).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, SPOTIFY_API+mData.albumArt);
+                new LoadAlbumArt(position, holder).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, SPOTIFY_API+mData.albumUrl);
             } catch (Exception e) {
                 e.printStackTrace();
             }

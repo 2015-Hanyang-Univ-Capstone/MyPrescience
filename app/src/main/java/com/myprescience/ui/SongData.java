@@ -8,8 +8,11 @@ import android.graphics.Bitmap;
  */
 public class SongData {
     public String id;
-    public String albumArt;
+    public String albumUrl;
+    public Bitmap albumArt;
     public String title;
     public String artist;
     public int rating;
+
+    public void setAlbumArt(Bitmap mAlbumArt) { albumArt = mAlbumArt; }
 }

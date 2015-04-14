@@ -19,9 +19,9 @@ public class Server {
     static public int USER_ID = 0;
     static public int MODE, RANDOM_MODE = 0, FIRST_MODE = 1, KPOP_MODE = 2, POP_MODE = 3, BILLBOARDHOT_MODE = 4;
 
-    static public String SERVER_ADDRESS = "http://218.37.215.185/MyPrescience/db";
+//    static public String SERVER_ADDRESS = "http://218.37.215.185/MyPrescience/db";
 //    static public String SERVER_ADDRESS = "http://172.200.152.155:8888/MyPrescience/db";
-//    static public String SERVER_ADDRESS = "http://166.104.245.89/MyPrescience/db";
+    static public String SERVER_ADDRESS = "http://166.104.245.89/MyPrescience/db";
     static public String SPOTIFY_API = "https://api.spotify.com/v1/";
 
     static public String USER_API = "/User.php?query=";
