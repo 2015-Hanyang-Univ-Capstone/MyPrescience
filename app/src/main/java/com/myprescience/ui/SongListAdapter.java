@@ -210,7 +210,7 @@ public class SongListAdapter extends BaseAdapter{
             JSONArray images = (JSONArray) album.get("images");
             Bitmap myBitmap = null;
             if(images.size() != 0) {
-                JSONObject image = (JSONObject) images.get(2);
+                JSONObject image = (JSONObject) images.get(images.size()-1);
                 // Image 역시 UI Thread에서 바로 작업 불가.
                 try {
                     URL urlConnection = new URL((String) image.get("url"));

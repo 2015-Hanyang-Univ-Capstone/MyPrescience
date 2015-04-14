@@ -26,6 +26,7 @@ import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.USER_API;
 import static com.myprescience.util.Server.USER_ID;
 import static com.myprescience.util.Server.USER_ID_WITH_FACEBOOK_ID;
+import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.getStringFromUrl;
 
 /**
@@ -50,18 +51,18 @@ public class MySongListActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView( R.layout.activity_mysong);
 
-        Session session = Session.getActiveSession();
-        if(session != null){
-            if(session.isOpened()){
-                Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
-                    // callback after Graph API response with user object
-                    @Override
-                    public void onCompleted(GraphUser user, Response response) {
-                        new searchUserTask().execute(SERVER_ADDRESS + USER_API + USER_ID_WITH_FACEBOOK_ID + user.getId());
-                    }
-                });
-            }
-        }
+//        Session session = Session.getActiveSession();
+//        if(session != null){
+//            if(session.isOpened()){
+//                Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+//                    // callback after Graph API response with user object
+//                    @Override
+//                    public void onCompleted(GraphUser user, Response response) {
+//                        new searchUserTask().execute(SERVER_ADDRESS + USER_API + USER_ID_WITH_FACEBOOK_ID + user.getId());
+//                    }
+//                });
+//            }
+//        }
 
         mListCount = 0;
         mListAddCount = 5;
@@ -72,7 +73,7 @@ public class MySongListActivity extends ActionBarActivity {
         mySongListAdapter = new MySongListAdapter(this, userId);
         gridView.setAdapter(mySongListAdapter);
 
-        new getSimpleSongTask().execute(SERVER_ADDRESS+"/rating.php?query=selectSongs&user_id=8");
+        new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+WITH_USER+USER_ID);
 
         gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -84,46 +85,21 @@ public class MySongListActivity extends ActionBarActivity {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 // 현재 가장 처음에 보이는 셀번호와 보여지는 셀번호를 더한값이
                 // 전체의 숫자와 동일해지면 가장 아래로 스크롤 되었다고 가정
-
-                Log.e("totalItemCount", totalItemCount+"");
-                Log.e("mListAddCount", mListAddCount+"");
-                Log.e("totalListSize", totalListSize+"");
                 if ( (totalItemCount+mListAddCount < totalListSize) && ((firstVisibleItem + visibleItemCount) == totalItemCount) && (mLockListView == false) ) {
                     mListCount += mListAddCount;
 //                        else if(totalItemCount+10 > totalListSize && !(totalItemCount >= totalListSize))
 //                            mListCount = totalListSize - (10+1);
-                    new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+USER_ID);
+                    new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+WITH_USER+USER_ID);
                     mLockListView = true;
                 } else if(totalItemCount + mListAddCount >= totalListSize && totalListSize != 0) {
                     mListCount += mListAddCount;
                     mListAddCount =  totalListSize - mListCount;
-                    new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+USER_ID);
+                    new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+WITH_USER+USER_ID);
                     Toast.makeText(getApplicationContext(), "노래를 전부 가져왔습니다.", Toast.LENGTH_LONG);
                     gridView.setOnScrollListener(null);
                 }
             }
         });
-    }
-
-    class searchUserTask extends AsyncTask<String, String, Void> {
-
-        @Override
-        protected Void doInBackground(String... url) {
-            String userIdJSON = getStringFromUrl(url[0]);
-            JSONParser jsonParser = new JSONParser();
-            JSONArray users = null;
-            try {
-                users = (JSONArray) jsonParser.parse(userIdJSON);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            if(users != null) {
-                JSONObject user = (JSONObject) users.get(0);
-                userId = Integer.parseInt((String)user.get("user_id"));
-            }
-            return null;
-        }
     }
 
     class getSimpleSongTask extends AsyncTask<String, String, String> {

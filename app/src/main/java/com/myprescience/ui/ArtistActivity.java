@@ -145,6 +145,7 @@ public class ArtistActivity extends Activity {
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
             imageView.setImageBitmap(result);
+            imageView.setAdjustViewBounds(true);
             if (mIndicator.isShowing())
                 mIndicator.hide();
             overridePendingTransition(R.anim.fadein, R.anim.fadeout);

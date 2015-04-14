@@ -26,9 +26,16 @@ import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
 
-import static com.myprescience.util.Server.BBT_WITH_GENRE;
-import static com.myprescience.util.Server.BILLBOARDTOP_API;
+import static com.myprescience.util.Server.ACOUSTIC_SONGS;
+import static com.myprescience.util.Server.BILLBOARD_API;
+import static com.myprescience.util.Server.DANCEABILITY_SONGS;
+import static com.myprescience.util.Server.ENERGY_SONGS;
 import static com.myprescience.util.Server.FIRST_MODE;
+import static com.myprescience.util.Server.GENRE_TOP;
+import static com.myprescience.util.Server.HOT100;
+import static com.myprescience.util.Server.INSTRUMENTALNESS_SONGS;
+import static com.myprescience.util.Server.LIVENESS_SONGS;
+import static com.myprescience.util.Server.LOUDNESS_SONGS;
 import static com.myprescience.util.Server.MODE;
 import static com.myprescience.util.Server.RANDOM_MODE;
 import static com.myprescience.util.Server.RANDOM_SONGS;
@@ -36,7 +43,10 @@ import static com.myprescience.util.Server.RATING_API;
 import static com.myprescience.util.Server.SELECT_SONG_COUNT;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SONG_API;
+import static com.myprescience.util.Server.SPEECHINCESS_SONGS;
 import static com.myprescience.util.Server.USER_ID;
+import static com.myprescience.util.Server.VALENCE_SONGS;
+import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.getLevel;
 import static com.myprescience.util.Server.getStringFromUrl;
 
@@ -77,7 +87,7 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_list);
 
-        new selectSongCountTask().execute(SERVER_ADDRESS+RATING_API+SELECT_SONG_COUNT+USER_ID);
+        new selectSongCountTask().execute(SERVER_ADDRESS+RATING_API+SELECT_SONG_COUNT+WITH_USER+USER_ID);
 
         mListCount = 0;
         mListAddCount = 5;
@@ -154,7 +164,9 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
         Fragment f = getFragmentManager().findFragmentByTag(LIST_FRAGMENT_TAG);
         if (f != null) {
             getFragmentManager().popBackStack();
+            Log.e("TEST", "UP");
         } else {
+            Log.e("TEST", "DOWN");
             getFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.slide_up,
                             R.anim.slide_down,
@@ -170,11 +182,15 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
 
     @Override
     public void onFilterSelected(int mode) {
+        mListCount = 0;
         MODE = mode;
         songListAdapter = new SongListAdapter(SongListActivity.this, selectCount, progressBar, textView, rightButton, USER_ID);
         songListView.setAdapter(songListAdapter);
         songListAdapter.notifyDataSetChanged();
         selectSongsWithMode(mode, modeIntent);
+        int FragmentView = (mFilterFragment.getVisibility() == View.GONE)?
+                View.VISIBLE : View.GONE;
+        toggleList(FragmentView);
     }
 
     class selectSongCountTask extends AsyncTask<String, String, Integer> {
@@ -220,6 +236,7 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
 //            mLockListView = true;
 
             try {
+                Log.e("songJSON", songJSON);
                 JSONParser jsonParser = new JSONParser();
                 JSONArray songArray = (JSONArray) jsonParser.parse(songJSON);
                 totalListSize = songArray.size();
@@ -265,13 +282,40 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
     public void selectSongsWithMode(int mode, Intent intent) {
         switch(mode) {
             case 0 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+RANDOM_SONGS+USER_ID);
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+RANDOM_SONGS+WITH_USER+USER_ID);
                 break;
             case 1 :
                 ArrayList<String> selectGenre = intent.getExtras().getStringArrayList("selectGenre");
                 genres = TextUtils.join(",", selectGenre);
 
-                new getSimpleSongTask().execute(SERVER_ADDRESS+BILLBOARDTOP_API+BBT_WITH_GENRE+genres);
+                new getSimpleSongTask().execute(SERVER_ADDRESS+BILLBOARD_API+GENRE_TOP+genres+WITH_USER+USER_ID);
+                break;
+            case 4 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+BILLBOARD_API+HOT100+WITH_USER+USER_ID);
+                break;
+            case 5 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+VALENCE_SONGS+WITH_USER+USER_ID);
+                break;
+            case 6 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+LOUDNESS_SONGS+WITH_USER+USER_ID);
+                break;
+            case 7 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+DANCEABILITY_SONGS+WITH_USER+USER_ID);
+                break;
+            case 8 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+ENERGY_SONGS+WITH_USER+USER_ID);
+                break;
+            case 9 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+LIVENESS_SONGS+WITH_USER+USER_ID);
+                break;
+            case 10 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SPEECHINCESS_SONGS+WITH_USER+USER_ID);
+                break;
+            case 11 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+ACOUSTIC_SONGS+WITH_USER+USER_ID);
+                break;
+            case 12 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+INSTRUMENTALNESS_SONGS+WITH_USER+USER_ID);
                 break;
         }
     }

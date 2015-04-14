@@ -48,13 +48,14 @@ public class MySongListAdapter extends BaseAdapter {
         this.userId = _userId;
     }
 
-    public void addItem(String _id, String _album, String _title, String _artist, int _rating){
+    public void addItem(String _id, String _albumArtURL, String _title, String _artist, int _rating){
         SongData temp = new SongData();
         temp.id = _id;
-        temp.albumUrl = _album;
         temp.title = _title;
         temp.artist = _artist;
         temp.rating = _rating;
+        temp.albumUrl = _albumArtURL;
+        temp.albumArt = null;
         mListData.add(temp);
     }
 
@@ -95,15 +96,22 @@ public class MySongListAdapter extends BaseAdapter {
 
         holder.position = position;
 
+        // 앨범아트 가져오기
+        // Spotify에 앨범아트 정보가 있을 경우
         if(!(mData.albumUrl).equals("albums/")) {
-            try {
-                new LoadAlbumArt(position, holder).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, SPOTIFY_API+mData.albumUrl);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if(mData.albumArt == null) {
+                holder.albumImageView.setImageResource(R.drawable.icon_loading);
+                try {
+                    new LoadAlbumArt(position, holder, mData).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, SPOTIFY_API + mData.albumUrl);
+                } catch (Exception e) { e.printStackTrace(); }
             }
+            else
+                holder.albumImageView.setImageBitmap(mData.albumArt);
+
         } else {
             holder.albumImageView.setImageResource(R.drawable.icon_none);
         }
+        holder.albumImageView.setAdjustViewBounds(true);
         holder.ratingBar.setTag(position);
 
         return convertView;
@@ -138,10 +146,12 @@ public class MySongListAdapter extends BaseAdapter {
 
         private int mPosition;
         private ViewHolder mHolder = null;
+        private SongData songData;
 
-        public LoadAlbumArt(int positon, ViewHolder holder){
+        public LoadAlbumArt(int positon, ViewHolder holder, SongData mSongData){
             this.mPosition = positon;
             this.mHolder = holder;
+            this.songData = mSongData;
         }
 
         @Override
@@ -157,7 +167,7 @@ public class MySongListAdapter extends BaseAdapter {
             }
 
             JSONArray images = (JSONArray) album.get("images");
-            JSONObject image = (JSONObject) images.get(1);
+            JSONObject image = (JSONObject) images.get(0);
 
             // Image 역시 UI Thread에서 바로 작업 불가.
             Bitmap myBitmap = null;
@@ -176,10 +186,11 @@ public class MySongListAdapter extends BaseAdapter {
         }
 
         @Override
-        protected void onPostExecute(Bitmap albumArt) {
-            super.onPostExecute(albumArt);
+        protected void onPostExecute(Bitmap mAlbumArt) {
+            super.onPostExecute(mAlbumArt);
+            songData.setAlbumArt(mAlbumArt);
             if (mHolder.position == mPosition) {
-                mHolder.albumImageView.setImageBitmap(albumArt);
+                mHolder.albumImageView.setImageBitmap(mAlbumArt);
             }
         }
     }
