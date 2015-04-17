@@ -24,7 +24,7 @@ import static com.myprescience.util.Server.FIRST_MODE;
  * 장르 선택 액티비티
  */
 
-public class RecommendActivity extends Activity{
+public class SelectGenreActivity extends Activity{
     public static Activity sRecommendActivity;
     private GridLayout gridLayout;
     private Vector<CheckBox> checkBoxVector;
@@ -38,7 +38,7 @@ public class RecommendActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recommend);
+        setContentView(R.layout.activity_select_genre);
 
 
         // 다음 버튼
@@ -46,8 +46,8 @@ public class RecommendActivity extends Activity{
         rightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sRecommendActivity = RecommendActivity.this;
-                Intent intent = new Intent(RecommendActivity.this, SongListActivity.class);
+                sRecommendActivity = SelectGenreActivity.this;
+                Intent intent = new Intent(SelectGenreActivity.this, SongListActivity.class);
                 intent.putExtra("mode",FIRST_MODE);
                 intent.putExtra("selectGenre",selectGenre);
                 startActivity(intent);

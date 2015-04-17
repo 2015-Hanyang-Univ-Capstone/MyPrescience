@@ -92,15 +92,23 @@ public class MainActivity extends ActionBarActivity
                 mTitle = getString(R.string.title_section1);
                 break;
             case 2:
-//                mTitle = getString(R.string.title_section2);
-                Intent section2 = new Intent(this, SongListActivity.class);
-                section2.putExtra("mode", RANDOM_MODE);
+                Intent section2 = new Intent(this, MyPrescienceActivity.class);
                 startActivity(section2);
                 break;
             case 3:
-//                mTitle = getString(R.string.title_section3);
-                Intent section3 = new Intent(this, MyPageActivity.class);
+//                mTitle = getString(R.string.title_section2);
+                Intent section3 = new Intent(this, SongListActivity.class);
+                section3.putExtra("mode", RANDOM_MODE);
                 startActivity(section3);
+                break;
+            case 4:
+//                mTitle = getString(R.string.title_section3);
+                Intent section4 = new Intent(this, MyPageActivity.class);
+                startActivity(section4);
+                break;
+            case 5:
+                Intent section5 = new Intent(this, SelectGenreActivity.class);
+                startActivity(section5);
                 break;
         }
     }

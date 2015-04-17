@@ -79,7 +79,7 @@ public class SongListAdapter extends BaseAdapter{
             holder = new ViewHolder();
 
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.song_list_item, null);
+            convertView = inflater.inflate(R.layout.list_item_song, null);
 
             holder.albumImageView = (ImageView) convertView.findViewById(R.id.albumArtView);
             holder.titleTextView = (TextView) convertView.findViewById(R.id.titleTextView);

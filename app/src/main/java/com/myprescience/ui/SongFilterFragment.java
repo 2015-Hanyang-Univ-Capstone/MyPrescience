@@ -2,17 +2,12 @@ package com.myprescience.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.ListFragment;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.myprescience.R;
 
@@ -44,7 +39,7 @@ public class SongFilterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View filter_view = inflater.inflate(R.layout.song_fliter_fragment_layout, container, false);
+        View filter_view = inflater.inflate(R.layout.fragment_song_fliter, container, false);
 
         mRandomSongFilterButton = (Button) filter_view.findViewById(R.id.random_SongFilter);
         mKpopSongFilterButton = (Button) filter_view.findViewById(R.id.kpop_SongFilter);

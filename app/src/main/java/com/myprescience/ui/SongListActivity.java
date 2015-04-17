@@ -87,8 +87,6 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_list);
 
-        new selectSongCountTask().execute(SERVER_ADDRESS+RATING_API+SELECT_SONG_COUNT+WITH_USER+USER_ID);
-
         mListCount = 0;
         mListAddCount = 5;
         mIndicator = new Indicator(this);
@@ -97,6 +95,10 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
         rightButton = (ImageButton) findViewById(R.id.nextButton);
         textView = (TextView) findViewById(R.id.top);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        modeIntent = getIntent();
+        MODE = modeIntent.getExtras().getInt("mode");
+        selectSongsWithMode(MODE, modeIntent);
 
         if(MODE == FIRST_MODE) {
             textView.setText("최소 " + MIN_SELECTED_SONG + "곡 이상 평가해주세요.");
@@ -121,11 +123,9 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
                     toggleList(FragmentView);
                 }
             });
-        }
 
-        modeIntent = getIntent();
-        MODE = modeIntent.getExtras().getInt("mode");
-        selectSongsWithMode(MODE, modeIntent);
+            new selectSongCountTask().execute(SERVER_ADDRESS+RATING_API+SELECT_SONG_COUNT+WITH_USER+USER_ID);
+        }
 
         songListAdapter = new SongListAdapter(SongListActivity.this, selectCount, progressBar, textView, rightButton, USER_ID);
         songListView = (ListView) findViewById(R.id.songListView);
@@ -280,6 +280,9 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
     }
 
     public void selectSongsWithMode(int mode, Intent intent) {
+
+        Log.e("mode", mode+"");
+
         switch(mode) {
             case 0 :
                 new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+RANDOM_SONGS+WITH_USER+USER_ID);

@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -60,6 +62,8 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
+    private NaviAdapter mNaviAdapter;
+
     public NavigationDrawerFragment() {
     }
 
@@ -99,15 +103,22 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                }));
+
+        int[] selectedposition = new int[] { mCurrentSelectedPosition };
+        String[] titles = new String[]{
+                getString(R.string.title_section1), getString(R.string.title_section2),
+                getString(R.string.title_section3), getString(R.string.title_section4),
+                "첫 시작 장르선택"
+        };
+        int[] images = new int[]{
+                R.drawable.icon_pop, R.drawable.icon_rnb,
+                R.drawable.icon_rock, R.drawable.icon_dance,
+                R.drawable.icon_jazz
+        };
+
+        mNaviAdapter = new NaviAdapter(
+                getActionBar().getThemedContext(), titles, images, selectedposition);
+        mDrawerListView.setAdapter(mNaviAdapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }

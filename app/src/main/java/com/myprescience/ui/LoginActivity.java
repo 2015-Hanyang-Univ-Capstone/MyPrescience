@@ -89,7 +89,7 @@ public class LoginActivity extends FragmentActivity {
                         public void onCompleted(GraphUser user, Response response) {
                             Toast.makeText(LoginActivity.this, user.getName()+"님 환영합니다!", Toast.LENGTH_SHORT).show();
 
-                            Intent intent = new Intent(LoginActivity.this, RecommendActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, SelectGenreActivity.class);
                             startActivity(intent);
                             finish();
                         }

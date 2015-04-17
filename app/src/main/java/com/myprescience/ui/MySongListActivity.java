@@ -68,7 +68,7 @@ public class MySongListActivity extends ActionBarActivity {
         mListAddCount = 5;
         mIndicator = new Indicator(this);
 
-        gridView = (GridView) findViewById(R.id.gridView1);
+        gridView = (GridView) findViewById(R.id.mysongGridView);
 
         mySongListAdapter = new MySongListAdapter(this, userId);
         gridView.setAdapter(mySongListAdapter);

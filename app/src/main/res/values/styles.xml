@@ -58,13 +58,17 @@
     <style name="MyActionBarTitleText"
         parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">#ffffff</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
         <!-- The textColor property is backward compatible with the Support Library -->
     </style>
 
     <!-- ActionBar tabs text -->
     <style name="MyActionBarTabText"
         parent="@style/Widget.AppCompat.ActionBar.TabText">
+        <item name="background">@color/color_base_light_blue</item>
         <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
         <!-- The textColor property is backward compatible with the Support Library -->
     </style>
 
@@ -75,6 +79,36 @@
         <item name="android:stepSize">0.5</item>
         <item name="android:max">5</item>
         <item name="android:rating">0</item>
+    </style>
+
+    <style name="TabActionBarTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarStyle">@style/TabActionBarStyle</item>
+        <item name="android:actionBarTabBarStyle">@style/TabActionBarTabBarStyle</item>
+        <item name="android:actionBarTabTextStyle">@style/TabActionBarTabTextStyle</item>
+    </style>
+
+    <style name="TabActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
+        <item name="android:background">@color/color_base_light_blue</item>
+
+        <!-- Support library compatibility -->
+        <item name="titleTextStyle">@style/MyActionBarTitleText</item>
+        <item name="background">@color/color_base_light_blue</item>
+    </style>
+
+    <style name="TabActionBarTabBarStyle" parent="@android:style/Widget.Holo">
+        <item name="android:background">@color/color_base_light_blue</item>
+
+        <!-- Support library compatibility -->
+        <item name="background">@color/color_base_light_blue</item>
+    </style>
+
+    <style name="TabActionBarTabTextStyle"
+        parent="@android:style/Widget.Holo">
+        <item name="background">@color/color_base_light_blue</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+        <!-- The textColor property is backward compatible with the Support Library -->
     </style>
 
 </resources>
