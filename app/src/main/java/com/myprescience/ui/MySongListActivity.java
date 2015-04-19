@@ -35,7 +35,6 @@ import static com.myprescience.util.Server.getStringFromUrl;
 public class MySongListActivity extends ActionBarActivity {
 
     private GridView gridView;
-    private int userId;
     private MySongListAdapter mySongListAdapter;
     private boolean mLockListView = false;
 
@@ -70,7 +69,7 @@ public class MySongListActivity extends ActionBarActivity {
 
         gridView = (GridView) findViewById(R.id.mysongGridView);
 
-        mySongListAdapter = new MySongListAdapter(this, userId);
+        mySongListAdapter = new MySongListAdapter(this, USER_ID);
         gridView.setAdapter(mySongListAdapter);
 
         new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+WITH_USER+USER_ID);

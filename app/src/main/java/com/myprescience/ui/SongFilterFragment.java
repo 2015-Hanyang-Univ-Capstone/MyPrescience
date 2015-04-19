@@ -19,9 +19,11 @@ import static com.myprescience.util.Server.INSTRUMENTAL_MODE;
 import static com.myprescience.util.Server.KPOP_MODE;
 import static com.myprescience.util.Server.LIVENESS_MODE;
 import static com.myprescience.util.Server.LOUDNESS_MODE;
+import static com.myprescience.util.Server.MYP_RANK_SONGS;
 import static com.myprescience.util.Server.POP_MODE;
 import static com.myprescience.util.Server.RANDOM_MODE;
 import static com.myprescience.util.Server.MODE;
+import static com.myprescience.util.Server.RANK_ORDER_MODE;
 import static com.myprescience.util.Server.SPEECHINESS_MODE;
 import static com.myprescience.util.Server.VALANCE_MODE;
 
@@ -32,7 +34,8 @@ public class SongFilterFragment extends Fragment {
 
     private Button mRandomSongFilterButton, mKpopSongFilterButton, mPopSongFilterButton, mBillboardHot100SongFilterButton, mClickedButton,
                     mValenceSongFilterButton, mLoudnessSongFilterButton, mDancabilitySongFilterButton, mEnergySongFilterButton,
-                    mLivenessSongFilterButton, mSpeechinessSongFilterButton, mAcousticSongFilterButton, minstrumentalnessSongFilterButton;
+                    mLivenessSongFilterButton, mSpeechinessSongFilterButton, mAcousticSongFilterButton, minstrumentalnessSongFilterButton,
+                    mMypRankOrder_SongFilter;
     private OnFilterSelectedListener mCallback;
     private int Clicked;
 
@@ -53,6 +56,7 @@ public class SongFilterFragment extends Fragment {
         mSpeechinessSongFilterButton = (Button) filter_view.findViewById(R.id.speechiness_SongFilter);
         mAcousticSongFilterButton = (Button) filter_view.findViewById(R.id.acousticness_SongFilter);
         minstrumentalnessSongFilterButton = (Button) filter_view.findViewById(R.id.instrumentalness_SongFilter);
+        mMypRankOrder_SongFilter = (Button) filter_view.findViewById(R.id.MypRankOrder_SongFilter);
 
         mClickedButton = mRandomSongFilterButton;
 
@@ -92,6 +96,9 @@ public class SongFilterFragment extends Fragment {
                      break;
             case 12 : activeButtonUI(minstrumentalnessSongFilterButton);
                      Clicked = INSTRUMENTAL_MODE;
+                     break;
+            case 13 : activeButtonUI(mMypRankOrder_SongFilter);
+                     Clicked = RANK_ORDER_MODE;
                      break;
         }
 
@@ -226,6 +233,16 @@ public class SongFilterFragment extends Fragment {
             }
         });
 
+        mMypRankOrder_SongFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Clicked != RANK_ORDER_MODE) {
+                    nonAtiveButton(mClickedButton);
+                    Clicked = RANK_ORDER_MODE;
+                    activeButton((Button) v);
+                }
+            }
+        });
 
         return filter_view;
     }

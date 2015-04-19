@@ -71,6 +71,18 @@
             android:id="@+id/billboardHot100_SongFilter" />
 
         <Button
+            android:layout_marginTop="210dp"
+            android:layout_marginLeft="140dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textColor="@color/color_base_light_blue"
+            android:background="@drawable/background"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="평가가 좋은 순"
+            android:id="@+id/MypRankOrder_SongFilter" />
+
+        <Button
             android:layout_marginTop="270dp"
             android:layout_marginLeft="0dp"
             android:layout_width="wrap_content"

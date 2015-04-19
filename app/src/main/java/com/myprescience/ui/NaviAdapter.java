@@ -4,7 +4,10 @@ package com.myprescience.ui;
  * Created by dongjun on 15. 4. 17..
  */
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.myprescience.R;
+import com.myprescience.util.RoundImage;
 
 public class NaviAdapter extends BaseAdapter {
 
@@ -67,7 +71,10 @@ public class NaviAdapter extends BaseAdapter {
         mViewHolder.ivIcon = (ImageView) convertView.findViewById(R.id.navi_icon);
 
         mViewHolder.tvTitle.setText(titles[position]);
-        mViewHolder.ivIcon.setImageResource(images[position]);
+        Bitmap image_bit = BitmapFactory.decodeResource(context.getResources(),
+                images[position]);
+        RoundImage image = new RoundImage(image_bit);
+        mViewHolder.ivIcon.setImageDrawable(image);
 
         //Highlight the selected list item
         if (position == selectedposition[0]) {

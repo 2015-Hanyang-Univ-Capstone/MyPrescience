@@ -1,9 +1,34 @@
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:choiceMode="singleChoice"
-    android:divider="@color/color_base_background" android:dividerHeight="1dp"
-    android:background="#FFF"
-    tools:context="com.myprescience.ui.NavigationDrawerFragment" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.myprescience.ui.NavigationDrawerFragment" >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:src="@drawable/logo"/>
+
+    </FrameLayout>
+
+
+    <ListView
+        android:id="@+id/naviListview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:choiceMode="singleChoice"
+        android:divider="@color/color_base_background"
+        android:dividerHeight="1dp"
+        android:background="#FFF" />
+
+</LinearLayout>
+
 
 
 

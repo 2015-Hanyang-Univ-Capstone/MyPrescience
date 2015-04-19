@@ -22,6 +22,7 @@ import com.facebook.Session;
 import com.facebook.model.GraphUser;
 import com.myprescience.R;
 import com.myprescience.util.Indicator;
+import com.myprescience.util.RoundImage;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -138,13 +139,14 @@ public class MyPageActivity extends ActionBarActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return getCircularBitmapFrom(myBitmap);
+            return myBitmap;
         }
 
         @Override
         protected void onPostExecute(Bitmap albumArt) {
             super.onPostExecute(albumArt);
-            facebook_profile.setImageBitmap(albumArt);
+            RoundImage roundedImage = new RoundImage(albumArt);
+            facebook_profile.setImageDrawable(roundedImage);
             if(mIndicator.isShowing())
                 mIndicator.hide();
         }

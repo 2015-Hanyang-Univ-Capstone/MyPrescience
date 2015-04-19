@@ -3,6 +3,8 @@ package com.myprescience.ui;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import com.myprescience.R;
 import com.myprescience.util.Indicator;
+import com.myprescience.util.RoundImage;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -34,9 +37,11 @@ import static com.myprescience.util.Server.FIRST_MODE;
 import static com.myprescience.util.Server.GENRE_TOP;
 import static com.myprescience.util.Server.HOT100;
 import static com.myprescience.util.Server.INSTRUMENTALNESS_SONGS;
+import static com.myprescience.util.Server.KOR_SONGS;
 import static com.myprescience.util.Server.LIVENESS_SONGS;
 import static com.myprescience.util.Server.LOUDNESS_SONGS;
 import static com.myprescience.util.Server.MODE;
+import static com.myprescience.util.Server.MYP_RANK_SONGS;
 import static com.myprescience.util.Server.RANDOM_MODE;
 import static com.myprescience.util.Server.RANDOM_SONGS;
 import static com.myprescience.util.Server.RATING_API;
@@ -114,7 +119,10 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
             });
         } else if(MODE == RANDOM_MODE) {
             MIN_SELECTED_SONG = 300;
-            rightButton.setImageResource(R.drawable.filter_menu);
+            Bitmap image_bit = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.icon_filter);
+            RoundImage image = new RoundImage(image_bit);
+            rightButton.setImageDrawable(image);
             rightButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -293,6 +301,9 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
 
                 new getSimpleSongTask().execute(SERVER_ADDRESS+BILLBOARD_API+GENRE_TOP+genres+WITH_USER+USER_ID);
                 break;
+            case 2 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+KOR_SONGS+WITH_USER+USER_ID);
+                break;
             case 4 :
                 new getSimpleSongTask().execute(SERVER_ADDRESS+BILLBOARD_API+HOT100+WITH_USER+USER_ID);
                 break;
@@ -319,6 +330,9 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
                 break;
             case 12 :
                 new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+INSTRUMENTALNESS_SONGS+WITH_USER+USER_ID);
+                break;
+            case 13 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+MYP_RANK_SONGS+WITH_USER+USER_ID);
                 break;
         }
     }

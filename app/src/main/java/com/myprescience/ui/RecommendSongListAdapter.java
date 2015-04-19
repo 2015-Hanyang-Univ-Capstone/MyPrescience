@@ -35,14 +35,14 @@ import static com.myprescience.util.Server.getStringFromUrl;
 /**
  * Created by dongjun on 15. 4. 6..
  */
-public class MySongListAdapter extends BaseAdapter {
+public class RecommendSongListAdapter extends BaseAdapter {
 
     private int userId;
     private Context mContext = null;
     private ArrayList<SongData> mListData = new ArrayList<>();
     private ViewHolder holder;
 
-    public MySongListAdapter(Context mContext, int _userId) {
+    public RecommendSongListAdapter(Context mContext, int _userId) {
         super();
         this.mContext = mContext;
         this.userId = _userId;
@@ -65,15 +65,15 @@ public class MySongListAdapter extends BaseAdapter {
             holder = new ViewHolder();
 
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.list_item_mysong, null);
+            convertView = inflater.inflate(R.layout.list_item_recommendsong, null);
 
-            holder.albumImageView = (ImageView) convertView.findViewById(R.id.albumArtView);
-            holder.titleTextView = (TextView) convertView.findViewById(R.id.titleTextView);
-            holder.artistTextView = (TextView) convertView.findViewById(R.id.artistTextView);
-            holder.ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar);
+            holder.albumImageView = (ImageView) convertView.findViewById(R.id.recommendAlbumArtImageView);
+            holder.titleTextView = (TextView) convertView.findViewById(R.id.recommendTitleTextView);
+            holder.artistTextView = (TextView) convertView.findViewById(R.id.recommendArtistTextView);
+//            holder.ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar);
 
-            LayerDrawable stars = (LayerDrawable) holder.ratingBar.getProgressDrawable();
-            stars.getDrawable(2).setColorFilter(Color.parseColor("#FFD700"), PorterDuff.Mode.SRC_ATOP);
+//            LayerDrawable stars = (LayerDrawable) holder.ratingBar.getProgressDrawable();
+//            stars.getDrawable(2).setColorFilter(Color.parseColor("#FFD700"), PorterDuff.Mode.SRC_ATOP);
 
             convertView.setTag(holder);
         }else{
@@ -92,7 +92,7 @@ public class MySongListAdapter extends BaseAdapter {
 
         holder.titleTextView.setText(mData.title);
         holder.artistTextView.setText(mData.artist);
-        holder.ratingBar.setProgress(mData.rating);
+//        holder.ratingBar.setProgress(mData.rating);
 
         holder.position = position;
 
@@ -112,7 +112,7 @@ public class MySongListAdapter extends BaseAdapter {
             holder.albumImageView.setImageResource(R.drawable.icon_none);
         }
         holder.albumImageView.setAdjustViewBounds(true);
-        holder.ratingBar.setTag(position);
+//        holder.ratingBar.setTag(position);
 
         return convertView;
     }
@@ -167,7 +167,7 @@ public class MySongListAdapter extends BaseAdapter {
             }
 
             JSONArray images = (JSONArray) album.get("images");
-            JSONObject image = (JSONObject) images.get(1);
+            JSONObject image = (JSONObject) images.get(0);
 
             // Image 역시 UI Thread에서 바로 작업 불가.
             Bitmap myBitmap = null;
@@ -194,6 +194,15 @@ public class MySongListAdapter extends BaseAdapter {
             }
         }
     }
+
+    public class ViewHolder {
+        public ImageView albumImageView;
+        public TextView titleTextView;
+        public TextView artistTextView;
+        public RatingBar ratingBar;
+        public int position;
+    }
+
 
 
 }

@@ -19,10 +19,10 @@ public class Server {
     static public int USER_ID = 0;
     static public int MODE, RANDOM_MODE = 0, FIRST_MODE = 1, KPOP_MODE = 2, POP_MODE = 3, BILLBOARDHOT_MODE = 4, VALANCE_MODE = 5,
                     LOUDNESS_MODE = 6, DANCABILITY_MODE = 7, ENERGY_MODE = 8, LIVENESS_MODE = 9, SPEECHINESS_MODE = 10,
-                    ACOUSTIC_MODE = 11, INSTRUMENTAL_MODE = 12;
+                    ACOUSTIC_MODE = 11, INSTRUMENTAL_MODE = 12, RANK_ORDER_MODE = 13;
 
-//    static public String SERVER_ADDRESS = "http://218.37.209.129/MyPrescience/db";
-    static public String SERVER_ADDRESS = "http://172.200.152.155:8888/MyPrescience/db";
+    static public String SERVER_ADDRESS = "http://218.37.209.129/MyPrescience/db";
+//    static public String SERVER_ADDRESS = "http://172.200.152.155:8888/MyPrescience/db";
 //    static public String SERVER_ADDRESS = "http://166.104.245.89/MyPrescience/db";
     static public String SPOTIFY_API = "https://api.spotify.com/v1/";
     static public String WITH_USER = "&user_id=";
@@ -34,6 +34,7 @@ public class Server {
     static public String SONG_API = "/Song.php?query=";
     static public String SONG_WITH_ID = "selectAllWithId&id=";
     static public String RANDOM_SONGS = "selectRanSongs";
+    static public String KOR_SONGS = "selectKorSongs";
     static public String VALENCE_SONGS = "selectValenceSongs";
     static public String LOUDNESS_SONGS = "selectLoudnessSongs";
     static public String DANCEABILITY_SONGS = "selectDanceabilitySongs";
@@ -42,6 +43,8 @@ public class Server {
     static public String SPEECHINCESS_SONGS = "selectSpeechinessSongs";
     static public String ACOUSTIC_SONGS = "selectAcousticnessSongs";
     static public String INSTRUMENTALNESS_SONGS = "selectInstrumentalnessSongs";
+    static public String MYP_HOT_SONGS = "selectMyPHotSongs";
+    static public String MYP_RANK_SONGS = "selectMypRankSongs";
 
     static public String BILLBOARD_API = "/Billboard.php?query=";
     static public String GENRE_TOP = "selectGenreTop&genres=";

@@ -55,7 +55,8 @@ public class NavigationDrawerFragment extends Fragment {
     private ActionBarDrawerToggle mDrawerToggle;
 
     private DrawerLayout mDrawerLayout;
-    private ListView mDrawerListView;
+    private ViewGroup mNaviGroup;
+    private ListView mNaviListView;
     private View mFragmentContainerView;
 
     private int mCurrentSelectedPosition = 0;
@@ -95,9 +96,11 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mDrawerListView = (ListView) inflater.inflate(
+        mNaviGroup = (ViewGroup) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
-        mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        mNaviListView = (ListView) mNaviGroup.getChildAt(1);
+        mNaviListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectItem(position);
@@ -111,16 +114,16 @@ public class NavigationDrawerFragment extends Fragment {
                 "첫 시작 장르선택"
         };
         int[] images = new int[]{
-                R.drawable.icon_pop, R.drawable.icon_rnb,
-                R.drawable.icon_rock, R.drawable.icon_dance,
+                R.drawable.icon_home, R.drawable.icon_myprescience,
+                R.drawable.icon_rating, R.drawable.icon_mypage,
                 R.drawable.icon_jazz
         };
 
         mNaviAdapter = new NaviAdapter(
                 getActionBar().getThemedContext(), titles, images, selectedposition);
-        mDrawerListView.setAdapter(mNaviAdapter);
-        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        return mDrawerListView;
+        mNaviListView.setAdapter(mNaviAdapter);
+        mNaviListView.setItemChecked(mCurrentSelectedPosition, true);
+        return mNaviGroup;
     }
 
     public boolean isDrawerOpen() {
@@ -199,15 +202,12 @@ public class NavigationDrawerFragment extends Fragment {
         });
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-
-
     }
 
     private void selectItem(int position) {
         mCurrentSelectedPosition = position;
-        if (mDrawerListView != null) {
-            mDrawerListView.setItemChecked(position, true);
+        if (mNaviListView != null) {
+            mNaviListView.setItemChecked(position, true);
         }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
