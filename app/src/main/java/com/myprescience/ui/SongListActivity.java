@@ -71,7 +71,6 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
     private int song_count;
     private String genres;
     private Intent modeIntent;
-    private int totalListSize;
 
     private Indicator mIndicator;
 
@@ -84,6 +83,7 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
     private ProgressBar progressBar;
     private boolean mLockListView = false;
 
+    private int totalListSize;
     private int mListCount;
     private int mListAddCount;
 

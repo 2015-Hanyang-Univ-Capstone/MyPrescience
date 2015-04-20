@@ -70,7 +70,7 @@ public class RecommendSongListAdapter extends BaseAdapter {
             holder.albumImageView = (ImageView) convertView.findViewById(R.id.recommendAlbumArtImageView);
             holder.titleTextView = (TextView) convertView.findViewById(R.id.recommendTitleTextView);
             holder.artistTextView = (TextView) convertView.findViewById(R.id.recommendArtistTextView);
-//            holder.ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar);
+            holder.ratingTextView = (TextView) convertView.findViewById(R.id.recommendRatingTextView);
 
 //            LayerDrawable stars = (LayerDrawable) holder.ratingBar.getProgressDrawable();
 //            stars.getDrawable(2).setColorFilter(Color.parseColor("#FFD700"), PorterDuff.Mode.SRC_ATOP);
@@ -92,6 +92,11 @@ public class RecommendSongListAdapter extends BaseAdapter {
 
         holder.titleTextView.setText(mData.title);
         holder.artistTextView.setText(mData.artist);
+
+        float rating = Math.round(mData.rating/20)/10;
+        Log.e("rating", rating+"");
+//        String.format("(%.1f)", avg/2)
+        holder.ratingTextView.setText(String.format("%.1f", rating));
 //        holder.ratingBar.setProgress(mData.rating);
 
         holder.position = position;
@@ -199,7 +204,7 @@ public class RecommendSongListAdapter extends BaseAdapter {
         public ImageView albumImageView;
         public TextView titleTextView;
         public TextView artistTextView;
-        public RatingBar ratingBar;
+        public TextView ratingTextView;
         public int position;
     }
 

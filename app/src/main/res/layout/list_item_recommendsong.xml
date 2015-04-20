@@ -22,7 +22,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@drawable/test"
                 android:adjustViewBounds="true"/>
 
             <LinearLayout
@@ -226,7 +225,7 @@
         android:padding="5dp">
 
         <TextView
-            android:id="@+id/titleTextView"
+            android:id="@+id/recommendRatingTextView"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:text="5.0"
