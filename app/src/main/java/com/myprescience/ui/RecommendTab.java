@@ -115,5 +115,12 @@ public class RecommendTab extends Fragment {
                 e.printStackTrace();
             }
         }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if ( !mIndicator.isShowing())
+                mIndicator.show();
+        }
     }
 }

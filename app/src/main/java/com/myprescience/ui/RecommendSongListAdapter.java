@@ -93,12 +93,8 @@ public class RecommendSongListAdapter extends BaseAdapter {
         holder.titleTextView.setText(mData.title);
         holder.artistTextView.setText(mData.artist);
 
-        float rating = Math.round(mData.rating/20)/10;
-        Log.e("rating", rating+"");
-//        String.format("(%.1f)", avg/2)
-        holder.ratingTextView.setText(String.format("%.1f", rating));
-//        holder.ratingBar.setProgress(mData.rating);
-
+        float rating = Math.round(mData.rating/20.0);
+        holder.ratingTextView.setText(String.format("%.1f", rating/10.0));
         holder.position = position;
 
         // 앨범아트 가져오기
