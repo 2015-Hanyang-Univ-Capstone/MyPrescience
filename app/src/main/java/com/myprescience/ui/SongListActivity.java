@@ -49,11 +49,11 @@ import static com.myprescience.util.Server.SELECT_SONG_COUNT;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SONG_API;
 import static com.myprescience.util.Server.SPEECHINCESS_SONGS;
-import static com.myprescience.util.Server.USER_ID;
 import static com.myprescience.util.Server.VALENCE_SONGS;
 import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.getLevel;
 import static com.myprescience.util.Server.getStringFromUrl;
+import static com.myprescience.util.Server.getUSER_ID;
 
 /**
  * 곡 리스트 출력하는 액티비티
@@ -86,14 +86,15 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
     private int totalListSize;
     private int mListCount;
     private int mListAddCount;
+    private JSONArray mSongArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_list);
 
-        mListCount = 0;
-        mListAddCount = 5;
+        initSongList();
+
         mIndicator = new Indicator(this);
 
         mFilterFragment = (FrameLayout) findViewById(R.id.filterFragment_Container);
@@ -132,10 +133,10 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
                 }
             });
 
-            new selectSongCountTask().execute(SERVER_ADDRESS+RATING_API+SELECT_SONG_COUNT+WITH_USER+USER_ID);
+            new selectSongCountTask().execute(SERVER_ADDRESS+RATING_API+SELECT_SONG_COUNT+WITH_USER+getUSER_ID());
         }
 
-        songListAdapter = new SongListAdapter(SongListActivity.this, selectCount, progressBar, textView, rightButton, USER_ID);
+        songListAdapter = new SongListAdapter(SongListActivity.this, selectCount, progressBar, textView, rightButton, getUSER_ID());
         songListView = (ListView) findViewById(R.id.songListView);
         songListView.setAdapter(songListAdapter);
 
@@ -188,11 +189,17 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
         mFilterFragment.setVisibility(Visibility);
     }
 
+    public void initSongList() {
+        mListCount = 0;
+        mListAddCount = 5;
+        mSongArray = null;
+    }
+
     @Override
     public void onFilterSelected(int mode) {
-        mListCount = 0;
+        initSongList();
         MODE = mode;
-        songListAdapter = new SongListAdapter(SongListActivity.this, selectCount, progressBar, textView, rightButton, USER_ID);
+        songListAdapter = new SongListAdapter(SongListActivity.this, selectCount, progressBar, textView, rightButton, getUSER_ID());
         songListView.setAdapter(songListAdapter);
         songListAdapter.notifyDataSetChanged();
         selectSongsWithMode(mode, modeIntent);
@@ -235,7 +242,9 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
 
         @Override
         protected String doInBackground(String... url) {
-            return getStringFromUrl(url[0]);
+            if(mSongArray == null)
+                return getStringFromUrl(url[0]);
+            return null;
         }
 
         @Override
@@ -244,15 +253,15 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
 //            mLockListView = true;
 
             try {
-                Log.e("songJSON", songJSON);
                 JSONParser jsonParser = new JSONParser();
-                JSONArray songArray = (JSONArray) jsonParser.parse(songJSON);
-                totalListSize = songArray.size();
-
+                if(songJSON != null) {
+                    mSongArray = (JSONArray) jsonParser.parse(songJSON);
+                    totalListSize = mSongArray.size();
+                }
                 // mListCount는 추가 로드할 때 마다 10씩 증가
                 for(int i = mListCount; i < mListCount+mListAddCount; i ++) {
 
-                    JSONObject song = (JSONObject) jsonParser.parse(songArray.get(i).toString());
+                    JSONObject song = (JSONObject) jsonParser.parse(mSongArray.get(i).toString());
 
                     String id = (String)song.get("id");
                     String title = (String)song.get("title");
@@ -293,46 +302,46 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
 
         switch(mode) {
             case 0 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+RANDOM_SONGS+WITH_USER+USER_ID);
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+RANDOM_SONGS+WITH_USER+getUSER_ID());
                 break;
             case 1 :
                 ArrayList<String> selectGenre = intent.getExtras().getStringArrayList("selectGenre");
                 genres = TextUtils.join(",", selectGenre);
 
-                new getSimpleSongTask().execute(SERVER_ADDRESS+BILLBOARD_API+GENRE_TOP+genres+WITH_USER+USER_ID);
+                new getSimpleSongTask().execute(SERVER_ADDRESS+BILLBOARD_API+GENRE_TOP+genres+WITH_USER+getUSER_ID());
                 break;
             case 2 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+KOR_SONGS+WITH_USER+USER_ID);
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+KOR_SONGS+WITH_USER+getUSER_ID());
                 break;
             case 4 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+BILLBOARD_API+HOT100+WITH_USER+USER_ID);
+                new getSimpleSongTask().execute(SERVER_ADDRESS+BILLBOARD_API+HOT100+WITH_USER+getUSER_ID());
                 break;
             case 5 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+VALENCE_SONGS+WITH_USER+USER_ID);
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+VALENCE_SONGS+WITH_USER+getUSER_ID());
                 break;
             case 6 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+LOUDNESS_SONGS+WITH_USER+USER_ID);
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+LOUDNESS_SONGS+WITH_USER+getUSER_ID());
                 break;
             case 7 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+DANCEABILITY_SONGS+WITH_USER+USER_ID);
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+DANCEABILITY_SONGS+WITH_USER+getUSER_ID());
                 break;
             case 8 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+ENERGY_SONGS+WITH_USER+USER_ID);
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+ENERGY_SONGS+WITH_USER+getUSER_ID());
                 break;
             case 9 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+LIVENESS_SONGS+WITH_USER+USER_ID);
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+LIVENESS_SONGS+WITH_USER+getUSER_ID());
                 break;
             case 10 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SPEECHINCESS_SONGS+WITH_USER+USER_ID);
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SPEECHINCESS_SONGS+WITH_USER+getUSER_ID());
                 break;
             case 11 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+ACOUSTIC_SONGS+WITH_USER+USER_ID);
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+ACOUSTIC_SONGS+WITH_USER+getUSER_ID());
                 break;
             case 12 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+INSTRUMENTALNESS_SONGS+WITH_USER+USER_ID);
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+INSTRUMENTALNESS_SONGS+WITH_USER+getUSER_ID());
                 break;
             case 13 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+MYP_RANK_SONGS+WITH_USER+USER_ID);
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+MYP_RANK_SONGS+WITH_USER+getUSER_ID());
                 break;
         }
     }

@@ -38,7 +38,9 @@ import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.USER_API;
 import static com.myprescience.util.Server.USER_ID_WITH_FACEBOOK_ID;
 import static com.myprescience.util.Server.WIDTH_150;
+import static com.myprescience.util.Server.getFACEBOOK_PROFILE_BITMAP;
 import static com.myprescience.util.Server.getStringFromUrl;
+import static com.myprescience.util.Server.getUSER_NAME;
 
 /**
  * Created by dongjun on 15. 4. 6..
@@ -67,23 +69,11 @@ public class MyPageActivity extends ActionBarActivity {
         mIndicator = new Indicator(this);
 
         facebook_profile = (ImageView) findViewById(R.id.profileImageView);
-
-        Session session = Session.getActiveSession();
-        if (session != null) {
-            if (session.isOpened()) {
-                Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
-                    // callback after Graph API response with user object
-                    @Override
-                    public void onCompleted(GraphUser user, Response response) {
-                        new searchUserTask().execute(SERVER_ADDRESS + USER_API + USER_ID_WITH_FACEBOOK_ID + user.getId());
-                        new LoadProfileImage().execute(FACEBOOK_PROFILE+user.getId()+WIDTH_150);
-                        nameTextView.setText(user.getName());
-                    }
-                });
-            }
-        }
+        facebook_profile.setImageDrawable(getFACEBOOK_PROFILE_BITMAP());
 
         nameTextView = (TextView) findViewById(R.id.nameTextView);
+        nameTextView.setText(getUSER_NAME());
+
         songTextView = (TextView) findViewById(R.id.mysongTextView);
         ArtistTextView = (TextView) findViewById(R.id.myartistTextView);
         AlbumTextView = (TextView) findViewById(R.id.myalbumTextView);
@@ -97,88 +87,6 @@ public class MyPageActivity extends ActionBarActivity {
             }
         });
 
-    }
-
-    class searchUserTask extends AsyncTask<String, String, Void> {
-
-        @Override
-        protected Void doInBackground(String... parameter) {
-            String userIdJSON = getStringFromUrl(parameter[0]);
-            JSONParser jsonParser = new JSONParser();
-            JSONArray users = null;
-            try {
-                users = (JSONArray) jsonParser.parse(userIdJSON);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            if(users != null) {
-                JSONObject user = (JSONObject) users.get(0);
-                userId = Integer.parseInt((String)user.get("user_id"));
-            }
-            return null;
-        }
-    }
-
-    class LoadProfileImage extends AsyncTask<String, String, Bitmap> {
-
-        public LoadProfileImage(){
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... url) {
-            Bitmap myBitmap = null;
-            try {
-                URL urlConnection = new URL(url[0]);
-                HttpURLConnection connection = (HttpURLConnection) urlConnection
-                        .openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                myBitmap = BitmapFactory.decodeStream(input);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return myBitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap albumArt) {
-            super.onPostExecute(albumArt);
-            RoundImage roundedImage = new RoundImage(albumArt);
-            facebook_profile.setImageDrawable(roundedImage);
-            if(mIndicator.isShowing())
-                mIndicator.hide();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            if(!mIndicator.isShowing())
-                mIndicator.show();
-        }
-
-    }
-
-    public Bitmap getCircularBitmapFrom(Bitmap bitmap) {
-        if (bitmap == null || bitmap.isRecycled()) {
-            return null;
-        }
-        float radius = bitmap.getWidth() > bitmap.getHeight() ? ((float) bitmap
-                .getHeight()) / 2f : ((float) bitmap.getWidth()) / 2f;
-        Bitmap canvasBitmap = Bitmap.createBitmap(bitmap.getWidth(),
-                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        BitmapShader shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP,
-                Shader.TileMode.CLAMP);
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setShader(shader);
-
-        Canvas canvas = new Canvas(canvasBitmap);
-
-        canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
-                radius, paint);
-
-        return canvasBitmap;
     }
 
     // 뒤로가기 버튼

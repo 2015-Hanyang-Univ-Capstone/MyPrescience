@@ -1,6 +1,8 @@
 package com.myprescience.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -15,20 +17,28 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 import com.myprescience.R;
+import com.myprescience.util.RoundImage;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Arrays;
 
+import static com.myprescience.util.Server.FACEBOOK_PROFILE;
 import static com.myprescience.util.Server.INSERT_FACEBOOK_ID;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.USER_API;
-import static com.myprescience.util.Server.USER_ID;
 import static com.myprescience.util.Server.USER_ID_WITH_FACEBOOK_ID;
+import static com.myprescience.util.Server.WIDTH_150;
 import static com.myprescience.util.Server.getStringFromUrl;
+import static com.myprescience.util.Server.setFACEBOOK_PROFILE_BITMAP;
+import static com.myprescience.util.Server.setUSER_ID;
+import static com.myprescience.util.Server.setUSER_NAME;
 
 
 public class LoginActivity extends FragmentActivity {
@@ -64,14 +74,8 @@ public class LoginActivity extends FragmentActivity {
                     @Override
                     public void onCompleted(GraphUser user, Response response) {
                         Toast.makeText(LoginActivity.this, user.getName()+"님 환영합니다!", Toast.LENGTH_LONG).show();
-
-                        new insertUserTask().execute(SERVER_ADDRESS+USER_API+INSERT_FACEBOOK_ID+user.getId());
-                        new searchUserTask().execute(SERVER_ADDRESS+USER_API+USER_ID_WITH_FACEBOOK_ID+user.getId());
-
-//                        Intent intent = new Intent(LoginActivity.this, RecommendActivity.class);
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
+                        initSetting(user);
+                        Toast.makeText(LoginActivity.this, "Loading...", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -88,10 +92,8 @@ public class LoginActivity extends FragmentActivity {
                         @Override
                         public void onCompleted(GraphUser user, Response response) {
                             Toast.makeText(LoginActivity.this, user.getName()+"님 환영합니다!", Toast.LENGTH_SHORT).show();
-
-                            Intent intent = new Intent(LoginActivity.this, SelectGenreActivity.class);
-                            startActivity(intent);
-                            finish();
+                            initSetting(user);
+                            Toast.makeText(LoginActivity.this, "Loading...", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -113,6 +115,13 @@ public class LoginActivity extends FragmentActivity {
 //        });
     }
 
+    public void initSetting(GraphUser user) {
+        new insertUserTask().execute(SERVER_ADDRESS+USER_API+INSERT_FACEBOOK_ID+user.getId());
+        new searchUserTask().execute(SERVER_ADDRESS+USER_API+USER_ID_WITH_FACEBOOK_ID+user.getId());
+        new LoadProfileImage().execute(FACEBOOK_PROFILE+user.getId()+WIDTH_150);
+        setUSER_NAME(user.getName());
+    }
+
     class searchUserTask extends AsyncTask<String, String, Void> {
 
         @Override
@@ -128,17 +137,53 @@ public class LoginActivity extends FragmentActivity {
 
             if(users != null) {
                 JSONObject user = (JSONObject) users.get(0);
-                USER_ID = Integer.parseInt((String)user.get("user_id"));
+                setUSER_ID(Integer.parseInt((String) user.get("user_id")));
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
         }
     }
 
     class insertUserTask extends AsyncTask<String, String, String> {
-
         @Override
         protected String doInBackground(String... url) {
             return getStringFromUrl(url[0]);
+        }
+    }
+
+    class LoadProfileImage extends AsyncTask<String, String, Bitmap> {
+
+        public LoadProfileImage() {
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... url) {
+            Bitmap myBitmap = null;
+            try {
+                URL urlConnection = new URL(url[0]);
+                HttpURLConnection connection = (HttpURLConnection) urlConnection
+                        .openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                myBitmap = BitmapFactory.decodeStream(input);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return myBitmap;
+        }
+        @Override
+        protected void onPostExecute(Bitmap albumArt) {
+            super.onPostExecute(albumArt);
+            setFACEBOOK_PROFILE_BITMAP(albumArt);
+
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 

@@ -14,20 +14,20 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="3"
+            android:weightSum="5"
             android:background="#FFF">
 
             <ImageView
                 android:id="@+id/recommendAlbumArtImageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:adjustViewBounds="true"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:orientation="vertical"
                 android:layout_gravity="center"
                 android:padding="2dp">
@@ -39,6 +39,7 @@
                     android:text="Title"
                     android:textColor="@color/color_base_blue"
                     android:layout_gravity="center"
+                    android:adjustViewBounds="true"
                     android:textSize="14sp" />
 
                 <TextView
@@ -48,6 +49,7 @@
                     android:text="Artist"
                     android:textColor="@color/color_base_light_blue"
                     android:layout_gravity="center"
+                    android:adjustViewBounds="true"
                     android:textSize="12sp" />
 
                 <TextView
@@ -57,40 +59,8 @@
                     android:text="Genre"
                     android:textColor="@color/color_base_light_blue"
                     android:layout_gravity="center"
-                    android:textSize="10sp" />
-
-                <!--<LinearLayout-->
-                    <!--android:orientation="horizontal"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content" >-->
-
-                    <!--<RatingBar-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:id="@+id/avarageRatingBar"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:rating="10"-->
-                        <!--style="?android:attr/ratingBarStyleSmall" />-->
-
-                    <!--<TextView-->
-                        <!--android:id="@+id/avarageTextView"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="(5.0)"-->
-                        <!--android:textColor="@color/color_base_blue"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:textAppearance="?android:attr/textAppearanceSmall" />-->
-
-                <!--</LinearLayout>-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/evaluateCountTextView"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="1.7k 명이 평가했습니다."-->
-                    <!--android:textColor="@color/color_base_blue"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:textSize="10sp" />-->
+                    android:adjustViewBounds="true"
+                    android:textSize="8sp" />
 
                 <TableLayout
                     android:layout_width="match_parent"
@@ -103,7 +73,7 @@
                         android:weightSum="3" >
 
                         <Button
-                            android:id="@+id/valenceProperty"
+                            android:id="@+id/recommendValenceButton"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
@@ -113,7 +83,7 @@
                             android:text="균형\n있는" />
 
                         <Button
-                            android:id="@+id/test1s"
+                            android:id="@+id/recommendSpeechinessButton"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
@@ -123,12 +93,12 @@
                             android:text="말이\n많은" />
 
                         <Button
-                            android:id="@+id/est11"
+                            android:id="@+id/recommendEnergyButton"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:textColor="@android:color/white"
-                            android:background="@drawable/rectangle_active"
+                            android:background="@drawable/rectangle_not_active"
                             android:textSize="10dp"
                             android:text="에너지\n넘치는" />
 
@@ -140,27 +110,27 @@
                         android:weightSum="3" >
 
                         <Button
-                            android:id="@+id/valenc312eProperty"
+                            android:id="@+id/recommendStudioButton"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:textColor="@android:color/white"
-                            android:background="@drawable/rectangle_active"
+                            android:background="@drawable/rectangle_not_active"
                             android:textSize="10dp"
                             android:text="스튜\n디오" />
 
                         <Button
-                            android:id="@+id/tes423t1s"
+                            android:id="@+id/recommendDanceablilityButton"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:textColor="@android:color/white"
-                            android:background="@drawable/rectangle_active"
+                            android:background="@drawable/rectangle_not_active"
                             android:textSize="10dp"
                             android:text="흥이\n나는" />
 
                         <Button
-                            android:id="@+id/est2111"
+                            android:id="@+id/recommendAcousticButton"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
@@ -177,7 +147,7 @@
                         android:weightSum="3" >
 
                         <Button
-                            android:id="@+id/vale41nceProperty"
+                            android:id="@+id/recommendInstrumentalnessButton"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
@@ -187,17 +157,17 @@
                             android:text="연주곡" />
 
                         <Button
-                            android:id="@+id/test321s"
+                            android:id="@+id/recommendVocalButton"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:textColor="@android:color/white"
-                            android:background="@drawable/rectangle_active"
+                            android:background="@drawable/rectangle_not_active"
                             android:textSize="10dp"
                             android:text="보컬" />
 
                         <Button
-                            android:id="@+id/est1111"
+                            android:id="@+id/recommendLivenessButton"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
@@ -217,24 +187,37 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="7dp"
-        android:layout_marginTop="7dp"
-        android:padding="5dp">
+        android:orientation="vertical"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:background="@drawable/ring_rating">
 
         <TextView
             android:id="@+id/recommendRatingTextView"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
             android:text="5.0"
-            android:gravity="center"
             android:paddingLeft="1dp"
             android:paddingRight="1dp"
             android:textSize="20dp"
             android:textColor="@color/color_base_blue"
-            android:background="@drawable/ring_rating" />
+             />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="예상평점"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:textSize="12dp"
+            android:textColor="@color/color_base_blue"
+            />
 
     </LinearLayout>
 

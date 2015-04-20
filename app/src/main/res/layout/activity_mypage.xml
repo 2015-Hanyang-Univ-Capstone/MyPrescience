@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/color_base_light_blue"
-            android:text="Rock Mania"
+            android:text="Beginner"
             android:id="@+id/genresTextView"
             android:layout_gravity="center" />
 

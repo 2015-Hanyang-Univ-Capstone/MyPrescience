@@ -7,13 +7,35 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white">
+        android:layout_height="160dp"
+        android:background="@color/color_base_background">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:src="@drawable/logo"/>
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:padding="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="60dp"
+            android:textColor="@color/color_base_blue"
+            android:text="Name" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="90dp"
+            android:textColor="@color/color_base_blue"
+            android:text="Level" />
 
     </FrameLayout>
 

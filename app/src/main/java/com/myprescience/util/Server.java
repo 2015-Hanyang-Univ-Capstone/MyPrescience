@@ -1,5 +1,7 @@
 package com.myprescience.util;
 
+import android.graphics.Bitmap;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -16,14 +18,25 @@ import java.io.InputStreamReader;
  */
 public class Server {
 
-    static public int USER_ID = 0;
+    static private int USER_ID = 0;
+    static public int getUSER_ID() { return USER_ID; };
+    static public void setUSER_ID(int user_id) { USER_ID = user_id; };
+
+    static private RoundImage FACEBOOK_PROFILE_BITMAP = null;
+    static public RoundImage getFACEBOOK_PROFILE_BITMAP() { return FACEBOOK_PROFILE_BITMAP; };
+    static public void setFACEBOOK_PROFILE_BITMAP(Bitmap image) { FACEBOOK_PROFILE_BITMAP = new RoundImage(image); };
+
+    static private String USER_NAME = "";
+    static public String getUSER_NAME() { return USER_NAME; };
+    static public void setUSER_NAME(String user_name) { USER_NAME = user_name; };
+
     static public int MODE, RANDOM_MODE = 0, FIRST_MODE = 1, KPOP_MODE = 2, POP_MODE = 3, BILLBOARDHOT_MODE = 4, VALANCE_MODE = 5,
                     LOUDNESS_MODE = 6, DANCABILITY_MODE = 7, ENERGY_MODE = 8, LIVENESS_MODE = 9, SPEECHINESS_MODE = 10,
                     ACOUSTIC_MODE = 11, INSTRUMENTAL_MODE = 12, RANK_ORDER_MODE = 13;
 
 //    static public String SERVER_ADDRESS = "http://218.37.209.129/MyPrescience/db";
-    static public String SERVER_ADDRESS = "http://172.200.152.155:8888/MyPrescience/db";
-//    static public String SERVER_ADDRESS = "http://166.104.245.89/MyPrescience/db";
+//    static public String SERVER_ADDRESS = "http://172.200.152.155:8888/MyPrescience/db";
+    static public String SERVER_ADDRESS = "http://166.104.245.89/MyPrescience/db";
     static public String SPOTIFY_API = "https://api.spotify.com/v1/";
     static public String WITH_USER = "&user_id=";
 

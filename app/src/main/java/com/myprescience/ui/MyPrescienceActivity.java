@@ -112,7 +112,7 @@ public class MyPrescienceActivity extends FragmentActivity implements
 			// below) with the page number as its lone argument.
 			switch (position) {
 			case 0:
-				return new RecommendTab(mContext);
+				return new RecommendSongListTab(mContext);
 			case 1:
 				return new SearchSongTab(mContext);
 			}

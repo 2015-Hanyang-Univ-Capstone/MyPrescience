@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -39,7 +40,7 @@ public class RecommendSongListAdapter extends BaseAdapter {
 
     private int userId;
     private Context mContext = null;
-    private ArrayList<SongData> mListData = new ArrayList<>();
+    private ArrayList<RecommendSongData> mListData = new ArrayList<>();
     private ViewHolder holder;
 
     public RecommendSongListAdapter(Context mContext, int _userId) {
@@ -48,14 +49,36 @@ public class RecommendSongListAdapter extends BaseAdapter {
         this.userId = _userId;
     }
 
-    public void addItem(String _id, String _albumArtURL, String _title, String _artist, int _rating){
-        SongData temp = new SongData();
+    public void addItem(String _id, String _albumArtURL, String _title, String _artist, int _rating, String _genres, String _song_type,
+                        float _valence, float _danceability, float _energy, float _liveness, float _speechiness, float _acousticness,
+                        float _instrumentalness){
+        RecommendSongData temp = new RecommendSongData();
         temp.id = _id;
         temp.title = _title;
         temp.artist = _artist;
         temp.rating = _rating;
         temp.albumUrl = _albumArtURL;
         temp.albumArt = null;
+        temp.genres = _genres;
+        temp.valenceProperty = _valence;
+        temp.danceablilityProperty = _danceability;
+        temp.energyProperty = _energy;
+        temp.livenessProperty = _liveness;
+        temp.speechinessProperty = _speechiness;
+        temp.acousticProperty = _acousticness;
+        temp.instrumentalnessProperty = _instrumentalness;
+        temp.vocalProperty = false;
+        temp.studioProperty = false;
+
+        if(!_song_type.equals("")) {
+            String[] song_types = _song_type.split(",");
+            for(int i = 0; i < song_types.length; i++) {
+                if (song_types[i].equals("vocal"))
+                    temp.vocalProperty = true;
+                if (song_types[i].equals("studio"))
+                    temp.studioProperty = true;
+            }
+        }
         mListData.add(temp);
     }
 
@@ -71,6 +94,17 @@ public class RecommendSongListAdapter extends BaseAdapter {
             holder.titleTextView = (TextView) convertView.findViewById(R.id.recommendTitleTextView);
             holder.artistTextView = (TextView) convertView.findViewById(R.id.recommendArtistTextView);
             holder.ratingTextView = (TextView) convertView.findViewById(R.id.recommendRatingTextView);
+            holder.genreTextView = (TextView) convertView.findViewById(R.id.recommendGenreTextView);
+
+            holder.valenceButton = (Button) convertView.findViewById(R.id.recommendValenceButton);
+            holder.speechinessButton = (Button) convertView.findViewById(R.id.recommendSpeechinessButton);
+            holder.energyButton = (Button) convertView.findViewById(R.id.recommendEnergyButton);
+            holder.studioButton = (Button) convertView.findViewById(R.id.recommendStudioButton);
+            holder.danceablilityButton = (Button) convertView.findViewById(R.id.recommendAcousticButton);
+            holder.acousticButton = (Button) convertView.findViewById(R.id.recommendAcousticButton);
+            holder.instrumentalnessButton = (Button) convertView.findViewById(R.id.recommendInstrumentalnessButton);
+            holder.vocalButton = (Button) convertView.findViewById(R.id.recommendVocalButton);
+            holder.livenessButton = (Button) convertView.findViewById(R.id.recommendLivenessButton);
 
 //            LayerDrawable stars = (LayerDrawable) holder.ratingBar.getProgressDrawable();
 //            stars.getDrawable(2).setColorFilter(Color.parseColor("#FFD700"), PorterDuff.Mode.SRC_ATOP);
@@ -80,21 +114,26 @@ public class RecommendSongListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        final SongData mData = mListData.get(position);
-        holder.albumImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, SongActivity.class);
-                intent.putExtra("song_id", mData.id);
-                v.getContext().startActivity(intent);
-            }
-        });
+        final RecommendSongData mData = mListData.get(position);
+//        holder.albumImageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(mContext, SongActivity.class);
+//                intent.putExtra("song_id", mData.id);
+//                v.getContext().startActivity(intent);
+//            }
+//        });
 
         holder.titleTextView.setText(mData.title);
         holder.artistTextView.setText(mData.artist);
 
-        float rating = Math.round(mData.rating/20.0);
-        holder.ratingTextView.setText(String.format("%.1f", rating/10.0));
+        float rating = mData.rating;
+        if(rating < 100) {
+            rating = (float) (mData.rating/20.0);
+            holder.ratingTextView.setText(String.format("%.1f", rating));
+        } else {
+            holder.ratingTextView.setText(5.0+"");
+        }
         holder.position = position;
 
         // 앨범아트 가져오기
@@ -115,6 +154,28 @@ public class RecommendSongListAdapter extends BaseAdapter {
         holder.albumImageView.setAdjustViewBounds(true);
 //        holder.ratingBar.setTag(position);
 
+        holder.genreTextView.setText(mData.genres);
+
+        if(mData.valenceProperty > 0.8)
+            activePropertyButton(holder.valenceButton);
+        if(mData.speechinessProperty > 0.8)
+            activePropertyButton(holder.speechinessButton);
+        if(mData.energyProperty > 0.8)
+            activePropertyButton(holder.energyButton);
+        if(mData.danceablilityProperty > 0.8)
+            activePropertyButton(holder.danceablilityButton);
+        if(mData.acousticProperty > 0.8)
+            activePropertyButton(holder.acousticButton);
+        if(mData.instrumentalnessProperty > 0.8)
+            activePropertyButton(holder.instrumentalnessButton);
+        if(mData.livenessProperty > 0.8)
+            activePropertyButton(holder.livenessButton);
+        if(mData.vocalProperty)
+            activePropertyButton(holder.vocalButton);
+        if(mData.studioProperty)
+            activePropertyButton(holder.studioButton);
+
+
         return convertView;
     }
 
@@ -124,7 +185,7 @@ public class RecommendSongListAdapter extends BaseAdapter {
     }
 
     @Override
-    public SongData getItem(int position) {
+    public RecommendSongData getItem(int position) {
         return mListData.get(position);
     }
 
@@ -147,9 +208,9 @@ public class RecommendSongListAdapter extends BaseAdapter {
 
         private int mPosition;
         private ViewHolder mHolder = null;
-        private SongData songData;
+        private RecommendSongData songData;
 
-        public LoadAlbumArt(int positon, ViewHolder holder, SongData mSongData){
+        public LoadAlbumArt(int positon, ViewHolder holder, RecommendSongData mSongData){
             this.mPosition = positon;
             this.mHolder = holder;
             this.songData = mSongData;
@@ -196,12 +257,26 @@ public class RecommendSongListAdapter extends BaseAdapter {
         }
     }
 
+    public void activePropertyButton(Button button) {
+        button.setBackgroundResource(R.drawable.rectangle_active);
+    }
+
     public class ViewHolder {
         public ImageView albumImageView;
         public TextView titleTextView;
         public TextView artistTextView;
         public TextView ratingTextView;
         public int position;
+        public TextView genreTextView;
+        public Button valenceButton;
+        public Button speechinessButton;
+        public Button energyButton;
+        public Button studioButton;
+        public Button danceablilityButton;
+        public Button acousticButton;
+        public Button instrumentalnessButton;
+        public Button vocalButton;
+        public Button livenessButton;
     }
 
 

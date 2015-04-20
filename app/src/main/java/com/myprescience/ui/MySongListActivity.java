@@ -24,10 +24,10 @@ import static com.myprescience.util.Server.RATING_API;
 import static com.myprescience.util.Server.SELECT_MYSONGS;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.USER_API;
-import static com.myprescience.util.Server.USER_ID;
 import static com.myprescience.util.Server.USER_ID_WITH_FACEBOOK_ID;
 import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.getStringFromUrl;
+import static com.myprescience.util.Server.getUSER_ID;
 
 /**
  * Created by dongjun on 15. 4. 6..
@@ -41,6 +41,7 @@ public class MySongListActivity extends ActionBarActivity {
     private int mListCount;
     private int mListAddCount;
     private int totalListSize;
+    private JSONArray mSongArray;
 
     Indicator mIndicator;
 
@@ -69,10 +70,10 @@ public class MySongListActivity extends ActionBarActivity {
 
         gridView = (GridView) findViewById(R.id.mysongGridView);
 
-        mySongListAdapter = new MySongListAdapter(this, USER_ID);
+        mySongListAdapter = new MySongListAdapter(this, getUSER_ID());
         gridView.setAdapter(mySongListAdapter);
 
-        new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+WITH_USER+USER_ID);
+        new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+WITH_USER+getUSER_ID());
 
         gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -88,12 +89,12 @@ public class MySongListActivity extends ActionBarActivity {
                     mListCount += mListAddCount;
 //                        else if(totalItemCount+10 > totalListSize && !(totalItemCount >= totalListSize))
 //                            mListCount = totalListSize - (10+1);
-                    new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+WITH_USER+USER_ID);
+                    new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+WITH_USER+getUSER_ID());
                     mLockListView = true;
                 } else if(totalItemCount + mListAddCount >= totalListSize && totalListSize != 0) {
                     mListCount += mListAddCount;
                     mListAddCount =  totalListSize - mListCount;
-                    new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+WITH_USER+USER_ID);
+                    new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+WITH_USER+getUSER_ID());
                     Toast.makeText(getApplicationContext(), "노래를 전부 가져왔습니다.", Toast.LENGTH_LONG);
                     gridView.setOnScrollListener(null);
                 }
@@ -108,7 +109,9 @@ public class MySongListActivity extends ActionBarActivity {
 
         @Override
         protected String doInBackground(String... url) {
-            return getStringFromUrl(url[0]);
+            if (mSongArray == null)
+                return getStringFromUrl(url[0]);
+            return null;
         }
 
         @Override
@@ -118,16 +121,14 @@ public class MySongListActivity extends ActionBarActivity {
 
             try {
                 JSONParser jsonParser = new JSONParser();
-                JSONArray songArray = (JSONArray) jsonParser.parse(songJSON);
-                totalListSize = songArray.size();
 
-                // mListCount는 추가 로드할 때 마다 10씩 증가
-                Log.e("mListCount", mListCount + "");
-                Log.e("mListAddCount", mListAddCount+"");
+                if(songJSON != null) {
+                    mSongArray = (JSONArray) jsonParser.parse(songJSON);
+                    totalListSize = mSongArray.size();
+                }
                 for(int i = mListCount; i < mListCount+mListAddCount; i ++) {
 
-                    JSONObject song = (JSONObject) jsonParser.parse(songArray.get(i).toString());
-
+                    JSONObject song = (JSONObject) jsonParser.parse(mSongArray.get(i).toString());
                     String id = (String)song.get("id");
                     String title = (String)song.get("title");
                     String artist = (String)song.get("artist");

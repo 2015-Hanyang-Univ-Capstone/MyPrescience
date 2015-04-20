@@ -22,9 +22,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myprescience.R;
+
+import static com.myprescience.util.Server.getFACEBOOK_PROFILE_BITMAP;
+import static com.myprescience.util.Server.getUSER_NAME;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -98,6 +102,17 @@ public class NavigationDrawerFragment extends Fragment {
                              Bundle savedInstanceState) {
         mNaviGroup = (ViewGroup) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
+
+        ViewGroup framelayout = (ViewGroup) mNaviGroup.getChildAt(0);
+
+        ImageView ProfilImageView = (ImageView) framelayout.getChildAt(0);
+        ProfilImageView.setImageDrawable(getFACEBOOK_PROFILE_BITMAP());
+
+        TextView nameTextView = (TextView) framelayout.getChildAt(1);
+        nameTextView.setText(getUSER_NAME());
+
+        TextView levelTextView = (TextView) framelayout.getChildAt(2);
+        levelTextView.setText("Beginner");
 
         mNaviListView = (ListView) mNaviGroup.getChildAt(1);
         mNaviListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
