@@ -30,6 +30,9 @@ public class Server {
     static public String getUSER_NAME() { return USER_NAME; };
     static public void setUSER_NAME(String user_name) { USER_NAME = user_name; };
 
+    static public String ECHONEST_API_KEY = "ZZKPLNLJYHUVPSMXD";
+    static public String ECHONEST_GENRE_SEARCH = "http://developer.echonest.com/api/v4/genre/search?api_key="+ECHONEST_API_KEY+"&format=json&results=500&name=";
+
     static public int MODE, RANDOM_MODE = 0, FIRST_MODE = 1, KPOP_MODE = 2, POP_MODE = 3, BILLBOARDHOT_MODE = 4, VALANCE_MODE = 5,
                     LOUDNESS_MODE = 6, DANCABILITY_MODE = 7, ENERGY_MODE = 8, LIVENESS_MODE = 9, SPEECHINESS_MODE = 10,
                     ACOUSTIC_MODE = 11, INSTRUMENTAL_MODE = 12, RANK_ORDER_MODE = 13;
@@ -70,6 +73,10 @@ public class Server {
 
     static public String RECOMMEND_API = "/Recommend.php?query=";
     static public String RECOMMEND_SONGS = "selectRecommendSongs";
+
+    static public String GENRES_API = "/Genres.php?query=";
+    static public String INSERT_GENRE_DETAIL = "InsertGenreDetail";
+    static public String SELECT_GENRE_WITH_DETAIL = "SelectGenreWithDetail&detail=";
 
     static public String FACEBOOK_PROFILE = "https://graph.facebook.com/";
     static public String WIDTH_150 = "/picture?width=150";

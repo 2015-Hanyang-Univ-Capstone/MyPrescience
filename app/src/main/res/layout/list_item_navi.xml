@@ -4,20 +4,20 @@
 
     <ImageView
         android:id="@+id/navi_icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="10dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="20dp"
         android:src="@drawable/logo"
         android:layout_gravity="center_vertical"/>
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/navi_text"
-        android:padding="25dp"
+        android:padding="15dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:textColor="@color/color_base_blue"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="18sp"
         android:text="test"/>
 
 </LinearLayout>

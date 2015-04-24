@@ -63,7 +63,7 @@
             android:name=".ui.MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomActionBarTheme" >
+            android:theme="@style/CustomMainActionBarTheme" >
         </activity>
         <activity
             android:name=".ui.SongActivity"

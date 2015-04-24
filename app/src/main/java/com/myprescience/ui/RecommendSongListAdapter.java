@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,10 +27,15 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import static com.myprescience.util.Server.GENRES_API;
+import static com.myprescience.util.Server.SELECT_GENRE_WITH_DETAIL;
+import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SPOTIFY_API;
 import static com.myprescience.util.Server.getStringFromUrl;
 
@@ -106,8 +112,8 @@ public class RecommendSongListAdapter extends BaseAdapter {
             holder.vocalButton = (Button) convertView.findViewById(R.id.recommendVocalButton);
             holder.livenessButton = (Button) convertView.findViewById(R.id.recommendLivenessButton);
 
-//            LayerDrawable stars = (LayerDrawable) holder.ratingBar.getProgressDrawable();
-//            stars.getDrawable(2).setColorFilter(Color.parseColor("#FFD700"), PorterDuff.Mode.SRC_ATOP);
+            holder.songDetailTextView = (TextView) convertView.findViewById(R.id.recommendSongDetailTextView);
+            holder.insertRatingTextView = (TextView) convertView.findViewById(R.id.recommendInsertRatingTextView);
 
             convertView.setTag(holder);
         }else{
@@ -115,14 +121,6 @@ public class RecommendSongListAdapter extends BaseAdapter {
         }
 
         final RecommendSongData mData = mListData.get(position);
-//        holder.albumImageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(mContext, SongActivity.class);
-//                intent.putExtra("song_id", mData.id);
-//                v.getContext().startActivity(intent);
-//            }
-//        });
 
         holder.titleTextView.setText(mData.title);
         holder.artistTextView.setText(mData.artist);
@@ -154,7 +152,15 @@ public class RecommendSongListAdapter extends BaseAdapter {
         holder.albumImageView.setAdjustViewBounds(true);
 //        holder.ratingBar.setTag(position);
 
-        holder.genreTextView.setText(mData.genres);
+        String[] genres = mData.genres.split(",");
+        if(genres.length != 0)
+            for(int i = 0; i < genres.length; i ++) {
+                try {
+                    new extractGenreWithDetail(holder.genreTextView).execute(SERVER_ADDRESS+GENRES_API+SELECT_GENRE_WITH_DETAIL+ URLEncoder.encode(genres[i], "utf-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
 
         if(mData.valenceProperty > 0.8)
             activePropertyButton(holder.valenceButton);
@@ -175,6 +181,22 @@ public class RecommendSongListAdapter extends BaseAdapter {
         if(mData.studioProperty)
             activePropertyButton(holder.studioButton);
 
+        holder.songDetailTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), SongActivity.class);
+                intent.putExtra("song_id", mData.id);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                v.getContext().startActivity(intent);
+            }
+        });
+
+        holder.insertRatingTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("insertRating" , "HERE");
+            }
+        });
 
         return convertView;
     }
@@ -257,6 +279,50 @@ public class RecommendSongListAdapter extends BaseAdapter {
         }
     }
 
+    class extractGenreWithDetail extends AsyncTask<String, String, String> {
+
+        private TextView mGenreTextview;
+
+        public extractGenreWithDetail(TextView _textview){
+            this.mGenreTextview = _textview;
+        }
+
+        @Override
+        protected String doInBackground(String... url) {
+            return getStringFromUrl(url[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String genreJSON) {
+            super.onPostExecute(genreJSON);
+
+            JSONParser jsonParser = new JSONParser();
+            JSONArray genres = null;
+            try {
+                genres = (JSONArray) jsonParser.parse(genreJSON);
+                if(genres.size() != 0) {
+                    JSONObject genre = (JSONObject) genres.get(0);
+                    String genreStr = (String) genre.get("genre");
+                    if (!checkDuplicate(genreStr))
+                        mGenreTextview.setText(mGenreTextview.getText() + " " + genreStr);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        private boolean checkDuplicate(String genre) {
+            String genreTextView = (String)mGenreTextview.getText();
+            String[] genres = genreTextView.split(" ");
+            for(int i = 0; i < genres.length; i++) {
+                if(genres[i].equals(genre))
+                    return true;
+            }
+            return false;
+        }
+
+    }
+
     public void activePropertyButton(Button button) {
         button.setBackgroundResource(R.drawable.rectangle_active);
     }
@@ -277,6 +343,8 @@ public class RecommendSongListAdapter extends BaseAdapter {
         public Button instrumentalnessButton;
         public Button vocalButton;
         public Button livenessButton;
+        public TextView songDetailTextView;
+        public TextView insertRatingTextView;
     }
 
 

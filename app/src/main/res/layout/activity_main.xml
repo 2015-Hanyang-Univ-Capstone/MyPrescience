@@ -35,9 +35,8 @@
 
                             <ImageView
                                 android:layout_width="match_parent"
-                                android:layout_height="400dp"
-                                android:adjustViewBounds="true"
-                                android:scaleType="fitXY"/>
+                                android:layout_height="350dp"
+                                android:scaleType="fitCenter"/>
 
                             <TextView
                                 android:layout_width="50dp"
@@ -45,10 +44,10 @@
                                 android:layout_gravity="left|top"
                                 android:gravity="center"
                                 android:layout_marginLeft="10dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_marginTop="30dp"
                                 android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:textColor="@android:color/white"
-                                android:background="#44000000"
+                                android:background="@drawable/trasparent_background"
                                 android:text="Top. 1"
                                 android:textStyle="bold" />
 
@@ -60,7 +59,7 @@
                                 android:layout_marginRight="10dp"
                                 android:layout_marginBottom="10dp"
                                 android:padding="10dp"
-                                android:background="#44000000">
+                                android:background="@drawable/trasparent_background">
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -124,9 +123,8 @@
 
                             <ImageView
                                 android:layout_width="match_parent"
-                                android:layout_height="200dp"
-                                android:adjustViewBounds="true"
-                                android:scaleType="fitXY"/>
+                                android:layout_height="250dp"
+                                android:scaleType="fitCenter"/>
 
                             <TextView
                                 android:layout_width="50dp"
@@ -137,7 +135,7 @@
                                 android:layout_marginTop="10dp"
                                 android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:textColor="@android:color/white"
-                                android:background="#44000000"
+                                android:background="@drawable/trasparent_background"
                                 android:text="Top. 1"
                                 android:textStyle="bold" />
 
@@ -149,7 +147,7 @@
                                 android:layout_marginRight="10dp"
                                 android:layout_marginBottom="10dp"
                                 android:padding="10dp"
-                                android:background="#44000000">
+                                android:background="@drawable/trasparent_background">
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -207,9 +205,8 @@
 
                             <ImageView
                                 android:layout_width="match_parent"
-                                android:layout_height="200dp"
-                                android:adjustViewBounds="true"
-                                android:scaleType="fitXY"/>
+                                android:layout_height="250dp"
+                                android:scaleType="fitCenter"/>
 
                             <TextView
                                 android:layout_width="50dp"
@@ -220,7 +217,7 @@
                                 android:layout_marginTop="10dp"
                                 android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:textColor="@android:color/white"
-                                android:background="#44000000"
+                                android:background="@drawable/trasparent_background"
                                 android:text="Top. 1"
                                 android:textStyle="bold" />
 
@@ -232,7 +229,7 @@
                                 android:layout_marginRight="10dp"
                                 android:layout_marginBottom="10dp"
                                 android:padding="10dp"
-                                android:background="#44000000">
+                                android:background="@drawable/trasparent_background">
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -297,8 +294,7 @@
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="200dp"
-                                android:adjustViewBounds="true"
-                                android:scaleType="fitXY"/>
+                                android:scaleType="fitCenter"/>
 
                             <TextView
                                 android:layout_width="50dp"
@@ -309,7 +305,7 @@
                                 android:layout_marginTop="10dp"
                                 android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:textColor="@android:color/white"
-                                android:background="#44000000"
+                                android:background="@drawable/trasparent_background"
                                 android:text="Top. 1"
                                 android:textStyle="bold" />
 
@@ -321,7 +317,7 @@
                                 android:layout_marginRight="10dp"
                                 android:layout_marginBottom="10dp"
                                 android:padding="10dp"
-                                android:background="#44000000">
+                                android:background="@drawable/trasparent_background">
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -380,8 +376,7 @@
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="200dp"
-                                android:adjustViewBounds="true"
-                                android:scaleType="fitXY"/>
+                                android:scaleType="fitCenter"/>
 
                             <TextView
                                 android:layout_width="50dp"
@@ -392,7 +387,7 @@
                                 android:layout_marginTop="10dp"
                                 android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:textColor="@android:color/white"
-                                android:background="#44000000"
+                                android:background="@drawable/trasparent_background"
                                 android:text="Top. 1"
                                 android:textStyle="bold" />
 
@@ -404,7 +399,7 @@
                                 android:layout_marginRight="10dp"
                                 android:layout_marginBottom="10dp"
                                 android:padding="10dp"
-                                android:background="#44000000">
+                                android:background="@drawable/trasparent_background">
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"

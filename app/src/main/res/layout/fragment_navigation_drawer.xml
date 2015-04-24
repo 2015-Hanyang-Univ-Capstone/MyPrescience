@@ -7,13 +7,19 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:background="@color/color_base_background">
+        android:layout_height="150dp"
+        android:background="@drawable/user_background">
 
-        <ImageView
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="#88000000">
+        </FrameLayout>
+
+    <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="30dp"
             android:padding="10dp"/>
 
@@ -24,7 +30,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="60dp"
-            android:textColor="@color/color_base_blue"
+            android:textColor="@color/WhiteSmoke"
             android:text="Name" />
 
         <TextView
@@ -34,7 +40,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="90dp"
-            android:textColor="@color/color_base_blue"
+            android:textColor="@color/WhiteSmoke"
             android:text="Level" />
 
     </FrameLayout>
@@ -45,8 +51,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:choiceMode="singleChoice"
-        android:divider="@color/color_base_background"
-        android:dividerHeight="1dp"
         android:background="#FFF" />
 
 </LinearLayout>

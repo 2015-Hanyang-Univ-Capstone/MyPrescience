@@ -105,13 +105,13 @@ public class NavigationDrawerFragment extends Fragment {
 
         ViewGroup framelayout = (ViewGroup) mNaviGroup.getChildAt(0);
 
-        ImageView ProfilImageView = (ImageView) framelayout.getChildAt(0);
+        ImageView ProfilImageView = (ImageView) framelayout.getChildAt(1);
         ProfilImageView.setImageDrawable(getFACEBOOK_PROFILE_BITMAP());
 
-        TextView nameTextView = (TextView) framelayout.getChildAt(1);
+        TextView nameTextView = (TextView) framelayout.getChildAt(2);
         nameTextView.setText(getUSER_NAME());
 
-        TextView levelTextView = (TextView) framelayout.getChildAt(2);
+        TextView levelTextView = (TextView) framelayout.getChildAt(3);
         levelTextView.setText("Beginner");
 
         mNaviListView = (ListView) mNaviGroup.getChildAt(1);
@@ -292,9 +292,9 @@ public class NavigationDrawerFragment extends Fragment {
      */
     private void showGlobalContextActionBar() {
         ActionBar actionBar = getActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
+//        actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setTitle(R.string.app_name);
+//        actionBar.setTitle(R.string.app_name);
     }
 
     private ActionBar getActionBar() {

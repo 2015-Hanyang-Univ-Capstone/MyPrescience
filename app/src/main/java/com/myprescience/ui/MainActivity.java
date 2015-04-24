@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
@@ -21,9 +22,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.FrameLayout;
+import android.view.Window;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -32,6 +32,7 @@ import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
 import com.myprescience.R;
+import com.myprescience.util.ImageLoad;
 import com.myprescience.util.Indicator;
 
 import org.json.simple.JSONArray;
@@ -40,23 +41,26 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.List;
 
+import static com.myprescience.util.Server.ECHONEST_GENRE_SEARCH;
+import static com.myprescience.util.Server.GENRES_API;
+import static com.myprescience.util.Server.INSERT_GENRE_DETAIL;
 import static com.myprescience.util.Server.MYP_HOT_SONGS;
 import static com.myprescience.util.Server.RANDOM_MODE;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SONG_API;
 import static com.myprescience.util.Server.SPOTIFY_API;
 import static com.myprescience.util.Server.getStringFromUrl;
+import static com.myprescience.util.Server.setUSER_ID;
 
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
-    private String facebookUserName;
-    private String facebookUserId;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -67,8 +71,10 @@ public class MainActivity extends ActionBarActivity
      */
     private CharSequence mTitle;
 
+    private Activity mActivity;
     private Indicator mIndicater;
     private ViewGroup mMyPHot_FrameLayout1, mMyPHot_FrameLayout2, mMyPHot_FrameLayout3, mMyPHot_FrameLayout4, mMyPHot_FrameLayout5;
+    private TextView mTitleTextView;
     private ArrayList<ViewGroup> mMyPHotList;
 
     @Override
@@ -77,6 +83,7 @@ public class MainActivity extends ActionBarActivity
         setContentView(R.layout.activity_main);
 
         mIndicater = new Indicator(this);
+        mActivity = this;
 
 //        RecommendActivity.sRecommendActivity.finish();
 //        SongListActivity.sSonglistActivity.finish();
@@ -100,25 +107,34 @@ public class MainActivity extends ActionBarActivity
 
         new getMyPHotSongs().execute(SERVER_ADDRESS+SONG_API+MYP_HOT_SONGS);
 
-        Session session = Session.getActiveSession();
-
-        if(session != null && session.isOpened()){
-            Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
-                // callback after Graph API response with user object
-                @Override
-                public void onCompleted(GraphUser user, Response response) {
-                    facebookUserName = user.getUsername();
-                    facebookUserId = user.getId();
-                }
-            });
-        }
-
-//        // 프로필 이미지와 이름
-//        ImageView facebookProfileImageView = (ImageView) drawerLayout.findViewById(R.id.facebookProfileImageView);
-//        facebookProfileImageView.setImageURI(Uri.parse("https://graph.facebook.com/" + facebookUserId + "/picture?type=normal"));
-//
-//        TextView facebookUserNameTextView = (TextView) drawerLayout.findViewById(R.id.facebookUserNameTextView);
-//        facebookUserNameTextView.setText(facebookUserName);
+      // Insert Genre Detail
+//        String genre = "R%26B";
+//        new getGenreDetail().execute(ECHONEST_GENRE_SEARCH+genre, genre);
+////        static public String ECHONEST_GENRE_SEARCH_RNB = "http://developer.echonest.com/api/v4/genre/search?api_key=ZZKPLNLJYHUVPSMXD&format=json&name=R%26B&results=500";
+//        genre = "dance";
+//        new getGenreDetail().execute(ECHONEST_GENRE_SEARCH+genre, genre);
+////        static public String ECHONEST_GENRE_SEARCH_DANCE = "http://developer.echonest.com/api/v4/genre/search?api_key=ZZKPLNLJYHUVPSMXD&format=json&name=dance&results=500";
+//        genre = "jazz";
+//        new getGenreDetail().execute(ECHONEST_GENRE_SEARCH+genre, genre);
+////        static public String ECHONEST_GENRE_SEARCH_JAZZ = "http://developer.echonest.com/api/v4/genre/search?api_key=ZZKPLNLJYHUVPSMXD&format=json&name=JAZZ&results=500";
+//        genre = "country";
+//        new getGenreDetail().execute(ECHONEST_GENRE_SEARCH+genre, genre);
+////        static public String ECHONEST_GENRE_SEARCH_COUNTRY = "http://developer.echonest.com/api/v4/genre/search?api_key=ZZKPLNLJYHUVPSMXD&format=json&name=country&results=500";
+//        genre = "electro";
+//        new getGenreDetail().execute(ECHONEST_GENRE_SEARCH+genre, genre);
+////        static public String ECHONEST_GENRE_SEARCH_ELECTRONIC = "http://developer.echonest.com/api/v4/genre/search?api_key=ZZKPLNLJYHUVPSMXD&format=json&name=electro&results=500";
+//        genre = "metal";
+//        new getGenreDetail().execute(ECHONEST_GENRE_SEARCH+genre, genre);
+////        static public String ECHONEST_GENRE_SEARCH_METAL = "http://developer.echonest.com/api/v4/genre/search?api_key=ZZKPLNLJYHUVPSMXD&format=json&name=metal&results=500";
+//        genre = "folk";
+//        new getGenreDetail().execute(ECHONEST_GENRE_SEARCH+genre, genre);
+////        static public String ECHONEST_GENRE_SEARCH_FOLK = "http://developer.echonest.com/api/v4/genre/search?api_key=ZZKPLNLJYHUVPSMXD&format=json&name=folk&results=500";
+//        genre = "christmas";
+//        new getGenreDetail().execute(ECHONEST_GENRE_SEARCH+genre, genre);
+////        static public String ECHONEST_GENRE_SEARCH_CHRISTMAS = "http://developer.echonest.com/api/v4/genre/search?api_key=ZZKPLNLJYHUVPSMXD&format=json&name=christmas&results=500";
+//        genre = "indie";
+//        new getGenreDetail().execute(ECHONEST_GENRE_SEARCH+genre, genre);
+////        static public String ECHONEST_GENRE_SEARCH_INDIE
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -165,22 +181,35 @@ public class MainActivity extends ActionBarActivity
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
+//        actionBar.setDisplayShowTitleEnabled(true);
+//        actionBar.setTitle(mTitle);
+        actionBar.setTitle("");
+        actionBar.show();
+
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setDisplayShowCustomEnabled(true);
+//        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//        actionBar.setCustomView(R.layout.actionbar_title);
+//        mTitleTextView = (TextView) findViewById(R.id.customActionbarTitle);
+//        mTitleTextView.setTypeface(Typeface.createFromAsset(getAssets(), "NEOTERIC.ttf"));
+//        mTitleTextView.setText(mTitle);
+//        actionBar.show();
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//        if (!mNavigationDrawerFragment.isDrawerOpen()) {
+        if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.search_menu, menu);
             restoreActionBar();
             return true;
-//        }
-//        return super.onCreateOptionsMenu(menu);
+        } else {
+            getSupportActionBar().hide();
+            return super.onCreateOptionsMenu(menu);
+        }
     }
 
     @Override
@@ -291,7 +320,7 @@ public class MainActivity extends ActionBarActivity
 
             for(int i = 0; i < 5; i++) {
                 JSONObject hot = (JSONObject) hots.get(i);
-                String id = (String) hot.get("id");
+                final String id = (String) hot.get("id");
                 String artist_spotify_id = (String) hot.get("artist_spotify_id");
                 String title = (String) hot.get("title");
                 String artist = (String) hot.get("artist");
@@ -300,11 +329,19 @@ public class MainActivity extends ActionBarActivity
 
                 setMypHotView(mMyPHotList.get(i), i+1, avg, rating_count, title, artist);
 
+                ImageView albumArt = getMypHotImageView(mMyPHotList.get(i));
+                albumArt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(), SongActivity.class);
+                        intent.putExtra("song_id", id);
+                        startActivity(intent);
+                    }
+                });
+
                 if(!artist_spotify_id.equals(""))
                     new getSpotifyArtistImage(i).execute(SPOTIFY_API+"artists/"+artist_spotify_id);
             }
-            // Image 역시 UI Thread에서 바로 작업 불가.
-//            new ImageLoadTask((String)image.get("url"), albumArtView).execute();
         }
 
         @Override
@@ -342,47 +379,53 @@ public class MainActivity extends ActionBarActivity
             JSONObject image = (JSONObject) images.get(1);
             String url = (String) image.get("url");
 
-            new ImageLoadTask(url, getMypHotImageView(mMyPHotList.get(index)) ).execute();
+            new ImageLoad(mActivity, mIndicater, url, getMypHotImageView(mMyPHotList.get(index))).execute();
         }
     }
 
-    public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
-
-        private String url;
-        private ImageView imageView;
-//        private Activity mActivity;
-
-        public ImageLoadTask(String url, ImageView imageView) {
-            this.url = url;
-            this.imageView = imageView;
-        }
-
-        @Override
-        protected Bitmap doInBackground(Void... params) {
-            try {
-                URL urlConnection = new URL(url);
-                HttpURLConnection connection = (HttpURLConnection) urlConnection
-                        .openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                return myBitmap;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            super.onPostExecute(result);
-            if(mIndicater.isShowing())
-                mIndicater.hide();
-            BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), result);
-            imageView.setBackgroundDrawable(bitmapDrawable);
-            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-        }
-    }
-
+//    class getGenreDetail extends AsyncTask<String, String, Void> {
+//
+//        @Override
+//        protected Void doInBackground(String... url) {
+//            String genreJSON = getStringFromUrl(url[0]);
+//
+//            JSONParser jsonParser = new JSONParser();
+//            JSONObject responseJSON = null;
+//            try {
+//                responseJSON = (JSONObject) jsonParser.parse(genreJSON);
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            JSONObject response = (JSONObject) responseJSON.get("response");
+//            JSONArray genres = (JSONArray) response.get("genres");
+//            for(int i = 0; i < genres.size(); i++) {
+//                JSONObject genre = (JSONObject) genres.get(i);
+//                String detail = (String) genre.get("name");
+//                Log.e("detail", detail);
+////                new insertGenreDetail().execute(SERVER_ADDRESS+GENRES_API+INSERT_GENRE_DETAIL+"&genre="+genreName+"&detail="+detail);
+//                try {
+//                    new insertGenreDetail().execute(SERVER_ADDRESS+GENRES_API+INSERT_GENRE_DETAIL+"&genre="+url[1]+"&detail="+ URLEncoder.encode(detail, "utf-8"));
+//                } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void result) {
+//            super.onPostExecute(result);
+//            Log.e("onPostExecute", "onPostExecute");
+//        }
+//    }
+//
+//    class insertGenreDetail extends AsyncTask<String, String, Void> {
+//        @Override
+//        protected Void doInBackground(String... url) {
+//            String responseJSON = getStringFromUrl(url[0]);
+//            Log.e("insertGenreDetail", responseJSON);
+//            return null;
+//        }
+//    }
 }
