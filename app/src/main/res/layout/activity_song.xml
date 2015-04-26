@@ -13,14 +13,15 @@ android:id="@+id/scrollView" >
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFF"
-            android:weightSum="5">
+            android:padding="5dp"
+            android:background="@color/WhiteSmoke"
+            android:weightSum="10">
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2">
+                android:layout_weight="3">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -34,8 +35,8 @@ android:id="@+id/scrollView" >
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:padding="15dp">
+                android:layout_weight="7"
+                android:padding="10dp">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -116,51 +117,32 @@ android:id="@+id/scrollView" >
                         android:text="Genre" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:orientation="horizontal"
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/ratingTextView"
+                    android:textSize="12sp"
+                    android:textColor="@color/color_base_blue"
+                    android:layout_gravity="center"
+                    android:text="(0.0)" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/ratingTextView"
-                        android:textSize="13sp"
-                        android:textColor="@color/color_base_blue"
-                        android:text="5.0" />
-
-                    <RatingBar
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:id="@+id/ratingBar"
-                        android:layout_gravity="center_vertical"
-                        android:rating="10"
-                        style="?android:attr/ratingBarStyleSmall" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
+                <RatingBar
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/ratingBar"
+                    android:layout_gravity="center_vertical"
+                    android:rating="0"
+                    style="?android:attr/ratingBarStyleSmall" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/ratindCountTextView"
-                        android:textSize="12sp"
-                        android:textColor="@color/color_base_blue"
-                        android:text="1.7" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:textColor="@color/color_base_light_blue"
-                        android:text="만 명이 이 노래를 평가했습니다.!" />
-
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ratingCountTextView"
+                    android:textSize="12sp"
+                    android:textColor="@color/color_base_blue"
+                    android:text="평가가 없습니다\n이 노래의\n첫 평가자가\n되어주세요!" />
 
             </LinearLayout>
 
@@ -170,7 +152,7 @@ android:id="@+id/scrollView" >
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_base_background"
+            android:background="@color/WhiteSmoke"
             android:padding="10dp">
 
             <TextView
@@ -187,8 +169,8 @@ android:id="@+id/scrollView" >
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:contentDescription="TestPlayPause"
-                android:background="@color/color_base_background"
-                android:src="@drawable/button_play" />
+                android:background="@color/WhiteSmoke"
+                android:src="@drawable/icon_play" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -223,34 +205,80 @@ android:id="@+id/scrollView" >
             android:background="@color/color_base_background"
             android:gravity="center">
 
-            <Button
-                android:layout_width="90dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/WhiteSmoke"
-                android:background="@drawable/button_selector"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="아티스트 조회"
-                android:id="@+id/artistButton" />
 
-            <Button
+            <LinearLayout
+                android:id="@+id/artistButton"
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/WhiteSmoke"
-                android:layout_marginLeft="10dp"
+                android:background="@drawable/button_background"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/button_selector"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="앨범 조회"
-                android:id="@+id/albumButton" />
+                android:padding="10dp">
 
-            <Button
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_singer" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/color_base_light_blue"
+                    android:text="아티스트"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/albumButton"
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/WhiteSmoke"
-                android:background="@drawable/button_selector"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="평가하기"
-                android:id="@+id/evaluationButton" />
+                android:background="@drawable/button_background"
+                android:layout_marginRight="10dp"
+
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_album" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/color_base_light_blue"
+                    android:text="앨범"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/evaluationButton"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background"
+                android:layout_marginRight="10dp"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_evaluate"
+                    android:nestedScrollingEnabled="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/color_base_light_blue"
+                    android:text="평가하기"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -688,7 +716,7 @@ android:id="@+id/scrollView" >
             <WebView
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:id="@+id/YoutubeWebView"
+                android:id="@+id/youtubeMVWebView"
                 android:layout_gravity="center_horizontal" />
 
             <TextView
@@ -697,7 +725,49 @@ android:id="@+id/scrollView" >
                 android:layout_gravity="center"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/color_base_blue"
-                android:text="영상은 Live를 기본으로 가져옵니다!\n재생이 안되는 특정컨텐츠가 있습니다. \n그 특정 컨텐츠는 YouTube에서 보기를 눌러, \nYouTube App에서 시청해주시기 바립니다." />
+                android:layout_marginBottom="15dp"
+                android:text="가장 인기 있는 동영상" />
+
+            <WebView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/youtubeLyricsWebView"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/color_base_blue"
+                android:layout_marginBottom="15dp"
+                android:text="Lyrics" />
+
+            <WebView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/youtubeLiveWebView"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/color_base_blue"
+                android:layout_marginBottom="15dp"
+                android:text="Live" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/color_base_blue"
+                android:layout_marginBottom="15dp"
+                android:text="영상은 키워드 검색을 통해 가져옵니다!\n재생이 안되는 특정컨텐츠가 있습니다. \n그 특정 컨텐츠는 YouTube에서 보기를 눌러, \nYouTube App에서 시청해주시기 바립니다." />
+
 
         </LinearLayout>
 

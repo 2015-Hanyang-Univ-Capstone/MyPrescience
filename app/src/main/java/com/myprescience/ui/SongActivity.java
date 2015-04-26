@@ -22,6 +22,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
@@ -43,10 +44,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import static com.myprescience.util.Server.RATING_API;
+import static com.myprescience.util.Server.SELECT_SONG_RATING;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SONG_API;
 import static com.myprescience.util.Server.SONG_WITH_ID;
 import static com.myprescience.util.Server.SPOTIFY_API;
+import static com.myprescience.util.Server.VIDEO_MOST_VIEW;
 import static com.myprescience.util.Server.VIDEO_SMALL;
 import static com.myprescience.util.Server.YOUTUBE_API;
 import static com.myprescience.util.Server.YOUTUBE_EMBED;
@@ -63,6 +67,7 @@ public class SongActivity extends Activity {
     Indicator mIndicator;
     ErrorMsg mErrorMsg;
 
+    private boolean finishPreview, finishImageLoad;
     private ScrollView scrollView;
     private ImageView albumArtView;
     private TextView titleTextView, artistTextView, genreTextView, ratingTextView, ratindCountTextView, songTypeTextView,
@@ -72,10 +77,10 @@ public class SongActivity extends Activity {
     private ProgressBar valanceProgressBar, loudnessProgressBar, danceablilityProgressBar, energyProgressBar,
                         livenessProgressBar, speechinessProgressBar, acousticnessProgressBar, instrumentalnessProgressBar,
                         popularityProgressBar;
-    private Button mArtistButton, mAlbumButton;
+    private LinearLayout mArtistButton, mAlbumButton;
     private ImageButton previewButton;
     private MediaPlayer mPlayer;
-    private WebView mYoutubeVideoView;
+    private WebView mYoutubeMVWebView, mYoutubeLyricsWebView, mYoutubeLiveWebView;
 
     private String[] modes = {"Minor", "Major"};
     private String[] keys = {"C", "C#", "D", "E♭", "E", "F", "F#", "G", "A♭", "A", "B♭", "B"};
@@ -104,13 +109,13 @@ public class SongActivity extends Activity {
         LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(Color.parseColor("#FFD700"), PorterDuff.Mode.SRC_ATOP);
 
-        ratindCountTextView = (TextView) findViewById(R.id.ratindCountTextView);
+        ratindCountTextView = (TextView) findViewById(R.id.ratingCountTextView);
         albumNameTextView = (TextView) findViewById(R.id.albumNameTextView);
         trackNumTextView = (TextView) findViewById(R.id.trackNumTextView);
         popularityProgressBar = (ProgressBar) findViewById(R.id.popularityProgressBar);
 
-        mArtistButton = (Button) findViewById(R.id.artistButton);
-        mAlbumButton = (Button) findViewById(R.id.albumButton);
+        mArtistButton = (LinearLayout) findViewById(R.id.artistButton);
+        mAlbumButton = (LinearLayout) findViewById(R.id.albumButton);
 
         songTypeTextView = (TextView) findViewById(R.id.songTypeTextView);
         songModeTextView = (TextView) findViewById(R.id.songModeTextView);
@@ -130,20 +135,27 @@ public class SongActivity extends Activity {
 
         previewButton = (ImageButton) findViewById(R.id.previewButton);
 
-        mYoutubeVideoView = (WebView) findViewById(R.id.YoutubeWebView);
+        mYoutubeMVWebView = (WebView) findViewById(R.id.youtubeMVWebView);
+        mYoutubeLyricsWebView = (WebView) findViewById(R.id.youtubeLyricsWebView);
+        mYoutubeLiveWebView = (WebView) findViewById(R.id.youtubeLiveWebView);
 
         new getSongTask().execute(SONG_URL+SONG_ID);
 
-        mYoutubeVideoView.getSettings().setJavaScriptEnabled(true);
-        mYoutubeVideoView.getSettings().setPluginState(WebSettings.PluginState.ON);
-        mYoutubeVideoView.getSettings().setSupportMultipleWindows(true);
-
-        mYoutubeVideoView.setWebChromeClient(new ChromeClient(this));
-        mYoutubeVideoView.setWebViewClient(new WebViewClient());
+        settingWebView(mYoutubeMVWebView);
+        settingWebView(mYoutubeLyricsWebView);
+        settingWebView(mYoutubeLiveWebView);
 
 //        mYoutubeVideoView.loadUrl("http://www.youtube.com/embed/" + "60A_f8clKog" + "?autoplay=1&vq=small");
         // YouTube Search에서 끝에 concert를 더하고, JSON Parsing해서 VideoId만 가져오기.
+    }
 
+    public void settingWebView(WebView webview) {
+        webview.getSettings().setJavaScriptEnabled(true);
+        webview.getSettings().setPluginState(WebSettings.PluginState.ON);
+        webview.getSettings().setSupportMultipleWindows(true);
+
+        webview.setWebChromeClient(new ChromeClient(this));
+        webview.setWebViewClient(new WebViewClient());
     }
 
     // 초 -> 00 : 00
@@ -151,6 +163,44 @@ public class SongActivity extends Activity {
         int M = duration / 60;
         int S = duration % 60;
         return String.format("%02d", M) + " : " + String.format("%02d", S);
+    }
+
+    class getRatingTask extends AsyncTask<String, String, String> {
+
+        public getRatingTask(){
+        }
+
+        @Override
+        protected String doInBackground(String... url) {
+            return getStringFromUrl(url[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String resultJSON) {
+            super.onPostExecute(resultJSON);
+
+            JSONParser jsonParser = new JSONParser();
+            JSONArray response = null;
+            try {
+                response = (JSONArray) jsonParser.parse(resultJSON);
+                if(response.size() != 0) {
+                    JSONObject rating = (JSONObject) response.get(0);
+                    if(rating.get("avg") != null) {
+                        float avg = Float.parseFloat((String) rating.get("avg"));
+                        int avg_rating = Math.round(avg);
+                        int rating_count = Integer.parseInt((String) rating.get("rating_count"));
+
+                        ratingTextView.setText(String.format("(%.1f)", avg_rating / 2.0));
+                        ratingBar.setProgress(avg_rating);
+                        ratindCountTextView.setText(rating_count + "명이\n이 노래를\n평가했습니다!");
+                    }
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+
     }
 
     /* Album JSON
@@ -231,7 +281,7 @@ public class SongActivity extends Activity {
             if(preview != null) {
                 new setSourceTask(mPlayer).execute(preview);
             } else {
-                previewButton.setImageResource(R.drawable.not_exist);
+                previewButton.setImageResource(R.drawable.icon_x_mark);
 
                 if ( mIndicator.isShowing())
                     mIndicator.hide();
@@ -278,10 +328,10 @@ public class SongActivity extends Activity {
                 public void onClick(View v) {
                     if (!mPlayer.isPlaying()) {
                         mPlayer.start();
-                        previewButton.setImageResource(R.drawable.button_pause);
+                        previewButton.setImageResource(R.drawable.icon_pause);
                     } else {
                         mPlayer.pause();
-                        previewButton.setImageResource(R.drawable.button_play);
+                        previewButton.setImageResource(R.drawable.icon_play);
                     }
                 }
             });
@@ -356,9 +406,8 @@ public class SongActivity extends Activity {
                 if(spotifyTrackID.equals("tracks/")) {
                     trackNumTextView.setText(mErrorMsg.NOT_FOUND);
                     popularityProgressBar.setProgress(0);
-
-                    if ( mIndicator.isShowing())
-                        mIndicator.hide();
+                    previewButton.setImageResource(R.drawable.icon_x_mark);
+                    finishPreview = true;
                 } else {
                     new getTrackTask().execute(SPOTIFY_API+spotifyTrackID);
                 }
@@ -409,6 +458,8 @@ public class SongActivity extends Activity {
                         }
                     });
 
+                    if (finishPreview && mIndicator.isShowing())
+                        mIndicator.hide();
                 } else {
                     new getAlbumTask().execute(SPOTIFY_API+spotifyAlbumID);
 
@@ -423,8 +474,13 @@ public class SongActivity extends Activity {
                         }
                     });
                 }
-                String keyword = title+" "+artist + " concert";
-                new setYouTubeTask().execute(YOUTUBE_API + URLEncoder.encode(keyword, "utf-8") + YOUTUBE_RESULT_ONE+YOUTUBE_API_KEY);
+
+                new getRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_RATING + SONG_ID);
+
+                String keyword = title+" "+artist;
+                new setYouTubeTask(mYoutubeMVWebView).execute(YOUTUBE_API + URLEncoder.encode(keyword, "utf-8") + YOUTUBE_RESULT_ONE+YOUTUBE_API_KEY+VIDEO_MOST_VIEW);
+                new setYouTubeTask(mYoutubeLyricsWebView).execute(YOUTUBE_API + URLEncoder.encode(keyword + " lyrics", "utf-8") + YOUTUBE_RESULT_ONE+YOUTUBE_API_KEY);
+                new setYouTubeTask(mYoutubeLiveWebView).execute(YOUTUBE_API + URLEncoder.encode(keyword + " concert live", "utf-8") + YOUTUBE_RESULT_ONE+YOUTUBE_API_KEY);
 
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -478,13 +534,19 @@ public class SongActivity extends Activity {
             super.onPostExecute(result);
             imageView.setImageBitmap(result);
             overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+
+            finishImageLoad = true;
+            if (finishPreview && mIndicator.isShowing())
+                mIndicator.hide();
         }
     }
 
     class setYouTubeTask extends AsyncTask<String, String, String> {
 
+        private WebView mWebView;
 
-        public setYouTubeTask(){
+        public setYouTubeTask(WebView _webview){
+            this.mWebView = _webview;
         }
 
         @Override
@@ -500,9 +562,15 @@ public class SongActivity extends Activity {
             try {
                 JSONObject youtube = (JSONObject) jsonParser.parse(youtubeJSON);
                 JSONArray items = (JSONArray) youtube.get("items");
-                JSONObject id = (JSONObject) ((JSONObject) items.get(0)).get("id");
-                String video_id = (String)id.get("videoId");
-                mYoutubeVideoView.loadUrl(YOUTUBE_EMBED + video_id + VIDEO_SMALL);
+                JSONObject id = null;
+                if(items.size()!= 0) {
+                    id = (JSONObject) ((JSONObject) items.get(0)).get("id");
+                    String video_id = (String) id.get("videoId");
+                    mWebView.loadUrl(YOUTUBE_EMBED + video_id);
+                } else {
+                    mWebView.loadUrl(null);
+                }
+
             } catch (ParseException e) {
                 e.printStackTrace();
             }

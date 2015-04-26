@@ -16,6 +16,7 @@ public class RecommendSongData {
     public String title;
     public String artist;
     public String genres;
+    public String genre = "";
     public int rating;
     public float valenceProperty;
     public float speechinessProperty;
@@ -27,6 +28,7 @@ public class RecommendSongData {
     public boolean vocalProperty;
     public boolean studioProperty;
 
-
     public void setAlbumArt(Bitmap mAlbumArt) { albumArt = mAlbumArt; }
+    public String getGenre() { return this.genre; }
+    public void setGenre(String _genre) { genre = _genre; }
 }

@@ -12,6 +12,7 @@ public class SongData {
     public Bitmap albumArt;
     public String title;
     public String artist;
+    public String mGenre;
     public int rating;
 
     public void setAlbumArt(Bitmap mAlbumArt) { albumArt = mAlbumArt; }

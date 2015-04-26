@@ -51,9 +51,9 @@ public class MyPageActivity extends ActionBarActivity {
     private int userId;
     private boolean mLockListView = false;
 
-    private LinearLayout linearLayout;
+    private LinearLayout linearLayout, songTextView;
     private ImageView facebook_profile;
-    private TextView nameTextView, songTextView, ArtistTextView, AlbumTextView, OptionTextView;
+    private TextView nameTextView, ArtistTextView, AlbumTextView, OptionTextView;
 
     Indicator mIndicator;
 
@@ -74,10 +74,10 @@ public class MyPageActivity extends ActionBarActivity {
         nameTextView = (TextView) findViewById(R.id.nameTextView);
         nameTextView.setText(getUSER_NAME());
 
-        songTextView = (TextView) findViewById(R.id.mysongTextView);
-        ArtistTextView = (TextView) findViewById(R.id.myartistTextView);
-        AlbumTextView = (TextView) findViewById(R.id.myalbumTextView);
-        OptionTextView = (TextView) findViewById(R.id.myoptionTextView);
+        songTextView = (LinearLayout) findViewById(R.id.mysongButton);
+//        ArtistTextView = (TextView) findViewById(R.id.myartistTextView);
+//        AlbumTextView = (TextView) findViewById(R.id.myalbumTextView);
+//        OptionTextView = (TextView) findViewById(R.id.myoptionTextView);
 
         songTextView.setOnClickListener(new View.OnClickListener() {
             @Override

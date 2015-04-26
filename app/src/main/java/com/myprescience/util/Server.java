@@ -70,6 +70,7 @@ public class Server {
     static public String INSERT_RATING = "insertRating&";
     static public String SELECT_MYSONGS = "selectSongs&user_id=";
     static public String SELECT_SONG_COUNT = "selectSongCount";
+    static public String SELECT_SONG_RATING = "selectSongRating&song_id=";
 
     static public String RECOMMEND_API = "/Recommend.php?query=";
     static public String RECOMMEND_SONGS = "selectRecommendSongs";
@@ -86,6 +87,7 @@ public class Server {
     static public String YOUTUBE_API_KEY = "&key=AIzaSyCPt2JtKVntVf5N1Uq-GFo6ilAkfPQyPDM";
     static public String YOUTUBE_EMBED= "http://www.youtube.com/embed/";
     static public String VIDEO_SMALL = "?vq=small";
+    static public String VIDEO_MOST_VIEW = "&order=viewCount";
 
     // Url으로부터 Server의 JSON - return (String)
     static public String getStringFromUrl(String url) {
@@ -123,5 +125,84 @@ public class Server {
 
         return LEVEL[songCount/50];
     }
-
 }
+
+
+
+
+// Insert Genre Detail
+//        String genre = "R%26B";
+//        new getGenreDetail().execute(ECHONEST_GENRE_SEARCH+genre, genre);
+////        static public String ECHONEST_GENRE_SEARCH_RNB = "http://developer.echonest.com/api/v4/genre/search?api_key=ZZKPLNLJYHUVPSMXD&format=json&name=R%26B&results=500";
+//        genre = "dance";
+//        new getGenreDetail().execute(ECHONEST_GENRE_SEARCH+genre, genre);
+////        static public String ECHONEST_GENRE_SEARCH_DANCE = "http://developer.echonest.com/api/v4/genre/search?api_key=ZZKPLNLJYHUVPSMXD&format=json&name=dance&results=500";
+//        genre = "jazz";
+//        new getGenreDetail().execute(ECHONEST_GENRE_SEARCH+genre, genre);
+////        static public String ECHONEST_GENRE_SEARCH_JAZZ = "http://developer.echonest.com/api/v4/genre/search?api_key=ZZKPLNLJYHUVPSMXD&format=json&name=JAZZ&results=500";
+//        genre = "country";
+//        new getGenreDetail().execute(ECHONEST_GENRE_SEARCH+genre, genre);
+////        static public String ECHONEST_GENRE_SEARCH_COUNTRY = "http://developer.echonest.com/api/v4/genre/search?api_key=ZZKPLNLJYHUVPSMXD&format=json&name=country&results=500";
+//        genre = "electro";
+//        new getGenreDetail().execute(ECHONEST_GENRE_SEARCH+genre, genre);
+////        static public String ECHONEST_GENRE_SEARCH_ELECTRONIC = "http://developer.echonest.com/api/v4/genre/search?api_key=ZZKPLNLJYHUVPSMXD&format=json&name=electro&results=500";
+//        genre = "metal";
+//        new getGenreDetail().execute(ECHONEST_GENRE_SEARCH+genre, genre);
+////        static public String ECHONEST_GENRE_SEARCH_METAL = "http://developer.echonest.com/api/v4/genre/search?api_key=ZZKPLNLJYHUVPSMXD&format=json&name=metal&results=500";
+//        genre = "folk";
+//        new getGenreDetail().execute(ECHONEST_GENRE_SEARCH+genre, genre);
+////        static public String ECHONEST_GENRE_SEARCH_FOLK = "http://developer.echonest.com/api/v4/genre/search?api_key=ZZKPLNLJYHUVPSMXD&format=json&name=folk&results=500";
+//        genre = "christmas";
+//        new getGenreDetail().execute(ECHONEST_GENRE_SEARCH+genre, genre);
+////        static public String ECHONEST_GENRE_SEARCH_CHRISTMAS = "http://developer.echonest.com/api/v4/genre/search?api_key=ZZKPLNLJYHUVPSMXD&format=json&name=christmas&results=500";
+//        genre = "indie";
+//        new getGenreDetail().execute(ECHONEST_GENRE_SEARCH+genre, genre);
+////        static public String ECHONEST_GENRE_SEARCH_INDIE
+
+
+
+//    class getGenreDetail extends AsyncTask<String, String, Void> {
+//
+//        @Override
+//        protected Void doInBackground(String... url) {
+//            String genreJSON = getStringFromUrl(url[0]);
+//
+//            JSONParser jsonParser = new JSONParser();
+//            JSONObject responseJSON = null;
+//            try {
+//                responseJSON = (JSONObject) jsonParser.parse(genreJSON);
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            JSONObject response = (JSONObject) responseJSON.get("response");
+//            JSONArray genres = (JSONArray) response.get("genres");
+//            for(int i = 0; i < genres.size(); i++) {
+//                JSONObject genre = (JSONObject) genres.get(i);
+//                String detail = (String) genre.get("name");
+//                Log.e("detail", detail);
+////                new insertGenreDetail().execute(SERVER_ADDRESS+GENRES_API+INSERT_GENRE_DETAIL+"&genre="+genreName+"&detail="+detail);
+//                try {
+//                    new insertGenreDetail().execute(SERVER_ADDRESS+GENRES_API+INSERT_GENRE_DETAIL+"&genre="+url[1]+"&detail="+ URLEncoder.encode(detail, "utf-8"));
+//                } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void result) {
+//            super.onPostExecute(result);
+//            Log.e("onPostExecute", "onPostExecute");
+//        }
+//    }
+//
+//    class insertGenreDetail extends AsyncTask<String, String, Void> {
+//        @Override
+//        protected Void doInBackground(String... url) {
+//            String responseJSON = getStringFromUrl(url[0]);
+//            Log.e("insertGenreDetail", responseJSON);
+//            return null;
+//        }
+//    }

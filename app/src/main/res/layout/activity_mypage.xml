@@ -2,6 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
+    android:background="#FFF"
     tools:context="com.example.dongjun.com.myprescience.application.client.ArtistActivity">
 
     <LinearLayout
@@ -9,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/linearLayout"
-        android:padding="10dp"
-        android:background="#FFF" >
+        android:padding="10dp" >
 
         <ImageView
             android:layout_width="120dp"
@@ -44,69 +45,188 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:drawable/dialog_holo_light_frame"
-        android:padding="10dp"
+        android:background="@color/color_base_background"
         android:gravity="center">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:weightSum="3">
 
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="5dp"
+            <LinearLayout
+                android:id="@+id/mysongButton"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background"
+                android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:id="@+id/mysongTextView"
-                android:text="내가 평가한 곡"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@android:color/white"
-                android:gravity="center"
-                android:background="@color/color_base_light_blue" />
+                android:padding="10dp">
 
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="5dp"
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/icon_song" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/color_base_light_blue"
+                    android:text="노래"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/myArtistButton"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background"
+                android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:id="@+id/myartistTextView"
-                android:text="Option1"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/color_base_blue"
-                android:gravity="center"
-                android:background="@color/color_base_background"/>
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/icon_singer" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/color_base_light_blue"
+                    android:text="아티스트"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/myPlaylistButton"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/icon_album" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/color_base_light_blue"
+                    android:text="Album"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="5dp"
+            android:weightSum="3">
 
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="5dp"
+            <LinearLayout
+                android:id="@+id/mysongTextView2"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background"
+                android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:id="@+id/myalbumTextView"
-                android:text="Option2"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/color_base_blue"
-                android:gravity="center"
-                android:background="@color/color_base_background"/>
+                android:padding="10dp">
 
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="5dp"
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/icon_human" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/color_base_light_blue"
+                    android:text="음악성향"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/mysongTextView3"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background"
+                android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:id="@+id/myoptionTextView"
-                android:text="로그아웃"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@android:color/white"
-                android:gravity="center"
-                android:background="@color/color_base_light_blue"/>
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/icon_song2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/color_base_light_blue"
+                    android:text="Playlist"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/mysongTextView4"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/icon_analysis" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/color_base_light_blue"
+                    android:text="음악분석"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

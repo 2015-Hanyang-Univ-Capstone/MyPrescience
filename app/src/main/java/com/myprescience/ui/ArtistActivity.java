@@ -81,9 +81,11 @@ public class ArtistActivity extends Activity {
             }
 
             JSONArray images = (JSONArray) artist.get("images");
-            JSONObject image = (JSONObject) images.get(size640x640);
-            // Image 역시 UI Thread에서 바로 작업 불가.
-            new ImageLoadTask((String)image.get("url"), artistImageView).execute();
+            if(images.size() != 0) {
+                JSONObject image = (JSONObject) images.get(size640x640);
+                // Image 역시 UI Thread에서 바로 작업 불가.
+                new ImageLoadTask((String) image.get("url"), artistImageView).execute();
+            }
 
             nameTextView.setText( (String)artist.get("name") );
 

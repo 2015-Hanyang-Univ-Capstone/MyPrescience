@@ -153,14 +153,14 @@ public class RecommendSongListAdapter extends BaseAdapter {
 //        holder.ratingBar.setTag(position);
 
         String[] genres = mData.genres.split(",");
-        if(genres.length != 0)
-            for(int i = 0; i < genres.length; i ++) {
-                try {
-                    new extractGenreWithDetail(holder.genreTextView).execute(SERVER_ADDRESS+GENRES_API+SELECT_GENRE_WITH_DETAIL+ URLEncoder.encode(genres[i], "utf-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+        if(genres.length != 0 && mData.genre.equals(""))
+            try {
+                new extractGenreWithDetail(position, holder, mData).execute(SERVER_ADDRESS + GENRES_API + SELECT_GENRE_WITH_DETAIL + URLEncoder.encode(genres[0], "utf-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
             }
+        else
+            holder.genreTextView.setText(mData.genre);
 
         if(mData.valenceProperty > 0.8)
             activePropertyButton(holder.valenceButton);
@@ -281,10 +281,16 @@ public class RecommendSongListAdapter extends BaseAdapter {
 
     class extractGenreWithDetail extends AsyncTask<String, String, String> {
 
-        private TextView mGenreTextview;
+        private int mPosition;
+        private ViewHolder mHolder = null;
+        private RecommendSongData songData;
+        public String mGenre;
 
-        public extractGenreWithDetail(TextView _textview){
-            this.mGenreTextview = _textview;
+        public extractGenreWithDetail(int positon, ViewHolder holder, RecommendSongData mSongData){
+            this.mPosition = positon;
+            this.mHolder = holder;
+            this.songData = mSongData;
+            this.mGenre = songData.getGenre();
         }
 
         @Override
@@ -303,24 +309,31 @@ public class RecommendSongListAdapter extends BaseAdapter {
                 if(genres.size() != 0) {
                     JSONObject genre = (JSONObject) genres.get(0);
                     String genreStr = (String) genre.get("genre");
-                    if (!checkDuplicate(genreStr))
-                        mGenreTextview.setText(mGenreTextview.getText() + " " + genreStr);
+                    Log.e("Title", songData.title);
+                    Log.e("Genre", genreStr);
+                    if (!genre.equals("") && !checkDuplicate(genreStr))
+                        mGenre += genreStr + " ";
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            Log.e("mGenre", mGenre);
+            songData.setGenre(mGenre);
+            if (mHolder.position == mPosition) {
+                mHolder.genreTextView.setText(mGenre);
+            }
         }
 
-        private boolean checkDuplicate(String genre) {
-            String genreTextView = (String)mGenreTextview.getText();
-            String[] genres = genreTextView.split(" ");
-            for(int i = 0; i < genres.length; i++) {
-                if(genres[i].equals(genre))
-                    return true;
+        private boolean checkDuplicate(String inputGenre) {
+            if(!mGenre.equals("")) {
+                String[] genres = mGenre.split(" ");
+                for (int i = 0; i < genres.length; i++) {
+                    if (genres[i].equals(inputGenre))
+                        return true;
+                }
             }
             return false;
         }
-
     }
 
     public void activePropertyButton(Button button) {
