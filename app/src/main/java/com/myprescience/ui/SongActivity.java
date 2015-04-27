@@ -27,6 +27,7 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.myprescience.R;
 import com.myprescience.util.ChromeClient;
@@ -38,28 +39,41 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayer.PlayerStyle;
+import com.google.android.youtube.player.YouTubePlayerView;
+
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.myprescience.util.Server.RATING_API;
+import static com.myprescience.util.Server.SELECT_SONG_AVG_RATING;
 import static com.myprescience.util.Server.SELECT_SONG_RATING;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SONG_API;
 import static com.myprescience.util.Server.SONG_WITH_ID;
 import static com.myprescience.util.Server.SPOTIFY_API;
+import static com.myprescience.util.Server.USER_ID_WITH_FACEBOOK_ID;
 import static com.myprescience.util.Server.VIDEO_MOST_VIEW;
 import static com.myprescience.util.Server.VIDEO_SMALL;
+import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.YOUTUBE_API;
+import static com.myprescience.util.Server.YOUTUBE_DEVELOPMENT_KEY;
 import static com.myprescience.util.Server.YOUTUBE_EMBED;
-import static com.myprescience.util.Server.YOUTUBE_RESULT_ONE;
+import static com.myprescience.util.Server.YOUTUBE_RESULT_FIVE;
 import static com.myprescience.util.Server.YOUTUBE_API_KEY;
 import static com.myprescience.util.Server.getStringFromUrl;
+import static com.myprescience.util.Server.getUSER_ID;
 
 
-public class SongActivity extends Activity {
+public class SongActivity extends YouTubeBaseActivity {
 
     String SONG_URL = SERVER_ADDRESS+SONG_API+SONG_WITH_ID;
     String SONG_ID;
@@ -67,12 +81,14 @@ public class SongActivity extends Activity {
     Indicator mIndicator;
     ErrorMsg mErrorMsg;
 
+    private Activity mActivity = this;
+
     private boolean finishPreview, finishImageLoad;
     private ScrollView scrollView;
     private ImageView albumArtView;
     private TextView titleTextView, artistTextView, genreTextView, ratingTextView, ratindCountTextView, songTypeTextView,
                         songModeTextView, songKeyTextView, tempoTextView, timeSignatureTextView, durationTextView,
-                        albumNameTextView, trackNumTextView;
+                        albumNameTextView, trackNumTextView, userRatingTextView;
     private RatingBar ratingBar;
     private ProgressBar valanceProgressBar, loudnessProgressBar, danceablilityProgressBar, energyProgressBar,
                         livenessProgressBar, speechinessProgressBar, acousticnessProgressBar, instrumentalnessProgressBar,
@@ -80,10 +96,11 @@ public class SongActivity extends Activity {
     private LinearLayout mArtistButton, mAlbumButton;
     private ImageButton previewButton;
     private MediaPlayer mPlayer;
-    private WebView mYoutubeMVWebView, mYoutubeLyricsWebView, mYoutubeLiveWebView;
+    private YouTubePlayerView youTubeView;
 
     private String[] modes = {"Minor", "Major"};
     private String[] keys = {"C", "C#", "D", "E♭", "E", "F", "F#", "G", "A♭", "A", "B♭", "B"};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +117,8 @@ public class SongActivity extends Activity {
         scrollView.scrollTo(0, 0);
 
         albumArtView = (ImageView) findViewById(R.id.albumArtView);
+
+        userRatingTextView = (TextView) findViewById(R.id.userRatingTextView);
         titleTextView = (TextView) findViewById(R.id.titleTextView);
         artistTextView = (TextView) findViewById(R.id.artistTextView);
         genreTextView = (TextView) findViewById(R.id.genreTextView);
@@ -107,7 +126,7 @@ public class SongActivity extends Activity {
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 
         LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
-        stars.getDrawable(2).setColorFilter(Color.parseColor("#FFD700"), PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(2).setColorFilter(Color.parseColor("#93c3c7"), PorterDuff.Mode.SRC_ATOP);
 
         ratindCountTextView = (TextView) findViewById(R.id.ratingCountTextView);
         albumNameTextView = (TextView) findViewById(R.id.albumNameTextView);
@@ -135,27 +154,9 @@ public class SongActivity extends Activity {
 
         previewButton = (ImageButton) findViewById(R.id.previewButton);
 
-        mYoutubeMVWebView = (WebView) findViewById(R.id.youtubeMVWebView);
-        mYoutubeLyricsWebView = (WebView) findViewById(R.id.youtubeLyricsWebView);
-        mYoutubeLiveWebView = (WebView) findViewById(R.id.youtubeLiveWebView);
+        youTubeView = (YouTubePlayerView) findViewById(R.id.youtubeView);
 
         new getSongTask().execute(SONG_URL+SONG_ID);
-
-        settingWebView(mYoutubeMVWebView);
-        settingWebView(mYoutubeLyricsWebView);
-        settingWebView(mYoutubeLiveWebView);
-
-//        mYoutubeVideoView.loadUrl("http://www.youtube.com/embed/" + "60A_f8clKog" + "?autoplay=1&vq=small");
-        // YouTube Search에서 끝에 concert를 더하고, JSON Parsing해서 VideoId만 가져오기.
-    }
-
-    public void settingWebView(WebView webview) {
-        webview.getSettings().setJavaScriptEnabled(true);
-        webview.getSettings().setPluginState(WebSettings.PluginState.ON);
-        webview.getSettings().setSupportMultipleWindows(true);
-
-        webview.setWebChromeClient(new ChromeClient(this));
-        webview.setWebViewClient(new WebViewClient());
     }
 
     // 초 -> 00 : 00
@@ -185,6 +186,39 @@ public class SongActivity extends Activity {
                 response = (JSONArray) jsonParser.parse(resultJSON);
                 if(response.size() != 0) {
                     JSONObject rating = (JSONObject) response.get(0);
+                    if(rating.get("rating") != null) {
+                        int user_rating = Integer.parseInt((String) rating.get("rating"));
+                        userRatingTextView.setText(String.format("%.1f", user_rating / 2.0));
+                    }
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+
+    class getAvgRatingTask extends AsyncTask<String, String, String> {
+
+        public getAvgRatingTask(){
+        }
+
+        @Override
+        protected String doInBackground(String... url) {
+            return getStringFromUrl(url[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String resultJSON) {
+            super.onPostExecute(resultJSON);
+
+            JSONParser jsonParser = new JSONParser();
+            JSONArray response = null;
+            try {
+                response = (JSONArray) jsonParser.parse(resultJSON);
+                if(response.size() != 0) {
+                    JSONObject rating = (JSONObject) response.get(0);
                     if(rating.get("avg") != null) {
                         float avg = Float.parseFloat((String) rating.get("avg"));
                         int avg_rating = Math.round(avg);
@@ -192,7 +226,7 @@ public class SongActivity extends Activity {
 
                         ratingTextView.setText(String.format("(%.1f)", avg_rating / 2.0));
                         ratingBar.setProgress(avg_rating);
-                        ratindCountTextView.setText(rating_count + "명이\n이 노래를\n평가했습니다!");
+                        ratindCountTextView.setText(rating_count + "명이 이 노래를 평가했습니다!");
                     }
                 }
             } catch (ParseException e) {
@@ -319,7 +353,7 @@ public class SongActivity extends Activity {
             mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    previewButton.setImageResource(R.drawable.button_play);
+                    previewButton.setImageResource(R.drawable.icon_play);
                 }
             });
 
@@ -475,12 +509,13 @@ public class SongActivity extends Activity {
                     });
                 }
 
-                new getRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_RATING + SONG_ID);
+                new getRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_RATING + SONG_ID + WITH_USER + getUSER_ID());
+                new getAvgRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_AVG_RATING + SONG_ID);
 
                 String keyword = title+" "+artist;
-                new setYouTubeTask(mYoutubeMVWebView).execute(YOUTUBE_API + URLEncoder.encode(keyword, "utf-8") + YOUTUBE_RESULT_ONE+YOUTUBE_API_KEY+VIDEO_MOST_VIEW);
-                new setYouTubeTask(mYoutubeLyricsWebView).execute(YOUTUBE_API + URLEncoder.encode(keyword + " lyrics", "utf-8") + YOUTUBE_RESULT_ONE+YOUTUBE_API_KEY);
-                new setYouTubeTask(mYoutubeLiveWebView).execute(YOUTUBE_API + URLEncoder.encode(keyword + " concert live", "utf-8") + YOUTUBE_RESULT_ONE+YOUTUBE_API_KEY);
+                new setYouTubeTask(youTubeView).execute(YOUTUBE_API + URLEncoder.encode(keyword, "utf-8") + YOUTUBE_RESULT_FIVE+YOUTUBE_API_KEY+VIDEO_MOST_VIEW);
+//                new setYouTubeTask(mYoutubeLyricsWebView).execute(YOUTUBE_API + URLEncoder.encode(keyword + " lyrics", "utf-8") + YOUTUBE_RESULT_ONE+YOUTUBE_API_KEY);
+//                new setYouTubeTask(mYoutubeLiveWebView).execute(YOUTUBE_API + URLEncoder.encode(keyword + " concert live", "utf-8") + YOUTUBE_RESULT_ONE+YOUTUBE_API_KEY);
 
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -541,12 +576,14 @@ public class SongActivity extends Activity {
         }
     }
 
-    class setYouTubeTask extends AsyncTask<String, String, String> {
+    class setYouTubeTask extends AsyncTask<String, String, String> implements YouTubePlayer.OnInitializedListener {
 
-        private WebView mWebView;
+        private YouTubePlayerView mYouTubePlayerView;
+        private ArrayList<String> youtubes;
 
-        public setYouTubeTask(WebView _webview){
-            this.mWebView = _webview;
+        public setYouTubeTask(YouTubePlayerView _YouTubePlayerView){
+            this.mYouTubePlayerView = _YouTubePlayerView;
+            youtubes = new ArrayList<String>();
         }
 
         @Override
@@ -564,15 +601,36 @@ public class SongActivity extends Activity {
                 JSONArray items = (JSONArray) youtube.get("items");
                 JSONObject id = null;
                 if(items.size()!= 0) {
-                    id = (JSONObject) ((JSONObject) items.get(0)).get("id");
-                    String video_id = (String) id.get("videoId");
-                    mWebView.loadUrl(YOUTUBE_EMBED + video_id);
-                } else {
-                    mWebView.loadUrl(null);
+                    for(int i = 0; i < items.size(); i ++) {
+                        id = (JSONObject) ((JSONObject) items.get(i)).get("id");
+                        String video_id = (String) id.get("videoId");
+                        youtubes.add(video_id);
+                    }
                 }
+                mYouTubePlayerView.initialize(YOUTUBE_DEVELOPMENT_KEY, this);
 
             } catch (ParseException e) {
                 e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onInitializationFailure(YouTubePlayer.Provider provider,
+                                            YouTubeInitializationResult errorReason) {
+            if (errorReason.isUserRecoverableError()) {
+                errorReason.getErrorDialog(mActivity, 1).show();
+            } else {
+                String errorMessage = String.format(
+                        getString(R.string.YouTubeError), errorReason.toString());
+                Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+            }
+        }
+
+        @Override
+        public void onInitializationSuccess(YouTubePlayer.Provider provider,
+                                            YouTubePlayer player, boolean wasRestored) {
+            if (!wasRestored) {
+                player.cueVideos(youtubes);
             }
         }
     }

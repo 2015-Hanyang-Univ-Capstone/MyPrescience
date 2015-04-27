@@ -29,6 +29,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import static com.myprescience.util.PixelUtil.getProperImage;
 import static com.myprescience.util.Server.SPOTIFY_API;
 import static com.myprescience.util.Server.getStringFromUrl;
 
@@ -167,7 +168,7 @@ public class MySongListAdapter extends BaseAdapter {
             }
 
             JSONArray images = (JSONArray) album.get("images");
-            JSONObject image = (JSONObject) images.get(1);
+            JSONObject image = getProperImage(images, mHolder.albumImageView.getWidth());
 
             // Image 역시 UI Thread에서 바로 작업 불가.
             Bitmap myBitmap = null;

@@ -57,7 +57,7 @@
             android:name=".ui.SongListActivity"
             android:label="@string/title_activity_song_list"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomActionBarTheme" >
+            android:theme="@style/HoloActionBarTheme" >
         </activity>
         <activity
             android:name=".ui.MainActivity"
@@ -87,13 +87,13 @@
             android:name=".ui.MySongListActivity"
             android:label="@string/title_mysong_List"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomActionBarTheme" >
+            android:theme="@style/HoloActionBarTheme" >
         </activity>
         <activity
             android:name=".ui.MyPageActivity"
             android:label="@string/title_section4"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomActionBarTheme" >
+            android:theme="@style/HoloActionBarTheme" >
         </activity>
         <activity
             android:name=".ui.MyPrescienceActivity"

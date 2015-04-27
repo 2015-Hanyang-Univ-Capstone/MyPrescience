@@ -1,5 +1,6 @@
 package com.myprescience.ui;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -91,6 +92,11 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         setContentView(R.layout.activity_song_list);
 
         initSongList();
@@ -345,5 +351,17 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
                 break;
         }
     }
+
+    // 뒤로가기 버튼
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // NavUtils.navigateUpFromSameTask(this);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    };
 
 }

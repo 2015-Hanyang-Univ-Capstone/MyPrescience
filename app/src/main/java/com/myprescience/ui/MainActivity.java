@@ -47,6 +47,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import static com.myprescience.util.PixelUtil.getProperImage;
 import static com.myprescience.util.Server.ECHONEST_GENRE_SEARCH;
 import static com.myprescience.util.Server.GENRES_API;
 import static com.myprescience.util.Server.INSERT_GENRE_DETAIL;
@@ -110,8 +111,7 @@ public class MainActivity extends ActionBarActivity
         mMyPHotList.add(mMyPHot_FrameLayout6);
         mMyPHotList.add(mMyPHot_FrameLayout7);
 
-        new getMyPHotSongs().execute(SERVER_ADDRESS+SONG_API+MYP_HOT_SONGS);
-
+//        new getMyPHotSongs().execute(SERVER_ADDRESS+SONG_API+MYP_HOT_SONGS);
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -354,14 +354,15 @@ public class MainActivity extends ActionBarActivity
             }
             JSONArray images = (JSONArray) artist.get("images");
             if(images.size() != 0) {
-                JSONObject image = (JSONObject) images.get(1);
+                JSONObject image = getProperImage(images, getMypHotImageView(mMyPHotList.get(index)).getWidth());
                 String url = (String) image.get("url");
-
                 new ImageLoad(mActivity, mIndicater, url, getMypHotImageView(mMyPHotList.get(index))).execute();
             } else {
                 getMypHotImageView(mMyPHotList.get(index)).setImageResource(R.drawable.not_exist);
             }
         }
     }
+
+
 
 }

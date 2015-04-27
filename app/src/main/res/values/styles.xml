@@ -110,6 +110,12 @@
         <item name="android:rating">0</item>
     </style>
 
+    <style name="HoloActionBarTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarStyle">@style/TabActionBarStyle</item>
+        <item name="android:actionBarTabBarStyle">@style/TabActionBarTabBarStyle</item>
+        <item name="android:actionBarTabTextStyle">@style/TabActionBarTabTextStyle</item>
+    </style>
+
     <style name="TabActionBarTheme" parent="@android:style/Theme.Holo.Light">
         <item name="android:actionBarStyle">@style/TabActionBarStyle</item>
         <item name="android:actionBarTabBarStyle">@style/TabActionBarTabBarStyle</item>
@@ -118,7 +124,7 @@
 
     <style name="TabActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
-        <item name="android:background">@color/color_base_light_blue</item>
+        <item name="android:background">@color/color_base_blue</item>
 
         <!-- Support library compatibility -->
         <item name="titleTextStyle">@style/MyActionBarTitleText</item>

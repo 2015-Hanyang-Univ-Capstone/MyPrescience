@@ -25,6 +25,9 @@ import android.util.DisplayMetrics;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 /**
  * Util class for converting between dp, px and other magical pixel units
  */
@@ -85,4 +88,17 @@ public class PixelUtil {
         view.setLayoutParams(params);
     }
 
+    public static JSONObject getProperImage(JSONArray images, int width) {
+        int min = 1000;
+        JSONObject properImage = null;
+        for(int i = 0; i < images.size(); i ++) {
+            JSONObject image = (JSONObject) images.get(i);
+            long imageWidth = (long) image.get("width");
+            if(Math.abs(width - imageWidth) < min) {
+                min = Math.abs(width - (int)imageWidth);
+                properImage = image;
+            }
+        }
+        return properImage;
+    }
 }

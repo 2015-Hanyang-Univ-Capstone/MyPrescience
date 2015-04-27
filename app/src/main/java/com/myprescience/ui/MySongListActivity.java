@@ -1,5 +1,7 @@
 package com.myprescience.ui;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -32,7 +34,7 @@ import static com.myprescience.util.Server.getUSER_ID;
 /**
  * Created by dongjun on 15. 4. 6..
  */
-public class MySongListActivity extends ActionBarActivity {
+public class MySongListActivity extends Activity {
 
     private GridView gridView;
     private MySongListAdapter mySongListAdapter;
@@ -47,8 +49,12 @@ public class MySongListActivity extends ActionBarActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         setContentView( R.layout.activity_mysong);
 
 //        Session session = Session.getActiveSession();
@@ -158,5 +164,17 @@ public class MySongListActivity extends ActionBarActivity {
                 mIndicator.show();
         }
     }
+
+    // 뒤로가기 버튼
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // NavUtils.navigateUpFromSameTask(this);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    };
 
 }

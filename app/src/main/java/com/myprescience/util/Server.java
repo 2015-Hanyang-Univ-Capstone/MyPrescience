@@ -70,6 +70,7 @@ public class Server {
     static public String INSERT_RATING = "insertRating&";
     static public String SELECT_MYSONGS = "selectSongs&user_id=";
     static public String SELECT_SONG_COUNT = "selectSongCount";
+    static public String SELECT_SONG_AVG_RATING = "selectSongAvgRating&song_id=";
     static public String SELECT_SONG_RATING = "selectSongRating&song_id=";
 
     static public String RECOMMEND_API = "/Recommend.php?query=";
@@ -82,8 +83,9 @@ public class Server {
     static public String FACEBOOK_PROFILE = "https://graph.facebook.com/";
     static public String WIDTH_150 = "/picture?width=150";
 
+    static public String YOUTUBE_DEVELOPMENT_KEY = "AIzaSyCPt2JtKVntVf5N1Uq-GFo6ilAkfPQyPDM";
     static public String YOUTUBE_API = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=";
-    static public String YOUTUBE_RESULT_ONE = "&maxResults=1";
+    static public String YOUTUBE_RESULT_FIVE = "&maxResults=5";
     static public String YOUTUBE_API_KEY = "&key=AIzaSyCPt2JtKVntVf5N1Uq-GFo6ilAkfPQyPDM";
     static public String YOUTUBE_EMBED= "http://www.youtube.com/embed/";
     static public String VIDEO_SMALL = "?vq=small";

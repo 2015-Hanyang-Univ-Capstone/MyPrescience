@@ -54,10 +54,6 @@ public class ImageLoad extends AsyncTask<Void, Void, Bitmap> {
         super.onPostExecute(result);
         if(mIndicator.isShowing())
             mIndicator.hide();
-
-        Log.e("mUrl", mUrl);
-        Log.e("Bitmap", result.getWidth() + "");
-        Log.e("mImageView", mImageView.getWidth()+ "");
         BitmapDrawable bitmapDrawable = new BitmapDrawable(mActivity.getResources(), result);
         mImageView.setBackgroundDrawable(bitmapDrawable);
         mActivity.overridePendingTransition(R.anim.fadein, R.anim.fadeout);

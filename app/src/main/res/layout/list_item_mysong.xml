@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/background" >
+    android:background="@drawable/button_background" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,6 +45,7 @@
             android:textStyle="bold"
             android:paddingLeft="1dp"
             android:paddingRight="1dp"
+            android:textColor="@color/color_base_blue"
             android:textSize="15dp">
         </TextView>
 
@@ -57,6 +58,7 @@
             android:paddingLeft="1dp"
             android:paddingRight="1dp"
             android:layout_gravity="center"
+            android:textColor="@color/color_base_light_blue"
             android:textSize="12dp" />
 
     </LinearLayout>

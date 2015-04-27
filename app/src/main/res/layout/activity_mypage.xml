@@ -2,44 +2,43 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
     android:background="#FFF"
     tools:context="com.example.dongjun.com.myprescience.application.client.ArtistActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/linearLayout"
-        android:padding="10dp" >
+    <!--<LinearLayout-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/linearLayout"-->
+        <!--android:padding="10dp" >-->
 
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:padding="10dp"
-            android:layout_gravity="center"
-            android:id="@+id/profileImageView"
-            android:src="@drawable/logo" />
+        <!--<ImageView-->
+            <!--android:layout_width="120dp"-->
+            <!--android:layout_height="120dp"-->
+            <!--android:padding="10dp"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:id="@+id/profileImageView"-->
+            <!--android:src="@drawable/logo" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/color_base_blue"
-            android:text="Name"
-            android:id="@+id/nameTextView"
-            android:layout_gravity="center" />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+            <!--android:textColor="@color/color_base_blue"-->
+            <!--android:text="Name"-->
+            <!--android:id="@+id/nameTextView"-->
+            <!--android:layout_gravity="center" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/color_base_light_blue"
-            android:text="Beginner"
-            android:id="@+id/genresTextView"
-            android:layout_gravity="center" />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+            <!--android:textColor="@color/color_base_light_blue"-->
+            <!--android:text="Beginner"-->
+            <!--android:id="@+id/genresTextView"-->
+            <!--android:layout_gravity="center" />-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
     <LinearLayout
         android:orientation="vertical"
@@ -52,7 +51,9 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:paddingTop="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:weightSum="3">
 
             <LinearLayout
@@ -61,13 +62,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_background"
-                android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:padding="10dp">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
                     android:src="@drawable/icon_song" />
@@ -75,9 +75,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:layout_gravity="center"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/color_base_light_blue"
+                    android:textColor="@color/color_base_blue"
                     android:text="노래"/>
 
             </LinearLayout>
@@ -88,13 +90,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_background"
-                android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:padding="10dp">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
                     android:src="@drawable/icon_singer" />
@@ -102,9 +103,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:layout_gravity="center"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/color_base_light_blue"
+                    android:textColor="@color/color_base_blue"
                     android:text="아티스트"/>
 
             </LinearLayout>
@@ -115,13 +118,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_background"
-                android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:padding="10dp">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
                     android:src="@drawable/icon_album" />
@@ -129,9 +131,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:layout_gravity="center"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/color_base_light_blue"
+                    android:textColor="@color/color_base_blue"
                     android:text="Album"/>
 
             </LinearLayout>
@@ -153,13 +157,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_background"
-                android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:padding="10dp">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
                     android:src="@drawable/icon_human" />
@@ -167,9 +170,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:layout_gravity="center"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/color_base_light_blue"
+                    android:textColor="@color/color_base_blue"
                     android:text="음악성향"/>
 
             </LinearLayout>
@@ -180,13 +185,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_background"
-                android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:padding="10dp">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
                     android:src="@drawable/icon_song2" />
@@ -194,9 +198,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:layout_gravity="center"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/color_base_light_blue"
+                    android:textColor="@color/color_base_blue"
                     android:text="Playlist"/>
 
             </LinearLayout>
@@ -207,13 +213,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_background"
-                android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:padding="10dp">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
                     android:src="@drawable/icon_analysis" />
@@ -221,9 +226,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:layout_gravity="center"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/color_base_light_blue"
+                    android:textAppearance="?android:attr/textAppearance"
+                    android:textColor="@color/color_base_blue"
                     android:text="음악분석"/>
 
             </LinearLayout>

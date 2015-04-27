@@ -1,5 +1,7 @@
 package com.myprescience.ui;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +12,8 @@ import android.graphics.Shader;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -45,7 +49,7 @@ import static com.myprescience.util.Server.getUSER_NAME;
 /**
  * Created by dongjun on 15. 4. 6..
  */
-public class MyPageActivity extends ActionBarActivity {
+public class MyPageActivity extends Activity {
 
     private GridView gridView;
     private int userId;
@@ -60,19 +64,20 @@ public class MyPageActivity extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ActionBar actionBar = getActionBar();
         // 뒤로가기 버튼
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         setContentView(R.layout.activity_mypage);
-
         mIndicator = new Indicator(this);
 
-        facebook_profile = (ImageView) findViewById(R.id.profileImageView);
-        facebook_profile.setImageDrawable(getFACEBOOK_PROFILE_BITMAP());
+//        facebook_profile = (ImageView) findViewById(R.id.profileImageView);
+//        facebook_profile.setImageDrawable(getFACEBOOK_PROFILE_BITMAP());
 
-        nameTextView = (TextView) findViewById(R.id.nameTextView);
-        nameTextView.setText(getUSER_NAME());
+//        nameTextView = (TextView) findViewById(R.id.nameTextView);
+//        nameTextView.setText(getUSER_NAME());
 
         songTextView = (LinearLayout) findViewById(R.id.mysongButton);
 //        ArtistTextView = (TextView) findViewById(R.id.myartistTextView);
@@ -89,7 +94,15 @@ public class MyPageActivity extends ActionBarActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_menu, menu);
+        return true;
+    }
+
     // 뒤로가기 버튼
+    @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:

@@ -33,6 +33,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import static com.myprescience.util.PixelUtil.getProperImage;
 import static com.myprescience.util.Server.GENRES_API;
 import static com.myprescience.util.Server.SELECT_GENRE_WITH_DETAIL;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
@@ -251,7 +252,7 @@ public class RecommendSongListAdapter extends BaseAdapter {
             }
 
             JSONArray images = (JSONArray) album.get("images");
-            JSONObject image = (JSONObject) images.get(0);
+            JSONObject image = getProperImage(images, mHolder.albumImageView.getWidth());
 
             // Image 역시 UI Thread에서 바로 작업 불가.
             Bitmap myBitmap = null;
