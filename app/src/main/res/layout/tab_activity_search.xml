@@ -21,21 +21,21 @@
             android:text="당신이 원하는 노래를 찾아드립니다." />
 
 
-        <TableLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:layout_marginTop="10dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/color_base_blue"
+            android:text="1. 어떤 노래에서 찾아드릴까요?" />
+
+        <TableLayout
+            android:id="@+id/step1TableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@android:drawable/dialog_holo_light_frame"
             android:padding="10dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_margin="5dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/color_base_blue"
-                android:text="1. 노래 종류를 선택하세요." />
 
             <TableRow
                 android:layout_width="match_parent"
@@ -43,34 +43,34 @@
                 android:weightSum="3" >
 
                 <Button
-                    android:id="@+id/valenceProperty"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:textColor="@android:color/white"
                     android:background="@drawable/rectangle_not_active"
                     android:textSize="10dp"
-                    android:text="모든 노래" />
+                    android:text="모든 노래"
+                    android:tag="all" />
 
                 <Button
-                    android:id="@+id/test1s"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:textColor="@android:color/white"
                     android:background="@drawable/rectangle_not_active"
                     android:textSize="10dp"
-                    android:text="한국 노래" />
+                    android:text="한국 노래"
+                    android:tag="kpop"/>
 
                 <Button
-                    android:id="@+id/est11"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:textColor="@android:color/white"
-                    android:background="@drawable/rectangle_active"
+                    android:background="@drawable/rectangle_not_active"
                     android:textSize="10dp"
-                    android:text="외국 노래" />
+                    android:text="외국 노래"
+                    android:tag="pop"/>
 
             </TableRow>
 
@@ -85,9 +85,10 @@
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:textColor="@android:color/white"
-                    android:background="@drawable/rectangle_active"
+                    android:background="@drawable/rectangle_not_active"
                     android:textSize="10dp"
-                    android:text="BillBoard Hot100" />
+                    android:text="BillBoard Hot100"
+                    android:tag="billboardhot100"/>
 
                 <Button
                     android:id="@+id/tes423t1s"
@@ -95,7 +96,7 @@
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:textColor="@android:color/white"
-                    android:background="@drawable/rectangle_active"
+                    android:background="@drawable/rectangle_not_active"
                     android:textSize="10dp"
                     android:text="뭐시기 노래들" />
 
@@ -113,50 +114,287 @@
 
         </TableLayout>
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/step2TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical"
             android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/color_base_blue"
+            android:text="2. 좋아하는 장르는요?"
+            android:visibility="gone" />
+
+        <TableLayout
+            android:id="@+id/step2TableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/dialog_holo_light_frame"
             android:padding="10dp"
-            android:background="@android:drawable/dialog_holo_light_frame">
+            android:visibility="gone">
 
-            <TextView
+            <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/color_base_blue"
-                android:text="2. 노래 속성을 설정하세요." />
+                android:layout_height="50dp"
+                android:weightSum="3" >
 
-            <Button
-                android:id="@+id/valanceRangeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@android:color/white"
-                android:background="@drawable/rectangle_not_active"
-                android:textSize="10dp"
-                android:text="Valence" />
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rectangle_not_active"
+                    android:textSize="10dp"
+                    android:text="@string/genrePop"
+                    android:tag="pop"/>
 
-            <!--<com.myprescience.util.RangeSeekBar-->
-                <!--android:id="@+id/valanceRangeSeekBar"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="5"-->
-                <!--rsb:absoluteMinValue="20"-->
-                <!--rsb:absoluteMaxValue="150"-->
-                <!--/>-->
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rectangle_not_active"
+                    android:textSize="10dp"
+                    android:text="@string/genreHiphop"
+                    android:tag="hiphop" />
 
-        </LinearLayout>
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rectangle_not_active"
+                    android:textSize="10dp"
+                    android:text="@string/genreRnB"
+                    android:tag="rnb"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:weightSum="3" >
+
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rectangle_not_active"
+                    android:textSize="10dp"
+                    android:text="@string/genreRock"
+                    android:tag="rock" />
+
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rectangle_not_active"
+                    android:textSize="10dp"
+                    android:text="@string/genreClub"
+                    android:tag="club"/>
+
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rectangle_not_active"
+                    android:textSize="10dp"
+                    android:text="@string/genreCountry"
+                    android:tag="country"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:weightSum="3" >
+
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rectangle_not_active"
+                    android:textSize="10dp"
+                    android:text="@string/genreElectronic"
+                    android:tag="electronic"/>
+
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rectangle_not_active"
+                    android:textSize="10dp"
+                    android:text="@string/genreJazz"
+                    android:tag="jazz"/>
+
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rectangle_not_active"
+                    android:textSize="10dp"
+                    android:text="dumm2"
+                    android:tag="dummy2"/>
+
+            </TableRow>
+
+        </TableLayout>
+
+
+        <TextView
+            android:id="@+id/step3TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/color_base_blue"
+            android:text="3. 마지막으로 속성을 설정해주세요!"
+            android:visibility="gone" />
+
+        <TableLayout
+            android:id="@+id/step3TableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:background="@android:drawable/dialog_holo_light_frame"
+            android:padding="10dp"
+            android:visibility="gone">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:weightSum="3" >
+
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rectangle_not_active"
+                    android:textSize="10dp"
+                    android:text="@string/propertyValence"
+                    android:tag="valence"/>
+
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rectangle_not_active"
+                    android:textSize="10dp"
+                    android:text="@string/propertyLoudness"
+                    android:tag="loudness"/>
+
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rectangle_not_active"
+                    android:textSize="10dp"
+                    android:text="@string/propertyDanceablility"
+                    android:tag="danceability"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:weightSum="3" >
+
+                <Button
+                    android:id="@+id/searchEnergyeButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rectangle_not_active"
+                    android:textSize="10dp"
+                    android:text="@string/propertyEnergy"
+                    android:tag="energy"/>
+
+                <Button
+                    android:id="@+id/searchLivenessButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rectangle_not_active"
+                    android:textSize="10dp"
+                    android:text="@string/propertyLiveness"
+                    android:tag="liveness"/>
+
+                <Button
+                    android:id="@+id/searchSpeechinessButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rectangle_not_active"
+                    android:textSize="10dp"
+                    android:text="@string/propertySpeechiness"
+                    android:tag="speechiness"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:weightSum="3" >
+
+                <Button
+                    android:id="@+id/searchAcousticnessButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rectangle_not_active"
+                    android:textSize="10dp"
+                    android:text="@string/propertyAcousticness"
+                    android:tag="acousticness"/>
+
+                <Button
+                    android:id="@+id/searchInstrumentalnessButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rectangle_not_active"
+                    android:textSize="10dp"
+                    android:text="@string/propertyInstrumentalness"
+                    android:tag="instrumentalness"/>
+
+                <Button
+                    android:id="@+id/dummy1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rectangle_not_active"
+                    android:textSize="10dp"
+                    android:text="dummy" />
+
+            </TableRow>
+
+        </TableLayout>
 
         <Button
+            android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp"
             android:text="검색하기"
-            android:id="@+id/button"
-            android:layout_gravity="center_horizontal" />
+            android:textColor="@color/color_base_blue"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:background="@drawable/button_background" />
 
     </LinearLayout>
 </ScrollView>

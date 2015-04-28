@@ -42,9 +42,6 @@ import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.USER_API;
 import static com.myprescience.util.Server.USER_ID_WITH_FACEBOOK_ID;
 import static com.myprescience.util.Server.WIDTH_150;
-import static com.myprescience.util.Server.getFACEBOOK_PROFILE_BITMAP;
-import static com.myprescience.util.Server.getStringFromUrl;
-import static com.myprescience.util.Server.getUSER_NAME;
 
 /**
  * Created by dongjun on 15. 4. 6..

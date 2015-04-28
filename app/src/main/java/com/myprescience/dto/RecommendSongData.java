@@ -1,4 +1,4 @@
-package com.myprescience.ui;
+package com.myprescience.dto;
 
 import android.graphics.Bitmap;
 import android.widget.Button;

@@ -46,6 +46,15 @@
     <string name="genreClassic">CLASSIC</string>
     <string name="genreElectronic">ELECTRONIC</string>
 
+    <string name="propertyValence">균형잡힌</string>
+    <string name="propertyLoudness">시끄러운</string>
+    <string name="propertyDanceablility">흥겨운</string>
+    <string name="propertyEnergy">에너지 넘치는</string>
+    <string name="propertyLiveness">라이브</string>
+    <string name="propertySpeechiness">말이 많은</string>
+    <string name="propertyAcousticness">어쿠스틱</string>
+    <string name="propertyInstrumentalness">연주곡</string>
+
     <string name="YouTubeError">에러가 발생했습니다. 다시 시도해주세요!</string>
 
 </resources>

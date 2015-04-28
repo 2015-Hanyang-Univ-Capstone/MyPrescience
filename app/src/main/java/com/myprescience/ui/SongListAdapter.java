@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myprescience.R;
+import com.myprescience.dto.SongData;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

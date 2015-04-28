@@ -24,9 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myprescience.R;
-
-import static com.myprescience.util.Server.getFACEBOOK_PROFILE_BITMAP;
-import static com.myprescience.util.Server.getUSER_NAME;
+import com.myprescience.dto.UserData;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -35,6 +33,7 @@ import static com.myprescience.util.Server.getUSER_NAME;
  */
 public class NavigationDrawerFragment extends Fragment {
 
+    private UserData userDTO = new UserData();
     /**
      * Remember the position of the selected item.
      */
@@ -104,10 +103,10 @@ public class NavigationDrawerFragment extends Fragment {
         ViewGroup framelayout = (ViewGroup) mNaviGroup.getChildAt(0);
 
         ImageView ProfilImageView = (ImageView) framelayout.getChildAt(1);
-        ProfilImageView.setImageDrawable(getFACEBOOK_PROFILE_BITMAP());
+        ProfilImageView.setImageDrawable(userDTO.getFacebook_profile());
 
         TextView nameTextView = (TextView) framelayout.getChildAt(2);
-        nameTextView.setText(getUSER_NAME());
+        nameTextView.setText(userDTO.getName());
 
         TextView levelTextView = (TextView) framelayout.getChildAt(3);
         levelTextView.setText("Beginner");

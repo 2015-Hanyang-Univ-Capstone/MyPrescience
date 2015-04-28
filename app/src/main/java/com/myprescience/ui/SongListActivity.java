@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myprescience.R;
+import com.myprescience.dto.UserData;
 import com.myprescience.util.Indicator;
 import com.myprescience.util.RoundImage;
 
@@ -54,7 +55,6 @@ import static com.myprescience.util.Server.VALENCE_SONGS;
 import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.getLevel;
 import static com.myprescience.util.Server.getStringFromUrl;
-import static com.myprescience.util.Server.getUSER_ID;
 
 /**
  * 곡 리스트 출력하는 액티비티
@@ -62,6 +62,8 @@ import static com.myprescience.util.Server.getUSER_ID;
 
 
 public class SongListActivity extends Activity implements SongFilterFragment.OnFilterSelectedListener {
+
+    private UserData userDTO = new UserData();
 
     private static final String LIST_FRAGMENT_TAG = "list_fragment";
 
@@ -139,10 +141,10 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
                 }
             });
 
-            new selectSongCountTask().execute(SERVER_ADDRESS+RATING_API+SELECT_SONG_COUNT+WITH_USER+getUSER_ID());
+            new selectSongCountTask().execute(SERVER_ADDRESS+RATING_API+SELECT_SONG_COUNT+WITH_USER+userDTO.getId());
         }
 
-        songListAdapter = new SongListAdapter(SongListActivity.this, selectCount, progressBar, textView, rightButton, getUSER_ID());
+        songListAdapter = new SongListAdapter(SongListActivity.this, selectCount, progressBar, textView, rightButton, userDTO.getId());
         songListView = (ListView) findViewById(R.id.songListView);
         songListView.setAdapter(songListAdapter);
 
@@ -205,7 +207,7 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
     public void onFilterSelected(int mode) {
         initSongList();
         MODE = mode;
-        songListAdapter = new SongListAdapter(SongListActivity.this, selectCount, progressBar, textView, rightButton, getUSER_ID());
+        songListAdapter = new SongListAdapter(SongListActivity.this, selectCount, progressBar, textView, rightButton, userDTO.getId());
         songListView.setAdapter(songListAdapter);
         songListAdapter.notifyDataSetChanged();
         selectSongsWithMode(mode, modeIntent);
@@ -308,46 +310,46 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
 
         switch(mode) {
             case 0 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+RANDOM_SONGS+WITH_USER+getUSER_ID());
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+RANDOM_SONGS+WITH_USER+userDTO.getId());
                 break;
             case 1 :
                 ArrayList<String> selectGenre = intent.getExtras().getStringArrayList("selectGenre");
                 genres = TextUtils.join(",", selectGenre);
 
-                new getSimpleSongTask().execute(SERVER_ADDRESS+BILLBOARD_API+GENRE_TOP+genres+WITH_USER+getUSER_ID());
+                new getSimpleSongTask().execute(SERVER_ADDRESS+BILLBOARD_API+GENRE_TOP+genres+WITH_USER+userDTO.getId());
                 break;
             case 2 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+KOR_SONGS+WITH_USER+getUSER_ID());
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+KOR_SONGS+WITH_USER+userDTO.getId());
                 break;
             case 4 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+BILLBOARD_API+HOT100+WITH_USER+getUSER_ID());
+                new getSimpleSongTask().execute(SERVER_ADDRESS+BILLBOARD_API+HOT100+WITH_USER+userDTO.getId());
                 break;
             case 5 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+VALENCE_SONGS+WITH_USER+getUSER_ID());
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+VALENCE_SONGS+WITH_USER+userDTO.getId());
                 break;
             case 6 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+LOUDNESS_SONGS+WITH_USER+getUSER_ID());
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+LOUDNESS_SONGS+WITH_USER+userDTO.getId());
                 break;
             case 7 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+DANCEABILITY_SONGS+WITH_USER+getUSER_ID());
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+DANCEABILITY_SONGS+WITH_USER+userDTO.getId());
                 break;
             case 8 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+ENERGY_SONGS+WITH_USER+getUSER_ID());
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+ENERGY_SONGS+WITH_USER+userDTO.getId());
                 break;
             case 9 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+LIVENESS_SONGS+WITH_USER+getUSER_ID());
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+LIVENESS_SONGS+WITH_USER+userDTO.getId());
                 break;
             case 10 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SPEECHINCESS_SONGS+WITH_USER+getUSER_ID());
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SPEECHINCESS_SONGS+WITH_USER+userDTO.getId());
                 break;
             case 11 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+ACOUSTIC_SONGS+WITH_USER+getUSER_ID());
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+ACOUSTIC_SONGS+WITH_USER+userDTO.getId());
                 break;
             case 12 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+INSTRUMENTALNESS_SONGS+WITH_USER+getUSER_ID());
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+INSTRUMENTALNESS_SONGS+WITH_USER+userDTO.getId());
                 break;
             case 13 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+MYP_RANK_SONGS+WITH_USER+getUSER_ID());
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+MYP_RANK_SONGS+WITH_USER+userDTO.getId());
                 break;
         }
     }

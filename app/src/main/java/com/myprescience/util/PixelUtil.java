@@ -89,7 +89,7 @@ public class PixelUtil {
     }
 
     public static JSONObject getProperImage(JSONArray images, int width) {
-        int min = 1000;
+        int min = 1500;
         JSONObject properImage = null;
         for(int i = 0; i < images.size(); i ++) {
             JSONObject image = (JSONObject) images.get(i);

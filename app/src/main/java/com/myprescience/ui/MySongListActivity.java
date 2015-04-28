@@ -15,6 +15,7 @@ import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
 import com.myprescience.R;
+import com.myprescience.dto.UserData;
 import com.myprescience.util.Indicator;
 
 import org.json.simple.JSONArray;
@@ -29,12 +30,13 @@ import static com.myprescience.util.Server.USER_API;
 import static com.myprescience.util.Server.USER_ID_WITH_FACEBOOK_ID;
 import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.getStringFromUrl;
-import static com.myprescience.util.Server.getUSER_ID;
 
 /**
  * Created by dongjun on 15. 4. 6..
  */
 public class MySongListActivity extends Activity {
+
+    private UserData userDTO = new UserData();
 
     private GridView gridView;
     private MySongListAdapter mySongListAdapter;
@@ -76,10 +78,10 @@ public class MySongListActivity extends Activity {
 
         gridView = (GridView) findViewById(R.id.mysongGridView);
 
-        mySongListAdapter = new MySongListAdapter(this, getUSER_ID());
+        mySongListAdapter = new MySongListAdapter(this, userDTO.getId());
         gridView.setAdapter(mySongListAdapter);
 
-        new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+WITH_USER+getUSER_ID());
+        new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+WITH_USER+userDTO.getId());
 
         gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -95,12 +97,12 @@ public class MySongListActivity extends Activity {
                     mListCount += mListAddCount;
 //                        else if(totalItemCount+10 > totalListSize && !(totalItemCount >= totalListSize))
 //                            mListCount = totalListSize - (10+1);
-                    new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+WITH_USER+getUSER_ID());
+                    new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+WITH_USER+userDTO.getId());
                     mLockListView = true;
                 } else if(totalItemCount + mListAddCount >= totalListSize && totalListSize != 0) {
                     mListCount += mListAddCount;
                     mListAddCount =  totalListSize - mListCount;
-                    new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+WITH_USER+getUSER_ID());
+                    new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+WITH_USER+userDTO.getId());
                     Toast.makeText(getApplicationContext(), "노래를 전부 가져왔습니다.", Toast.LENGTH_LONG);
                     gridView.setOnScrollListener(null);
                 }

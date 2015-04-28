@@ -87,8 +87,7 @@
     <style name="MyActionBarTitleText"
         parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">#ffffff</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">15sp</item>
         <!-- The textColor property is backward compatible with the Support Library -->
     </style>
 
@@ -124,7 +123,7 @@
 
     <style name="TabActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
-        <item name="android:background">@color/color_base_blue</item>
+        <item name="android:background">@color/color_base_theme</item>
 
         <!-- Support library compatibility -->
         <item name="titleTextStyle">@style/MyActionBarTitleText</item>

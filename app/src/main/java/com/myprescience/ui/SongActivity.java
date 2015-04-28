@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myprescience.R;
+import com.myprescience.dto.UserData;
 import com.myprescience.util.ChromeClient;
 import com.myprescience.util.ErrorMsg;
 import com.myprescience.util.Indicator;
@@ -70,10 +71,11 @@ import static com.myprescience.util.Server.YOUTUBE_EMBED;
 import static com.myprescience.util.Server.YOUTUBE_RESULT_FIVE;
 import static com.myprescience.util.Server.YOUTUBE_API_KEY;
 import static com.myprescience.util.Server.getStringFromUrl;
-import static com.myprescience.util.Server.getUSER_ID;
 
 
 public class SongActivity extends YouTubeBaseActivity {
+
+    private UserData userDTO = new UserData();
 
     String SONG_URL = SERVER_ADDRESS+SONG_API+SONG_WITH_ID;
     String SONG_ID;
@@ -509,7 +511,7 @@ public class SongActivity extends YouTubeBaseActivity {
                     });
                 }
 
-                new getRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_RATING + SONG_ID + WITH_USER + getUSER_ID());
+                new getRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_RATING + SONG_ID + WITH_USER + userDTO.getId());
                 new getAvgRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_AVG_RATING + SONG_ID);
 
                 String keyword = title+" "+artist;

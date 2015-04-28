@@ -18,6 +18,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.myprescience.R;
+import com.myprescience.dto.SongData;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

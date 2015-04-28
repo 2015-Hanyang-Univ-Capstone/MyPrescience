@@ -19,9 +19,9 @@ import static com.myprescience.util.Server.RECOMMEND_SONGS;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.getStringFromUrl;
-import static com.myprescience.util.Server.getUSER_ID;
 
 import com.myprescience.R;
+import com.myprescience.dto.UserData;
 import com.myprescience.util.Indicator;
 
 import org.json.simple.JSONArray;
@@ -31,6 +31,8 @@ import org.json.simple.parser.ParseException;
 
 @SuppressLint("ValidFragment")
 public class RecommendSongListTab extends Fragment {
+
+    private UserData userDTO = new UserData();
 
     Context mContext;
 
@@ -60,9 +62,9 @@ public class RecommendSongListTab extends Fragment {
         mIndicator = new Indicator(mContext, view);
 
         mRecommendListView = (ListView) view.findViewById(R.id.recommendSongListView);
-        mRecommendSongListAdapter = new RecommendSongListAdapter(mContext, getUSER_ID());
+        mRecommendSongListAdapter = new RecommendSongListAdapter(mContext, userDTO.getId());
         mRecommendListView.setAdapter(mRecommendSongListAdapter);
-        new getRecommendSongTask().execute(SERVER_ADDRESS+RECOMMEND_API+RECOMMEND_SONGS+WITH_USER+getUSER_ID());
+        new getRecommendSongTask().execute(SERVER_ADDRESS+RECOMMEND_API+RECOMMEND_SONGS+WITH_USER+userDTO.getId());
 
         // 스크롤 했을 때 마지막 셀이 보인다면 추가로 로딩
         mRecommendListView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -80,12 +82,12 @@ public class RecommendSongListTab extends Fragment {
                     mListCount += mListAddCount;
 //                        else if(totalItemCount+10 > totalListSize && !(totalItemCount >= totalListSize))
 //                            mListCount = totalListSize - (10+1);
-                    new getRecommendSongTask().execute(SERVER_ADDRESS+RECOMMEND_API+RECOMMEND_SONGS+WITH_USER+getUSER_ID());
+                    new getRecommendSongTask().execute(SERVER_ADDRESS+RECOMMEND_API+RECOMMEND_SONGS+WITH_USER+userDTO.getId());
                     mLockListView = true;
                 } else if(totalItemCount+mListAddCount > totalListSize && totalListSize != 0) {
                     mListCount += mListAddCount;
                     mListAddCount =  totalListSize - mListCount;
-                    new getRecommendSongTask().execute(SERVER_ADDRESS+RECOMMEND_API+RECOMMEND_SONGS+WITH_USER+getUSER_ID());
+                    new getRecommendSongTask().execute(SERVER_ADDRESS+RECOMMEND_API+RECOMMEND_SONGS+WITH_USER+userDTO.getId());
                     mRecommendListView.setOnScrollListener(null);
                 }
             }

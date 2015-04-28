@@ -17,6 +17,7 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 import com.myprescience.R;
+import com.myprescience.dto.UserData;
 import com.myprescience.util.RoundImage;
 
 import org.json.simple.JSONArray;
@@ -36,14 +37,12 @@ import static com.myprescience.util.Server.USER_API;
 import static com.myprescience.util.Server.USER_ID_WITH_FACEBOOK_ID;
 import static com.myprescience.util.Server.WIDTH_150;
 import static com.myprescience.util.Server.getStringFromUrl;
-import static com.myprescience.util.Server.setFACEBOOK_PROFILE_BITMAP;
-import static com.myprescience.util.Server.setUSER_ID;
-import static com.myprescience.util.Server.setUSER_NAME;
 
 
 public class LoginActivity extends FragmentActivity {
     private MainFragment mainFragment;
     private Button guestButton;
+    private UserData userDTO = new UserData();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +118,7 @@ public class LoginActivity extends FragmentActivity {
         new insertUserTask().execute(SERVER_ADDRESS+USER_API+INSERT_FACEBOOK_ID+user.getId());
         new searchUserTask().execute(SERVER_ADDRESS+USER_API+USER_ID_WITH_FACEBOOK_ID+user.getId());
         new LoadProfileImage().execute(FACEBOOK_PROFILE+user.getId()+WIDTH_150);
-        setUSER_NAME(user.getName());
+        userDTO.setName(user.getName());
     }
 
     class searchUserTask extends AsyncTask<String, String, Void> {
@@ -137,7 +136,7 @@ public class LoginActivity extends FragmentActivity {
 
             if(users != null) {
                 JSONObject user = (JSONObject) users.get(0);
-                setUSER_ID(Integer.parseInt((String) user.get("user_id")));
+                userDTO.setId(Integer.parseInt((String) user.get("user_id")));
             }
             return null;
         }
@@ -179,7 +178,7 @@ public class LoginActivity extends FragmentActivity {
         @Override
         protected void onPostExecute(Bitmap albumArt) {
             super.onPostExecute(albumArt);
-            setFACEBOOK_PROFILE_BITMAP(albumArt);
+            userDTO.setFacebook_profile(albumArt);
 
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);

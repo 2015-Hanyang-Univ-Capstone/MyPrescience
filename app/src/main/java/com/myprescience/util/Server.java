@@ -18,17 +18,7 @@ import java.io.InputStreamReader;
  */
 public class Server {
 
-    static private int USER_ID = 0;
-    static public int getUSER_ID() { return USER_ID; };
-    static public void setUSER_ID(int user_id) { USER_ID = user_id; };
 
-    static private RoundImage FACEBOOK_PROFILE_BITMAP = null;
-    static public RoundImage getFACEBOOK_PROFILE_BITMAP() { return FACEBOOK_PROFILE_BITMAP; };
-    static public void setFACEBOOK_PROFILE_BITMAP(Bitmap image) { FACEBOOK_PROFILE_BITMAP = new RoundImage(image); };
-
-    static private String USER_NAME = "";
-    static public String getUSER_NAME() { return USER_NAME; };
-    static public void setUSER_NAME(String user_name) { USER_NAME = user_name; };
 
     static public String ECHONEST_API_KEY = "ZZKPLNLJYHUVPSMXD";
     static public String ECHONEST_GENRE_SEARCH = "http://developer.echonest.com/api/v4/genre/search?api_key="+ECHONEST_API_KEY+"&format=json&results=500&name=";
