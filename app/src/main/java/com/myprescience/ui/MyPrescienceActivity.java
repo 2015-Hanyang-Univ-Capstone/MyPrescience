@@ -3,12 +3,14 @@ package com.myprescience.ui;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.widget.TextView;
 
 import com.myprescience.R;
 
@@ -37,12 +39,21 @@ public class MyPrescienceActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(R.layout.actionbar_title);
+
+        TextView TitleTextView = (TextView) findViewById(R.id.customActionbarTitle);
+        TitleTextView.setText(R.string.title_section2);
+        Typeface face = Typeface.createFromAsset(getAssets(),
+                "Steinerlight.ttf");
+        TitleTextView.setTypeface(face);
+
+//        actionBar.setHomeButtonEnabled(true);
+//        actionBar.setDisplayHomeAsUpEnabled(true);
 
         setContentView(R.layout.activity_my_prescience);
 
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+//		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
@@ -56,23 +67,24 @@ public class MyPrescienceActivity extends FragmentActivity implements
 		// When swiping between different sections, select the corresponding
 		// tab. We can also use ActionBar.Tab#select() to do this if we have
 		// a reference to the Tab.
-		mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                actionBar.setSelectedNavigationItem(position);
-            }
-        });
+
+//		mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+//            @Override
+//            public void onPageSelected(int position) {
+//                actionBar.setSelectedNavigationItem(position);
+//            }
+//        });
 
 		// For each of the sections in the app, add a tab to the action bar.
-		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-			// Create a tab with text corresponding to the page title defined by
-			// the adapter. Also specify this Activity object, which implements
-			// the TabListener interface, as the callback (listener) for when
-			// this tab is selected.
-			actionBar.addTab(actionBar.newTab()
-					.setText(mSectionsPagerAdapter.getPageTitle(i))
-					.setTabListener(this));
-		}
+//		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+//			// Create a tab with text corresponding to the page title defined by
+//			// the adapter. Also specify this Activity object, which implements
+//			// the TabListener interface, as the callback (listener) for when
+//			// this tab is selected.
+//			actionBar.addTab(actionBar.newTab()
+//					.setText(mSectionsPagerAdapter.getPageTitle(i))
+//					.setTabListener(this));
+//		}
 	}
 
 	@Override

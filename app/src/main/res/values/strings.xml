@@ -18,12 +18,12 @@
     <string name="title_section1">Home</string>
     <string name="title_section2">My Prescience</string>
     <string name="title_section3">노래 평가하기</string>
-    <string name="title_section4">마이 페이지</string>
+    <string name="title_section4">My Page</string>
 
     <string name="title_tab1">추천 노래</string>
     <string name="title_tab2">노래 찾기</string>
 
-    <string name="title_mysong_List">나의 노래</string>
+    <string name="title_mysong_List">My Song</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

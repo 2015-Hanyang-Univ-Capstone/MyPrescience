@@ -58,7 +58,7 @@
             android:paddingLeft="1dp"
             android:paddingRight="1dp"
             android:layout_gravity="center"
-            android:textColor="@color/color_base_light_blue"
+            android:textColor="@color/color_base_theme"
             android:textSize="12dp" />
 
     </LinearLayout>

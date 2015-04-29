@@ -78,7 +78,7 @@ public class NaviAdapter extends BaseAdapter {
 
         //Highlight the selected list item
         if (position == selectedposition[0]) {
-            convertView.setBackgroundResource(R.color.color_base_light_blue);
+            convertView.setBackgroundResource(R.color.color_base_theme);
             mViewHolder.tvTitle.setTextColor(Color.WHITE);
         } else {
             convertView.setBackgroundColor(Color.TRANSPARENT);

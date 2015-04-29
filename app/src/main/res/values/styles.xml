@@ -2,8 +2,12 @@
 
     <style name="base_center_white_text">
         <item name="android:gravity">center</item>
-        <item name="android:background">#93c3c7</item>
         <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <style name="base_center_blue_text">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/color_base_blue</item>
     </style>
 
     <!-- the theme applied to the application or activity -->
@@ -86,8 +90,9 @@
     <!-- ActionBar title text -->
     <style name="MyActionBarTitleText"
         parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">#ffffff</item>
+        <item name="android:textColor">@color/WhiteSmoke</item>
         <item name="android:textSize">15sp</item>
+        <item name="android:layout_gravity">center</item>
         <!-- The textColor property is backward compatible with the Support Library -->
     </style>
 
@@ -124,25 +129,33 @@
     <style name="TabActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
         <item name="android:background">@color/color_base_theme</item>
+        <item name="android:layout_gravity">center_horizontal</item>
 
         <!-- Support library compatibility -->
         <item name="titleTextStyle">@style/MyActionBarTitleText</item>
         <item name="background">@color/color_base_light_blue</item>
     </style>
 
-    <style name="TabActionBarTabBarStyle" parent="@android:style/Widget.Holo">
-        <item name="android:background">@color/color_base_light_blue</item>
+    <style name="TabActionBarTabBarStyle" parent="@android:style/Widget.Holo.Light">
+        <item name="android:background">@color/color_base_theme</item>
 
         <!-- Support library compatibility -->
-        <item name="background">@color/color_base_light_blue</item>
+        <item name="background">@color/color_base_theme</item>
     </style>
 
     <style name="TabActionBarTabTextStyle"
         parent="@android:style/Widget.Holo">
-        <item name="background">@color/color_base_light_blue</item>
-        <item name="android:textColor">#ffffff</item>
+        <item name="android:textColor">@color/WhiteSmoke</item>
         <item name="android:gravity">center</item>
         <!-- The textColor property is backward compatible with the Support Library -->
+    </style>
+
+    <style name="FacebookLoginButton">
+        <item name="android:textSize">15sp</item>
+        <item name="android:background">@color/color_base_theme</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
 </resources>
