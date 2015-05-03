@@ -6,6 +6,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.myprescience.R;
@@ -56,7 +59,13 @@ public class ImageLoad extends AsyncTask<Void, Void, Bitmap> {
             mIndicator.hide();
         BitmapDrawable bitmapDrawable = new BitmapDrawable(mActivity.getResources(), result);
         mImageView.setBackgroundDrawable(bitmapDrawable);
+        viewFadeIn(mImageView);
         mActivity.overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
+    private void viewFadeIn(View view) {
+        Animation animation = AnimationUtils.loadAnimation(mActivity, R.anim.abc_fade_in);
+        view.startAnimation(animation);
     }
 
 //    public Bitmap chopCenterBitmap(Bitmap srcBmp) {

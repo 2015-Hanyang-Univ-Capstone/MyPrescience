@@ -12,10 +12,13 @@ import android.graphics.drawable.LayerDrawable;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -25,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +49,7 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayer.PlayerStyle;
 import com.google.android.youtube.player.YouTubePlayerView;
+import com.myprescience.util.InsertUpdateQuery;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -54,6 +59,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.myprescience.util.Server.INSERT_RATING;
 import static com.myprescience.util.Server.RATING_API;
 import static com.myprescience.util.Server.SELECT_SONG_AVG_RATING;
 import static com.myprescience.util.Server.SELECT_SONG_RATING;
@@ -85,20 +91,21 @@ public class SongActivity extends YouTubeBaseActivity {
 
     private Activity mActivity = this;
 
-    private boolean finishPreview, finishImageLoad;
     private ScrollView scrollView;
     private ImageView albumArtView;
     private TextView titleTextView, artistTextView, genreTextView, ratingTextView, ratindCountTextView, songTypeTextView,
                         songModeTextView, songKeyTextView, tempoTextView, timeSignatureTextView, durationTextView,
                         albumNameTextView, trackNumTextView, userRatingTextView;
-    private RatingBar ratingBar;
+    private RatingBar ratingBar, mSongActivityRatingBar;
     private ProgressBar valanceProgressBar, loudnessProgressBar, danceablilityProgressBar, energyProgressBar,
                         livenessProgressBar, speechinessProgressBar, acousticnessProgressBar, instrumentalnessProgressBar,
                         popularityProgressBar;
-    private LinearLayout mArtistButton, mAlbumButton;
+    private LinearLayout mArtistButton, mAlbumButton, mEvaluationButton, mPreviewClick;
     private ImageButton previewButton;
     private MediaPlayer mPlayer;
     private YouTubePlayerView youTubeView;
+    private RelativeLayout mRatingRelativeLayout;
+    private Button mCloseButton;
 
     private String[] modes = {"Minor", "Major"};
     private String[] keys = {"C", "C#", "D", "E♭", "E", "F", "F#", "G", "A♭", "A", "B♭", "B"};
@@ -125,7 +132,9 @@ public class SongActivity extends YouTubeBaseActivity {
         artistTextView = (TextView) findViewById(R.id.artistTextView);
         genreTextView = (TextView) findViewById(R.id.genreTextView);
         ratingTextView = (TextView) findViewById(R.id.ratingTextView);
+
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+        mSongActivityRatingBar = (RatingBar) findViewById(R.id.songActivityRatingBar);
 
         LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(Color.parseColor("#93c3c7"), PorterDuff.Mode.SRC_ATOP);
@@ -137,6 +146,7 @@ public class SongActivity extends YouTubeBaseActivity {
 
         mArtistButton = (LinearLayout) findViewById(R.id.artistButton);
         mAlbumButton = (LinearLayout) findViewById(R.id.albumButton);
+        mEvaluationButton = (LinearLayout) findViewById(R.id.evaluationButton);
 
         songTypeTextView = (TextView) findViewById(R.id.songTypeTextView);
         songModeTextView = (TextView) findViewById(R.id.songModeTextView);
@@ -154,9 +164,13 @@ public class SongActivity extends YouTubeBaseActivity {
         acousticnessProgressBar = (ProgressBar) findViewById(R.id.acousticnessProgressBar);
         instrumentalnessProgressBar = (ProgressBar) findViewById(R.id.instrumentalnessProgressBar);
 
+        mPreviewClick = (LinearLayout) findViewById(R.id.previewClick);
         previewButton = (ImageButton) findViewById(R.id.previewButton);
 
         youTubeView = (YouTubePlayerView) findViewById(R.id.youtubeView);
+
+        mRatingRelativeLayout = (RelativeLayout) findViewById(R.id.ratingRelativeLayout);
+        mCloseButton = (Button) findViewById(R.id.closeButton);
 
         new getSongTask().execute(SONG_URL+SONG_ID);
     }
@@ -223,12 +237,14 @@ public class SongActivity extends YouTubeBaseActivity {
                     JSONObject rating = (JSONObject) response.get(0);
                     if(rating.get("avg") != null) {
                         float avg = Float.parseFloat((String) rating.get("avg"));
-                        int avg_rating = Math.round(avg);
-                        int rating_count = Integer.parseInt((String) rating.get("rating_count"));
+                        ratingTextView.setText(String.format("(%.1f)", avg / 2.0));
 
-                        ratingTextView.setText(String.format("(%.1f)", avg_rating / 2.0));
-                        ratingBar.setProgress(avg_rating);
+                        int rating_count = Integer.parseInt((String) rating.get("rating_count"));
                         ratindCountTextView.setText(rating_count + "명이 이 노래를 평가했습니다!");
+
+                        int avg_rating = Math.round(avg);
+                        ratingBar.setProgress(avg_rating);
+
                     }
                 }
             } catch (ParseException e) {
@@ -318,9 +334,6 @@ public class SongActivity extends YouTubeBaseActivity {
                 new setSourceTask(mPlayer).execute(preview);
             } else {
                 previewButton.setImageResource(R.drawable.icon_x_mark);
-
-                if ( mIndicator.isShowing())
-                    mIndicator.hide();
             }
 
         }
@@ -359,7 +372,7 @@ public class SongActivity extends YouTubeBaseActivity {
                 }
             });
 
-            previewButton.setOnClickListener(new OnClickListener() {
+            mPreviewClick.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (!mPlayer.isPlaying()) {
@@ -371,9 +384,6 @@ public class SongActivity extends YouTubeBaseActivity {
                     }
                 }
             });
-
-            if(mIndicator.isShowing())
-                mIndicator.hide();
         }
     }
 
@@ -443,7 +453,6 @@ public class SongActivity extends YouTubeBaseActivity {
                     trackNumTextView.setText(mErrorMsg.NOT_FOUND);
                     popularityProgressBar.setProgress(0);
                     previewButton.setImageResource(R.drawable.icon_x_mark);
-                    finishPreview = true;
                 } else {
                     new getTrackTask().execute(SPOTIFY_API+spotifyTrackID);
                 }
@@ -477,7 +486,7 @@ public class SongActivity extends YouTubeBaseActivity {
                 if(spotifyAlbumID.equals("albums/")) {
                     genreTextView.setText(mErrorMsg.NOT_FOUND);
                     albumNameTextView.setText(mErrorMsg.NOT_FOUND);
-                    albumArtView.setImageResource(R.drawable.icon_none);
+                    albumArtView.setImageResource(R.drawable.image_not_exist_300);
 
                     mAlbumButton.setOnClickListener(new OnClickListener() {
                         @Override
@@ -493,9 +502,7 @@ public class SongActivity extends YouTubeBaseActivity {
                             alert.show();
                         }
                     });
-
-                    if (finishPreview && mIndicator.isShowing())
-                        mIndicator.hide();
+                    mIndicator.hide();
                 } else {
                     new getAlbumTask().execute(SPOTIFY_API+spotifyAlbumID);
 
@@ -513,6 +520,45 @@ public class SongActivity extends YouTubeBaseActivity {
 
                 new getRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_RATING + SONG_ID + WITH_USER + userDTO.getId());
                 new getAvgRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_AVG_RATING + SONG_ID);
+
+                mEvaluationButton.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Animation fadeInAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_fade_in);
+                        mRatingRelativeLayout.setVisibility(View.VISIBLE);
+                        mRatingRelativeLayout.startAnimation(fadeInAnimation);
+                    }
+                });
+
+                mSongActivityRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                    @Override
+                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                        int ratingInt = (int)(rating*2);
+                        new InsertUpdateQuery().execute(SERVER_ADDRESS + RATING_API + INSERT_RATING +
+                                "user_id=" + userDTO.getId() + "&song_id=" + SONG_ID + "&rating=" + ratingInt);
+                        Toast toast = Toast.makeText(getApplicationContext(), rating+"/5.0점으로 평가되었습니다!", Toast.LENGTH_SHORT);
+                        toast.show();
+
+                        new getRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_RATING + SONG_ID + WITH_USER + userDTO.getId());
+                        new getAvgRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_AVG_RATING + SONG_ID);
+
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                mCloseButton.callOnClick();
+                            }
+                        }, 1000);
+                    }
+                });
+
+                mCloseButton.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Animation fadeOutAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_fade_out);
+                        mRatingRelativeLayout.setVisibility(View.GONE);
+                        mRatingRelativeLayout.startAnimation(fadeOutAnimation);
+                    }
+                });
 
                 String keyword = title+" "+artist;
                 new setYouTubeTask(youTubeView).execute(YOUTUBE_API + URLEncoder.encode(keyword, "utf-8") + YOUTUBE_RESULT_FIVE+YOUTUBE_API_KEY+VIDEO_MOST_VIEW);
@@ -571,9 +617,7 @@ public class SongActivity extends YouTubeBaseActivity {
             super.onPostExecute(result);
             imageView.setImageBitmap(result);
             overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-
-            finishImageLoad = true;
-            if (finishPreview && mIndicator.isShowing())
+            if (mIndicator.isShowing())
                 mIndicator.hide();
         }
     }

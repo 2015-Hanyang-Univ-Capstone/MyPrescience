@@ -30,19 +30,14 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
-import static com.myprescience.util.Server.ACOUSTIC_SONGS;
 import static com.myprescience.util.Server.BILLBOARD_API;
-import static com.myprescience.util.Server.DANCEABILITY_SONGS;
-import static com.myprescience.util.Server.ENERGY_SONGS;
 import static com.myprescience.util.Server.FIRST_MODE;
 import static com.myprescience.util.Server.GENRE_TOP;
 import static com.myprescience.util.Server.HOT100;
-import static com.myprescience.util.Server.INSTRUMENTALNESS_SONGS;
-import static com.myprescience.util.Server.KOR_SONGS;
-import static com.myprescience.util.Server.LIVENESS_SONGS;
-import static com.myprescience.util.Server.LOUDNESS_SONGS;
 import static com.myprescience.util.Server.MODE;
 import static com.myprescience.util.Server.MYP_RANK_SONGS;
 import static com.myprescience.util.Server.RANDOM_MODE;
@@ -51,8 +46,8 @@ import static com.myprescience.util.Server.RATING_API;
 import static com.myprescience.util.Server.SELECT_SONG_COUNT;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SONG_API;
-import static com.myprescience.util.Server.SPEECHINCESS_SONGS;
-import static com.myprescience.util.Server.VALENCE_SONGS;
+import static com.myprescience.util.Server.SONG_WTIH_CLAUSE;
+import static com.myprescience.util.Server.SONG_WTIH_GENRE_CLAUSE;
 import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.getLevel;
 import static com.myprescience.util.Server.getStringFromUrl;
@@ -317,7 +312,28 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
 
     public void selectSongsWithMode(int mode, Intent intent) {
 
-        Log.e("mode", mode+"");
+        String korFilter = "country%20=%20%27kor%27";
+        String popFilter = "country%20is%20null";
+        String bbhot100Filter = "country%20=%20%27bbhot100%27";
+
+        String genrePopFilter = "genres%20LIKE%20%22%25pop%25%22";
+        String genreHiphopFilter = "genres%20LIKE%20%22%25hip%20hop%25%22";
+        String genreRnBFilter = "genres%20LIKE%20%22%25r%26b%25%22";
+        String genreRockFilter = "genres%20LIKE%20%22%25rock%25%22";
+        String genreCountryFilter = "genres%20LIKE%20%22%25country%25%22";
+        String genreElectronicFilter = "genres%20LIKE%20%22%25electro%25%22";
+        String genreJazzFilter = "genres%20LIKE%20%22%25jazz%25%22";
+        String genreClubFilter = "genres%20LIKE%20%22%25club%25%22";
+
+        String degree = "0.75";
+        String valenceFilter = "valence%20%3E%20" + degree;
+        String loudnessFilter = "loudness%20%3E%20" + degree;
+        String dancabilityFilter = "danceability%20%3E%20" + degree;
+        String energyFilter = "energy%20%3E%20" + degree;
+        String livenessFilter = "liveness%20%3E%20" + degree;
+        String speechinessFilter = "speechiness%20%3E%20" + degree;
+        String acousticFilter = "acousticness%20%3E%20" + degree;
+        String instrumentalFilter = "instrumentalness%20%3E%20\" + degree";
 
         switch(mode) {
             case 0 :
@@ -330,36 +346,85 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
                 new getSimpleSongTask().execute(SERVER_ADDRESS+BILLBOARD_API+GENRE_TOP+genres+WITH_USER+userDTO.getId());
                 break;
             case 2 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+KOR_SONGS+WITH_USER+userDTO.getId());
+                new getSimpleSongTask().execute(SERVER_ADDRESS + SONG_API + SONG_WTIH_CLAUSE +
+                        korFilter + WITH_USER + userDTO.getId());
+                break;
+            case 3 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_CLAUSE+
+                        popFilter+WITH_USER+userDTO.getId());
                 break;
             case 4 :
                 new getSimpleSongTask().execute(SERVER_ADDRESS+BILLBOARD_API+HOT100+WITH_USER+userDTO.getId());
                 break;
-            case 5 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+VALENCE_SONGS+WITH_USER+userDTO.getId());
+
+
+            case 41 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_GENRE_CLAUSE+
+                        genrePopFilter+WITH_USER+userDTO.getId());
                 break;
-            case 6 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+LOUDNESS_SONGS+WITH_USER+userDTO.getId());
+            case 42 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_GENRE_CLAUSE+
+                        genreHiphopFilter+WITH_USER+userDTO.getId());
                 break;
-            case 7 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+DANCEABILITY_SONGS+WITH_USER+userDTO.getId());
+            case 43 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_GENRE_CLAUSE+
+                        genreRnBFilter+WITH_USER+userDTO.getId());
                 break;
-            case 8 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+ENERGY_SONGS+WITH_USER+userDTO.getId());
+            case 44 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_GENRE_CLAUSE+
+                        genreRockFilter+WITH_USER+userDTO.getId());
                 break;
-            case 9 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+LIVENESS_SONGS+WITH_USER+userDTO.getId());
+            case 45 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS + SONG_API + SONG_WTIH_GENRE_CLAUSE +
+                        genreCountryFilter + WITH_USER + userDTO.getId());
                 break;
-            case 10 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SPEECHINCESS_SONGS+WITH_USER+userDTO.getId());
+            case 46 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_GENRE_CLAUSE+
+                        genreElectronicFilter+WITH_USER+userDTO.getId());
                 break;
-            case 11 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+ACOUSTIC_SONGS+WITH_USER+userDTO.getId());
+            case 47 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_GENRE_CLAUSE+
+                        genreJazzFilter+WITH_USER+userDTO.getId());
                 break;
-            case 12 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+INSTRUMENTALNESS_SONGS+WITH_USER+userDTO.getId());
+            case 48 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_GENRE_CLAUSE+
+                        genreClubFilter+WITH_USER+userDTO.getId());
                 break;
-            case 13 :
+
+
+            case 101 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_CLAUSE+
+                        valenceFilter+WITH_USER+userDTO.getId());
+                break;
+            case 102 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_CLAUSE+
+                        loudnessFilter+WITH_USER+userDTO.getId());
+                break;
+            case 103 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_CLAUSE+
+                        dancabilityFilter+WITH_USER+userDTO.getId());
+                break;
+            case 104 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_CLAUSE+
+                        energyFilter+WITH_USER+userDTO.getId());
+                break;
+            case 105 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_CLAUSE+
+                        livenessFilter+WITH_USER+userDTO.getId());
+                break;
+            case 106 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_CLAUSE+
+                        speechinessFilter+WITH_USER+userDTO.getId());
+                break;
+            case 107 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_CLAUSE+
+                        acousticFilter+WITH_USER+userDTO.getId());
+                break;
+            case 108 :
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_CLAUSE+
+                        instrumentalFilter+WITH_USER+userDTO.getId());
+                break;
+            case 109 :
                 new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+MYP_RANK_SONGS+WITH_USER+userDTO.getId());
                 break;
         }

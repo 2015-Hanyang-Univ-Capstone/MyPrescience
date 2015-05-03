@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
 import android.widget.TextView;
 
 import com.myprescience.R;
@@ -157,6 +158,8 @@ public class MyPrescienceActivity extends FragmentActivity implements
                 // NavUtils.navigateUpFromSameTask(this);
                 finish();
                 return true;
+            case R.id.action_settings:
+
         }
         return super.onOptionsItemSelected(item);
     };

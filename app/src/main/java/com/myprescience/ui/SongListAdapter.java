@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.myprescience.R;
 import com.myprescience.dto.SongData;
+import com.myprescience.util.InsertUpdateQuery;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -111,7 +112,7 @@ public class SongListAdapter extends BaseAdapter{
         // Spotify에 앨범아트 정보가 있을 경우
         if(!(mData.albumUrl).equals("albums/")) {
             if(mData.albumArt == null) {
-                holder.albumImageView.setImageResource(R.drawable.icon_loading);
+                holder.albumImageView.setImageResource(R.drawable.image_loading);
                 try {
                     new LoadAlbumArt(position, holder, mData).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, SPOTIFY_API + mData.albumUrl);
                 } catch (Exception e) { e.printStackTrace(); }
@@ -120,7 +121,7 @@ public class SongListAdapter extends BaseAdapter{
                 holder.albumImageView.setImageBitmap(mData.albumArt);
 
         } else {
-            holder.albumImageView.setImageResource(R.drawable.icon_none);
+            holder.albumImageView.setImageResource(R.drawable.image_not_exist_64);
         }
 
         holder.ratingBar.setTag(position);
@@ -143,7 +144,7 @@ public class SongListAdapter extends BaseAdapter{
 
                 mListData.get(index).rating = (int)(rating*2);
 
-                new insertRatingTask().execute(SERVER_ADDRESS+RATING_API+INSERT_RATING+
+                new InsertUpdateQuery().execute(SERVER_ADDRESS+RATING_API+INSERT_RATING+
                         "user_id=" + userId + "&song_id=" + mListData.get(index).id + "&rating=" + mListData.get(index).rating);
 
                 Toast toast = Toast.makeText(mContext, rating+"/5.0점으로 평가되었습니다!", Toast.LENGTH_SHORT);
@@ -172,16 +173,6 @@ public class SongListAdapter extends BaseAdapter{
     @Override
     public long getItemId(int position) {
         return position;
-    }
-
-    class insertRatingTask extends AsyncTask<String, String, Void> {
-
-        @Override
-        protected Void doInBackground(String... url) {
-            String userIdJSON = getStringFromUrl(url[0]);
-            Log.e("userIdJSON", userIdJSON);
-            return null;
-        }
     }
 
     class LoadAlbumArt extends AsyncTask<String, String, Bitmap> {

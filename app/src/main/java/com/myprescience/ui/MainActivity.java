@@ -110,7 +110,7 @@ public class MainActivity extends ActionBarActivity
         mMyPHotList.add(mMyPHot_FrameLayout6);
         mMyPHotList.add(mMyPHot_FrameLayout7);
 
-        new getMyPHotSongs().execute(SERVER_ADDRESS+SONG_API+MYP_HOT_SONGS);
+//        new getMyPHotSongs().execute(SERVER_ADDRESS+SONG_API+MYP_HOT_SONGS);
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(

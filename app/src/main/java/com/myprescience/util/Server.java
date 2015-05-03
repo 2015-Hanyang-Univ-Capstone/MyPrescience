@@ -23,9 +23,12 @@ public class Server {
     static public String ECHONEST_API_KEY = "ZZKPLNLJYHUVPSMXD";
     static public String ECHONEST_GENRE_SEARCH = "http://developer.echonest.com/api/v4/genre/search?api_key="+ECHONEST_API_KEY+"&format=json&results=500&name=";
 
-    static public int MODE, RANDOM_MODE = 0, FIRST_MODE = 1, KPOP_MODE = 2, POP_MODE = 3, BILLBOARDHOT_MODE = 4, VALANCE_MODE = 5,
-                    LOUDNESS_MODE = 6, DANCABILITY_MODE = 7, ENERGY_MODE = 8, LIVENESS_MODE = 9, SPEECHINESS_MODE = 10,
-                    ACOUSTIC_MODE = 11, INSTRUMENTAL_MODE = 12, RANK_ORDER_MODE = 13;
+    static public int MODE, RANDOM_MODE = 0, FIRST_MODE = 1, KPOP_MODE = 2, POP_MODE = 3, BILLBOARDHOT_MODE = 4,
+                    Genre_POP_MODE = 41, Genre_HIPHOP_MODE = 42, Genre_RnB_MODE = 43, Genre_ROCK_MODE = 44,
+                    Genre_COUNTRY_MODE = 45, Genre_ELECTRONIC_MODE = 46, Genre_JAZZ_MODE = 47, Genre_CLUB_MODE = 48,
+                    VALANCE_MODE = 101, LOUDNESS_MODE = 102, DANCABILITY_MODE = 103, ENERGY_MODE = 104,
+                    LIVENESS_MODE = 105, SPEECHINESS_MODE = 106, ACOUSTIC_MODE = 107, INSTRUMENTAL_MODE = 108,
+                    RANK_ORDER_MODE = 109;
 
 //    static public String SERVER_ADDRESS = "http://218.37.209.129/MyPrescience/db";
 //    static public String SERVER_ADDRESS = "http://172.200.152.155:8888/MyPrescience/db";
@@ -40,15 +43,8 @@ public class Server {
     static public String SONG_API = "/Song.php?query=";
     static public String SONG_WITH_ID = "selectAllWithId&id=";
     static public String RANDOM_SONGS = "selectRanSongs";
-    static public String KOR_SONGS = "selectKorSongs";
-    static public String VALENCE_SONGS = "selectValenceSongs";
-    static public String LOUDNESS_SONGS = "selectLoudnessSongs";
-    static public String DANCEABILITY_SONGS = "selectDanceabilitySongs";
-    static public String ENERGY_SONGS = "selectEnergySongs";
-    static public String LIVENESS_SONGS = "selectLivenessSongs";
-    static public String SPEECHINCESS_SONGS = "selectSpeechinessSongs";
-    static public String ACOUSTIC_SONGS = "selectAcousticnessSongs";
-    static public String INSTRUMENTALNESS_SONGS = "selectInstrumentalnessSongs";
+    static public String SONG_WTIH_CLAUSE = "selectSongsWithClause&clause=";
+    static public String SONG_WTIH_GENRE_CLAUSE = "selectSongsWithGenreClause&clause=";
     static public String MYP_HOT_SONGS = "selectMyPHotSongs";
     static public String MYP_RANK_SONGS = "selectMypRankSongs";
 
@@ -65,6 +61,9 @@ public class Server {
 
     static public String RECOMMEND_API = "/Recommend.php?query=";
     static public String RECOMMEND_SONGS = "selectRecommendSongs";
+    static public String RECOMMEND_SEARCH_SONGS = "selectRecommendSearchSongs";
+    static public String CLAUSE = "&clause=AND%20";
+    static public String RECOMMEND_SEARCH_SONGS_WITH_GENRE = "selectRecommendSearchSongsWithGenre&genre=";
 
     static public String GENRES_API = "/Genres.php?query=";
     static public String INSERT_GENRE_DETAIL = "InsertGenreDetail";

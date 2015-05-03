@@ -102,7 +102,7 @@ public class MySongListAdapter extends BaseAdapter {
         // Spotify에 앨범아트 정보가 있을 경우
         if(!(mData.albumUrl).equals("albums/")) {
             if(mData.albumArt == null) {
-                holder.albumImageView.setImageResource(R.drawable.icon_loading);
+                holder.albumImageView.setImageResource(R.drawable.image_loading);
                 try {
                     new LoadAlbumArt(position, holder, mData).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, SPOTIFY_API + mData.albumUrl);
                 } catch (Exception e) { e.printStackTrace(); }
@@ -111,7 +111,7 @@ public class MySongListAdapter extends BaseAdapter {
                 holder.albumImageView.setImageBitmap(mData.albumArt);
 
         } else {
-            holder.albumImageView.setImageResource(R.drawable.icon_none);
+            holder.albumImageView.setImageResource(R.drawable.image_not_exist_300);
         }
         holder.albumImageView.setAdjustViewBounds(true);
         holder.ratingBar.setTag(position);

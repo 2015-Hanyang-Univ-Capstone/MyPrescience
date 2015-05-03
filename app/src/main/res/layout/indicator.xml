@@ -43,7 +43,4 @@
         android:id="@+id/progressBar"
         android:layout_centerInParent="true"/>
 
-
-
-
 </RelativeLayout>

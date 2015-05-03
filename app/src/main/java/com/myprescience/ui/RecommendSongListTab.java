@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -36,6 +38,7 @@ public class RecommendSongListTab extends Fragment {
 
     Context mContext;
 
+    private FrameLayout mRecommendLayout;
     private ListView mRecommendListView;
     private RecommendSongListAdapter mRecommendSongListAdapter;
 
@@ -59,7 +62,8 @@ public class RecommendSongListTab extends Fragment {
         mListCount = 0;
         mListAddCount = 5;
 
-        mIndicator = new Indicator(mContext, view);
+        mRecommendLayout = (FrameLayout) view.findViewById(R.id.recommendLayout);
+        mIndicator = new Indicator(mContext, mRecommendLayout);
 
         mRecommendListView = (ListView) view.findViewById(R.id.recommendSongListView);
         mRecommendSongListAdapter = new RecommendSongListAdapter(mContext, userDTO.getId());
