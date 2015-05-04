@@ -31,7 +31,7 @@ public class Server {
                     RANK_ORDER_MODE = 109;
 
 //    static public String SERVER_ADDRESS = "http://218.37.209.129/MyPrescience/db";
-//    static public String SERVER_ADDRESS = "http://172.200.152.155:8888/MyPrescience/db";
+//    static public String SERVER_ADDRESS = "http://172.200.152.173:8888/MyPrescience/db";
     static public String SERVER_ADDRESS = "http://166.104.245.89/MyPrescience/db";
     static public String SPOTIFY_API = "https://api.spotify.com/v1/";
     static public String WITH_USER = "&user_id=";
@@ -75,6 +75,8 @@ public class Server {
     static public String YOUTUBE_DEVELOPMENT_KEY = "AIzaSyCPt2JtKVntVf5N1Uq-GFo6ilAkfPQyPDM";
     static public String YOUTUBE_API = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=";
     static public String YOUTUBE_RESULT_FIVE = "&maxResults=5";
+    static public String YOUTUBE_RESULT_THREE = "&maxResults=3";
+    static public String YOUTUBE_RESULT_ONE = "&maxResults=1";
     static public String YOUTUBE_API_KEY = "&key=AIzaSyCPt2JtKVntVf5N1Uq-GFo6ilAkfPQyPDM";
     static public String YOUTUBE_EMBED= "http://www.youtube.com/embed/";
     static public String VIDEO_SMALL = "?vq=small";

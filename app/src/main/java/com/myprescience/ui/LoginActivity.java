@@ -72,9 +72,9 @@ public class LoginActivity extends FragmentActivity {
                     // callback after Graph API response with user object
                     @Override
                     public void onCompleted(GraphUser user, Response response) {
-                        Toast.makeText(LoginActivity.this, user.getName()+"님 환영합니다!", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(LoginActivity.this, user.getName()+"님 환영합니다!", Toast.LENGTH_SHORT).show();
                         initSetting(user);
-                        Toast.makeText(LoginActivity.this, "Loading...", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(LoginActivity.this, "Loading...", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -90,9 +90,9 @@ public class LoginActivity extends FragmentActivity {
                         // callback after Graph API response with user object
                         @Override
                         public void onCompleted(GraphUser user, Response response) {
-                            Toast.makeText(LoginActivity.this, user.getName()+"님 환영합니다!", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(LoginActivity.this, user.getName()+"님 환영합니다!", Toast.LENGTH_SHORT).show();
                             initSetting(user);
-                            Toast.makeText(LoginActivity.this, "Loading...", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(LoginActivity.this, "Loading...", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

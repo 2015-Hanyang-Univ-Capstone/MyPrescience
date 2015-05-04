@@ -5,4 +5,9 @@
     <color name="color_base_theme">#009688</color>
     <color name="color_base_background">#D8ECEC</color>
     <color name="WhiteSmoke">#F0F0F0</color>
+
+    <color name="title">#333333</color>
+    <color name="sub_title">#666666</color>
+
+    <color name="darker_gray">#aaa</color>
 </resources>

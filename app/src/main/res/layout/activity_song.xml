@@ -93,6 +93,7 @@ android:id="@+id/scrollView" >
                             android:textStyle="bold"
                             android:ellipsize="end"
                             android:maxLines="2"
+                            android:textAlignment="center"
                             android:text="Title" />
                     </LinearLayout>
 
@@ -110,6 +111,7 @@ android:id="@+id/scrollView" >
                             android:textColor="@color/WhiteSmoke"
                             android:ellipsize="end"
                             android:maxLines="2"
+                            android:textAlignment="center"
                             android:text="Artist"
                             android:clickable="true"/>
                     </LinearLayout>
@@ -129,6 +131,7 @@ android:id="@+id/scrollView" >
                             android:textColor="@android:color/white"
                             android:ellipsize="end"
                             android:maxLines="2"
+                            android:textAlignment="center"
                             android:text="Album" />
                     </LinearLayout>
 
@@ -162,6 +165,7 @@ android:id="@+id/scrollView" >
                             android:textColor="@android:color/white"
                             android:ellipsize="end"
                             android:maxLines="2"
+                            android:textAlignment="center"
                             android:text="Genre" />
                     </LinearLayout>
 
@@ -172,12 +176,13 @@ android:id="@+id/scrollView" >
                         android:layout_marginTop="5dp">
 
                         <TextView
+                            android:id="@+id/previeTextview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/WhiteSmoke"
-                            android:text="Preview " />
+                            android:text="Loading.. " />
 
                         <LinearLayout
                             android:id="@+id/previewClick"
@@ -191,7 +196,6 @@ android:id="@+id/scrollView" >
                                 android:layout_marginLeft="7dp"
                                 android:layout_width="21dp"
                                 android:layout_height="21dp"
-                                android:src="@drawable/icon_play"
                                 android:background="@android:color/white"
                                 android:scaleType="fitXY"/>
 
@@ -204,74 +208,81 @@ android:id="@+id/scrollView" >
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:background="@color/WhiteSmoke"
-                android:padding="10dp">
+                android:orientation="vertical"
+                android:background="@android:color/white" >
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="7dp"
-                    android:id="@+id/ratingTextView"
-                    android:textSize="15sp"
-                    android:textColor="@color/color_base_blue"
-                    android:text="(0.0)" />
+                    android:gravity="center_horizontal"
+                    android:padding="10dp">
 
-                <RatingBar
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:textSize="15sp"
+                        android:textColor="@color/color_base_blue"
+                        android:text="전체 평균 : " />
+
+                    <TextView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:id="@+id/ratingTextView"
+                        android:textSize="15sp"
+                        android:textColor="@android:color/white"
+                        android:background="@drawable/ring_rating_song_avg"
+                        android:text="0.0" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ratingCountTextView"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="12sp"
+                        android:textColor="@color/color_base_blue"
+                        android:text="이 노래에 대한 평가가 없습니다. \n첫 평가자가 되어주세요!" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:id="@+id/ratingBar"
-                    android:layout_gravity="center_vertical"
-                    android:rating="0"
-                    style="?android:attr/ratingBarStyleSmall" />
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="10dp"
+                    android:weightSum="4">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/ratingCountTextView"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="12sp"
-                    android:textColor="@color/color_base_blue"
-                    android:text="이 노래에 대한 평가가 없습니다. \n첫 평가자가 되어주세요!" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/color_base_blue"
+                        android:text="인기도(Spotify) : " />
 
-            </LinearLayout>
+                    <ProgressBar
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:id="@+id/popularityProgressBar"
+                        android:indeterminate="false"
+                        android:layout_marginTop="7dp"
+                        android:maxHeight="10dip"
+                        android:minHeight="10dip"
+                        android:progress="50"
+                        android:progressDrawable="@drawable/greenprogress" />
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/WhiteSmoke"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="10dp"
-                android:weightSum="4">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textColor="@color/color_base_blue"
-                    android:text="인기도(Spotify) : " />
-
-                <ProgressBar
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:id="@+id/popularityProgressBar"
-                    android:indeterminate="false"
-                    android:layout_marginTop="7dp"
-                    android:maxHeight="10dip"
-                    android:minHeight="10dip"
-                    android:progress="50"
-                    android:progressDrawable="@drawable/greenprogress" />
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -303,7 +314,7 @@ android:id="@+id/scrollView" >
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/color_base_light_blue"
+                        android:textColor="@color/color_base_blue"
                         android:text="아티스트"/>
 
                 </LinearLayout>
@@ -328,7 +339,7 @@ android:id="@+id/scrollView" >
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/color_base_light_blue"
+                        android:textColor="@color/color_base_blue"
                         android:text="앨범조회"/>
 
                 </LinearLayout>
@@ -353,7 +364,7 @@ android:id="@+id/scrollView" >
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/color_base_light_blue"
+                        android:textColor="@color/color_base_blue"
                         android:text="평가하기"/>
 
                 </LinearLayout>
@@ -378,7 +389,7 @@ android:id="@+id/scrollView" >
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/color_base_light_blue"
+                        android:textColor="@color/color_base_blue"
                         android:text="PlayList"/>
 
                 </LinearLayout>
@@ -389,158 +400,171 @@ android:id="@+id/scrollView" >
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:drawable/dialog_holo_light_frame"
-                android:layout_margin="3dp"
-                android:padding="15dp"
-                android:gravity="center">
-
+                android:background="@android:drawable/dialog_holo_light_frame" >
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@android:color/white"
+                    android:padding="15dp"
+                    android:gravity="center"
+                    android:divider="@drawable/divider_black"
+                    android:showDividers="middle" >
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
                         android:layout_weight="2"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textStyle="bold"
-                        android:textColor="@color/color_base_blue"
-                        android:text="Type : " />
+                        android:textColor="@color/title"
+                        android:text="노래 세부사항" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:id="@+id/songTypeTextView"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/color_base_light_blue"
-                        android:text="SongType" />
+                        android:padding="5dp"
+                        android:orientation="vertical">
 
-                </LinearLayout>
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp" >
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="@color/title"
+                                android:textStyle="bold"
+                                android:text="조표        " />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/color_base_blue"
-                        android:textStyle="bold"
-                        android:text="조표 : " />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/songModeTextView"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="@color/sub_title"
+                                android:text="Mode" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:id="@+id/songModeTextView"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/color_base_light_blue"
-                        android:text="Mode" />
+                        </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/color_base_blue"
-                        android:textStyle="bold"
-                        android:text="Key : " />
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp" >
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:id="@+id/songKeyTextView"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/color_base_light_blue"
-                        android:text="Key" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="@color/title"
+                                android:textStyle="bold"
+                                android:text="Key        " />
 
-                </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/songKeyTextView"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="@color/sub_title"
+                                android:text="Key" />
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                        </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textStyle="bold"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/color_base_blue"
-                        android:text="빠르기 : " />
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp" >
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:id="@+id/tempoTextView"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/color_base_light_blue"
-                        android:text="Tempo" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="@color/title"
+                                android:textStyle="bold"
+                                android:text="빠르기    " />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textStyle="bold"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/color_base_blue"
-                        android:text="박자 : " />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/tempoTextView"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="@color/sub_title"
+                                android:text="Tempo" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:id="@+id/timeSignatureTextView"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/color_base_light_blue"
-                        android:text="Time_Signature" />
+                        </LinearLayout>
 
-                </LinearLayout>
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp" >
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="@color/title"
+                                android:textStyle="bold"
+                                android:text="박자       " />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textStyle="bold"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/color_base_blue"
-                        android:text="재생시간 : " />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/timeSignatureTextView"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="@color/sub_title"
+                                android:text="Time_Signature" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:id="@+id/durationTextView"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/color_base_light_blue"
-                        android:text="Durations" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp" >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="@color/title"
+                                android:textStyle="bold"
+                                android:text="재생시간   " />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/durationTextView"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="@color/sub_title"
+                                android:text="Durations" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
             </LinearLayout>
-
 
         <LinearLayout
             android:orientation="vertical"
@@ -548,289 +572,368 @@ android:id="@+id/scrollView" >
             android:layout_height="wrap_content"
             android:background="@android:drawable/dialog_holo_light_frame"
             android:gravity="center">
+
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_base_light_blue"
                 android:padding="10dp"
-                android:gravity="center">
+                android:gravity="center"
+                android:divider="@drawable/divider_white"
+                android:showDividers="middle" >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:layout_gravity="center"
+                    android:layout_gravity="left"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#FFF"
                     android:textStyle="bold"
-                    android:text="노래 세부사항" />
+                    android:text="이 노래는.." />
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:background="@android:color/white" >
 
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:textColor="#FFF"
-                        android:text="Valance : " />
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
 
-                    <ProgressBar
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:id="@+id/valanceProgressBar"
-                        android:indeterminate="false"
-                        android:layout_marginTop="7dp"
-                        android:maxHeight="10dip"
-                        android:minHeight="10dip"
-                        android:progress="50"
-                        android:progressDrawable="@drawable/greenprogress" />
+                        <TextView
+                            android:id="@+id/valanceTextview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="10dp"
+                            android:padding="7dp"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textColor="#FFF"
+                            android:background="@drawable/rectangle_not_active"
+                            android:text="균형있는" />
+
+                        <TextView
+                            android:id="@+id/songType1Textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="10dp"
+                            android:padding="7dp"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#FFF"
+                            android:background="@drawable/rectangle_not_active"
+                            android:text="스튜디오" />
+
+                        <TextView
+                            android:id="@+id/livenessTextview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="10dp"
+                            android:padding="7dp"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textColor="#FFF"
+                            android:background="@drawable/rectangle_not_active"
+                            android:text="라이브" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/danceablilityTextview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:padding="7dp"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textColor="#FFF"
+                            android:background="@drawable/rectangle_not_active"
+                            android:text="흥겨운" />
+
+                        <TextView
+                            android:id="@+id/songType2Textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:padding="7dp"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#FFF"
+                            android:background="@drawable/rectangle_not_active"
+                            android:text="크리스마스" />
+
+                        <TextView
+                            android:id="@+id/acousticnessTextview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:padding="7dp"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textColor="#FFF"
+                            android:background="@drawable/rectangle_not_active"
+                            android:text="어쿠스틱" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/songType4Textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:padding="7dp"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#FFF"
+                            android:background="@drawable/rectangle_not_active"
+                            android:text="보컬" />
+
+                        <TextView
+                            android:id="@+id/speechinessTextview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="10dp"
+                            android:padding="7dp"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textColor="#FFF"
+                            android:background="@drawable/rectangle_not_active"
+                            android:text="말이 많은" />
+
+                        <TextView
+                            android:id="@+id/instrumentalnessTextview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:padding="7dp"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textColor="#FFF"
+                            android:background="@drawable/rectangle_not_active"
+                            android:text="연주곡" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/energyTextview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="40dp"
+                            android:layout_marginTop="10dp"
+                            android:padding="7dp"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textColor="#FFF"
+                            android:background="@drawable/rectangle_not_active"
+                            android:text="에너지 넘치는" />
+
+                        <TextView
+                            android:id="@+id/songType3Textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="10dp"
+                            android:padding="7dp"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#FFF"
+                            android:background="@drawable/rectangle_not_active"
+                            android:text="일렉트릭" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:textColor="#FFF"
-                        android:text="Loudness : " />
-
-                    <ProgressBar
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:id="@+id/loudnessProgressBar"
-                        android:indeterminate="false"
-                        android:layout_marginTop="7dp"
-                        android:maxHeight="10dip"
-                        android:minHeight="10dip"
-                        android:progress="70"
-                        android:progressDrawable="@drawable/greenprogress"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:textColor="#FFF"
-                        android:text="Danceability : " />
-
-                    <ProgressBar
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:id="@+id/danceablilityProgressBar"
-                        android:indeterminate="false"
-                        android:layout_marginTop="7dp"
-                        android:maxHeight="10dip"
-                        android:minHeight="10dip"
-                        android:progress="30"
-                        android:progressDrawable="@drawable/greenprogress"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:textColor="#FFF"
-                        android:text="Energy : " />
-
-                    <ProgressBar
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:id="@+id/energyProgressBar"
-                        android:indeterminate="false"
-                        android:layout_marginTop="7dp"
-                        android:maxHeight="10dip"
-                        android:minHeight="10dip"
-                        android:progress="55"
-                        android:progressDrawable="@drawable/greenprogress"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:textColor="#FFF"
-                        android:text="Liveness : " />
-
-                    <ProgressBar
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:id="@+id/livenessProgressBar"
-                        android:indeterminate="false"
-                        android:layout_marginTop="7dp"
-                        android:maxHeight="10dip"
-                        android:minHeight="10dip"
-                        android:progress="90"
-                        android:progressDrawable="@drawable/greenprogress"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:textColor="#FFF"
-                        android:text="Speechiness : " />
-
-                    <ProgressBar
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:id="@+id/speechinessProgressBar"
-                        android:indeterminate="false"
-                        android:layout_marginTop="7dp"
-                        android:maxHeight="10dip"
-                        android:minHeight="10dip"
-                        android:progress="50"
-                        android:progressDrawable="@drawable/greenprogress"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:textColor="#FFF"
-                        android:text="Acousticness : " />
-
-                    <ProgressBar
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:id="@+id/acousticnessProgressBar"
-                        android:indeterminate="false"
-                        android:layout_marginTop="7dp"
-                        android:maxHeight="10dip"
-                        android:minHeight="10dip"
-                        android:progress="80"
-                        android:progressDrawable="@drawable/greenprogress"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:textColor="#FFF"
-                        android:text="Instrumentalness : " />
-
-                    <ProgressBar
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:id="@+id/instrumentalnessProgressBar"
-                        android:indeterminate="false"
-                        android:layout_marginTop="7dp"
-                        android:maxHeight="10dip"
-                        android:minHeight="10dip"
-                        android:progress="10"
-                        android:progressDrawable="@drawable/greenprogress"/>
-
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_gravity="right"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#FFF"
+                    android:textStyle="bold"
+                    android:text=".. 한 노래입니다." />
 
             </LinearLayout>
+
         </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:drawable/dialog_holo_light_frame"
-                android:gravity="center">
+                android:background="@android:drawable/dialog_holo_light_frame" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/color_base_blue"
-                    android:text="Youtube" />
-
-                <com.google.android.youtube.player.YouTubePlayerView
-                    android:id="@+id/youtubeView"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/color_base_blue"
-                    android:layout_marginBottom="15dp"
-                    android:textAlignment="center"
-                    android:text="영상은 키워드 검색을 통해 \n5개의 동영상을 가지고 옵니다.\n마음껏 감상하세요!" />
+                    android:orientation="vertical"
+                    android:background="@drawable/player_background"
+                    android:divider="@drawable/divider_black"
+                    android:showDividers="middle"
+                    android:gravity="center">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/WhiteSmoke"
+                        android:padding="10dp"
+                        android:text=" Youtube Player " />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/black"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp" >
+
+                        <com.google.android.youtube.player.YouTubePlayerView
+                            android:id="@+id/youtubeView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:padding="5dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/trasparent_background" >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center" >
+
+                            <Button
+                                android:layout_width="65dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="right"
+                                android:text="전체듣기"
+                                android:layout_marginRight="10dp"
+                                android:visibility="invisible"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="@color/WhiteSmoke"
+                                android:textAlignment="center"
+                                android:text="Playlist." />
+
+
+                            <Button
+                                android:id="@+id/playAllButton"
+                                android:layout_width="65dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="10dp"
+                                android:background="@drawable/button_black_background"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="@color/WhiteSmoke"
+                                android:text="전체듣기"/>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/playlistTrack1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:padding="3dp"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/WhiteSmoke"
+                            android:textAlignment="center"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="검색된 비디오가 없습니다." />
+
+                        <TextView
+                            android:id="@+id/playlistTrack2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:padding="3dp"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/darker_gray"
+                            android:textAlignment="center"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="" />
+
+                        <TextView
+                            android:id="@+id/playlistTrack3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:padding="3dp"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/darker_gray"
+                            android:textAlignment="center"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="" />
+
+                        <TextView
+                            android:id="@+id/playlistTrack4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:padding="3dp"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/darker_gray"
+                            android:textAlignment="center"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="" />
+
+                        <TextView
+                            android:id="@+id/playlistTrack5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:padding="3dp"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/darker_gray"
+                            android:textAlignment="center"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="" />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
 
             </LinearLayout>
 
