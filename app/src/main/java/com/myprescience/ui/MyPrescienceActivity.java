@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.TextView;
 
@@ -17,7 +19,7 @@ import com.myprescience.R;
 
 import java.util.Locale;
 
-public class MyPrescienceActivity extends FragmentActivity implements
+public class MyPrescienceActivity extends ActionBarActivity implements
 		ActionBar.TabListener {
 
 	/**
@@ -38,21 +40,23 @@ public class MyPrescienceActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        // Set up the action bar.
-        final ActionBar actionBar = getActionBar();
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(R.layout.actionbar_title);
-
-        TextView TitleTextView = (TextView) findViewById(R.id.customActionbarTitle);
-        TitleTextView.setText(R.string.title_section2);
-        Typeface face = Typeface.createFromAsset(getAssets(),
-                "Steinerlight.ttf");
-        TitleTextView.setTypeface(face);
+//        // Set up the action bar.
+//        final ActionBar actionBar = getActionBar();
+//        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//        actionBar.setCustomView(R.layout.actionbar_title);
+//
+//        TextView TitleTextView = (TextView) findViewById(R.id.customActionbarTitle);
+//        TitleTextView.setText(R.string.title_section2);
+//        Typeface face = Typeface.createFromAsset(getAssets(),
+//                "Steinerlight.ttf");
+//        TitleTextView.setTypeface(face);
 
 //        actionBar.setHomeButtonEnabled(true);
 //        actionBar.setDisplayHomeAsUpEnabled(true);
 
         setContentView(R.layout.activity_my_prescience);
+
+        setActionBar(R.string.title_section2);
 
 //		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -87,6 +91,23 @@ public class MyPrescienceActivity extends FragmentActivity implements
 //					.setTabListener(this));
 //		}
 	}
+
+    private void setActionBar(int title) {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("");
+
+        // 뒤로가기 버튼
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        TextView TitleTextView = (TextView) findViewById(R.id.toolbar_title);
+        TitleTextView.setText(title);
+        Typeface face = Typeface.createFromAsset(getAssets(),
+                "Steinerlight.ttf");
+        TitleTextView.setTypeface(face);
+
+    }
 
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,

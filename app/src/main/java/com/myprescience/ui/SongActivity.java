@@ -140,6 +140,8 @@ public class SongActivity extends YouTubeBaseActivity {
         ratingTextView = (TextView) findViewById(R.id.ratingTextView);
 
         mSongActivityRatingBar = (RatingBar) findViewById(R.id.songActivityRatingBar);
+        LayerDrawable stars = (LayerDrawable) mSongActivityRatingBar.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(getResources().getColor(R.color.color_base_theme), PorterDuff.Mode.SRC_ATOP);
 
         ratindCountTextView = (TextView) findViewById(R.id.ratingCountTextView);
         albumNameTextView = (TextView) findViewById(R.id.albumNameTextView);
@@ -522,7 +524,7 @@ public class SongActivity extends YouTubeBaseActivity {
                 if(spotifyAlbumID.equals("albums/")) {
                     genreTextView.setText(mErrorMsg.NOT_FOUND);
                     albumNameTextView.setText(mErrorMsg.NOT_FOUND);
-                    albumArtView.setImageResource(R.drawable.image_not_exist_300);
+                    albumArtView.setImageResource(R.drawable.image_not_exist_600);
 
                     mAlbumButton.setOnClickListener(new OnClickListener() {
                         @Override
@@ -742,6 +744,9 @@ public class SongActivity extends YouTubeBaseActivity {
                 @Override
                 public void onClick(View v) {
                     player.cueVideos(youtubes_id);
+                    for(int j = 0; j < youtubes_title.size(); j ++)
+                        mPlaylist.get(j).setTextColor(getResources().getColor(R.color.darker_gray));
+                    mPlaylist.get(0).setTextColor(getResources().getColor(R.color.WhiteSmoke));
                 }
             });
 

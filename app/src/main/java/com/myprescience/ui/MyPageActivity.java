@@ -1,53 +1,24 @@
 package com.myprescience.ui;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Shader;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.model.GraphUser;
 import com.myprescience.R;
 import com.myprescience.util.Indicator;
-import com.myprescience.util.RoundImage;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import static com.myprescience.util.Server.FACEBOOK_PROFILE;
-import static com.myprescience.util.Server.SERVER_ADDRESS;
-import static com.myprescience.util.Server.USER_API;
-import static com.myprescience.util.Server.USER_ID_WITH_FACEBOOK_ID;
-import static com.myprescience.util.Server.WIDTH_150;
 
 /**
  * Created by dongjun on 15. 4. 6..
  */
-public class MyPageActivity extends Activity {
+public class MyPageActivity extends ActionBarActivity {
 
     private GridView gridView;
     private int userId;
@@ -62,22 +33,9 @@ public class MyPageActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(R.layout.actionbar_title);
-
-        TextView TitleTextView = (TextView) findViewById(R.id.customActionbarTitle);
-        TitleTextView.setText(R.string.title_section4);
-        Typeface face = Typeface.createFromAsset(getAssets(),
-                "Steinerlight.ttf");
-        TitleTextView.setTypeface(face);
-
-        // 뒤로가기 버튼
-//        actionBar.setHomeButtonEnabled(true);
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-
         setContentView(R.layout.activity_mypage);
+        setActionBar(R.string.title_section4);
+
         mIndicator = new Indicator(this);
 
 //        facebook_profile = (ImageView) findViewById(R.id.profileImageView);
@@ -98,6 +56,23 @@ public class MyPageActivity extends Activity {
                 startActivity(intent);
             }
         });
+
+    }
+
+    private void setActionBar(int title) {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("");
+
+        // 뒤로가기 버튼
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        TextView TitleTextView = (TextView) findViewById(R.id.toolbar_title);
+        TitleTextView.setText(title);
+        Typeface face = Typeface.createFromAsset(getAssets(),
+                "Steinerlight.ttf");
+        TitleTextView.setTypeface(face);
 
     }
 

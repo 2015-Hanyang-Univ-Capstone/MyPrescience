@@ -15,6 +15,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -73,9 +76,7 @@ public class MainActivity extends ActionBarActivity
 
     private Activity mActivity;
     private Indicator mIndicater;
-    private ViewGroup mMyPHot_FrameLayout1, mMyPHot_FrameLayout2, mMyPHot_FrameLayout3, mMyPHot_FrameLayout4, mMyPHot_FrameLayout5,
-            mMyPHot_FrameLayout6, mMyPHot_FrameLayout7;
-    private TextView mTitleTextView;
+    private ViewGroup mMyPHot_FrameLayout;
     private ArrayList<ViewGroup> mMyPHotList;
 
     @Override
@@ -86,29 +87,11 @@ public class MainActivity extends ActionBarActivity
         mIndicater = new Indicator(this);
         mActivity = this;
 
-//        RecommendActivity.sRecommendActivity.finish();
-//        SongListActivity.sSonglistActivity.finish();
-
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
-        mMyPHot_FrameLayout1 = (ViewGroup) findViewById(R.id.MyPHot_FrameLayout1);
-        mMyPHot_FrameLayout2 = (ViewGroup) findViewById(R.id.MyPHot_FrameLayout2);
-        mMyPHot_FrameLayout3 = (ViewGroup) findViewById(R.id.MyPHot_FrameLayout3);
-        mMyPHot_FrameLayout4 = (ViewGroup) findViewById(R.id.MyPHot_FrameLayout4);
-        mMyPHot_FrameLayout5 = (ViewGroup) findViewById(R.id.MyPHot_FrameLayout5);
-        mMyPHot_FrameLayout6 = (ViewGroup) findViewById(R.id.MyPHot_FrameLayout6);
-        mMyPHot_FrameLayout7 = (ViewGroup) findViewById(R.id.MyPHot_FrameLayout7);
-
-        mMyPHotList = new ArrayList<ViewGroup>();
-        mMyPHotList.add(mMyPHot_FrameLayout1);
-        mMyPHotList.add(mMyPHot_FrameLayout2);
-        mMyPHotList.add(mMyPHot_FrameLayout3);
-        mMyPHotList.add(mMyPHot_FrameLayout4);
-        mMyPHotList.add(mMyPHot_FrameLayout5);
-        mMyPHotList.add(mMyPHot_FrameLayout6);
-        mMyPHotList.add(mMyPHot_FrameLayout7);
+        mMyPHot_FrameLayout = (ViewGroup) findViewById(R.id.MyPHot_FrameLayout1);
 
         new getMyPHotSongs().execute(SERVER_ADDRESS+SONG_API+MYP_HOT_SONGS);
 
@@ -294,30 +277,28 @@ public class MainActivity extends ActionBarActivity
                 e.printStackTrace();
             }
 
-            for(int i = 0; i < hots.size(); i++) {
-                JSONObject hot = (JSONObject) hots.get(i);
-                final String id = (String) hot.get("id");
-                String artist_spotify_id = (String) hot.get("artist_spotify_id");
-                String title = (String) hot.get("title");
-                String artist = (String) hot.get("artist");
-                float avg = Float.parseFloat((String) hot.get("avg"));
-                int rating_count = Integer.parseInt((String) hot.get("rating_count"));
+            JSONObject hot = (JSONObject) hots.get(0);
+            final String id = (String) hot.get("id");
+            String artist_spotify_id = (String) hot.get("artist_spotify_id");
+            String title = (String) hot.get("title");
+            String artist = (String) hot.get("artist");
+            float avg = Float.parseFloat((String) hot.get("avg"));
+            int rating_count = Integer.parseInt((String) hot.get("rating_count"));
 
-                setMypHotView(mMyPHotList.get(i), i+1, avg, rating_count, title, artist);
+            setMypHotView(mMyPHot_FrameLayout, 1, avg, rating_count, title, artist);
 
-                ImageView albumArt = getMypHotImageView(mMyPHotList.get(i));
-                albumArt.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getApplicationContext(), SongActivity.class);
-                        intent.putExtra("song_id", id);
-                        startActivity(intent);
-                    }
-                });
+            ImageView albumArt = getMypHotImageView(mMyPHot_FrameLayout);
+            albumArt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), SongActivity.class);
+                    intent.putExtra("song_id", id);
+                    startActivity(intent);
+                }
+            });
 
-                if(!artist_spotify_id.equals(""))
-                    new getSpotifyArtistImage(i).execute(SPOTIFY_API+"artists/"+artist_spotify_id);
-            }
+            if(!artist_spotify_id.equals(""))
+                new getSpotifyArtistImage(mMyPHot_FrameLayout).execute(SPOTIFY_API+"artists/"+artist_spotify_id);
         }
 
         @Override
@@ -329,10 +310,10 @@ public class MainActivity extends ActionBarActivity
 
     public class getSpotifyArtistImage extends AsyncTask<String, String, String> {
 
-        private int index;
+        private ViewGroup myPHot_FrameLayout;
 
-        public getSpotifyArtistImage(int index) {
-            this.index = index;
+        public getSpotifyArtistImage(ViewGroup _myPHot_FrameLayout) {
+            this.myPHot_FrameLayout = _myPHot_FrameLayout;
         }
 
         @Override
@@ -353,11 +334,11 @@ public class MainActivity extends ActionBarActivity
             }
             JSONArray images = (JSONArray) artist.get("images");
             if(images.size() != 0) {
-                JSONObject image = getProperImage(images, getMypHotImageView(mMyPHotList.get(index)).getWidth());
+                JSONObject image = getProperImage(images, getMypHotImageView(myPHot_FrameLayout).getWidth());
                 String url = (String) image.get("url");
-                new ImageLoad(mActivity, mIndicater, url, getMypHotImageView(mMyPHotList.get(index))).execute();
+                new ImageLoad(mActivity, mIndicater, url, getMypHotImageView(myPHot_FrameLayout)).execute();
             } else {
-                getMypHotImageView(mMyPHotList.get(index)).setImageResource(R.drawable.not_exist);
+                getMypHotImageView(myPHot_FrameLayout).setImageResource(R.drawable.not_exist);
             }
         }
     }

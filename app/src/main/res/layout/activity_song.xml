@@ -809,8 +809,8 @@ android:id="@+id/scrollView" >
                         android:background="@android:color/black"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
-                        android:paddingTop="20dp"
-                        android:paddingBottom="20dp" >
+                        android:paddingTop="30dp"
+                        android:paddingBottom="30dp" >
 
                         <com.google.android.youtube.player.YouTubePlayerView
                             android:id="@+id/youtubeView"
@@ -967,7 +967,6 @@ android:id="@+id/scrollView" >
                     android:text="노래를 평가해주세요!\n평가 후 창은 자동으로 사라집니다." />
 
                 <RatingBar
-                    style="@style/CustomRatingBar"
                     android:id="@+id/songActivityRatingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

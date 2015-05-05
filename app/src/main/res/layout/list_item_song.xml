@@ -38,7 +38,6 @@
                 android:layout_gravity="left" />
 
             <RatingBar
-                style="@style/CustomRatingBar"
                 android:id="@+id/ratingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"

@@ -10,4 +10,7 @@
     <color name="sub_title">#666666</color>
 
     <color name="darker_gray">#aaa</color>
+
+    <color name="colorPrimary">#009688</color>
+
 </resources>

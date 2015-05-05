@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -87,6 +90,9 @@ public class SongListAdapter extends BaseAdapter{
             holder.titleTextView = (TextView) convertView.findViewById(R.id.titleTextView);
             holder.artistTextView = (TextView) convertView.findViewById(R.id.artistTextView);
             holder.ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar);
+
+            LayerDrawable stars = (LayerDrawable) holder.ratingBar.getProgressDrawable();
+            stars.getDrawable(2).setColorFilter(mContext.getResources().getColor(R.color.color_base_theme), PorterDuff.Mode.SRC_ATOP);
 
             convertView.setTag(holder);
         }else{

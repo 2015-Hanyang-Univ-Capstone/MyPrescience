@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.AbsListView;
 import android.widget.GridView;
@@ -36,7 +37,7 @@ import static com.myprescience.util.Server.getStringFromUrl;
 /**
  * Created by dongjun on 15. 4. 6..
  */
-public class MySongListActivity extends Activity {
+public class MySongListActivity extends ActionBarActivity {
 
     private UserData userDTO = new UserData();
 
@@ -55,34 +56,8 @@ public class MySongListActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActionBar actionBar = getActionBar();
-
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(R.layout.actionbar_title);
-
-        TextView TitleTextView = (TextView) findViewById(R.id.customActionbarTitle);
-        TitleTextView.setText(R.string.title_mysong_List);
-        Typeface face = Typeface.createFromAsset(getAssets(),
-                "Steinerlight.ttf");
-        TitleTextView.setTypeface(face);
-
-//        actionBar.setHomeButtonEnabled(true);
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-
         setContentView( R.layout.activity_mysong);
-
-//        Session session = Session.getActiveSession();
-//        if(session != null){
-//            if(session.isOpened()){
-//                Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
-//                    // callback after Graph API response with user object
-//                    @Override
-//                    public void onCompleted(GraphUser user, Response response) {
-//                        new searchUserTask().execute(SERVER_ADDRESS + USER_API + USER_ID_WITH_FACEBOOK_ID + user.getId());
-//                    }
-//                });
-//            }
-//        }
+        setActionBar(R.string.title_mysong_List);
 
         mListCount = 0;
         mListAddCount = 5;
@@ -120,6 +95,23 @@ public class MySongListActivity extends Activity {
                 }
             }
         });
+    }
+
+    private void setActionBar(int title) {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("");
+
+        // 뒤로가기 버튼
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        TextView TitleTextView = (TextView) findViewById(R.id.toolbar_title);
+        TitleTextView.setText(title);
+        Typeface face = Typeface.createFromAsset(getAssets(),
+                "Steinerlight.ttf");
+        TitleTextView.setTypeface(face);
+
     }
 
     class getSimpleSongTask extends AsyncTask<String, String, String> {

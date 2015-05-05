@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.media.Rating;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -244,6 +246,9 @@ public class RecommendSongListAdapter extends BaseAdapter {
 
                 LinearLayout linearLayout = (LinearLayout) ratingLayout.getChildAt(0);
                 holder.ratingBar = (RatingBar) linearLayout.getChildAt(1);
+                LayerDrawable stars = (LayerDrawable) holder.ratingBar.getProgressDrawable();
+                stars.getDrawable(2).setColorFilter(mContext.getResources().getColor(R.color.color_base_theme), PorterDuff.Mode.SRC_ATOP);
+
                 holder.closeButton = (Button) linearLayout.getChildAt(2);
 
                 holder.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {

@@ -8,17 +8,19 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <android:uses-permission
+    <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <android:uses-permission
+    <uses-permission
+        android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
 
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
+        android:theme="@style/AppTheme"
         android:icon="@drawable/logo"
         android:label="@string/app_name" >
         <meta-data
@@ -50,14 +52,12 @@
         <activity
             android:name=".ui.SelectGenreActivity"
             android:label="@string/title_activity_recommend"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ui.SongListActivity"
             android:label="@string/title_activity_song_list"
-            android:screenOrientation="portrait"
-            android:theme="@style/HoloActionBarTheme" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ui.MainActivity"
@@ -68,38 +68,32 @@
         <activity
             android:name=".ui.SongActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/CustomActionBarTheme" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ui.ArtistActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/CustomActionBarTheme" >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ui.AlbumActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/CustomActionBarTheme" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ui.MySongListActivity"
             android:label="@string/title_mysong_List"
-            android:screenOrientation="portrait"
-            android:theme="@style/HoloActionBarTheme" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ui.MyPageActivity"
             android:label="@string/title_section4"
-            android:screenOrientation="portrait"
-            android:theme="@style/HoloActionBarTheme" >
+            android:screenOrientation="portrait"  >
         </activity>
         <activity
             android:name=".ui.MyPrescienceActivity"
             android:label="@string/title_activity_my_prescience"
-            android:screenOrientation="portrait"
-            android:theme="@style/TabActionBarTheme" >
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

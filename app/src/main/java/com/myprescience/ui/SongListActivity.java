@@ -9,8 +9,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.FrameLayout;
@@ -57,7 +61,7 @@ import static com.myprescience.util.Server.getStringFromUrl;
  */
 
 
-public class SongListActivity extends Activity implements SongFilterFragment.OnFilterSelectedListener {
+public class SongListActivity extends ActionBarActivity implements SongFilterFragment.OnFilterSelectedListener {
 
     private UserData userDTO = new UserData();
 
@@ -91,21 +95,8 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActionBar actionBar = getActionBar();
-
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(R.layout.actionbar_title);
-
-        TextView TitleTextView = (TextView) findViewById(R.id.customActionbarTitle);
-        TitleTextView.setText(R.string.title_section3);
-        Typeface face = Typeface.createFromAsset(getAssets(),
-                "Steinerlight.ttf");
-        TitleTextView.setTypeface(face);
-
-//        actionBar.setHomeButtonEnabled(true);
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-
         setContentView(R.layout.activity_song_list);
+        setActionBar(R.string.title_section3);
 
         initSongList();
 
@@ -181,6 +172,23 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
                 }
             }
         });
+    }
+
+    private void setActionBar(int title) {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("");
+
+        // 뒤로가기 버튼
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        TextView TitleTextView = (TextView) findViewById(R.id.toolbar_title);
+        TitleTextView.setText(title);
+        Typeface face = Typeface.createFromAsset(getAssets(),
+                "Steinerlight.ttf");
+        TitleTextView.setTypeface(face);
+
     }
 
     private void toggleList(int Visibility) {
@@ -430,6 +438,13 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+        return true;
+    }
+
     // 뒤로가기 버튼
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
@@ -437,6 +452,8 @@ public class SongListActivity extends Activity implements SongFilterFragment.OnF
             case android.R.id.home:
                 // NavUtils.navigateUpFromSameTask(this);
                 finish();
+                return true;
+            case R.id.action_search:
                 return true;
         }
         return super.onOptionsItemSelected(item);
