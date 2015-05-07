@@ -34,10 +34,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import static com.myprescience.ui.SongListActivity.ratingCountTriger;
 import static com.myprescience.util.Server.INSERT_RATING;
 import static com.myprescience.util.Server.RATING_API;
+import static com.myprescience.util.Server.RECOMMEND_API;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SPOTIFY_API;
+import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.getStringFromUrl;
 
 /**
@@ -140,6 +143,8 @@ public class SongListAdapter extends BaseAdapter{
                 if(mListData.get(index).rating == 0) {
                     ratingCount++;
                     setProgress(ratingCount);
+
+                    ratingCountTriger++;
 
 //                    textView.setText(ratingCount + "곡을 평가했습니다.");
                     textView.invalidate();

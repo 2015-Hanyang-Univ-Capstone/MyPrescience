@@ -34,7 +34,9 @@ import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
+import com.meetme.android.horizontallistview.HorizontalListView;
 import com.myprescience.R;
+import com.myprescience.dto.UserData;
 import com.myprescience.util.ImageLoad;
 import com.myprescience.util.Indicator;
 
@@ -73,11 +75,14 @@ public class MainActivity extends ActionBarActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+    private UserData userDTO = new UserData();
 
     private Activity mActivity;
     private Indicator mIndicater;
     private ViewGroup mMyPHot_FrameLayout;
-    private ArrayList<ViewGroup> mMyPHotList;
+
+    private HorizontalListView mHorizontalListView;
+    private LatestAlbumListAdapter mHorizontalListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +104,14 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        mHorizontalListView = (HorizontalListView) findViewById(R.id.HorizontalListView);
+        mHorizontalListAdapter = new LatestAlbumListAdapter(getApplicationContext(), userDTO.getId());
+        mHorizontalListView.setAdapter(mHorizontalListAdapter);
+
+        for(int i = 0 ; i < 10; i++)
+            mHorizontalListAdapter.addItem("test", "albums/", "Input Title", "Input Artist");
+        mHorizontalListAdapter.notifyDataSetChanged();
     }
 
     @Override

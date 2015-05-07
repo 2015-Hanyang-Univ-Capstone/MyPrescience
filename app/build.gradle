@@ -28,4 +28,5 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:3.21.1'
     compile files('libs/json-simple-1.1.1.jar')
     compile files('libs/YouTubeAndroidPlayerApi.jar')
+    compile project(':androidHorizontalListView')
 }

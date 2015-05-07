@@ -14,6 +14,8 @@ import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -60,8 +62,10 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.myprescience.util.Server.EXEC_RECOMMEND_ALGORITHM;
 import static com.myprescience.util.Server.INSERT_RATING;
 import static com.myprescience.util.Server.RATING_API;
+import static com.myprescience.util.Server.RECOMMEND_API;
 import static com.myprescience.util.Server.SELECT_SONG_AVG_RATING;
 import static com.myprescience.util.Server.SELECT_SONG_RATING;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
@@ -115,7 +119,6 @@ public class SongActivity extends YouTubeBaseActivity {
     private String[] modes = {"Minor", "Major"};
     private String[] keys = {"C", "C#", "D", "E♭", "E", "F", "F#", "G", "A♭", "A", "B♭", "B"};
     private ArrayList<TextView> mPlaylist = new ArrayList<TextView>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -812,6 +815,8 @@ public class SongActivity extends YouTubeBaseActivity {
     private void setSongPropertyText(TextView propertyTextView, int property) {
 
         int px = 0;
+        Log.e("Tag", (String) propertyTextView.getTag());
+        String[] propertyText = ((String) propertyTextView.getTag()).split("#");
 
         if(property >= 50) {
             if (property >= 80) {
@@ -824,6 +829,7 @@ public class SongActivity extends YouTubeBaseActivity {
                 propertyTextView.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_DeviceDefault_Small);
                 px = 1;
             }
+            propertyTextView.setText(propertyText[0]);
             setActiveView(propertyTextView, px);
         } else {
             if(property < 20) {
@@ -836,8 +842,8 @@ public class SongActivity extends YouTubeBaseActivity {
                 propertyTextView.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_DeviceDefault_Small);
                 px = 1;
             }
-            propertyTextView.setText("안 " + (String) propertyTextView.getText());
-            setNotActiveView(propertyTextView, px);
+            propertyTextView.setText(propertyText[1]);
+            setActiveView(propertyTextView, px);
         }
         propertyTextView.setTextColor(Color.parseColor("#FFFFFF"));
     }
@@ -881,4 +887,6 @@ public class SongActivity extends YouTubeBaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

@@ -5,8 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.facebook.AppEventsLogger;
@@ -61,7 +64,6 @@ public class LoginActivity extends FragmentActivity {
                     .findFragmentById(android.R.id.content);
         }
         setContentView(R.layout.activity_login);
-
 
         // 현제 페이스북 로그인 세션 확인
         LoginButton authButton = (LoginButton) findViewById(R.id.authButton);

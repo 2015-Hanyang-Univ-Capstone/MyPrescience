@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
 import com.myprescience.util.Indicator;
+import com.myprescience.util.InsertUpdateQuery;
 import com.myprescience.util.RoundImage;
 
 import org.json.simple.JSONArray;
@@ -39,6 +41,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import static com.myprescience.util.Server.BILLBOARD_API;
+import static com.myprescience.util.Server.EXEC_RECOMMEND_ALGORITHM;
 import static com.myprescience.util.Server.FIRST_MODE;
 import static com.myprescience.util.Server.GENRE_TOP;
 import static com.myprescience.util.Server.HOT100;
@@ -47,6 +50,7 @@ import static com.myprescience.util.Server.MYP_RANK_SONGS;
 import static com.myprescience.util.Server.RANDOM_MODE;
 import static com.myprescience.util.Server.RANDOM_SONGS;
 import static com.myprescience.util.Server.RATING_API;
+import static com.myprescience.util.Server.RECOMMEND_API;
 import static com.myprescience.util.Server.SELECT_SONG_COUNT;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SONG_API;
@@ -69,7 +73,8 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
 
     public static Activity sSonglistActivity;
     // 추천 받을 최소 곡 수
-    public static int MIN_SELECTED_SONG = 5;
+    public static int MIN_SELECTED_SONG = 10;
+    public static int ratingCountTriger;
 
     private int song_count;
     private String genres;
@@ -78,6 +83,8 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
     private Indicator mIndicator;
 
     private int selectCount = 0;
+
+
     private FrameLayout mFilterFragment;
     private ImageButton rightButton;
     private TextView textView;
@@ -98,6 +105,7 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
         setContentView(R.layout.activity_song_list);
         setActionBar(R.string.title_section3);
 
+        ratingCountTriger = 0;
         initSongList();
 
         mIndicator = new Indicator(this);
@@ -458,5 +466,15 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
         }
         return super.onOptionsItemSelected(item);
     };
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            if(ratingCountTriger > 10)
+                new InsertUpdateQuery().execute(SERVER_ADDRESS + RECOMMEND_API + EXEC_RECOMMEND_ALGORITHM + WITH_USER + userDTO.getId());
+        }
+        finish();
+        return true;
+    }
 
 }

@@ -606,160 +606,166 @@ android:id="@+id/scrollView" >
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" >
+                        android:layout_height="wrap_content"
+                        android:padding="10dp" >
 
                         <TextView
                             android:id="@+id/valanceTextview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
                             android:padding="7dp"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:textColor="#FFF"
                             android:background="@drawable/rectangle_not_active"
-                            android:text="균형있는" />
+                            android:text=""
+                            android:tag="밝은 분위기#어두운 분위기"/>
 
                         <TextView
                             android:id="@+id/songType1Textview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="10dp"
                             android:padding="7dp"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="#FFF"
                             android:background="@drawable/rectangle_not_active"
-                            android:text="스튜디오" />
+                            android:text="스튜디오"
+                            android:tag="studio" />
 
                         <TextView
                             android:id="@+id/livenessTextview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="10dp"
                             android:padding="7dp"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:textColor="#FFF"
                             android:background="@drawable/rectangle_not_active"
-                            android:text="라이브" />
+                            android:text="라이브"
+                            android:tag="라이브 음악#레코딩 음악" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="10dp">
 
                         <TextView
                             android:id="@+id/danceablilityTextview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
                             android:padding="7dp"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:textColor="#FFF"
                             android:background="@drawable/rectangle_not_active"
-                            android:text="흥겨운" />
+                            android:text=""
+                            android:tag="비트가 강한#비트가 약한" />
 
                         <TextView
                             android:id="@+id/songType2Textview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
                             android:padding="7dp"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="#FFF"
                             android:background="@drawable/rectangle_not_active"
-                            android:text="크리스마스" />
+                            android:text="크리스마스"
+                            android:tag="christmas" />
 
                         <TextView
                             android:id="@+id/acousticnessTextview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
                             android:padding="7dp"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:textColor="#FFF"
                             android:background="@drawable/rectangle_not_active"
-                            android:text="어쿠스틱" />
+                            android:text=""
+                            android:tag="어쿠스틱 악기로 이루어진#기계음이 섞인" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="10dp">
 
                         <TextView
                             android:id="@+id/songType4Textview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
                             android:padding="7dp"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="#FFF"
                             android:background="@drawable/rectangle_not_active"
-                            android:text="보컬" />
+                            android:text="보컬"
+                            android:tag="vocal" />
 
                         <TextView
                             android:id="@+id/speechinessTextview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="10dp"
                             android:padding="7dp"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:textColor="#FFF"
                             android:background="@drawable/rectangle_not_active"
-                            android:text="말이 많은" />
+                            android:text=""
+                            android:tag="멘트가 많은#멘트가 적은" />
 
                         <TextView
                             android:id="@+id/instrumentalnessTextview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
                             android:padding="7dp"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:textColor="#FFF"
                             android:background="@drawable/rectangle_not_active"
-                            android:text="연주곡" />
+                            android:text=""
+                            android:tag="연주로만 이루어진#보컬이 있는" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="10dp">
 
                         <TextView
                             android:id="@+id/energyTextview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="40dp"
-                            android:layout_marginTop="10dp"
                             android:padding="7dp"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:textColor="#FFF"
                             android:background="@drawable/rectangle_not_active"
-                            android:text="에너지 넘치는" />
+                            android:text=""
+                            android:tag="빠르고 힘있는#조용하고 잔잔한" />
 
                         <TextView
                             android:id="@+id/songType3Textview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="10dp"
                             android:padding="7dp"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="#FFF"
                             android:background="@drawable/rectangle_not_active"
-                            android:text="일렉트릭" />
+                            android:text="일렉트릭"
+                            android:tag="electric" />
 
                     </LinearLayout>
 
