@@ -143,8 +143,8 @@ public class RecommendSongListAdapter extends BaseAdapter {
         holder.artistTextView.setText(mData.artist);
 
         float rating = mData.rating;
-        if(rating < 100) {
-            rating = (float) (mData.rating/20.0);
+        if(rating < 150) {
+            rating = (float) (mData.rating/30.0);
             holder.ratingTextView.setText(String.format("%.1f", rating));
         } else {
             holder.ratingTextView.setText(5.0+"");

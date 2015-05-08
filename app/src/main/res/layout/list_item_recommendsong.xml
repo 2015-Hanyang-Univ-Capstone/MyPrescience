@@ -122,7 +122,7 @@
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
                             android:textSize="10dp"
-                            android:text="균형\n있는" />
+                            android:text="밝은\n분위기" />
 
                         <Button
                             android:id="@+id/recommendSpeechinessButton"
@@ -132,7 +132,7 @@
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
                             android:textSize="10dp"
-                            android:text="말이\n많은" />
+                            android:text="멘트가\n 많은" />
 
                         <Button
                             android:id="@+id/recommendEnergyButton"
@@ -142,7 +142,7 @@
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
                             android:textSize="10dp"
-                            android:text="에너지\n넘치는" />
+                            android:text="파워가\n 있는" />
 
                     </TableRow>
 

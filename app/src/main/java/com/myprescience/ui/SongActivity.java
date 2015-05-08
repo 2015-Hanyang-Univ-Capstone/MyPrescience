@@ -355,6 +355,7 @@ public class SongActivity extends YouTubeBaseActivity {
             } else {
                 previewButton.setImageResource(R.drawable.icon_x_mark);
                 previewTextview.setText("Preview ");
+                mPreviewClick.setVisibility(View.VISIBLE);
             }
 
         }
@@ -393,6 +394,7 @@ public class SongActivity extends YouTubeBaseActivity {
                     previewTextview.setText("Preview ");
                     previewButton.setImageResource(R.drawable.icon_play);
 
+                    mPreviewClick.setVisibility(View.VISIBLE);
                     mPreviewClick.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -465,13 +467,13 @@ public class SongActivity extends YouTubeBaseActivity {
                 String[] songTypes = songType.split(",");
                 for(int i = 0; i < songTypes.length; i++) {
                     if(songTypes[i].equals("studio"))
-                        setActiveView(songType1Textview, 3);
+                        setActivePropertyView(songType1Textview, 3);
                     if(songTypes[i].equals("christmas"))
-                        setActiveView(songType2Textview, 3);
+                        setActivePropertyView(songType2Textview, 3);
                     if(songTypes[i].equals("electric"))
-                        setActiveView(songType3Textview, 3);
+                        setActivePropertyView(songType3Textview, 3);
                     if(songTypes[i].equals("vocal"))
-                        setActiveView(songType4Textview, 3);
+                        setActivePropertyView(songType4Textview, 3);
                 }
 
                 tempoTextView.setText(Double.toString(tempo) + " bpm");
@@ -494,6 +496,7 @@ public class SongActivity extends YouTubeBaseActivity {
                     popularityProgressBar.setProgress(0);
                     previewButton.setImageResource(R.drawable.icon_x_mark);
                     previewTextview.setText("Preview ");
+                    mPreviewClick.setVisibility(View.VISIBLE);
                 } else {
                     new getTrackTask().execute(SPOTIFY_API+spotifyTrackID);
                 }
@@ -843,7 +846,7 @@ public class SongActivity extends YouTubeBaseActivity {
                 px = 1;
             }
             propertyTextView.setText(propertyText[1]);
-            setActiveView(propertyTextView, px);
+            setNotActiveView(propertyTextView, px);
         }
         propertyTextView.setTextColor(Color.parseColor("#FFFFFF"));
     }
@@ -857,12 +860,21 @@ public class SongActivity extends YouTubeBaseActivity {
         view.setPadding(left + px, top + px, right + px, bottom + px);
     }
 
+    private void setActivePropertyView(View view, int px) {
+        int bottom = view.getPaddingBottom();
+        int top = view.getPaddingTop();
+        int right = view.getPaddingRight();
+        int left = view.getPaddingLeft();
+        view.setBackgroundResource(R.drawable.rectangle_active);
+        view.setPadding(left + px, top + px, right + px, bottom + px);
+    }
+
     private void setNotActiveView(View view, int px) {
         int bottom = view.getPaddingBottom();
         int top = view.getPaddingTop();
         int right = view.getPaddingRight();
         int left = view.getPaddingLeft();
-        view.setBackgroundResource(R.drawable.rectangle_not_active);
+        view.setBackgroundResource(R.drawable.button_property2_background);
         view.setPadding(left + px, top + px, right + px, bottom + px);
     }
 

@@ -155,7 +155,8 @@ android:id="@+id/scrollView" >
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:layout_gravity="center">
+                        android:layout_gravity="center"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -173,7 +174,8 @@ android:id="@+id/scrollView" >
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp">
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center">
 
                         <TextView
                             android:id="@+id/previeTextview"
@@ -182,24 +184,27 @@ android:id="@+id/scrollView" >
                             android:layout_marginTop="10dp"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/WhiteSmoke"
-                            android:text="Loading.. " />
+                            android:text="Preview\nLoading... " />
 
-                        <LinearLayout
-                            android:id="@+id/previewClick"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:background="@drawable/ring_rating_song">
+                    </LinearLayout>
 
-                            <ImageButton
-                                android:id="@+id/previewButton"
-                                android:layout_marginTop="7dp"
-                                android:layout_marginLeft="7dp"
-                                android:layout_width="21dp"
-                                android:layout_height="21dp"
-                                android:background="@android:color/white"
-                                android:scaleType="fitXY"/>
+                    <LinearLayout
+                        android:id="@+id/previewClick"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ring_rating_song"
+                        android:visibility="gone">
 
-                        </LinearLayout>
+                        <ImageButton
+                            android:id="@+id/previewButton"
+                            android:layout_marginTop="7dp"
+                            android:layout_marginLeft="7dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:background="@android:color/white"
+                            android:scaleType="fitXY"/>
 
                     </LinearLayout>
 
@@ -641,7 +646,6 @@ android:id="@+id/scrollView" >
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:textColor="#FFF"
                             android:background="@drawable/rectangle_not_active"
-                            android:text="라이브"
                             android:tag="라이브 음악#레코딩 음악" />
 
                     </LinearLayout>

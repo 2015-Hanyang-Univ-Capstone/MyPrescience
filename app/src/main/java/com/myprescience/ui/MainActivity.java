@@ -37,6 +37,7 @@ import com.facebook.model.GraphUser;
 import com.meetme.android.horizontallistview.HorizontalListView;
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
+import com.myprescience.util.BackPressCloseHandler;
 import com.myprescience.util.ImageLoad;
 import com.myprescience.util.Indicator;
 
@@ -70,6 +71,7 @@ public class MainActivity extends ActionBarActivity
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    private BackPressCloseHandler backPressCloseHandler;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -79,7 +81,8 @@ public class MainActivity extends ActionBarActivity
 
     private Activity mActivity;
     private Indicator mIndicater;
-    private ViewGroup mMyPHot_FrameLayout;
+    private ViewGroup mMyPTop1_FrameLayout, mMyPTop_LinearLayout1, mMyPTop_LinearLayout2, mMyPTop_LinearLayout3;
+    private ArrayList<ViewGroup> mMyTopList;
 
     private HorizontalListView mHorizontalListView;
     private LatestAlbumListAdapter mHorizontalListAdapter;
@@ -90,13 +93,22 @@ public class MainActivity extends ActionBarActivity
         setContentView(R.layout.activity_main);
 
         mIndicater = new Indicator(this);
+        backPressCloseHandler = new BackPressCloseHandler(this);
         mActivity = this;
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
-        mMyPHot_FrameLayout = (ViewGroup) findViewById(R.id.MyPHot_FrameLayout1);
+        mMyPTop1_FrameLayout = (ViewGroup) findViewById(R.id.MyPHot_FrameLayout1);
+        mMyPTop_LinearLayout1 = (ViewGroup) findViewById(R.id.MyPTop_LinearLayout1);
+        mMyPTop_LinearLayout2 = (ViewGroup) findViewById(R.id.MyPTop_LinearLayout2);
+        mMyPTop_LinearLayout3 = (ViewGroup) findViewById(R.id.MyPTop_LinearLayout3);
+
+        mMyTopList = new ArrayList<ViewGroup>();
+        mMyTopList.add(mMyPTop_LinearLayout1);
+        mMyTopList.add(mMyPTop_LinearLayout2);
+        mMyTopList.add(mMyPTop_LinearLayout3);
 
         new getMyPHotSongs().execute(SERVER_ADDRESS+SONG_API+MYP_HOT_SONGS);
 
@@ -240,9 +252,8 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
-    public void setMypHotView(ViewGroup framelayout, int rank, float avg, int count, String title, String artist) {
+    public void setMypTop1View(ViewGroup framelayout, int rank, float avg, int count, String title, String artist) {
 
-        TextView rankTextView = (TextView) framelayout.getChildAt(1);
         ViewGroup linearLayout = (ViewGroup) framelayout.getChildAt(2);
         ViewGroup inLinearLayout = (ViewGroup) linearLayout.getChildAt(0);
         RatingBar avgRatingBar = (RatingBar) inLinearLayout.getChildAt(0);
@@ -256,7 +267,6 @@ public class MainActivity extends ActionBarActivity
 
         int avg_rating = Math.round(avg);
 
-        rankTextView.setText("Top." + rank);
         avgRatingBar.setProgress(avg_rating);
         avgTextView.setText(String.format("(%.1f)", avg/2));
         countTextView.setText(count + "명이 평가했습니다.");
@@ -264,8 +274,30 @@ public class MainActivity extends ActionBarActivity
         artistTextView.setText(artist);
     }
 
-    public ImageView getMypHotImageView(ViewGroup framelayout) {
+    public ImageView getMypTop1ImageView(ViewGroup framelayout) {
         return (ImageView) framelayout.getChildAt(0);
+    }
+
+    public void setMypTopListView(ViewGroup linearLayout, float avg, int count, String title, String artist) {
+
+        ViewGroup inLinearLayout = (ViewGroup) linearLayout.getChildAt(1);
+        TextView titleTextView = (TextView) inLinearLayout.getChildAt(0);
+        TextView artistTextView = (TextView) inLinearLayout.getChildAt(1);
+
+        ViewGroup ininLinearLayout = (ViewGroup) inLinearLayout.getChildAt(2);
+        TextView avgRatingTextView = (TextView) ininLinearLayout.getChildAt(1);
+
+        TextView countTextView = (TextView) inLinearLayout.getChildAt(3);
+
+        titleTextView.setText(title);
+        artistTextView.setText(artist);
+
+        avgRatingTextView.setText(String.format("%.1f", avg/2.0));
+        countTextView.setText(count + "명이 평가했습니다.");
+    }
+
+    public ImageView getMypTopListImageView(ViewGroup linearLayout) {
+        return (ImageView) linearLayout.getChildAt(0);
     }
 
     class getMyPHotSongs extends AsyncTask<String, String, String> {
@@ -290,28 +322,47 @@ public class MainActivity extends ActionBarActivity
                 e.printStackTrace();
             }
 
-            JSONObject hot = (JSONObject) hots.get(0);
-            final String id = (String) hot.get("id");
-            String artist_spotify_id = (String) hot.get("artist_spotify_id");
-            String title = (String) hot.get("title");
-            String artist = (String) hot.get("artist");
-            float avg = Float.parseFloat((String) hot.get("avg"));
-            int rating_count = Integer.parseInt((String) hot.get("rating_count"));
+            for(int i = 0; i < 4; i++) {
 
-            setMypHotView(mMyPHot_FrameLayout, 1, avg, rating_count, title, artist);
+                JSONObject hot = (JSONObject) hots.get(i);
+                final String id = (String) hot.get("id");
+                String artist_spotify_id = (String) hot.get("artist_spotify_id");
+                String title = (String) hot.get("title");
+                String artist = (String) hot.get("artist");
+                float avg = Float.parseFloat((String) hot.get("avg"));
+                int rating_count = Integer.parseInt((String) hot.get("rating_count"));
 
-            ImageView albumArt = getMypHotImageView(mMyPHot_FrameLayout);
-            albumArt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), SongActivity.class);
-                    intent.putExtra("song_id", id);
-                    startActivity(intent);
+                if(i == 0) {
+                    setMypTop1View(mMyPTop1_FrameLayout, 1, avg, rating_count, title, artist);
+
+                    ImageView albumArt = getMypTop1ImageView(mMyPTop1_FrameLayout);
+                    albumArt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getApplicationContext(), SongActivity.class);
+                            intent.putExtra("song_id", id);
+                            startActivity(intent);
+                        }
+                    });
+
+                    if (!artist_spotify_id.equals(""))
+                        new getSpotifyArtistImage(mMyPTop1_FrameLayout).execute(SPOTIFY_API + "artists/" + artist_spotify_id);
+                } else {
+                    setMypTopListView(mMyTopList.get(i-1), avg, rating_count, title, artist);
+
+                    ImageView albumArt = getMypTopListImageView(mMyTopList.get(i-1));
+                    albumArt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getApplicationContext(), SongActivity.class);
+                            intent.putExtra("song_id", id);
+                            startActivity(intent);
+                        }
+                    });
+                    if (!artist_spotify_id.equals(""))
+                    new getSpotifyArtistImage(mMyTopList.get(i-1)).execute(SPOTIFY_API + "artists/" + artist_spotify_id);
                 }
-            });
-
-            if(!artist_spotify_id.equals(""))
-                new getSpotifyArtistImage(mMyPHot_FrameLayout).execute(SPOTIFY_API+"artists/"+artist_spotify_id);
+            }
         }
 
         @Override
@@ -347,15 +398,20 @@ public class MainActivity extends ActionBarActivity
             }
             JSONArray images = (JSONArray) artist.get("images");
             if(images.size() != 0) {
-                JSONObject image = getProperImage(images, getMypHotImageView(myPHot_FrameLayout).getWidth());
+                JSONObject image = getProperImage(images, getMypTop1ImageView(myPHot_FrameLayout).getWidth());
                 String url = (String) image.get("url");
-                new ImageLoad(mActivity, mIndicater, url, getMypHotImageView(myPHot_FrameLayout)).execute();
+                new ImageLoad(mActivity, mIndicater, url, getMypTop1ImageView(myPHot_FrameLayout)).execute();
             } else {
-                getMypHotImageView(myPHot_FrameLayout).setImageResource(R.drawable.not_exist);
+                getMypTop1ImageView(myPHot_FrameLayout).setImageResource(R.drawable.not_exist);
             }
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        backPressCloseHandler.onBackPressed();
 
+    }
 
 }

@@ -305,6 +305,7 @@
                             android:fontFamily="sans-serif-thin"/>
 
                         <LinearLayout
+                            android:id="@+id/MyPTop_LinearLayout1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
@@ -374,6 +375,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/MyPTop_LinearLayout2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
@@ -443,6 +445,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/MyPTop_LinearLayout3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
