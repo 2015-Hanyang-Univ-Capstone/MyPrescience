@@ -33,7 +33,7 @@ import com.myprescience.dto.UserData;
  */
 public class NavigationDrawerFragment extends Fragment {
 
-    private UserData userDTO = new UserData();
+    private UserData userDTO;
     /**
      * Remember the position of the selected item.
      */
@@ -72,6 +72,7 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userDTO = new UserData(getActivity().getApplicationContext());
 
         // Read in the flag indicating whether or not the user has demonstrated awareness of the
         // drawer. See PREF_USER_LEARNED_DRAWER for details.

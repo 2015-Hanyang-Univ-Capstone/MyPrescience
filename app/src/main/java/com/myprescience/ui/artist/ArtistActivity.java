@@ -1,16 +1,14 @@
-package com.myprescience.ui;
+package com.myprescience.ui.artist;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -27,53 +25,47 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * Created by dongjun on 15. 3. 27..
- */
-public class AlbumActivity extends Activity{
 
-    String mSpotifyAPI = "https://api.spotify.com/v1/";
-    int mSize640x640 = 0;
-    int mSize300x300 = 1;
-    int mSize64x64 = 2;
+public class ArtistActivity extends Activity {
+
+    String spotifyAPI = "https://api.spotify.com/v1/";
+    int size640x640 = 0;
+    int size300x300 = 1;
+    int size64x64 = 2;
 
     Indicator mIndicator;
-    Server mJson;
-    LinearLayout mTrackLinearLayout;
-    ImageView mAlbumImageView;
-    TextView mNameTextView, mGenresTextview, mFollowersTextView, mReleaseTextView, mCopyrightTextView;
-    ProgressBar mPopularityProgressBar;
+    Server json;
+    ImageView artistImageView;
+    TextView nameTextView, genresTextview, followersTextView;
+    ProgressBar popularityProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_album);
+        setContentView(R.layout.activity_artist);
 
         mIndicator = new Indicator(this);
-        mJson = new Server();
+        json = new Server();
 
-        mAlbumImageView = (ImageView) findViewById(R.id.albumImageView);
-        mNameTextView = (TextView) findViewById(R.id.nameTextView);
-        mGenresTextview = (TextView) findViewById(R.id.genresTextView);
-        mReleaseTextView = (TextView) findViewById(R.id.releaseTextView);
-        mCopyrightTextView = (TextView) findViewById(R.id.copyrightTextView);
-        mFollowersTextView = (TextView) findViewById(R.id.followersTextView);
-        mPopularityProgressBar = (ProgressBar) findViewById(R.id.popularityProgressBar);
-        mTrackLinearLayout = (LinearLayout) findViewById(R.id.trackLinearLayout);
+        artistImageView = (ImageView) findViewById(R.id.artistImageView);
+        nameTextView = (TextView) findViewById(R.id.nameTextView);
+        genresTextview = (TextView) findViewById(R.id.genresTextView);
+        followersTextView = (TextView) findViewById(R.id.followersTextView);
+        popularityProgressBar = (ProgressBar) findViewById(R.id.popularityProgressBar);
 
         Intent intent = getIntent();
-        String spotifyAlbumID = intent.getExtras().getString("spotifyAlbumID");
-        new getAlbumTask().execute(mSpotifyAPI+spotifyAlbumID);
+        String spotifyArtistID = intent.getExtras().getString("spotifyArtistID");
+        new getArtistTask().execute(spotifyAPI+spotifyArtistID);
     }
 
-    class getAlbumTask extends AsyncTask<String, String, String> {
+    class getArtistTask extends AsyncTask<String, String, String> {
 
-        public getAlbumTask(){
+        public getArtistTask(){
         }
 
         @Override
         protected String doInBackground(String... url) {
-            return mJson.getStringFromUrl(url[0]);
+            return json.getStringFromUrl(url[0]);
         }
 
         @Override
@@ -81,21 +73,24 @@ public class AlbumActivity extends Activity{
             super.onPostExecute(spotifyTrackJSON);
 
             JSONParser jsonParser = new JSONParser();
-            JSONObject album = null;
+            JSONObject artist = null;
             try {
-                album = (JSONObject) jsonParser.parse(spotifyTrackJSON);
+                artist = (JSONObject) jsonParser.parse(spotifyTrackJSON);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
-            JSONArray images = (JSONArray) album.get("images");
-            JSONObject image = (JSONObject) images.get(mSize640x640);
-            // Image 역시 UI Thread에서 바로 작업 불가.
-            new ImageLoadTask((String)image.get("url"), mAlbumImageView).execute();
+            JSONArray images = (JSONArray) artist.get("images");
+            if(images.size() != 0) {
+                JSONObject image = (JSONObject) images.get(size640x640);
+                // Image 역시 UI Thread에서 바로 작업 불가.
+                new ImageLoadTask((String) image.get("url"), artistImageView).execute();
+            }
 
-            mNameTextView.setText( (String)album.get("name") );
+            nameTextView.setText( (String)artist.get("name") );
 
-            JSONArray genres = (JSONArray) album.get("genres");
+            JSONArray genres = (JSONArray) artist.get("genres");
+
             String genre = "";
             if(genres.size() != 0) {
                 for(int i = 0; i < genres.size()-1; i++) {
@@ -103,37 +98,13 @@ public class AlbumActivity extends Activity{
                 }
                 genre += genres.get(genres.size()-1);
             }
-            mGenresTextview.setText(genre);
+            genresTextview.setText(genre);
 
-            String release = (String)album.get("release_date");
-            mReleaseTextView.setText(release);
+            JSONObject followers = (JSONObject) artist.get("followers");
+            followersTextView.setText( followers.get("total")+"" );
 
-            JSONArray copyRights = (JSONArray) album.get("copyrights");
-            String copyRightStr = "";
-            if(copyRights.size() != 0) {
-                JSONObject copyright = (JSONObject)copyRights.get(0);
-                copyRightStr = (String)copyright.get("text");
-            }
-            mCopyrightTextView.setText(copyRightStr);
-
-            long popularity = (long)album.get("popularity");
-            mPopularityProgressBar.setProgress((int)popularity);
-
-            JSONObject tracks = (JSONObject) album.get("tracks");
-            JSONArray items = (JSONArray) tracks.get("items");
-            if(items.size() != 0) {
-                for(int i = 0; i < items.size(); i++) {
-                    JSONObject item = (JSONObject) items.get(i);
-                    long trackNumber = (long) item.get("track_number");
-                    String name = (String) item.get("name");
-                    Long duration_ms = (Long) item.get("duration_ms");
-                    int duration = (int)(duration_ms/1000);
-                    TextView mTrackTextView = new TextView(AlbumActivity.this);
-                    mTrackTextView.setText((int)trackNumber + ". " + name +" (" + convertMS(duration) + ")");
-                    mTrackTextView.setTextColor(Color.parseColor("#FFFFFF"));
-                    mTrackLinearLayout.addView(mTrackTextView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                }
-            }
+            long popularity = (long)artist.get("popularity");
+            popularityProgressBar.setProgress((int)popularity);
         }
 
         @Override
@@ -142,13 +113,6 @@ public class AlbumActivity extends Activity{
             if ( !mIndicator.isShowing())
                 mIndicator.show();
         }
-    }
-
-    // 초 -> 00 : 00
-    public String convertMS(int duration) {
-        int M = duration / 60;
-        int S = duration % 60;
-        return String.format("%02d", M) + ":" + String.format("%02d", S);
     }
 
     public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
@@ -219,5 +183,4 @@ public class AlbumActivity extends Activity{
 
         return super.onOptionsItemSelected(item);
     }
-
 }

@@ -1,22 +1,17 @@
-package com.myprescience.ui;
+package com.myprescience.ui.song;
 
-import android.app.ActionBar;
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.widget.AbsListView;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.model.GraphUser;
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
 import com.myprescience.util.Indicator;
@@ -29,8 +24,6 @@ import org.json.simple.parser.ParseException;
 import static com.myprescience.util.Server.RATING_API;
 import static com.myprescience.util.Server.SELECT_MYSONGS;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
-import static com.myprescience.util.Server.USER_API;
-import static com.myprescience.util.Server.USER_ID_WITH_FACEBOOK_ID;
 import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.getStringFromUrl;
 
@@ -39,7 +32,7 @@ import static com.myprescience.util.Server.getStringFromUrl;
  */
 public class MySongListActivity extends ActionBarActivity {
 
-    private UserData userDTO = new UserData();
+    private UserData userDTO;
 
     private GridView gridView;
     private MySongListAdapter mySongListAdapter;
@@ -57,6 +50,7 @@ public class MySongListActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         setContentView( R.layout.activity_mysong);
+        userDTO = new UserData(getApplicationContext());
         setActionBar(R.string.title_mysong_List);
 
         mListCount = 0;
@@ -138,6 +132,21 @@ public class MySongListActivity extends ActionBarActivity {
                     mSongArray = (JSONArray) jsonParser.parse(songJSON);
                     totalListSize = mSongArray.size();
                 }
+
+                if(totalListSize == 0) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(MySongListActivity.this);
+                    alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();     //닫기
+                            finish();
+                        }
+                    });
+                    alert.setMessage("평가하신 노래가 없습니다.\n평가하기에서 노래를 평가해주세요.");
+                    alert.show();
+                    return;
+                }
+
                 for(int i = mListCount; i < mListCount+mListAddCount; i ++) {
 
                     JSONObject song = (JSONObject) jsonParser.parse(mSongArray.get(i).toString());
@@ -149,7 +158,7 @@ public class MySongListActivity extends ActionBarActivity {
 
                     mySongListAdapter.addItem(id, spotifyAlbumID, title, artist, Integer.parseInt(rating));
 
-                    if(mySongListAdapter.getCount() > 4) {
+                    if(mySongListAdapter.getCount() > 0) {
                         mySongListAdapter.notifyDataSetChanged();
 
                         if ( mIndicator.isShowing())

@@ -47,6 +47,8 @@ public class Server {
     static public String SONG_WTIH_GENRE_CLAUSE = "selectSongsWithGenreClause&clause=";
     static public String MYP_HOT_SONGS = "selectMyPHotSongs";
     static public String MYP_RANK_SONGS = "selectMypRankSongs";
+    static public String MYP_TOP100_SONGS = "selectMyPTop100Songs";
+    static public String SELECT_SONG_WITH_TRACKID = "selectSongWithTrackId&track_id=";
 
     static public String BILLBOARD_API = "/Billboard.php?query=";
     static public String GENRE_TOP = "selectGenreTop&genres=";
@@ -69,6 +71,9 @@ public class Server {
     static public String GENRES_API = "/Genres.php?query=";
     static public String INSERT_GENRE_DETAIL = "InsertGenreDetail";
     static public String SELECT_GENRE_WITH_DETAIL = "SelectGenreWithDetail&detail=";
+
+    static public String ALBUM_API = "/Album.php?query=";
+    static public String SELECT_LATEST_ALBUMS = "selectLatestAlbums";
 
     static public String FACEBOOK_PROFILE = "https://graph.facebook.com/";
     static public String WIDTH_150 = "/picture?width=150";

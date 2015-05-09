@@ -23,13 +23,13 @@
                 android:layout_weight="2">
 
                 <ImageView
-                    android:id="@+id/recommendAlbumArtImageView"
+                    android:id="@+id/mypTopAlbumArtImageView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true" />
 
                 <TextView
-                    android:id="@+id/recommendSongDetailTextView"
+                    android:id="@+id/mypTopSongDetailTextView"
                     android:layout_width="80dp"
                     android:layout_height="50dp"
                     android:layout_gravity="left|bottom"
@@ -44,7 +44,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/recommendInsertRatingTextView"
+                    android:id="@+id/mypTopInsertRatingTextView"
                     android:layout_width="80dp"
                     android:layout_height="50dp"
                     android:layout_gravity="right|bottom"
@@ -69,7 +69,7 @@
                 android:padding="2dp">
 
                 <TextView
-                    android:id="@+id/recommendTitleTextView"
+                    android:id="@+id/mypTopTitleTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Title"
@@ -81,7 +81,7 @@
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/recommendArtistTextView"
+                    android:id="@+id/mypTopArtistTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Artist"
@@ -93,7 +93,7 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/recommendGenreTextView"
+                    android:id="@+id/mypTopGenreTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -115,7 +115,7 @@
                         android:weightSum="3" >
 
                         <Button
-                            android:id="@+id/recommendValenceButton"
+                            android:id="@+id/mypTopValenceButton"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
@@ -125,7 +125,7 @@
                             android:text="밝은\n분위기" />
 
                         <Button
-                            android:id="@+id/recommendSpeechinessButton"
+                            android:id="@+id/mypTopSpeechinessButton"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
@@ -135,7 +135,7 @@
                             android:text="멘트가\n 많은" />
 
                         <Button
-                            android:id="@+id/recommendEnergyButton"
+                            android:id="@+id/mypTopEnergyButton"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
@@ -152,7 +152,7 @@
                         android:weightSum="3" >
 
                         <Button
-                            android:id="@+id/recommendStudioButton"
+                            android:id="@+id/mypTopStudioButton"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
@@ -162,7 +162,7 @@
                             android:text="스튜\n디오" />
 
                         <Button
-                            android:id="@+id/recommendDanceablilityButton"
+                            android:id="@+id/mypTopDanceablilityButton"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
@@ -172,7 +172,7 @@
                             android:text="흥이\n나는" />
 
                         <Button
-                            android:id="@+id/recommendAcousticButton"
+                            android:id="@+id/mypTopAcousticButton"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
@@ -189,7 +189,7 @@
                         android:weightSum="3" >
 
                         <Button
-                            android:id="@+id/recommendInstrumentalnessButton"
+                            android:id="@+id/mypTopInstrumentalnessButton"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
@@ -199,7 +199,7 @@
                             android:text="연주곡" />
 
                         <Button
-                            android:id="@+id/recommendVocalButton"
+                            android:id="@+id/mypTopVocalButton"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
@@ -209,7 +209,7 @@
                             android:text="보컬" />
 
                         <Button
-                            android:id="@+id/recommendLivenessButton"
+                            android:id="@+id/mypTopLivenessButton"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
@@ -238,33 +238,43 @@
         android:background="@drawable/ring_rating_recommend">
 
         <TextView
-            android:id="@+id/recommendRatingTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="3dp"
-            android:text="5.0"
+            android:layout_gravity="center"
+            android:layout_marginTop="1dp"
+            android:text="전체평균"
             android:paddingLeft="1dp"
             android:paddingRight="1dp"
-            android:textSize="20dp"
+            android:textSize="9dp"
+            android:textColor="@color/color_base_blue"
+            />
+
+        <TextView
+            android:id="@+id/mypTopRatingTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:textSize="17dp"
             android:textColor="@color/color_base_blue"
              />
 
         <TextView
+            android:id="@+id/mypTopRankTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="예상평점"
             android:paddingLeft="1dp"
             android:paddingRight="1dp"
-            android:textSize="12dp"
+            android:textSize="9dp"
             android:textColor="@color/color_base_blue"
             />
 
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/recommendRatingRelativeLayout"
+        android:id="@+id/mypTopRatingRelativeLayout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="#44000000"

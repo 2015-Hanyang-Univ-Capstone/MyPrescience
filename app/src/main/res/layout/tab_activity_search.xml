@@ -101,7 +101,8 @@
                             android:background="@drawable/rectangle_not_active"
                             android:textSize="10dp"
                             android:text="BillBoard Hot100"
-                            android:tag="bbhot100"/>
+                            android:tag="bbhot100"
+                            android:visibility="gone"/>
 
                         <Button
                             android:id="@+id/tes423t1s"
@@ -113,7 +114,7 @@
                             android:textSize="10dp"
                             android:text=""
                             android:tag="dummy"
-                            android:visibility="invisible"/>
+                            android:visibility="gone"/>
 
                         <Button
                             android:id="@+id/est2111"
@@ -125,7 +126,7 @@
                             android:textSize="10dp"
                             android:text=""
                             android:tag="dummy"
-                            android:visibility="invisible" />
+                            android:visibility="gone" />
 
                     </TableRow>
 
@@ -390,30 +391,19 @@
                             android:tag="instrumentalness > 0.75"/>
 
                         <Button
-                            android:id="@+id/dummy1"
+                            android:id="@+id/searchAllPropertyButton"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
                             android:textSize="10dp"
-                            android:text="dummy"
-                            android:visibility="invisible" />
+                            android:text="모든 속성"
+                            android:tag="" />
 
                     </TableRow>
 
                 </TableLayout>
-
-                <Button
-                    android:id="@+id/searchButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:padding="10dp"
-                    android:text="검색하기"
-                    android:textColor="@color/color_base_blue"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:background="@drawable/button_background" />
 
             </LinearLayout>
 
@@ -428,18 +418,31 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:orientation="vertical"
             android:background="@color/color_base_theme">
 
             <Button
+                android:id="@+id/searchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:text="검색하기"
+                android:textColor="@color/color_base_blue"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:background="@drawable/button_background"
+                android:visibility="gone"/>
+
+            <Button
                 android:id="@+id/reSearchButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="5dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
                 android:padding="10dp"
                 android:text="다시 검색하기"
                 android:textColor="@color/color_base_blue"

@@ -45,11 +45,14 @@ import static com.myprescience.util.Server.getStringFromUrl;
 public class LoginActivity extends FragmentActivity {
     private MainFragment mainFragment;
     private Button guestButton;
-    private UserData userDTO = new UserData();
-
+    private UserData userDTO;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
+        userDTO = new UserData(getApplicationContext());
+
 
         if (savedInstanceState == null) {
             // Add the fragment on initial activity setup
@@ -63,7 +66,6 @@ public class LoginActivity extends FragmentActivity {
             mainFragment = (MainFragment) getSupportFragmentManager()
                     .findFragmentById(android.R.id.content);
         }
-        setContentView(R.layout.activity_login);
 
         // 현제 페이스북 로그인 세션 확인
         LoginButton authButton = (LoginButton) findViewById(R.id.authButton);

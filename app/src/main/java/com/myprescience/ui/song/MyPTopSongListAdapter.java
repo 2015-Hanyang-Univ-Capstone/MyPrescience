@@ -1,4 +1,4 @@
-package com.myprescience.ui;
+package com.myprescience.ui.song;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,10 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
-import android.media.Rating;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +23,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.youtube.player.internal.e;
 import com.myprescience.R;
+import com.myprescience.dto.MypTopSongData;
 import com.myprescience.dto.RecommendSongData;
+import com.myprescience.dto.UserData;
 import com.myprescience.util.InsertUpdateQuery;
 
 import org.json.simple.JSONArray;
@@ -47,38 +46,38 @@ import static com.myprescience.util.Server.GENRES_API;
 import static com.myprescience.util.Server.INSERT_RATING;
 import static com.myprescience.util.Server.RATING_API;
 import static com.myprescience.util.Server.SELECT_GENRE_WITH_DETAIL;
-import static com.myprescience.util.Server.SELECT_SONG_AVG_RATING;
-import static com.myprescience.util.Server.SELECT_SONG_RATING;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SPOTIFY_API;
-import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.getStringFromUrl;
 
 /**
  * Created by dongjun on 15. 4. 6..
  */
-public class RecommendSongListAdapter extends BaseAdapter {
+public class MyPTopSongListAdapter extends BaseAdapter {
 
+    private UserData userDTO;
     private int userId;
     private Context mContext = null;
-    private ArrayList<RecommendSongData> mListData = new ArrayList<>();
+    private ArrayList<MypTopSongData> mListData = new ArrayList<MypTopSongData>();
     private ViewHolder holder;
     private float ACTIVE_NUM = (float) 0.75;
 
-    public RecommendSongListAdapter(Context mContext, int _userId) {
+    public MyPTopSongListAdapter(Context mContext, int _userId) {
         super();
         this.mContext = mContext;
         this.userId = _userId;
+        userDTO = new UserData(mContext);
     }
 
-    public void addItem(String _id, String _albumArtURL, String _title, String _artist, int _rating, String _genres, String _song_type,
+    public void addItem(String _id, String _albumArtURL, String _title, String _artist, int _user_rating, float _avg_rating, String _genres, String _song_type,
                         float _valence, float _danceability, float _energy, float _liveness, float _speechiness, float _acousticness,
                         float _instrumentalness){
-        RecommendSongData temp = new RecommendSongData();
+        MypTopSongData temp = new MypTopSongData();
         temp.id = _id;
         temp.title = _title;
         temp.artist = _artist;
-        temp.rating = _rating;
+        temp.user_rating = _user_rating;
+        temp.avg_rating = _avg_rating;
         temp.albumUrl = _albumArtURL;
         temp.albumArt = null;
         temp.genres = _genres;
@@ -110,45 +109,41 @@ public class RecommendSongListAdapter extends BaseAdapter {
             holder = new ViewHolder();
 
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.list_item_recommendsong, null);
+            convertView = inflater.inflate(R.layout.list_item_topsong, null);
 
-            holder.albumImageView = (ImageView) convertView.findViewById(R.id.recommendAlbumArtImageView);
-            holder.titleTextView = (TextView) convertView.findViewById(R.id.recommendTitleTextView);
-            holder.artistTextView = (TextView) convertView.findViewById(R.id.recommendArtistTextView);
-            holder.ratingTextView = (TextView) convertView.findViewById(R.id.recommendRatingTextView);
-            holder.genreTextView = (TextView) convertView.findViewById(R.id.recommendGenreTextView);
+            holder.albumImageView = (ImageView) convertView.findViewById(R.id.mypTopAlbumArtImageView);
+            holder.titleTextView = (TextView) convertView.findViewById(R.id.mypTopTitleTextView);
+            holder.artistTextView = (TextView) convertView.findViewById(R.id.mypTopArtistTextView);
+            holder.ratingTextView = (TextView) convertView.findViewById(R.id.mypTopRatingTextView);
+            holder.rankTextView = (TextView) convertView.findViewById(R.id.mypTopRankTextView);
+            holder.genreTextView = (TextView) convertView.findViewById(R.id.mypTopGenreTextView);
 
-            holder.valenceButton = (Button) convertView.findViewById(R.id.recommendValenceButton);
-            holder.speechinessButton = (Button) convertView.findViewById(R.id.recommendSpeechinessButton);
-            holder.energyButton = (Button) convertView.findViewById(R.id.recommendEnergyButton);
-            holder.studioButton = (Button) convertView.findViewById(R.id.recommendStudioButton);
-            holder.danceablilityButton = (Button) convertView.findViewById(R.id.recommendAcousticButton);
-            holder.acousticButton = (Button) convertView.findViewById(R.id.recommendAcousticButton);
-            holder.instrumentalnessButton = (Button) convertView.findViewById(R.id.recommendInstrumentalnessButton);
-            holder.vocalButton = (Button) convertView.findViewById(R.id.recommendVocalButton);
-            holder.livenessButton = (Button) convertView.findViewById(R.id.recommendLivenessButton);
+            holder.valenceButton = (Button) convertView.findViewById(R.id.mypTopValenceButton);
+            holder.speechinessButton = (Button) convertView.findViewById(R.id.mypTopSpeechinessButton);
+            holder.energyButton = (Button) convertView.findViewById(R.id.mypTopEnergyButton);
+            holder.studioButton = (Button) convertView.findViewById(R.id.mypTopStudioButton);
+            holder.danceablilityButton = (Button) convertView.findViewById(R.id.mypTopDanceablilityButton);
+            holder.acousticButton = (Button) convertView.findViewById(R.id.mypTopAcousticButton);
+            holder.instrumentalnessButton = (Button) convertView.findViewById(R.id.mypTopInstrumentalnessButton);
+            holder.vocalButton = (Button) convertView.findViewById(R.id.mypTopVocalButton);
+            holder.livenessButton = (Button) convertView.findViewById(R.id.mypTopLivenessButton);
 
-            holder.songDetailTextView = (TextView) convertView.findViewById(R.id.recommendSongDetailTextView);
-            holder.insertRatingTextView = (TextView) convertView.findViewById(R.id.recommendInsertRatingTextView);
-            holder.ratingRelativeLayout = (RelativeLayout) convertView.findViewById(R.id.recommendRatingRelativeLayout);
+            holder.songDetailTextView = (TextView) convertView.findViewById(R.id.mypTopSongDetailTextView);
+            holder.insertRatingTextView = (TextView) convertView.findViewById(R.id.mypTopInsertRatingTextView);
+            holder.ratingRelativeLayout = (RelativeLayout) convertView.findViewById(R.id.mypTopRatingRelativeLayout);
 
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder) convertView.getTag();
         }
 
-        final RecommendSongData mData = mListData.get(position);
+        final MypTopSongData mData = mListData.get(position);
 
         holder.titleTextView.setText(mData.title);
         holder.artistTextView.setText(mData.artist);
 
-        float rating = mData.rating;
-        if(rating < 150) {
-            rating = (float) (mData.rating/30.0);
-            holder.ratingTextView.setText(String.format("%.1f", rating));
-        } else {
-            holder.ratingTextView.setText(5.0+"");
-        }
+        holder.ratingTextView.setText(String.format("%.1f", (float) (mData.avg_rating/2.0)));
+        holder.rankTextView.setText("Top." + (position+1));
         holder.position = position;
 
         // 앨범아트 가져오기
@@ -248,29 +243,9 @@ public class RecommendSongListAdapter extends BaseAdapter {
                 holder.ratingBar = (RatingBar) linearLayout.getChildAt(1);
                 LayerDrawable stars = (LayerDrawable) holder.ratingBar.getProgressDrawable();
                 stars.getDrawable(2).setColorFilter(mContext.getResources().getColor(R.color.color_base_theme), PorterDuff.Mode.SRC_ATOP);
+                holder.ratingBar.setProgress(mData.user_rating);
 
                 holder.closeButton = (Button) linearLayout.getChildAt(2);
-
-                holder.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                    @Override
-                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                        int ratingInt = (int)(rating*2);
-                        new InsertUpdateQuery().execute(SERVER_ADDRESS + RATING_API + INSERT_RATING +
-                                "user_id=" + userId + "&song_id=" + mData.id + "&rating=" + ratingInt);
-                        Toast toast = Toast.makeText(mContext, rating+"/5.0점으로 평가되었습니다!", Toast.LENGTH_SHORT);
-                        toast.show();
-
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            public void run() {
-                                holder.closeButton.callOnClick();
-                                holder.ratingBar.setOnRatingBarChangeListener(null);
-                                holder.ratingBar.setProgress(0);
-                            }
-                        }, 1000);
-                    }
-                });
-
                 holder.closeButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -278,6 +253,30 @@ public class RecommendSongListAdapter extends BaseAdapter {
                         Animation fadeOutAnimation = AnimationUtils.loadAnimation(mContext, R.anim.abc_fade_out);
                         ratingLayout.setVisibility(View.GONE);
                         ratingLayout.startAnimation(fadeOutAnimation);
+                    }
+                });
+
+                holder.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                    @Override
+                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                        int ratingInt = (int)(rating*2);
+                        new InsertUpdateQuery(mContext).execute(SERVER_ADDRESS + RATING_API + INSERT_RATING +
+                                "user_id=" + userId + "&song_id=" + mData.id + "&rating=" + ratingInt);
+                        Toast toast = Toast.makeText(mContext, rating+"/5.0점으로 평가되었습니다!", Toast.LENGTH_SHORT);
+                        toast.show();
+
+                        userDTO.addRatingSoungCount();
+
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                if(holder.closeButton != null) {
+                                    holder.closeButton.callOnClick();
+                                    holder.ratingBar.setOnRatingBarChangeListener(null);
+                                    holder.ratingBar.setProgress(0);
+                                }
+                            }
+                        }, 50);
                     }
                 });
             }
@@ -292,7 +291,7 @@ public class RecommendSongListAdapter extends BaseAdapter {
     }
 
     @Override
-    public RecommendSongData getItem(int position) {
+    public MypTopSongData getItem(int position) {
         return mListData.get(position);
     }
 
@@ -305,9 +304,9 @@ public class RecommendSongListAdapter extends BaseAdapter {
 
         private int mPosition;
         private ViewHolder mHolder = null;
-        private RecommendSongData songData;
+        private MypTopSongData songData;
 
-        public LoadAlbumArt(int positon, ViewHolder holder, RecommendSongData mSongData){
+        public LoadAlbumArt(int positon, ViewHolder holder, MypTopSongData mSongData){
             this.mPosition = positon;
             this.mHolder = holder;
             this.songData = mSongData;
@@ -358,10 +357,10 @@ public class RecommendSongListAdapter extends BaseAdapter {
 
         private int mPosition;
         private ViewHolder mHolder = null;
-        private RecommendSongData songData;
+        private MypTopSongData songData;
         public String mGenre;
 
-        public extractGenreWithDetail(int positon, ViewHolder holder, RecommendSongData mSongData){
+        public extractGenreWithDetail(int positon, ViewHolder holder, MypTopSongData mSongData){
             this.mPosition = positon;
             this.mHolder = holder;
             this.songData = mSongData;
@@ -421,6 +420,7 @@ public class RecommendSongListAdapter extends BaseAdapter {
         public TextView titleTextView;
         public TextView artistTextView;
         public TextView ratingTextView;
+        public TextView rankTextView;
         public int position;
         public TextView genreTextView;
         public Button valenceButton;

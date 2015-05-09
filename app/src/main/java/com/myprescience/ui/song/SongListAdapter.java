@@ -1,10 +1,9 @@
-package com.myprescience.ui;
+package com.myprescience.ui.song;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
@@ -13,12 +12,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.myprescience.R;
 import com.myprescience.dto.SongData;
+import com.myprescience.dto.UserData;
+import com.myprescience.ui.ViewHolder;
+import com.myprescience.util.InsertUpdateQuery;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -30,24 +35,40 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import static com.myprescience.util.PixelUtil.getProperImage;
+import static com.myprescience.util.Server.INSERT_RATING;
+import static com.myprescience.util.Server.RATING_API;
+import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SPOTIFY_API;
 import static com.myprescience.util.Server.getStringFromUrl;
 
 /**
- * Created by dongjun on 15. 4. 6..
+ * Created by hyeon-seob on 15. 3. 4..
+ * 리스트 뷰에 곡 정보를 추가하기 위한 어댑터 클래스
+ * addItem()으로 리스트에 곡 추가
  */
-public class MySongListAdapter extends BaseAdapter {
+
+public class SongListAdapter extends BaseAdapter{
+
+    private UserData userDTO;
 
     private int userId;
     private Context mContext = null;
     private ArrayList<SongData> mListData = new ArrayList<>();
     private ViewHolder holder;
+    private ProgressBar progressBar;
+    private int ratingCount;
+    private TextView textView;
+    private ImageButton rightButton;
 
-    public MySongListAdapter(Context mContext, int _userId) {
+    public SongListAdapter(Context mContext, int _ratingCount, ProgressBar _progressBar, TextView _textView, ImageButton _rightButton, int _userId) {
         super();
         this.mContext = mContext;
+        progressBar = _progressBar;
+        ratingCount = _ratingCount;
+        textView = _textView;
+        rightButton = _rightButton;
         this.userId = _userId;
+        userDTO = new UserData(mContext);
     }
 
     public void addItem(String _id, String _albumArtURL, String _title, String _artist, int _rating){
@@ -67,7 +88,7 @@ public class MySongListAdapter extends BaseAdapter {
             holder = new ViewHolder();
 
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.list_item_mysong, null);
+            convertView = inflater.inflate(R.layout.list_item_song, null);
 
             holder.albumImageView = (ImageView) convertView.findViewById(R.id.albumArtView);
             holder.titleTextView = (TextView) convertView.findViewById(R.id.titleTextView);
@@ -75,7 +96,7 @@ public class MySongListAdapter extends BaseAdapter {
             holder.ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar);
 
             LayerDrawable stars = (LayerDrawable) holder.ratingBar.getProgressDrawable();
-            stars.getDrawable(2).setColorFilter(Color.parseColor("#FFD700"), PorterDuff.Mode.SRC_ATOP);
+            stars.getDrawable(2).setColorFilter(mContext.getResources().getColor(R.color.color_base_theme), PorterDuff.Mode.SRC_ATOP);
 
             convertView.setTag(holder);
         }else{
@@ -91,7 +112,6 @@ public class MySongListAdapter extends BaseAdapter {
                 v.getContext().startActivity(intent);
             }
         });
-
         holder.titleTextView.setText(mData.title);
         holder.artistTextView.setText(mData.artist);
         holder.ratingBar.setProgress(mData.rating);
@@ -111,12 +131,46 @@ public class MySongListAdapter extends BaseAdapter {
                 holder.albumImageView.setImageBitmap(mData.albumArt);
 
         } else {
-            holder.albumImageView.setImageResource(R.drawable.image_not_exist_300);
+            holder.albumImageView.setImageResource(R.drawable.image_not_exist_64);
         }
-        holder.albumImageView.setAdjustViewBounds(true);
+
         holder.ratingBar.setTag(position);
+        holder.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                if(!fromUser) return;
+
+                int index = (Integer)ratingBar.getTag();
+                if(mListData.get(index).rating == 0) {
+                    ratingCount++;
+                    setProgress(ratingCount);
+                    Log.e("ratingCount", ratingCount + "");
+
+                    userDTO.addRatingSoungCount();
+
+//                    textView.setText(ratingCount + "곡을 평가했습니다.");
+                    textView.invalidate();
+
+                    if(ratingCount >= SongListActivity.MIN_SELECTED_SONG)
+                        rightButton.setVisibility(ImageButton.VISIBLE);
+                }
+
+                mListData.get(index).rating = (int)(rating*2);
+
+                new InsertUpdateQuery(mContext).execute(SERVER_ADDRESS+RATING_API+INSERT_RATING+
+                        "user_id=" + userId + "&song_id=" + mListData.get(index).id + "&rating=" + mListData.get(index).rating);
+
+                Toast toast = Toast.makeText(mContext, rating+"/5.0점으로 평가되었습니다!", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
 
         return convertView;
+    }
+
+    public void setProgress(int count) {
+        progressBar.setProgress((int)(Math.min(1, count/(double)SongListActivity.MIN_SELECTED_SONG)*100));
+        progressBar.invalidate();
     }
 
     @Override
@@ -132,16 +186,6 @@ public class MySongListAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
-    }
-
-    class insertRatingTask extends AsyncTask<String, String, Void> {
-
-        @Override
-        protected Void doInBackground(String... url) {
-            String userIdJSON = getStringFromUrl(url[0]);
-            Log.e("userIdJSON", userIdJSON);
-            return null;
-        }
     }
 
     class LoadAlbumArt extends AsyncTask<String, String, Bitmap> {
@@ -169,20 +213,22 @@ public class MySongListAdapter extends BaseAdapter {
             }
 
             JSONArray images = (JSONArray) album.get("images");
-            JSONObject image = getProperImage(images, mHolder.albumImageView.getWidth());
-
-            // Image 역시 UI Thread에서 바로 작업 불가.
             Bitmap myBitmap = null;
-            try {
-                URL urlConnection = new URL((String)image.get("url"));
-                HttpURLConnection connection = (HttpURLConnection) urlConnection
-                        .openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                myBitmap = BitmapFactory.decodeStream(input);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if(images.size() != 0) {
+                JSONObject image = (JSONObject) images.get(images.size()-1);
+                // Image 역시 UI Thread에서 바로 작업 불가.
+                try {
+                    URL urlConnection = new URL((String) image.get("url"));
+                    HttpURLConnection connection = (HttpURLConnection) urlConnection
+                            .openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
+                    InputStream input = connection.getInputStream();
+                    myBitmap = BitmapFactory.decodeStream(input);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return myBitmap;
         }
@@ -196,6 +242,4 @@ public class MySongListAdapter extends BaseAdapter {
             }
         }
     }
-
-
 }

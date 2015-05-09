@@ -1,26 +1,16 @@
-package com.myprescience.ui;
+package com.myprescience.ui.song;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.AbsListView;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import static com.myprescience.util.Server.MODE;
-import static com.myprescience.util.Server.RECOMMEND_API;
-import static com.myprescience.util.Server.RECOMMEND_SONGS;
-import static com.myprescience.util.Server.SERVER_ADDRESS;
-import static com.myprescience.util.Server.WITH_USER;
-import static com.myprescience.util.Server.getStringFromUrl;
+import android.widget.TextView;
 
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
@@ -31,16 +21,21 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import static com.myprescience.util.Server.MYP_TOP100_SONGS;
+import static com.myprescience.util.Server.RECOMMEND_API;
+import static com.myprescience.util.Server.RECOMMEND_SONGS;
+import static com.myprescience.util.Server.SERVER_ADDRESS;
+import static com.myprescience.util.Server.SONG_API;
+import static com.myprescience.util.Server.WITH_USER;
+import static com.myprescience.util.Server.getStringFromUrl;
+
 @SuppressLint("ValidFragment")
-public class RecommendSongListTab extends Fragment {
+public class MyPTopSongListActivity extends ActionBarActivity {
 
-    private UserData userDTO = new UserData();
+    private UserData userDTO;
 
-    Context mContext;
-
-    private FrameLayout mRecommendLayout;
-    private ListView mRecommendListView;
-    private RecommendSongListAdapter mRecommendSongListAdapter;
+    private ListView mMyPTopListView;
+    private MyPTopSongListAdapter mMyPTopSongListAdapter;
 
     private Indicator mIndicator;
 
@@ -50,28 +45,25 @@ public class RecommendSongListTab extends Fragment {
     private JSONArray mSongArray;
     private boolean mLockListView = false;
 
-    public RecommendSongListTab(Context context) {
-        mContext = context;
-    }
-
     @Override
-    public View onCreateView(LayoutInflater inflater,
-            ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.tab_activity_recommend, null);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_myptop100_song_list);
+        userDTO = new UserData(getApplicationContext());
+        setActionBar(R.string.title_activity_MyPTopSongListactivty);
 
         mListCount = 0;
         mListAddCount = 5;
 
-        mRecommendLayout = (FrameLayout) view.findViewById(R.id.recommendLayout);
-        mIndicator = new Indicator(mContext, mRecommendLayout);
+        mIndicator = new Indicator(this);
 
-        mRecommendListView = (ListView) view.findViewById(R.id.recommendSongListView);
-        mRecommendSongListAdapter = new RecommendSongListAdapter(mContext, userDTO.getId());
-        mRecommendListView.setAdapter(mRecommendSongListAdapter);
-        new getRecommendSongTask().execute(SERVER_ADDRESS+RECOMMEND_API+RECOMMEND_SONGS+WITH_USER+userDTO.getId());
+        mMyPTopListView = (ListView) findViewById(R.id.mypTopSongListView);
+        mMyPTopSongListAdapter = new MyPTopSongListAdapter(getApplicationContext(), userDTO.getId());
+        mMyPTopListView.setAdapter(mMyPTopSongListAdapter);
+        new getRecommendSongTask().execute(SERVER_ADDRESS+SONG_API+MYP_TOP100_SONGS+WITH_USER+userDTO.getId());
 
         // 스크롤 했을 때 마지막 셀이 보인다면 추가로 로딩
-        mRecommendListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        mMyPTopListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
 
@@ -86,24 +78,33 @@ public class RecommendSongListTab extends Fragment {
                     mListCount += mListAddCount;
 //                        else if(totalItemCount+10 > totalListSize && !(totalItemCount >= totalListSize))
 //                            mListCount = totalListSize - (10+1);
-                    new getRecommendSongTask().execute(SERVER_ADDRESS+RECOMMEND_API+RECOMMEND_SONGS+WITH_USER+userDTO.getId());
+                    new getRecommendSongTask().execute();
                     mLockListView = true;
                 } else if(totalItemCount+mListAddCount > totalListSize && totalListSize != 0) {
                     mListCount += mListAddCount;
                     mListAddCount =  totalListSize - mListCount;
-                    new getRecommendSongTask().execute(SERVER_ADDRESS+RECOMMEND_API+RECOMMEND_SONGS+WITH_USER+userDTO.getId());
-                    mRecommendListView.setOnScrollListener(null);
+                    new getRecommendSongTask().execute();
+                    mMyPTopListView.setOnScrollListener(null);
                 }
             }
         });
+    }
 
+    private void setActionBar(int title) {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("");
 
+        // 뒤로가기 버튼
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        mRecommendSongListAdapter.addItem("test", "albums/6gSCxFtdSR8Ig3VvntCBPE", "test", "test", 10);
-//        mRecommendSongListAdapter.addItem("test", "albums/6gSCxFtdSR8Ig3VvntCBPE", "test", "test", 10);
-//        mRecommendSongListAdapter.addItem("test", "albums/6gSCxFtdSR8Ig3VvntCBPE", "test", "test", 10);
+        TextView TitleTextView = (TextView) findViewById(R.id.toolbar_title);
+        TitleTextView.setText(title);
+        Typeface face = Typeface.createFromAsset(getAssets(),
+                "Steinerlight.ttf");
+        TitleTextView.setTypeface(face);
 
-        return view;
     }
 
     class getRecommendSongTask extends AsyncTask<String, String, String> {
@@ -139,11 +140,14 @@ public class RecommendSongListTab extends Fragment {
                     String spotifyAlbumID = "albums/" + (String) song.get("album_spotify_id");
                     String genres = (String) song.get("genres");
                     String song_type = (String) song.get("song_type");
-                    String ratingStr = (String) song.get("rating");
-                    int rating = 0;
-                    if (ratingStr != null) {
-                        rating = Integer.parseInt(ratingStr);
-                    }
+                    String user_ratingStr = (String) song.get("user_rating");
+                    String avg_ratingStr = (String) song.get("avg_rating");
+                    int user_rating = 0;
+                    float avg_rating = 0;
+                    if (user_ratingStr != null)
+                        user_rating = Integer.parseInt(user_ratingStr);
+                    if (avg_ratingStr != null)
+                        avg_rating = Float.parseFloat(avg_ratingStr);
 
                     float valence = Float.parseFloat((String) song.get("valence"));
                     float danceability = Float.parseFloat((String) song.get("danceability"));
@@ -151,13 +155,15 @@ public class RecommendSongListTab extends Fragment {
                     float liveness = Float.parseFloat((String) song.get("liveness"));
                     float speechiness = Float.parseFloat((String) song.get("speechiness"));
                     float acousticness = Float.parseFloat((String) song.get("acousticness"));
-                    float instrumentalness = Float.parseFloat((String) song.get("instrumentalness"));
+                    float instrumentalness = 0;
+                    if(song.get("instrumentalness") != null)
+                        instrumentalness = Float.parseFloat((String) song.get("instrumentalness"));
 
-                    mRecommendSongListAdapter.addItem(id, spotifyAlbumID, title, artist, rating, genres, song_type,
+                    mMyPTopSongListAdapter.addItem(id, spotifyAlbumID, title, artist, user_rating, avg_rating, genres, song_type,
                             valence, danceability, energy, liveness, speechiness, acousticness, instrumentalness);
                 }
-                if (mRecommendSongListAdapter.getCount() > 4) {
-                    mRecommendSongListAdapter.notifyDataSetChanged();
+                if (mMyPTopSongListAdapter.getCount() > 4) {
+                    mMyPTopSongListAdapter.notifyDataSetChanged();
                 }
                 if (mIndicator.isShowing())
                     mIndicator.hide();
@@ -175,4 +181,16 @@ public class RecommendSongListTab extends Fragment {
                 mIndicator.show();
         }
     }
+
+    // 뒤로가기 버튼
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // NavUtils.navigateUpFromSameTask(this);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    };
 }

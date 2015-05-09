@@ -1,4 +1,4 @@
-package com.myprescience.ui;
+package com.myprescience.ui.song;
 
 import android.app.Activity;
 import android.app.Fragment;

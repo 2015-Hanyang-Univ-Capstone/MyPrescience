@@ -171,7 +171,7 @@
                         android:gravity="center">
 
                         <LinearLayout
-                            android:id="@+id/artistButton"
+                            android:id="@+id/mypTop100Button"
                             android:orientation="vertical"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -250,7 +250,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/playlistButton"
+                            android:id="@+id/myPrescienceButton"
                             android:orientation="vertical"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -314,7 +314,7 @@
                             <ImageView
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
-                                android:src="@drawable/test"/>
+                                android:scaleType="fitXY"/>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -384,7 +384,7 @@
                             <ImageView
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
-                                android:src="@drawable/test"/>
+                                android:scaleType="fitXY"/>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -454,7 +454,7 @@
                             <ImageView
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
-                                android:src="@drawable/test"/>
+                                android:scaleType="fitXY"/>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -515,6 +515,7 @@
                         </LinearLayout>
 
                         <Button
+                            android:id="@+id/mypTopMoreButton"
                             android:layout_width="50dp"
                             android:layout_height="30dp"
                             android:layout_gravity="right"
@@ -562,7 +563,7 @@
                             xmlns:widget="http://schemas.android.com/apk/res-auto"
                             android:id="@+id/HorizontalListView"
                             android:layout_width="fill_parent"
-                            android:layout_height="200dp"
+                            android:layout_height="235dp"
                             android:divider="#878787"
                             widget:dividerWidth="2dp" />
 

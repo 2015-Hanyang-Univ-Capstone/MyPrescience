@@ -23,315 +23,344 @@
                 android:id="@+id/textLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3">
+                android:orientation="vertical" >
 
                 <TextView
                     android:id="@+id/songKindFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/color_base_blue"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/title"
                     android:padding="10dp"
                     android:textStyle="bold"
                     android:text="음악종류" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2" >
+
+                    <Button
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:textColor="@color/color_base_blue"
+                        android:background="@drawable/button_background"
+                        android:textSize="13sp"
+                        android:text="모든노래"
+                        android:id="@+id/random_SongFilter" />
+
+                    <Button
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:textColor="@color/color_base_blue"
+                        android:background="@drawable/button_background"
+                        android:textSize="13sp"
+                        android:text="한국 노래"
+                        android:id="@+id/kpop_SongFilter" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2" >
+
+                    <Button
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:textColor="@color/color_base_blue"
+                        android:background="@drawable/button_background"
+                        android:textSize="13sp"
+                        android:text="외국 노래"
+                        android:id="@+id/pop_SongFilter" />
+
+                    <Button
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:textColor="@color/color_base_blue"
+                        android:background="@drawable/button_background"
+                        android:textSize="10sp"
+                        android:text="Billboard Hot100"
+                        android:id="@+id/billboardHot100_SongFilter" />
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/songGenreFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/color_base_blue"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/title"
                     android:padding="10dp"
                     android:textStyle="bold"
                     android:text="음악장르" />
 
-                <TextView
-                    android:id="@+id/songPropertyFilter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/color_base_blue"
-                    android:padding="10dp"
-                    android:textStyle="bold"
-                    android:text="음악속성" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_below="@id/textLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="4">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1" >
+                    android:orientation="horizontal"
+                    android:weightSum="2" >
 
                     <Button
-                        android:layout_marginLeft="10dp"
-                        android:layout_width="60dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_width="100dp"
                         android:layout_height="40dp"
-                        android:padding="10dp"
+                        android:layout_weight="1"
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
-                        android:textSize="10sp"
-                        android:text="모든노래"
-                        android:id="@+id/random_SongFilter" />
-
-                    <Button
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_width="60dp"
-                        android:layout_height="40dp"
-                        android:padding="10dp"
-                        android:textColor="@color/color_base_blue"
-                        android:background="@drawable/button_background"
-                        android:textSize="10sp"
-                        android:text="한국 노래"
-                        android:id="@+id/kpop_SongFilter" />
-
-                    <Button
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_width="60dp"
-                        android:layout_height="40dp"
-                        android:padding="10dp"
-                        android:textColor="@color/color_base_blue"
-                        android:background="@drawable/button_background"
-                        android:textSize="10sp"
-                        android:text="외국 노래"
-                        android:id="@+id/pop_SongFilter" />
-
-                    <Button
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_width="60dp"
-                        android:layout_height="50dp"
-                        android:padding="10dp"
-                        android:textColor="@color/color_base_blue"
-                        android:background="@drawable/button_background"
-                        android:textSize="9sp"
-                        android:text="BillBoard\n Hot 100"
-                        android:id="@+id/billboardHot100_SongFilter" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1" >
-
-                    <Button
-                        android:layout_marginLeft="10dp"
-                        android:layout_width="60dp"
-                        android:layout_height="40dp"
-                        android:padding="10dp"
-                        android:textColor="@color/color_base_blue"
-                        android:background="@drawable/button_background"
-                        android:textSize="10sp"
+                        android:textSize="13sp"
                         android:text="@string/genrePop"
                         android:id="@+id/genrePop_SongFilter" />
 
                     <Button
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_width="60dp"
+                        android:layout_width="100dp"
                         android:layout_height="40dp"
-                        android:padding="10dp"
+                        android:layout_weight="1"
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
-                        android:textSize="10sp"
+                        android:textSize="13sp"
                         android:text="@string/genreHiphop"
                         android:id="@+id/genreHiphop_SongFilter" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2" >
+
                     <Button
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_width="60dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_width="100dp"
                         android:layout_height="40dp"
-                        android:padding="10dp"
+                        android:layout_weight="1"
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
-                        android:textSize="10sp"
+                        android:textSize="13sp"
                         android:text="@string/genreRnB"
                         android:id="@+id/genreRnB_SongFilter" />
 
                     <Button
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_width="60dp"
+                        android:layout_width="100dp"
                         android:layout_height="40dp"
-                        android:padding="10dp"
+                        android:layout_weight="1"
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
-                        android:textSize="10sp"
+                        android:textSize="13sp"
                         android:text="@string/genreRock"
                         android:id="@+id/genreRock_SongFilter" />
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1" >
+                    android:orientation="horizontal"
+                    android:weightSum="2" >
 
                     <Button
-                        android:layout_width="60dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_width="100dp"
                         android:layout_height="40dp"
-                        android:padding="10dp"
+                        android:layout_weight="1"
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
-                        android:textSize="8sp"
+                        android:textSize="13sp"
                         android:text="@string/genreCountry"
                         android:id="@+id/genreCountry_SongFilter" />
 
                     <Button
-                        android:layout_marginTop="5dp"
-                        android:layout_width="60dp"
+                        android:layout_width="100dp"
                         android:layout_height="40dp"
-                        android:padding="10dp"
+                        android:layout_weight="1"
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
-                        android:textSize="9sp"
+                        android:textSize="13sp"
                         android:text="@string/genreElectronic"
                         android:id="@+id/genreElectronic_SongFilter" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2" >
+
                     <Button
-                        android:layout_marginTop="5dp"
-                        android:layout_width="60dp"
+                        android:layout_width="100dp"
                         android:layout_height="40dp"
-                        android:padding="10dp"
+                        android:layout_weight="1"
+                        android:layout_marginRight="10dp"
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
-                        android:textSize="10sp"
+                        android:textSize="13sp"
                         android:text="@string/genreJazz"
                         android:id="@+id/genreJazz_SongFilter" />
 
                     <Button
-                        android:layout_marginTop="5dp"
-                        android:layout_width="60dp"
+                        android:layout_width="100dp"
                         android:layout_height="40dp"
-                        android:padding="10dp"
+                        android:layout_weight="1"
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
-                        android:textSize="10sp"
+                        android:textSize="13sp"
                         android:text="@string/genreClub"
                         android:id="@+id/genreClub_SongFilter" />
 
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/songPropertyFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/title"
+                    android:padding="10dp"
+                    android:textStyle="bold"
+                    android:text="음악속성" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1" >
+                    android:orientation="horizontal"
+                    android:weightSum="2" >
 
                     <Button
-                        android:layout_width="60dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_width="100dp"
                         android:layout_height="40dp"
-                        android:padding="10dp"
+                        android:layout_weight="1"
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
-                        android:textSize="10sp"
+                        android:textSize="13sp"
                         android:text="평가좋은"
                         android:id="@+id/MypRankOrder_SongFilter" />
 
                     <Button
-                        android:layout_marginTop="5dp"
-                        android:layout_width="60dp"
+                        android:layout_width="100dp"
                         android:layout_height="40dp"
-                        android:padding="10dp"
+                        android:layout_weight="1"
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
-                        android:textSize="10sp"
+                        android:textSize="13sp"
                         android:text="@string/propertyValence"
                         android:id="@+id/valance_SongFilter" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2" >
+
                     <Button
-                        android:layout_marginTop="5dp"
-                        android:layout_width="60dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_width="100dp"
                         android:layout_height="40dp"
-                        android:padding="10dp"
+                        android:layout_weight="1"
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
-                        android:textSize="10sp"
+                        android:textSize="13sp"
+                        android:text="@string/propertyInstrumentalness"
+                        android:id="@+id/instrumentalness_SongFilter" />
+
+                    <Button
+                        android:layout_marginRight="10dp"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:textColor="@color/color_base_blue"
+                        android:background="@drawable/button_background"
+                        android:textSize="13sp"
                         android:text="@string/propertyLoudness"
                         android:id="@+id/loudness_SongFilter"
                         android:visibility="gone"/>
 
                     <Button
-                        android:layout_marginTop="5dp"
-                        android:layout_width="60dp"
+                        android:layout_width="100dp"
                         android:layout_height="40dp"
-                        android:padding="10dp"
+                        android:layout_weight="1"
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
-                        android:textSize="10sp"
+                        android:textSize="13sp"
                         android:text="@string/propertyDanceablility"
                         android:id="@+id/danceablility_SongFilter" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2" >
+
                     <Button
-                        android:layout_marginTop="5dp"
-                        android:layout_width="60dp"
-                        android:layout_height="50dp"
-                        android:padding="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
-                        android:textSize="9sp"
+                        android:textSize="13sp"
                         android:text="@string/propertyEnergy"
                         android:id="@+id/energy_SongFilter" />
 
                     <Button
-                        android:layout_marginTop="5dp"
-                        android:layout_width="60dp"
+                        android:layout_width="100dp"
                         android:layout_height="40dp"
-                        android:padding="10dp"
+                        android:layout_weight="1"
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
-                        android:textSize="10sp"
+                        android:textSize="13sp"
                         android:text="@string/propertyLiveness"
                         android:id="@+id/live_SongFilter" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2" >
+
                     <Button
-                        android:layout_marginTop="5dp"
-                        android:layout_width="60dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_width="100dp"
                         android:layout_height="40dp"
-                        android:padding="10dp"
+                        android:layout_weight="1"
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
-                        android:textSize="10sp"
+                        android:textSize="13sp"
                         android:text="@string/propertySpeechiness"
                         android:id="@+id/speechiness_SongFilter" />
 
                     <Button
-                        android:layout_marginTop="5dp"
-                        android:layout_width="60dp"
+                        android:layout_width="100dp"
                         android:layout_height="40dp"
-                        android:padding="10dp"
+                        android:layout_weight="1"
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
-                        android:textSize="10sp"
+                        android:textSize="13sp"
                         android:text="@string/propertyAcousticness"
                         android:id="@+id/acousticness_SongFilter" />
-
-                    <Button
-                        android:layout_marginTop="5dp"
-                        android:layout_width="60dp"
-                        android:layout_height="40dp"
-                        android:textColor="@color/color_base_blue"
-                        android:background="@drawable/button_background"
-                        android:textSize="10sp"
-                        android:text="@string/propertyInstrumentalness"
-                        android:id="@+id/instrumentalness_SongFilter" />
 
                 </LinearLayout>
 

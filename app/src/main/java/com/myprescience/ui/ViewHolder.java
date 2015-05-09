@@ -1,5 +1,6 @@
 package com.myprescience.ui;
 
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ public class ViewHolder {
     public ImageView albumImageView;
     public TextView titleTextView;
     public TextView artistTextView;
+    public Button albumDetailButton;
     public RatingBar ratingBar;
     public int position;
 }

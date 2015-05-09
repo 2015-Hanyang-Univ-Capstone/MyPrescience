@@ -1,22 +1,21 @@
 package com.myprescience.ui;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,19 +23,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.view.Window;
-import android.widget.FrameLayout;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.model.GraphUser;
 import com.meetme.android.horizontallistview.HorizontalListView;
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
+import com.myprescience.ui.album.LatestAlbumListAdapter;
+import com.myprescience.ui.song.MyPTopSongListActivity;
+import com.myprescience.ui.song.SongActivity;
+import com.myprescience.ui.song.SongListActivity;
 import com.myprescience.util.BackPressCloseHandler;
 import com.myprescience.util.ImageLoad;
 import com.myprescience.util.Indicator;
@@ -46,22 +45,20 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import static com.myprescience.util.PixelUtil.getProperImage;
-import static com.myprescience.util.Server.ECHONEST_GENRE_SEARCH;
-import static com.myprescience.util.Server.GENRES_API;
-import static com.myprescience.util.Server.INSERT_GENRE_DETAIL;
+import static com.myprescience.util.Server.ALBUM_API;
 import static com.myprescience.util.Server.MYP_HOT_SONGS;
 import static com.myprescience.util.Server.RANDOM_MODE;
+import static com.myprescience.util.Server.RATING_API;
+import static com.myprescience.util.Server.SELECT_LATEST_ALBUMS;
+import static com.myprescience.util.Server.SELECT_SONG_COUNT;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SONG_API;
 import static com.myprescience.util.Server.SPOTIFY_API;
+import static com.myprescience.util.Server.WITH_USER;
+import static com.myprescience.util.Server.getLevel;
 import static com.myprescience.util.Server.getStringFromUrl;
 
 
@@ -77,12 +74,15 @@ public class MainActivity extends ActionBarActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-    private UserData userDTO = new UserData();
+    private UserData userDTO;
 
     private Activity mActivity;
     private Indicator mIndicater;
     private ViewGroup mMyPTop1_FrameLayout, mMyPTop_LinearLayout1, mMyPTop_LinearLayout2, mMyPTop_LinearLayout3;
     private ArrayList<ViewGroup> mMyTopList;
+
+    private LinearLayout mMypTop100Button, mMyPrescienceButton;
+    private Button mMypTopMoreButton;
 
     private HorizontalListView mHorizontalListView;
     private LatestAlbumListAdapter mHorizontalListAdapter;
@@ -91,6 +91,7 @@ public class MainActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        userDTO = new UserData(getApplicationContext());
 
         mIndicater = new Indicator(this);
         backPressCloseHandler = new BackPressCloseHandler(this);
@@ -110,7 +111,32 @@ public class MainActivity extends ActionBarActivity
         mMyTopList.add(mMyPTop_LinearLayout2);
         mMyTopList.add(mMyPTop_LinearLayout3);
 
-        new getMyPHotSongs().execute(SERVER_ADDRESS+SONG_API+MYP_HOT_SONGS);
+        mMypTop100Button = (LinearLayout) findViewById(R.id.mypTop100Button);
+        mMypTop100Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MyPTopSongListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mMypTopMoreButton = (Button) findViewById(R.id.mypTopMoreButton);
+        mMypTopMoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MyPTopSongListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mMyPrescienceButton = (LinearLayout) findViewById(R.id.myPrescienceButton);
+        mMyPrescienceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MyPrescienceActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -121,10 +147,17 @@ public class MainActivity extends ActionBarActivity
         mHorizontalListAdapter = new LatestAlbumListAdapter(getApplicationContext(), userDTO.getId());
         mHorizontalListView.setAdapter(mHorizontalListAdapter);
 
-        for(int i = 0 ; i < 10; i++)
-            mHorizontalListAdapter.addItem("test", "albums/", "Input Title", "Input Artist");
-        mHorizontalListAdapter.notifyDataSetChanged();
+        initSetting();
+
+
     }
+
+    public void initSetting() {
+        new getMyPHotSongs().execute(SERVER_ADDRESS+SONG_API+MYP_HOT_SONGS);
+        new getLatestAlbums().execute(SERVER_ADDRESS+ALBUM_API+SELECT_LATEST_ALBUMS);
+        new selectSongCountTask().execute(SERVER_ADDRESS+RATING_API+SELECT_SONG_COUNT+WITH_USER+userDTO.getId());
+    }
+
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
@@ -348,9 +381,9 @@ public class MainActivity extends ActionBarActivity
                     if (!artist_spotify_id.equals(""))
                         new getSpotifyArtistImage(mMyPTop1_FrameLayout).execute(SPOTIFY_API + "artists/" + artist_spotify_id);
                 } else {
-                    setMypTopListView(mMyTopList.get(i-1), avg, rating_count, title, artist);
+                    setMypTopListView(mMyTopList.get(i - 1), avg, rating_count, title, artist);
 
-                    ImageView albumArt = getMypTopListImageView(mMyTopList.get(i-1));
+                    ImageView albumArt = getMypTopListImageView(mMyTopList.get(i - 1));
                     albumArt.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -407,11 +440,85 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
+    class getLatestAlbums extends AsyncTask<String, String, String> {
+
+        public getLatestAlbums(){
+        }
+
+        @Override
+        protected String doInBackground(String... url) {
+            return getStringFromUrl(url[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String albumJSON) {
+            super.onPostExecute(albumJSON);
+
+            JSONParser jsonParser = new JSONParser();
+            JSONArray albums = null;
+            try {
+                albums = (JSONArray) jsonParser.parse(albumJSON);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            for(int i = 0; i < albums.size(); i++) {
+                if(i == 0)
+                    continue;
+
+                JSONObject album = (JSONObject) albums.get(i);
+                final String id = (String) album.get("id");
+                String name = (String) album.get("name");
+                String artist = (String) album.get("artist");
+                String release_date = (String) album.get("release_date");
+                String image_300 = (String) album.get("image_300");
+
+                mHorizontalListAdapter.addItem(id, name, artist, release_date, image_300);
+            }
+            mHorizontalListAdapter.notifyDataSetChanged();
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            if(!mIndicater.isShowing())
+                mIndicater.show();
+        }
+    }
+
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
         backPressCloseHandler.onBackPressed();
 
+    }
+
+    class selectSongCountTask extends AsyncTask<String, String, Integer> {
+
+        @Override
+        protected Integer doInBackground(String... url) {
+            String userIdJSON = getStringFromUrl(url[0]);
+            JSONParser jsonParser = new JSONParser();
+            JSONArray users = null;
+            try {
+                users = (JSONArray) jsonParser.parse(userIdJSON);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            int songCount = 0;
+            if(users != null) {
+                JSONObject user = (JSONObject) users.get(0);
+                songCount = Integer.parseInt((String)user.get("song_count"));
+            }
+            return songCount;
+        }
+
+        @Override
+        protected void onPostExecute(Integer song_count) {
+            Log.e("song_count", song_count+"");
+            userDTO.setRatingSongCount(song_count);
+        }
     }
 
 }

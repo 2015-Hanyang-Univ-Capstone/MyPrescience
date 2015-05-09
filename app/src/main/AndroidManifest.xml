@@ -3,7 +3,7 @@
     package="com.myprescience" >
 
     <uses-sdk
-        android:minSdkVersion="15"
+        android:minSdkVersion="16"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -55,7 +55,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".ui.SongListActivity"
+            android:name=".ui.song.SongListActivity"
             android:label="@string/title_activity_song_list"
             android:screenOrientation="portrait" >
         </activity>
@@ -66,22 +66,22 @@
             android:theme="@style/CustomMainActionBarTheme" >
         </activity>
         <activity
-            android:name=".ui.SongActivity"
+            android:name=".ui.song.SongActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".ui.ArtistActivity"
+            android:name=".ui.artist.ArtistActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".ui.AlbumActivity"
+            android:name=".ui.album.AlbumActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".ui.MySongListActivity"
+            android:name=".ui.song.MySongListActivity"
             android:label="@string/title_mysong_List"
             android:screenOrientation="portrait" >
         </activity>
@@ -93,6 +93,11 @@
         <activity
             android:name=".ui.MyPrescienceActivity"
             android:label="@string/title_activity_my_prescience"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.song.MyPTopSongListActivity"
+            android:label="@string/title_activity_MyPTopSongListactivty"
             android:screenOrientation="portrait" >
         </activity>
     </application>

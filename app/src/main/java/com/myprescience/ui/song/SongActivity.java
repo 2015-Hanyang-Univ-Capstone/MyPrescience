@@ -1,4 +1,4 @@
-package com.myprescience.ui;
+package com.myprescience.ui.song;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,16 +15,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -38,7 +34,8 @@ import android.widget.Toast;
 
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
-import com.myprescience.util.ChromeClient;
+import com.myprescience.ui.album.AlbumActivity;
+import com.myprescience.ui.artist.ArtistActivity;
 import com.myprescience.util.ErrorMsg;
 import com.myprescience.util.Indicator;
 
@@ -50,7 +47,6 @@ import org.json.simple.parser.ParseException;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayer.PlayerStyle;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.myprescience.util.InsertUpdateQuery;
 
@@ -60,35 +56,27 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.List;
 
-import static com.myprescience.util.Server.EXEC_RECOMMEND_ALGORITHM;
 import static com.myprescience.util.Server.INSERT_RATING;
 import static com.myprescience.util.Server.RATING_API;
-import static com.myprescience.util.Server.RECOMMEND_API;
 import static com.myprescience.util.Server.SELECT_SONG_AVG_RATING;
 import static com.myprescience.util.Server.SELECT_SONG_RATING;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SONG_API;
 import static com.myprescience.util.Server.SONG_WITH_ID;
 import static com.myprescience.util.Server.SPOTIFY_API;
-import static com.myprescience.util.Server.USER_ID_WITH_FACEBOOK_ID;
 import static com.myprescience.util.Server.VIDEO_MOST_VIEW;
-import static com.myprescience.util.Server.VIDEO_SMALL;
 import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.YOUTUBE_API;
 import static com.myprescience.util.Server.YOUTUBE_DEVELOPMENT_KEY;
-import static com.myprescience.util.Server.YOUTUBE_EMBED;
 import static com.myprescience.util.Server.YOUTUBE_API_KEY;
 import static com.myprescience.util.Server.YOUTUBE_RESULT_FIVE;
-import static com.myprescience.util.Server.YOUTUBE_RESULT_ONE;
-import static com.myprescience.util.Server.YOUTUBE_RESULT_THREE;
 import static com.myprescience.util.Server.getStringFromUrl;
 
 
 public class SongActivity extends YouTubeBaseActivity {
 
-    private UserData userDTO = new UserData();
+    private UserData userDTO;
 
     String SONG_URL = SERVER_ADDRESS+SONG_API+SONG_WITH_ID;
     String SONG_ID;
@@ -124,6 +112,7 @@ public class SongActivity extends YouTubeBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song);
+        userDTO = new UserData(getApplicationContext());
 
         Intent intent = getIntent();
         SONG_ID = intent.getExtras().getString("song_id");
@@ -459,7 +448,9 @@ public class SongActivity extends YouTubeBaseActivity {
                 int liveness = Math.round(Float.parseFloat((String)song.get("liveness"))*100);
                 int speechiness = Math.round(Float.parseFloat((String)song.get("speechiness"))*100);
                 int acousticness = Math.round(Float.parseFloat((String)song.get("acousticness"))*100);
-                int instrumentalness = Math.round(Float.parseFloat((String)song.get("instrumentalness"))*100);
+                int instrumentalness = 0;
+                if(song.get("instrumentalness") != null)
+                    instrumentalness = Math.round(Float.parseFloat((String)song.get("instrumentalness"))*100);
 
                 titleTextView.setText(title);
                 artistTextView.setText(artist);
@@ -578,10 +569,12 @@ public class SongActivity extends YouTubeBaseActivity {
                     @Override
                     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                         int ratingInt = (int)(rating*2);
-                        new InsertUpdateQuery().execute(SERVER_ADDRESS + RATING_API + INSERT_RATING +
+                        new InsertUpdateQuery(getApplicationContext()).execute(SERVER_ADDRESS + RATING_API + INSERT_RATING +
                                 "user_id=" + userDTO.getId() + "&song_id=" + SONG_ID + "&rating=" + ratingInt);
                         Toast toast = Toast.makeText(getApplicationContext(), rating+"/5.0점으로 평가되었습니다!", Toast.LENGTH_SHORT);
                         toast.show();
+
+                        userDTO.addRatingSoungCount();
 
                         new getRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_RATING + SONG_ID + WITH_USER + userDTO.getId());
                         new getAvgRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_AVG_RATING + SONG_ID);
@@ -802,9 +795,9 @@ public class SongActivity extends YouTubeBaseActivity {
 
                 @Override
                 public void onVideoEnded() {
-                    mPlaylist.get(mCurrent_Video).setTextColor(getResources().getColor(R.color.darker_gray));
-                    if(mCurrent_Video != youtubes_id.size()-1)
-                        mCurrent_Video++;
+//                    mPlaylist.get(mCurrent_Video).setTextColor(getResources().getColor(R.color.darker_gray));
+//                    if(mCurrent_Video != youtubes_id.size()-1)
+//                        mCurrent_Video++;
                 }
 
                 @Override

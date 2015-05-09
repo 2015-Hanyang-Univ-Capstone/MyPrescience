@@ -1,18 +1,25 @@
-package com.myprescience.ui;
+package com.myprescience.ui.song;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.myprescience.R;
 import com.myprescience.dto.SongData;
+import com.myprescience.ui.ViewHolder;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -31,24 +38,25 @@ import static com.myprescience.util.Server.getStringFromUrl;
 /**
  * Created by dongjun on 15. 4. 6..
  */
-public class LatestAlbumListAdapter extends BaseAdapter {
+public class MySongListAdapter extends BaseAdapter {
 
     private int userId;
     private Context mContext = null;
     private ArrayList<SongData> mListData = new ArrayList<>();
     private ViewHolder holder;
 
-    public LatestAlbumListAdapter(Context mContext, int _userId) {
+    public MySongListAdapter(Context mContext, int _userId) {
         super();
         this.mContext = mContext;
         this.userId = _userId;
     }
 
-    public void addItem(String _id, String _albumArtURL, String _title, String _artist){
+    public void addItem(String _id, String _albumArtURL, String _title, String _artist, int _rating){
         SongData temp = new SongData();
         temp.id = _id;
         temp.title = _title;
         temp.artist = _artist;
+        temp.rating = _rating;
         temp.albumUrl = _albumArtURL;
         temp.albumArt = null;
         mListData.add(temp);
@@ -60,11 +68,15 @@ public class LatestAlbumListAdapter extends BaseAdapter {
             holder = new ViewHolder();
 
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.list_item_latestalbum, null);
+            convertView = inflater.inflate(R.layout.list_item_mysong, null);
 
             holder.albumImageView = (ImageView) convertView.findViewById(R.id.albumArtView);
             holder.titleTextView = (TextView) convertView.findViewById(R.id.titleTextView);
             holder.artistTextView = (TextView) convertView.findViewById(R.id.artistTextView);
+            holder.ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar);
+
+            LayerDrawable stars = (LayerDrawable) holder.ratingBar.getProgressDrawable();
+            stars.getDrawable(2).setColorFilter(Color.parseColor("#FFD700"), PorterDuff.Mode.SRC_ATOP);
 
             convertView.setTag(holder);
         }else{
@@ -72,17 +84,18 @@ public class LatestAlbumListAdapter extends BaseAdapter {
         }
 
         final SongData mData = mListData.get(position);
-//        holder.albumImageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(mContext, SongActivity.class);
-//                intent.putExtra("song_id", mData.id);
-//                v.getContext().startActivity(intent);
-//            }
-//        });
+        holder.albumImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, SongActivity.class);
+                intent.putExtra("song_id", mData.id);
+                v.getContext().startActivity(intent);
+            }
+        });
 
         holder.titleTextView.setText(mData.title);
         holder.artistTextView.setText(mData.artist);
+        holder.ratingBar.setProgress(mData.rating);
 
         holder.position = position;
 
@@ -102,6 +115,7 @@ public class LatestAlbumListAdapter extends BaseAdapter {
             holder.albumImageView.setImageResource(R.drawable.image_not_exist_300);
         }
         holder.albumImageView.setAdjustViewBounds(true);
+        holder.ratingBar.setTag(position);
 
         return convertView;
     }
@@ -119,6 +133,16 @@ public class LatestAlbumListAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    class insertRatingTask extends AsyncTask<String, String, Void> {
+
+        @Override
+        protected Void doInBackground(String... url) {
+            String userIdJSON = getStringFromUrl(url[0]);
+            Log.e("userIdJSON", userIdJSON);
+            return null;
+        }
     }
 
     class LoadAlbumArt extends AsyncTask<String, String, Bitmap> {

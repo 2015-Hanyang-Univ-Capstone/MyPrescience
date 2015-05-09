@@ -1,6 +1,5 @@
-package com.myprescience.ui;
+package com.myprescience.ui.song;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -15,7 +14,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.FrameLayout;
@@ -27,6 +25,7 @@ import android.widget.Toast;
 
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
+import com.myprescience.ui.MainActivity;
 import com.myprescience.util.Indicator;
 import com.myprescience.util.InsertUpdateQuery;
 import com.myprescience.util.RoundImage;
@@ -36,8 +35,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import static com.myprescience.util.Server.BILLBOARD_API;
@@ -67,23 +64,18 @@ import static com.myprescience.util.Server.getStringFromUrl;
 
 public class SongListActivity extends ActionBarActivity implements SongFilterFragment.OnFilterSelectedListener {
 
-    private UserData userDTO = new UserData();
+    private UserData userDTO;
 
     private static final String LIST_FRAGMENT_TAG = "list_fragment";
 
     public static Activity sSonglistActivity;
     // 추천 받을 최소 곡 수
     public static int MIN_SELECTED_SONG = 10;
-    public static int ratingCountTriger;
 
-    private int song_count;
     private String genres;
     private Intent modeIntent;
 
     private Indicator mIndicator;
-
-    private int selectCount = 0;
-
 
     private FrameLayout mFilterFragment;
     private ImageButton rightButton;
@@ -103,9 +95,9 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_song_list);
+        userDTO = new UserData(getApplicationContext());
         setActionBar(R.string.title_section3);
 
-        ratingCountTriger = 0;
         initSongList();
 
         mIndicator = new Indicator(this);
@@ -133,6 +125,10 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
             });
         } else if(MODE == RANDOM_MODE) {
             MIN_SELECTED_SONG = 300;
+            textView.setText(getLevel(userDTO.getRatingSongCount()));
+            progressBar.setProgress((int)(Math.min(1, userDTO.getRatingSongCount()/(double) MIN_SELECTED_SONG)*100));
+            progressBar.invalidate();
+
             Bitmap image_bit = BitmapFactory.decodeResource(getResources(),
                     R.drawable.icon_filter);
             RoundImage image = new RoundImage(image_bit);
@@ -145,11 +141,9 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
                     toggleList(FragmentView);
                 }
             });
-
-            new selectSongCountTask().execute(SERVER_ADDRESS+RATING_API+SELECT_SONG_COUNT+WITH_USER+userDTO.getId());
         }
 
-        songListAdapter = new SongListAdapter(SongListActivity.this, selectCount, progressBar, textView, rightButton, userDTO.getId());
+        songListAdapter = new SongListAdapter(SongListActivity.this, userDTO.getRatingSongCount(), progressBar, textView, rightButton, userDTO.getId());
         songListView = (ListView) findViewById(R.id.songListView);
         songListView.setAdapter(songListAdapter);
 
@@ -229,40 +223,13 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
     public void onFilterSelected(int mode) {
         initSongList();
         MODE = mode;
-        songListAdapter = new SongListAdapter(SongListActivity.this, selectCount, progressBar, textView, rightButton, userDTO.getId());
+        songListAdapter = new SongListAdapter(SongListActivity.this, userDTO.getRatingSongCount(), progressBar, textView, rightButton, userDTO.getId());
         songListView.setAdapter(songListAdapter);
         songListAdapter.notifyDataSetChanged();
         selectSongsWithMode(mode, modeIntent);
         int FragmentView = (mFilterFragment.getVisibility() == View.GONE)?
                 View.VISIBLE : View.GONE;
         toggleList(FragmentView);
-    }
-
-    class selectSongCountTask extends AsyncTask<String, String, Integer> {
-
-        @Override
-        protected Integer doInBackground(String... url) {
-            String userIdJSON = getStringFromUrl(url[0]);
-            JSONParser jsonParser = new JSONParser();
-            JSONArray users = null;
-            try {
-                users = (JSONArray) jsonParser.parse(userIdJSON);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            if(users != null) {
-                JSONObject user = (JSONObject) users.get(0);
-                song_count = Integer.parseInt((String)user.get("song_count"));
-            }
-            return song_count;
-        }
-
-        @Override
-        protected void onPostExecute(Integer song_count) {
-            textView.setText(getLevel(song_count));
-            songListAdapter.setProgress(song_count);
-        }
     }
 
     class getSimpleSongTask extends AsyncTask<String, String, String> {
@@ -466,15 +433,5 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
         }
         return super.onOptionsItemSelected(item);
     };
-
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-            if(ratingCountTriger > 10)
-                new InsertUpdateQuery().execute(SERVER_ADDRESS + RECOMMEND_API + EXEC_RECOMMEND_ALGORITHM + WITH_USER + userDTO.getId());
-        }
-        finish();
-        return true;
-    }
 
 }

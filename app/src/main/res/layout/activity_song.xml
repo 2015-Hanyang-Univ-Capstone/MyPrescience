@@ -623,7 +623,7 @@ android:id="@+id/scrollView" >
                             android:textColor="#FFF"
                             android:background="@drawable/rectangle_not_active"
                             android:text=""
-                            android:tag="밝은 분위기#어두운 분위기"/>
+                            android:tag="밝은 분위기#차분한 분위기"/>
 
                         <TextView
                             android:id="@+id/songType1Textview"

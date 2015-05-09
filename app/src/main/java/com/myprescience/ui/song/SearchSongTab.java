@@ -1,16 +1,10 @@
-package com.myprescience.ui;
+package com.myprescience.ui.song;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,18 +15,14 @@ import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
-import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
 import com.myprescience.util.Indicator;
-import com.myprescience.util.RangeSeekBar;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -47,7 +37,6 @@ import static com.myprescience.util.Server.CLAUSE;
 import static com.myprescience.util.Server.RECOMMEND_API;
 import static com.myprescience.util.Server.RECOMMEND_SEARCH_SONGS;
 import static com.myprescience.util.Server.RECOMMEND_SEARCH_SONGS_WITH_GENRE;
-import static com.myprescience.util.Server.RECOMMEND_SONGS;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.getStringFromUrl;
@@ -62,7 +51,7 @@ public class SearchSongTab extends Fragment {
     Button mSearchButton, mResearchButton;
 
     ArrayList<String> songs, genres, properties;
-    private UserData userDTO = new UserData();
+    private UserData userDTO = new UserData(mContext);
 
     private FrameLayout mRecommendSearchLayout;
     private ListView mRecommendListView;
@@ -136,10 +125,13 @@ public class SearchSongTab extends Fragment {
                 if(!songs.get(0).equals("all"))
                     properties.addAll(songs);
 
-                if(properties.size() != 0 && genres.size() == 0)
+                if (properties.size() != 0 && genres.size() == 0)
                     new getRecommendSongTask().execute(SERVER_ADDRESS+RECOMMEND_API+RECOMMEND_SEARCH_SONGS+WITH_USER+userDTO.getId()
                             +CLAUSE+ TextUtils.join("%20AND%20", properties));
-                else if(properties.size() != 0 && genres.size() != 0)
+                else if (properties.size() == 0 && genres.size() != 0)
+                    new getRecommendSongTask().execute(SERVER_ADDRESS+RECOMMEND_API+RECOMMEND_SEARCH_SONGS+WITH_USER+userDTO.getId()
+                            +CLAUSE+ TextUtils.join("%20AND%20", genres));
+                else if (properties.size() != 0 && genres.size() != 0)
                     new getRecommendSongTask().execute(SERVER_ADDRESS + RECOMMEND_API + RECOMMEND_SEARCH_SONGS_WITH_GENRE+
                             TextUtils.join("%20AND%20", genres) + WITH_USER + userDTO.getId()
                             + CLAUSE + TextUtils.join("%20AND%20", properties));
@@ -148,6 +140,7 @@ public class SearchSongTab extends Fragment {
                         TextUtils.join("%20OR%20", genres) + WITH_USER + userDTO.getId()
                         + CLAUSE + TextUtils.join("%20AND%20", properties));
 
+                viewFadeOut(mSearchButton);
                 viewFadeOut(mSearchLayout);
                 viewFadeIn(mRecommendListView);
                 viewFadeIn(mResearchButton);
@@ -163,6 +156,7 @@ public class SearchSongTab extends Fragment {
                 viewFadeOut(mRecommendListView);
                 viewFadeOut(mResearchButton);
                 viewFadeIn(mSearchLayout);
+                viewFadeIn(mSearchButton);
 
                 initSongList();
                 mRecommendSongListAdapter = new RecommendSongListAdapter(mContext, userDTO.getId());
@@ -212,6 +206,7 @@ public class SearchSongTab extends Fragment {
                         }
                         if(mStep2TableLayout.getVisibility() == View.GONE)
                             viewFadeIn(mStep2TableLayout, mStep2TextView);
+                        viewFadeIn(mSearchButton);
                     }
                 });
             }
