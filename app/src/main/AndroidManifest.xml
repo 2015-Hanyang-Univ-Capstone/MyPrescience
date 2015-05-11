@@ -9,13 +9,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
+        android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -98,6 +96,16 @@
         <activity
             android:name=".ui.song.MyPTopSongListActivity"
             android:label="@string/title_activity_MyPTopSongListactivty"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.album.MyAlbumListActivity"
+            android:label="@string/title_activity_MyAlbum"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.artist.MyArtistListActivity"
+            android:label="@string/title_activity_MyArtist"
             android:screenOrientation="portrait" >
         </activity>
     </application>

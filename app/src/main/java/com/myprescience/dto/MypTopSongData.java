@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
  */
 public class MypTopSongData {
     public String id;
+    public String artist_id;
     public String albumUrl;
     public Bitmap albumArt;
     public String title;

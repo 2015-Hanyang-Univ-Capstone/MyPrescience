@@ -30,9 +30,9 @@ public class Server {
                     LIVENESS_MODE = 105, SPEECHINESS_MODE = 106, ACOUSTIC_MODE = 107, INSTRUMENTAL_MODE = 108,
                     RANK_ORDER_MODE = 109;
 
-//    static public String SERVER_ADDRESS = "http://218.37.209.129/MyPrescience/db";
+    static public String SERVER_ADDRESS = "http://218.37.209.129/MyPrescience/db";
 //    static public String SERVER_ADDRESS = "http://172.200.152.173:8888/MyPrescience/db";
-    static public String SERVER_ADDRESS = "http://166.104.245.89/MyPrescience/db";
+//    static public String SERVER_ADDRESS = "http://166.104.245.89/MyPrescience/db";
     static public String SPOTIFY_API = "https://api.spotify.com/v1/";
     static public String WITH_USER = "&user_id=";
 
@@ -56,10 +56,12 @@ public class Server {
 
     static public String RATING_API = "/Rating.php?query=";
     static public String INSERT_RATING = "insertRating&";
+    static public String INSERT_LOCAL_FILE_RATING = "insertLocalFileRating";
     static public String SELECT_MYSONGS = "selectSongs&user_id=";
     static public String SELECT_SONG_COUNT = "selectSongCount";
     static public String SELECT_SONG_AVG_RATING = "selectSongAvgRating&song_id=";
     static public String SELECT_SONG_RATING = "selectSongRating&song_id=";
+
 
     static public String RECOMMEND_API = "/Recommend.php?query=";
     static public String RECOMMEND_SONGS = "selectRecommendSongs";
@@ -74,6 +76,11 @@ public class Server {
 
     static public String ALBUM_API = "/Album.php?query=";
     static public String SELECT_LATEST_ALBUMS = "selectLatestAlbums";
+    static public String SELECT_MAIN_LATEST_ALBUMS = "selectMainLatestAlbums";
+    static public String SELECT_MY_ALBUMS = "selectMyAlbums";
+
+    static public String ARTIST_API = "/Artist.php?query=";
+    static public String SELECT_MY_ARTISTS = "selectMyArtists";
 
     static public String FACEBOOK_PROFILE = "https://graph.facebook.com/";
     static public String WIDTH_150 = "/picture?width=150";

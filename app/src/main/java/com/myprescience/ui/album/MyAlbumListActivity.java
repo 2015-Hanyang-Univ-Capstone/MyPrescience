@@ -1,4 +1,4 @@
-package com.myprescience.ui.song;
+package com.myprescience.ui.album;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
+import com.myprescience.ui.song.MySongListAdapter;
 import com.myprescience.util.Indicator;
 
 import org.json.simple.JSONArray;
@@ -21,8 +22,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import static com.myprescience.util.Server.ALBUM_API;
 import static com.myprescience.util.Server.RATING_API;
 import static com.myprescience.util.Server.SELECT_MYSONGS;
+import static com.myprescience.util.Server.SELECT_MY_ALBUMS;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.getStringFromUrl;
@@ -30,18 +33,18 @@ import static com.myprescience.util.Server.getStringFromUrl;
 /**
  * Created by dongjun on 15. 4. 6..
  */
-public class MySongListActivity extends ActionBarActivity {
+public class MyAlbumListActivity extends ActionBarActivity {
 
     private UserData userDTO;
 
     private GridView gridView;
-    private MySongListAdapter mySongListAdapter;
+    private MyAlbumListAdapter myAlbumListAdapter;
     private boolean mLockListView = false;
 
     private int mListCount;
     private int mListAddCount;
     private int totalListSize;
-    private JSONArray mSongArray;
+    private JSONArray mAlbumArray;
 
     Indicator mIndicator;
 
@@ -51,7 +54,7 @@ public class MySongListActivity extends ActionBarActivity {
 
         setContentView( R.layout.activity_mysong);
         userDTO = new UserData(getApplicationContext());
-        setActionBar(R.string.title_mysong_List);
+        setActionBar(R.string.title_activity_MyAlbum);
 
         mListCount = 0;
         mListAddCount = 5;
@@ -59,10 +62,10 @@ public class MySongListActivity extends ActionBarActivity {
 
         gridView = (GridView) findViewById(R.id.mysongGridView);
 
-        mySongListAdapter = new MySongListAdapter(this, userDTO.getId());
-        gridView.setAdapter(mySongListAdapter);
+        myAlbumListAdapter = new MyAlbumListAdapter(this, userDTO.getId());
+        gridView.setAdapter(myAlbumListAdapter);
 
-        new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+WITH_USER+userDTO.getId());
+        new getSimpleSongTask().execute(SERVER_ADDRESS+ALBUM_API+SELECT_MY_ALBUMS+WITH_USER+userDTO.getId());
 
         gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -78,12 +81,12 @@ public class MySongListActivity extends ActionBarActivity {
                     mListCount += mListAddCount;
 //                        else if(totalItemCount+10 > totalListSize && !(totalItemCount >= totalListSize))
 //                            mListCount = totalListSize - (10+1);
-                    new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+WITH_USER+userDTO.getId());
+                    new getSimpleSongTask().execute();
                     mLockListView = true;
                 } else if(totalItemCount + mListAddCount >= totalListSize && totalListSize > 9) {
                     mListCount += mListAddCount;
                     mListAddCount =  totalListSize - mListCount;
-                    new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+WITH_USER+userDTO.getId());
+                    new getSimpleSongTask().execute();
                     Toast.makeText(getApplicationContext(), "노래를 전부 가져왔습니다.", Toast.LENGTH_LONG);
                     gridView.setOnScrollListener(null);
                 }
@@ -115,7 +118,7 @@ public class MySongListActivity extends ActionBarActivity {
 
         @Override
         protected String doInBackground(String... url) {
-            if (mSongArray == null)
+            if (mAlbumArray == null)
                 return getStringFromUrl(url[0]);
             return null;
         }
@@ -129,12 +132,12 @@ public class MySongListActivity extends ActionBarActivity {
                 JSONParser jsonParser = new JSONParser();
 
                 if(songJSON != null) {
-                    mSongArray = (JSONArray) jsonParser.parse(songJSON);
-                    totalListSize = mSongArray.size();
+                    mAlbumArray = (JSONArray) jsonParser.parse(songJSON);
+                    totalListSize = mAlbumArray.size();
                 }
 
                 if(totalListSize == 0) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(MySongListActivity.this);
+                    AlertDialog.Builder alert = new AlertDialog.Builder(MyAlbumListActivity.this);
                     alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -152,17 +155,17 @@ public class MySongListActivity extends ActionBarActivity {
 
                 for(int i = mListCount; i < mListCount+mListAddCount; i ++) {
 
-                    JSONObject song = (JSONObject) jsonParser.parse(mSongArray.get(i).toString());
-                    String id = (String)song.get("id");
-                    String title = (String)song.get("title");
-                    String artist = (String)song.get("artist");
-                    String spotifyAlbumID = "albums/"+(String)song.get("album_spotify_id");
-                    String rating = (String)song.get("rating")+"";
+                    JSONObject album = (JSONObject) mAlbumArray.get(i);
+                    final String id = (String) album.get("id");
+                    String name = (String) album.get("name");
+                    String artist = (String) album.get("artist");
+                    String release_date = (String) album.get("release_date");
+                    String image_300 = (String) album.get("image_300");
 
-                    mySongListAdapter.addItem(id, spotifyAlbumID, title, artist, Integer.parseInt(rating));
+                    myAlbumListAdapter.addItem(id, name, artist, release_date, image_300);
 
-                    if(mySongListAdapter.getCount() > 0) {
-                        mySongListAdapter.notifyDataSetChanged();
+                    if(myAlbumListAdapter.getCount() > 0) {
+                        myAlbumListAdapter.notifyDataSetChanged();
 
                         if ( mIndicator.isShowing())
                             mIndicator.hide();

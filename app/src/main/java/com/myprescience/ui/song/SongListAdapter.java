@@ -71,9 +71,10 @@ public class SongListAdapter extends BaseAdapter{
         userDTO = new UserData(mContext);
     }
 
-    public void addItem(String _id, String _albumArtURL, String _title, String _artist, int _rating){
+    public void addItem(String _id, String _artist_id, String _albumArtURL, String _title, String _artist, int _rating){
         SongData temp = new SongData();
         temp.id = _id;
+        temp.artist_id = _artist_id;
         temp.title = _title;
         temp.artist = _artist;
         temp.rating = _rating;
@@ -158,7 +159,8 @@ public class SongListAdapter extends BaseAdapter{
                 mListData.get(index).rating = (int)(rating*2);
 
                 new InsertUpdateQuery(mContext).execute(SERVER_ADDRESS+RATING_API+INSERT_RATING+
-                        "user_id=" + userId + "&song_id=" + mListData.get(index).id + "&rating=" + mListData.get(index).rating);
+                        "user_id=" + userId + "&song_id=" + mListData.get(index).id + "&rating=" + mListData.get(index).rating +
+                        "&artist_id=" + mListData.get(index).artist_id + "&album_id=" + mListData.get(index).albumUrl.substring(7));
 
                 Toast toast = Toast.makeText(mContext, rating+"/5.0점으로 평가되었습니다!", Toast.LENGTH_SHORT);
                 toast.show();

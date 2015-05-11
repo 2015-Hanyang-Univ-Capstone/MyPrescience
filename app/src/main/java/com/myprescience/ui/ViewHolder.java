@@ -16,4 +16,5 @@ public class ViewHolder {
     public Button albumDetailButton;
     public RatingBar ratingBar;
     public int position;
+    public TextView localTextView;
 }

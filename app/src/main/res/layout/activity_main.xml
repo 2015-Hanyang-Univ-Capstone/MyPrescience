@@ -223,7 +223,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/evaluationButton"
+                            android:id="@+id/latestAlbumButton"
                             android:orientation="vertical"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -568,6 +568,7 @@
                             widget:dividerWidth="2dp" />
 
                         <Button
+                            android:id="@+id/moreLatestAlbumButton"
                             android:layout_width="50dp"
                             android:layout_height="30dp"
                             android:layout_gravity="right"

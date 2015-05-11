@@ -11,6 +11,7 @@ import com.myprescience.R;
  */
 public class RecommendSongData {
     public String id;
+    public String artist_id;
     public String albumUrl;
     public Bitmap albumArt;
     public String title;

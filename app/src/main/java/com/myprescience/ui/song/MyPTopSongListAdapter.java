@@ -8,6 +8,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,11 +70,12 @@ public class MyPTopSongListAdapter extends BaseAdapter {
         userDTO = new UserData(mContext);
     }
 
-    public void addItem(String _id, String _albumArtURL, String _title, String _artist, int _user_rating, float _avg_rating, String _genres, String _song_type,
+    public void addItem(String _id, String _artist_id, String _albumArtURL, String _title, String _artist, int _user_rating, float _avg_rating, String _genres, String _song_type,
                         float _valence, float _danceability, float _energy, float _liveness, float _speechiness, float _acousticness,
                         float _instrumentalness){
         MypTopSongData temp = new MypTopSongData();
         temp.id = _id;
+        temp.artist_id = _artist_id;
         temp.title = _title;
         temp.artist = _artist;
         temp.user_rating = _user_rating;
@@ -261,7 +263,8 @@ public class MyPTopSongListAdapter extends BaseAdapter {
                     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                         int ratingInt = (int)(rating*2);
                         new InsertUpdateQuery(mContext).execute(SERVER_ADDRESS + RATING_API + INSERT_RATING +
-                                "user_id=" + userId + "&song_id=" + mData.id + "&rating=" + ratingInt);
+                                "user_id=" + userId + "&song_id=" + mData.id + "&rating=" + ratingInt +
+                                "&artist_id=" + mData.artist_id + "&album_id=" + mData.albumUrl.substring(7));
                         Toast toast = Toast.makeText(mContext, rating+"/5.0점으로 평가되었습니다!", Toast.LENGTH_SHORT);
                         toast.show();
 

@@ -74,6 +74,7 @@ public class MySongListAdapter extends BaseAdapter {
             holder.titleTextView = (TextView) convertView.findViewById(R.id.titleTextView);
             holder.artistTextView = (TextView) convertView.findViewById(R.id.artistTextView);
             holder.ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar);
+            holder.localTextView = (TextView) convertView.findViewById(R.id.localTextView);
 
             LayerDrawable stars = (LayerDrawable) holder.ratingBar.getProgressDrawable();
             stars.getDrawable(2).setColorFilter(Color.parseColor("#FFD700"), PorterDuff.Mode.SRC_ATOP);
@@ -95,7 +96,13 @@ public class MySongListAdapter extends BaseAdapter {
 
         holder.titleTextView.setText(mData.title);
         holder.artistTextView.setText(mData.artist);
-        holder.ratingBar.setProgress(mData.rating);
+
+        if(mData.rating > 10) {
+            holder.localTextView.setVisibility(View.VISIBLE);
+        } else {
+            holder.ratingBar.setProgress(mData.rating);
+            holder.ratingBar.setVisibility(View.VISIBLE);
+        }
 
         holder.position = position;
 
@@ -133,16 +140,6 @@ public class MySongListAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
-    }
-
-    class insertRatingTask extends AsyncTask<String, String, Void> {
-
-        @Override
-        protected Void doInBackground(String... url) {
-            String userIdJSON = getStringFromUrl(url[0]);
-            Log.e("userIdJSON", userIdJSON);
-            return null;
-        }
     }
 
     class LoadAlbumArt extends AsyncTask<String, String, Bitmap> {

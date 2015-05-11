@@ -261,6 +261,7 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
                     JSONObject song = (JSONObject) jsonParser.parse(mSongArray.get(i).toString());
 
                     String id = (String)song.get("id");
+                    String spotifyArtistID = (String) song.get("artist_spotify_id");
                     String title = (String)song.get("title");
                     String artist = (String)song.get("artist");
                     String spotifyAlbumID = "albums/"+(String)song.get("album_spotify_id");
@@ -269,7 +270,7 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
                     if(ratingStr != null) {
                         rating = Integer.parseInt(ratingStr);
                     }
-                    songListAdapter.addItem(id, spotifyAlbumID, title, artist, rating);
+                    songListAdapter.addItem(id, spotifyArtistID, spotifyAlbumID, title, artist, rating);
 
                     if(songListAdapter.getCount() > 4) {
                         songListAdapter.notifyDataSetChanged();

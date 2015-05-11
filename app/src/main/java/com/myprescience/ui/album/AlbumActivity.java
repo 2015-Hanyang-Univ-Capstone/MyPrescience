@@ -88,9 +88,6 @@ public class AlbumActivity extends Activity{
         @Override
         protected void onPostExecute(String songIdJSON) {
             super.onPostExecute(songIdJSON);
-
-            Log.e("songIdJSON", songIdJSON);
-
             JSONParser jsonParser = new JSONParser();
             try {
                 JSONArray song_ids = (JSONArray) jsonParser.parse(songIdJSON);
@@ -116,7 +113,17 @@ public class AlbumActivity extends Activity{
                 e.printStackTrace();
             }
 
+            if ( mIndicator.isShowing())
+                mIndicator.hide();
         }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if ( !mIndicator.isShowing())
+                mIndicator.show();
+        }
+
     }
 
     class getAlbumTask extends AsyncTask<String, String, String> {

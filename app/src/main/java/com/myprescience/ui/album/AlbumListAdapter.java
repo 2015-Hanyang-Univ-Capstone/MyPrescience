@@ -25,14 +25,14 @@ import java.util.ArrayList;
 /**
  * Created by dongjun on 15. 4. 6..
  */
-public class LatestAlbumListAdapter extends BaseAdapter {
+public class AlbumListAdapter extends BaseAdapter {
 
     private int userId;
     private Context mContext = null;
     private ArrayList<AlbumData> mListData = new ArrayList<>();
     private ViewHolder holder;
 
-    public LatestAlbumListAdapter(Context mContext, int _userId) {
+    public AlbumListAdapter(Context mContext, int _userId) {
         super();
         this.mContext = mContext;
         this.userId = _userId;
@@ -54,7 +54,7 @@ public class LatestAlbumListAdapter extends BaseAdapter {
             holder = new ViewHolder();
 
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.list_item_latestalbum, null);
+            convertView = inflater.inflate(R.layout.list_item_album, null);
 
             holder.albumImageView = (ImageView) convertView.findViewById(R.id.albumArtView);
             holder.titleTextView = (TextView) convertView.findViewById(R.id.titleTextView);

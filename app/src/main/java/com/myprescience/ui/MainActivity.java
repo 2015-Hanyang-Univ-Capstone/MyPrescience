@@ -1,16 +1,15 @@
 package com.myprescience.ui;
 
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
+import android.media.MediaMetadataRetriever;
 import android.os.AsyncTask;
-import android.support.v4.app.NotificationCompat;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -32,7 +31,7 @@ import android.widget.TextView;
 import com.meetme.android.horizontallistview.HorizontalListView;
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
-import com.myprescience.ui.album.LatestAlbumListAdapter;
+import com.myprescience.ui.album.AlbumListAdapter;
 import com.myprescience.ui.song.MyPTopSongListActivity;
 import com.myprescience.ui.song.SongActivity;
 import com.myprescience.ui.song.SongListActivity;
@@ -45,6 +44,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import static com.myprescience.util.PixelUtil.getProperImage;
@@ -52,13 +52,12 @@ import static com.myprescience.util.Server.ALBUM_API;
 import static com.myprescience.util.Server.MYP_HOT_SONGS;
 import static com.myprescience.util.Server.RANDOM_MODE;
 import static com.myprescience.util.Server.RATING_API;
-import static com.myprescience.util.Server.SELECT_LATEST_ALBUMS;
+import static com.myprescience.util.Server.SELECT_MAIN_LATEST_ALBUMS;
 import static com.myprescience.util.Server.SELECT_SONG_COUNT;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SONG_API;
 import static com.myprescience.util.Server.SPOTIFY_API;
 import static com.myprescience.util.Server.WITH_USER;
-import static com.myprescience.util.Server.getLevel;
 import static com.myprescience.util.Server.getStringFromUrl;
 
 
@@ -85,7 +84,7 @@ public class MainActivity extends ActionBarActivity
     private Button mMypTopMoreButton;
 
     private HorizontalListView mHorizontalListView;
-    private LatestAlbumListAdapter mHorizontalListAdapter;
+    private AlbumListAdapter mHorizontalListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,17 +143,14 @@ public class MainActivity extends ActionBarActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         mHorizontalListView = (HorizontalListView) findViewById(R.id.HorizontalListView);
-        mHorizontalListAdapter = new LatestAlbumListAdapter(getApplicationContext(), userDTO.getId());
+        mHorizontalListAdapter = new AlbumListAdapter(getApplicationContext(), userDTO.getId());
         mHorizontalListView.setAdapter(mHorizontalListAdapter);
-
-        initSetting();
-
 
     }
 
     public void initSetting() {
-        new getMyPHotSongs().execute(SERVER_ADDRESS+SONG_API+MYP_HOT_SONGS);
-        new getLatestAlbums().execute(SERVER_ADDRESS+ALBUM_API+SELECT_LATEST_ALBUMS);
+        new getMyPHotSongs().execute(SERVER_ADDRESS + SONG_API + MYP_HOT_SONGS);
+        new getLatestAlbums().execute(SERVER_ADDRESS+ALBUM_API+SELECT_MAIN_LATEST_ALBUMS);
         new selectSongCountTask().execute(SERVER_ADDRESS+RATING_API+SELECT_SONG_COUNT+WITH_USER+userDTO.getId());
     }
 
@@ -463,9 +459,6 @@ public class MainActivity extends ActionBarActivity
             }
 
             for(int i = 0; i < albums.size(); i++) {
-                if(i == 0)
-                    continue;
-
                 JSONObject album = (JSONObject) albums.get(i);
                 final String id = (String) album.get("id");
                 String name = (String) album.get("name");

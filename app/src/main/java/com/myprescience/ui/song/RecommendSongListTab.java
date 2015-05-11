@@ -87,7 +87,7 @@ public class RecommendSongListTab extends Fragment {
 //                            mListCount = totalListSize - (10+1);
                     new getRecommendSongTask().execute(SERVER_ADDRESS+RECOMMEND_API+RECOMMEND_SONGS+WITH_USER+userDTO.getId());
                     mLockListView = true;
-                } else if(totalItemCount+mListAddCount > totalListSize && totalListSize != 0) {
+                } else if(totalItemCount+mListAddCount > totalListSize && totalListSize > 9) {
                     mListCount += mListAddCount;
                     mListAddCount =  totalListSize - mListCount;
                     new getRecommendSongTask().execute(SERVER_ADDRESS+RECOMMEND_API+RECOMMEND_SONGS+WITH_USER+userDTO.getId());
@@ -146,6 +146,7 @@ public class RecommendSongListTab extends Fragment {
                     JSONObject song = (JSONObject) jsonParser.parse(mSongArray.get(i).toString());
 
                     String id = (String) song.get("id");
+                    String spotifyArtistID = (String) song.get("artist_spotify_id");
                     String title = (String) song.get("title");
                     String artist = (String) song.get("artist");
                     String spotifyAlbumID = "albums/" + (String) song.get("album_spotify_id");
@@ -165,7 +166,7 @@ public class RecommendSongListTab extends Fragment {
                     float acousticness = Float.parseFloat((String) song.get("acousticness"));
                     float instrumentalness = Float.parseFloat((String) song.get("instrumentalness"));
 
-                    mRecommendSongListAdapter.addItem(id, spotifyAlbumID, title, artist, rating, genres, song_type,
+                    mRecommendSongListAdapter.addItem(id, spotifyArtistID, spotifyAlbumID, title, artist, rating, genres, song_type,
                             valence, danceability, energy, liveness, speechiness, acousticness, instrumentalness);
                 }
                 if (mRecommendSongListAdapter.getCount() > 4) {
