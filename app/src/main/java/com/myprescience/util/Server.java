@@ -1,10 +1,15 @@
 package com.myprescience.util;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
@@ -12,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 
 /**
  * Created by dongjun on 15. 3. 27..
@@ -130,6 +136,35 @@ public class Server {
         };
 
         return LEVEL[songCount/50];
+    }
+
+    public static void callByArrayParameters(String url, List<NameValuePair> parameters) {
+        HttpClient client = new DefaultHttpClient();
+        HttpPost post = new HttpPost(url);
+
+        String line = "";
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            post.setEntity(new UrlEncodedFormEntity(parameters, "utf-8"));
+
+            HttpResponse response = client.execute(post);
+            if (response.getStatusLine().getStatusCode() != 200)
+            {
+                System.out.println("DB: Error executing script !");
+            }
+            else {
+                BufferedReader rd = new BufferedReader(new InputStreamReader(
+                        response.getEntity().getContent()));
+                line = "";
+                while ((line = rd.readLine()) != null) {
+                    stringBuilder.append(line);
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("DB: Result: " + stringBuilder.toString());
     }
 }
 

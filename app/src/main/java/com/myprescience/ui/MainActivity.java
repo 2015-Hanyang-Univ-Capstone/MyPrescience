@@ -185,7 +185,7 @@ public class MainActivity extends ActionBarActivity
         mHorizontalListAdapter = new AlbumListAdapter(getApplicationContext(), userDTO.getId());
         mHorizontalListView.setAdapter(mHorizontalListAdapter);
 
-        initSetting();
+//        initSetting();
     }
 
     public void initSetting() {

@@ -1,10 +1,13 @@
 package com.myprescience.ui;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -17,6 +20,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
@@ -28,8 +32,17 @@ import com.myprescience.util.InsertUpdateQuery;
 import com.myprescience.util.LocalMusicSyncThread;
 import com.myprescience.util.RecommendThread;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.myprescience.util.Server.EXEC_RECOMMEND_ALGORITHM;
 import static com.myprescience.util.Server.INSERT_LOCAL_FILE_RATING;
@@ -37,6 +50,7 @@ import static com.myprescience.util.Server.RATING_API;
 import static com.myprescience.util.Server.RECOMMEND_API;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.WITH_USER;
+import static com.myprescience.util.Server.getStringFromUrl;
 
 /**
  * Created by dongjun on 15. 4. 6..
@@ -119,33 +133,24 @@ public class MyPageActivity extends ActionBarActivity {
 
     private void syncLocalMusicFile() {
 
-        AlertDialog.Builder alert = new AlertDialog.Builder(MyPageActivity.this);
-        alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        new ProgressDlgTest(MyPageActivity.this).execute(100);
 
-                String[] songFile = {
-                        MediaStore.Audio.Media.TITLE,
-                        MediaStore.Video.Media.ARTIST };
-                Cursor musiccursor = managedQuery(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                        songFile, null, null, null);
+//        ProgressDialog progressDialog = new ProgressDialog(MyPageActivity.this);
+//
+//        new syncLocalMP3File(progressDialog).execute();
 
-                Log.e("CursorCount", musiccursor.getCount() + "");
-                while(musiccursor.moveToNext()) {
-                    int music_column_index = musiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
-                    String title = musiccursor.getString(music_column_index);
+//        AlertDialog.Builder alert = new AlertDialog.Builder(MyPageActivity.this);
+//        alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
 
-                    music_column_index = musiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST);
-                    String artist = musiccursor.getString(music_column_index);
 
-//                    try {
-                        Log.e("MP3", title + " " + artist);
-//                        new LocalMusicSyncThread(getApplicationContext(), SERVER_ADDRESS+RATING_API+INSERT_LOCAL_FILE_RATING
-//                                +WITH_USER+userDTO.getId()+"&title="+URLEncoder.encode(title,"utf-8")+"&artist="+URLEncoder.encode(artist,"utf-8") ).start();
-//                    } catch (UnsupportedEncodingException e) {
-//                        e.printStackTrace();
-//                    }
-                }
+//                try {
+//                    new LocalMusicSyncThread(getApplicationContext(), SERVER_ADDRESS+RATING_API+INSERT_LOCAL_FILE_RATING
+//                            +WITH_USER+userDTO.getId()+"&title="+URLEncoder.encode(title,"utf-8")+"&artist="+URLEncoder.encode(artist,"utf-8") ).start();
+//                } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                }
 
                 //                    Handler handler = new Handler();
 //                    handler.postDelayed(new Runnable() {
@@ -153,11 +158,11 @@ public class MyPageActivity extends ActionBarActivity {
 //                            new RecommendThread(getApplicationContext(), SERVER_ADDRESS + RECOMMEND_API + EXEC_RECOMMEND_ALGORITHM + WITH_USER + userDTO.getId()).start();
 //                        }
 //                    }, 5000);
-                dialog.dismiss();     //닫기
-            }
-        });
-        alert.setMessage("보유하고 계신 음악을 동기화합니다.");
-        alert.show();
+//                dialog.dismiss();     //닫기
+//            }
+//        });
+//        alert.setMessage("보유하고 계신 음악을 동기화합니다.");
+//        alert.show();
 
     }
 
@@ -179,5 +184,156 @@ public class MyPageActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     };
+
+    class syncLocalMP3File extends AsyncTask<String, String, Void> {
+
+        private ProgressDialog mProgressDialog;
+        private Cursor mMusiccursor;
+        private int count;
+
+        syncLocalMP3File(Context _context) {
+            count = 0;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            String[] songFile = {
+                    MediaStore.Audio.Media.TITLE,
+                    MediaStore.Video.Media.ARTIST };
+            mMusiccursor = managedQuery(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                    songFile, null, null, null);
+
+            mProgressDialog.setMessage("");
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setMax(mMusiccursor.getCount());
+            mProgressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(String... url) {
+
+            final List<NameValuePair> parameters = new ArrayList<>();
+            parameters.add(new BasicNameValuePair("user_id", userDTO.getId() + ""));
+
+            while(mMusiccursor.moveToNext()) {
+                count++;
+                int music_column_index = mMusiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
+                final String title = mMusiccursor.getString(music_column_index);
+
+                music_column_index = mMusiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST);
+                final String artist = mMusiccursor.getString(music_column_index);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mProgressDialog.setMessage(title + " By " + artist);
+                        mProgressDialog.setProgress(count);
+                    }
+                });
+
+
+                parameters.add(new BasicNameValuePair("title[]", title));
+                parameters.add(new BasicNameValuePair("artist[]", artist));
+
+//                if(count % 3 == 0) {
+//                    new LocalMusicSyncThread(getApplicationContext(), SERVER_ADDRESS + RATING_API + INSERT_LOCAL_FILE_RATING, parameters).start();
+//                    parameters.clear();
+//                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+        }
+    }
+
+    public class ProgressDlgTest extends AsyncTask< Integer//excute()실행시 넘겨줄 데이터타입
+            , String//진행정보 데이터 타입 publishProgress(), onProgressUpdate()의 인수
+            , Integer//doInBackground() 종료시 리턴될 데이터 타입 onPostExecute()의 인수
+            > {
+        private ProgressDialog mDlg;
+        private Context mContext;
+        private Cursor mMusiccursor;
+        private int count;
+
+        public ProgressDlgTest(Context context) {
+            mContext = context;
+
+            String[] songFile = {
+                    MediaStore.Audio.Media.TITLE,
+                    MediaStore.Video.Media.ARTIST };
+            mMusiccursor = managedQuery(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                    songFile, null, null, null);
+
+            count = 0;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            mDlg = new ProgressDialog(mContext);
+            mDlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            mDlg.setMessage("음악 동기화 시작.");
+            publishProgress("max", Integer.toString(mMusiccursor.getCount()));
+            mDlg.show();
+            Toast.makeText(mContext, "Background에서 작업을 완료한 후 알려드립니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "창을 숨기려면 빈화면을 터치하세요!", Toast.LENGTH_LONG).show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Integer doInBackground(Integer... params) {
+
+            int taskCnt = mMusiccursor.getCount();
+
+
+
+            final List<NameValuePair> parameters = new ArrayList<>();
+            parameters.add(new BasicNameValuePair("user_id", userDTO.getId() + ""));
+
+            while(mMusiccursor.moveToNext()) {
+                count++;
+                int music_column_index = mMusiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
+                final String title = mMusiccursor.getString(music_column_index);
+
+                music_column_index = mMusiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST);
+                final String artist = mMusiccursor.getString(music_column_index);
+
+                parameters.add(new BasicNameValuePair("title[]", title));
+                parameters.add(new BasicNameValuePair("artist[]", artist));
+
+                publishProgress("progress", Integer.toString(count), title + " By " + artist);
+
+                try {
+                    Thread.sleep(250);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return taskCnt;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... progress) {
+            if (progress[0].equals("progress")) {
+                mDlg.setProgress(Integer.parseInt(progress[1]));
+                mDlg.setMessage(progress[2]);
+
+                Log.e("background", progress[2]);
+            }
+            else if (progress[0].equals("max")) {
+                mDlg.setMax(Integer.parseInt(progress[1]));
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            mDlg.dismiss();
+            Toast.makeText(mContext, Integer.toString(result) + "개의 노래 동기화 완료", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }
