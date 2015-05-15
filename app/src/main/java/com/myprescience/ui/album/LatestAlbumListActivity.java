@@ -52,7 +52,7 @@ public class LatestAlbumListActivity extends ActionBarActivity {
 
         setContentView( R.layout.activity_mysong);
         userDTO = new UserData(getApplicationContext());
-        setActionBar(R.string.title_activity_MyAlbum);
+        setActionBar(R.string.title_activity_LatestAlbumList);
 
         mListCount = 0;
         mListAddCount = 5;

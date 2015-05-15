@@ -77,10 +77,16 @@ public class MyAlbumListAdapter extends BaseAdapter {
         holder.position = position;
 
         if(mData.image_300 != null) {
-            holder.albumImageView.setImageResource(R.drawable.image_loading);
-            try {
-                new LoadAlbumArt(position, holder, mData).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mData.image_300);
-            } catch (Exception e) { e.printStackTrace(); }
+            if(mData.albumArt == null) {
+                holder.albumImageView.setImageResource(R.drawable.image_loading);
+                try {
+                    new LoadAlbumArt(position, holder, mData).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mData.image_300);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                holder.albumImageView.setImageBitmap(mData.albumArt);
+            }
         } else {
             holder.albumImageView.setImageResource(R.drawable.image_not_exist_300);
         }

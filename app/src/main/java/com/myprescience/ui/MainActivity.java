@@ -1,6 +1,8 @@
 package com.myprescience.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -32,6 +34,7 @@ import com.meetme.android.horizontallistview.HorizontalListView;
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
 import com.myprescience.ui.album.AlbumListAdapter;
+import com.myprescience.ui.album.LatestAlbumListActivity;
 import com.myprescience.ui.song.MyPTopSongListActivity;
 import com.myprescience.ui.song.SongActivity;
 import com.myprescience.ui.song.SongListActivity;
@@ -50,6 +53,7 @@ import java.util.ArrayList;
 import static com.myprescience.util.PixelUtil.getProperImage;
 import static com.myprescience.util.Server.ALBUM_API;
 import static com.myprescience.util.Server.MYP_HOT_SONGS;
+import static com.myprescience.util.Server.POP_MODE;
 import static com.myprescience.util.Server.RANDOM_MODE;
 import static com.myprescience.util.Server.RATING_API;
 import static com.myprescience.util.Server.SELECT_MAIN_LATEST_ALBUMS;
@@ -80,8 +84,8 @@ public class MainActivity extends ActionBarActivity
     private ViewGroup mMyPTop1_FrameLayout, mMyPTop_LinearLayout1, mMyPTop_LinearLayout2, mMyPTop_LinearLayout3;
     private ArrayList<ViewGroup> mMyTopList;
 
-    private LinearLayout mMypTop100Button, mMyPrescienceButton;
-    private Button mMypTopMoreButton;
+    private LinearLayout mMypTop100Button, mMyPrescienceButton, mLatestAlbumButton, mMixPlayButton;
+    private Button mMypTopMoreButton, mMoreLatestAlbumButton;
 
     private HorizontalListView mHorizontalListView;
     private AlbumListAdapter mHorizontalListAdapter;
@@ -137,6 +141,41 @@ public class MainActivity extends ActionBarActivity
             }
         });
 
+        mLatestAlbumButton = (LinearLayout) findViewById(R.id.latestAlbumButton);
+        mLatestAlbumButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LatestAlbumListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mMoreLatestAlbumButton = (Button) findViewById(R.id.moreLatestAlbumButton);
+        mMoreLatestAlbumButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LatestAlbumListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mMixPlayButton = (LinearLayout) findViewById(R.id.mixPlayButton);
+        mMixPlayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();     //닫기
+                    }
+                });
+                alert.setMessage("추후 추가 예정입니다.");
+                alert.show();
+                return;
+            }
+        });
+
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
@@ -146,6 +185,7 @@ public class MainActivity extends ActionBarActivity
         mHorizontalListAdapter = new AlbumListAdapter(getApplicationContext(), userDTO.getId());
         mHorizontalListView.setAdapter(mHorizontalListAdapter);
 
+        initSetting();
     }
 
     public void initSetting() {
@@ -457,6 +497,7 @@ public class MainActivity extends ActionBarActivity
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+
 
             for(int i = 0; i < albums.size(); i++) {
                 JSONObject album = (JSONObject) albums.get(i);

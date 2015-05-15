@@ -570,7 +570,8 @@ public class SongActivity extends YouTubeBaseActivity {
                     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                         int ratingInt = (int)(rating*2);
                         new InsertUpdateQuery(getApplicationContext()).execute(SERVER_ADDRESS + RATING_API + INSERT_RATING +
-                                "user_id=" + userDTO.getId() + "&song_id=" + SONG_ID + "&rating=" + ratingInt);
+                                "user_id=" + userDTO.getId() + "&song_id=" + SONG_ID + "&rating=" + ratingInt +
+                                "&artist_id=" + spotifyArtistID + "&album_id=" + spotifyAlbumID.substring(7));
                         Toast toast = Toast.makeText(getApplicationContext(), rating+"/5.0점으로 평가되었습니다!", Toast.LENGTH_SHORT);
                         toast.show();
 

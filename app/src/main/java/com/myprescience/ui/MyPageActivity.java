@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,12 +26,15 @@ import com.myprescience.ui.song.MySongListActivity;
 import com.myprescience.util.Indicator;
 import com.myprescience.util.InsertUpdateQuery;
 import com.myprescience.util.LocalMusicSyncThread;
+import com.myprescience.util.RecommendThread;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import static com.myprescience.util.Server.EXEC_RECOMMEND_ALGORITHM;
 import static com.myprescience.util.Server.INSERT_LOCAL_FILE_RATING;
 import static com.myprescience.util.Server.RATING_API;
+import static com.myprescience.util.Server.RECOMMEND_API;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.WITH_USER;
 
@@ -126,6 +130,7 @@ public class MyPageActivity extends ActionBarActivity {
                 Cursor musiccursor = managedQuery(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                         songFile, null, null, null);
 
+                Log.e("CursorCount", musiccursor.getCount() + "");
                 while(musiccursor.moveToNext()) {
                     int music_column_index = musiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
                     String title = musiccursor.getString(music_column_index);
@@ -133,15 +138,21 @@ public class MyPageActivity extends ActionBarActivity {
                     music_column_index = musiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST);
                     String artist = musiccursor.getString(music_column_index);
 
-                    try {
-                        new LocalMusicSyncThread(getApplicationContext(), SERVER_ADDRESS+RATING_API+INSERT_LOCAL_FILE_RATING
-                                +WITH_USER+userDTO.getId()+"&title="+URLEncoder.encode(title,"utf-8")+"&artist="+URLEncoder.encode(artist,"utf-8") ).start();
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-
+//                    try {
+                        Log.e("MP3", title + " " + artist);
+//                        new LocalMusicSyncThread(getApplicationContext(), SERVER_ADDRESS+RATING_API+INSERT_LOCAL_FILE_RATING
+//                                +WITH_USER+userDTO.getId()+"&title="+URLEncoder.encode(title,"utf-8")+"&artist="+URLEncoder.encode(artist,"utf-8") ).start();
+//                    } catch (UnsupportedEncodingException e) {
+//                        e.printStackTrace();
+//                    }
                 }
 
+                //                    Handler handler = new Handler();
+//                    handler.postDelayed(new Runnable() {
+//                        public void run() {
+//                            new RecommendThread(getApplicationContext(), SERVER_ADDRESS + RECOMMEND_API + EXEC_RECOMMEND_ALGORITHM + WITH_USER + userDTO.getId()).start();
+//                        }
+//                    }, 5000);
                 dialog.dismiss();     //닫기
             }
         });

@@ -108,6 +108,11 @@
             android:label="@string/title_activity_MyArtist"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".ui.album.LatestAlbumListActivity"
+            android:label="@string/title_activity_LatestAlbumList"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

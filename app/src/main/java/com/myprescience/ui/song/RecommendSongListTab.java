@@ -129,14 +129,15 @@ public class RecommendSongListTab extends Fragment {
                 }
 
                 if(totalListSize == 0) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
+                    AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
                     alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();     //닫기
+                            getActivity().finish();
                         }
                     });
-                    alert.setMessage("노래를 추천해드리는 중입니다!\n좀 더 정확히 추천 받고 싶으시다면\n좋아하시는 노래를\n더 평가해주세요.");
+                    alert.setMessage("노래를 추천해드리는 중입니다!\n좀 더 정확히 추천 받고 싶으시다면\n좋아하시는 노래를 더 평가해주세요.");
                     alert.show();
                     return;
                 }
