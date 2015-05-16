@@ -99,13 +99,14 @@ public class SelectGenreActivity extends Activity{
                 Log.e("selectGenre", selectGenre.toString());
             }
         };
-
+        /*
         // 장르 초기화
         int width = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
         int height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics());
         int[] genreArray = {R.drawable.button_pop, R.drawable.button_hiphop, R.drawable.button_rnb, R.drawable.button_rock,
                 R.drawable.button_dance, R.drawable.button_jazz, R.drawable.button_electro, R.drawable.button_classic};
         String[] genreStrArray = {"pop", "hiphop", "rnb", "rock", "club", "country", "electronic"};
+
         checkBoxVector = new Vector<>();
 //        for(int mGenre : genreArray){
 //            CheckBox mCB = new CheckBox(this);
@@ -131,5 +132,6 @@ public class SelectGenreActivity extends Activity{
         gridLayout = (GridLayout) findViewById(R.id.gridLayout);
         for(CheckBox cb : checkBoxVector)
             gridLayout.addView(cb);
+            */
     }
 }
