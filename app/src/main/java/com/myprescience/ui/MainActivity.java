@@ -221,7 +221,7 @@ public class MainActivity extends ActionBarActivity
                 startActivity(section4);
                 break;
             case 5:
-                Intent section5 = new Intent(this, SelectGenreActivity.class);
+                Intent section5 = new Intent(this, SelectGenreActivity2.class);
                 startActivity(section5);
                 break;
         }
