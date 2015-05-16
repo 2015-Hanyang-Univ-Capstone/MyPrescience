@@ -113,6 +113,11 @@
             android:label="@string/title_activity_LatestAlbumList"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".search.SearchListActivity"
+            android:label="@string/title_activity_SearchList"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

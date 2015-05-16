@@ -35,6 +35,7 @@
     <string name="title_activity_MyAlbum">My Album</string>
     <string name="title_activity_MyArtist">My Artist</string>
     <string name="title_activity_LatestAlbumList">최신 앨범</string>
+    <string name="title_activity_SearchList">음악 검색</string>
 
     <string name="demo_min_label">Min</string>
     <string name="demo_max_label">Max</string>

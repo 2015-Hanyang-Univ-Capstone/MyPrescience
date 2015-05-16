@@ -1,8 +1,5 @@
 package com.myprescience.util;
 
-import android.graphics.Bitmap;
-import android.util.Log;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -100,6 +97,9 @@ public class Server {
     static public String YOUTUBE_EMBED= "http://www.youtube.com/embed/";
     static public String VIDEO_SMALL = "?vq=small";
     static public String VIDEO_MOST_VIEW = "&order=viewCount";
+
+    static public String LUCENE_API = "/Lucene.php?query=";
+    static public String SEARCH_SONGS = "searchSongs";
 
     // Url으로부터 Server의 JSON - return (String)
     static public String getStringFromUrl(String url) {

@@ -1,15 +1,12 @@
 package com.myprescience.ui;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,7 +14,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,29 +24,17 @@ import com.myprescience.ui.album.MyAlbumListActivity;
 import com.myprescience.ui.artist.MyArtistListActivity;
 import com.myprescience.ui.song.MySongListActivity;
 import com.myprescience.util.Indicator;
-import com.myprescience.util.InsertUpdateQuery;
 import com.myprescience.util.LocalMusicSyncThread;
-import com.myprescience.util.RecommendThread;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.myprescience.util.Server.EXEC_RECOMMEND_ALGORITHM;
 import static com.myprescience.util.Server.INSERT_LOCAL_FILE_RATING;
 import static com.myprescience.util.Server.RATING_API;
-import static com.myprescience.util.Server.RECOMMEND_API;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
-import static com.myprescience.util.Server.WITH_USER;
-import static com.myprescience.util.Server.getStringFromUrl;
 
 /**
  * Created by dongjun on 15. 4. 6..
@@ -288,12 +272,12 @@ public class MyPageActivity extends ActionBarActivity {
 
             int taskCnt = mMusiccursor.getCount();
 
-
-
             final List<NameValuePair> parameters = new ArrayList<>();
             parameters.add(new BasicNameValuePair("user_id", userDTO.getId() + ""));
+            boolean delay = false;
 
-            while(mMusiccursor.moveToNext()) {
+            while(!delay && mMusiccursor.moveToNext()) {
+                delay = true;
                 count++;
                 int music_column_index = mMusiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
                 final String title = mMusiccursor.getString(music_column_index);
@@ -307,11 +291,14 @@ public class MyPageActivity extends ActionBarActivity {
                 publishProgress("progress", Integer.toString(count), title + " By " + artist);
 
                 try {
-                    Thread.sleep(250);
+                    Thread.sleep(50);
+                    delay = false;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
+
+            new LocalMusicSyncThread(getApplicationContext(), SERVER_ADDRESS + RATING_API + INSERT_LOCAL_FILE_RATING, parameters).start();
 
             return taskCnt;
         }
