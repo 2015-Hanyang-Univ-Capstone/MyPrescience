@@ -53,6 +53,11 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".ui.SelectGenreActivity2"
+            android:label="@string/title_activity_recommend"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".ui.song.SongListActivity"
             android:label="@string/title_activity_song_list"
             android:screenOrientation="portrait" >

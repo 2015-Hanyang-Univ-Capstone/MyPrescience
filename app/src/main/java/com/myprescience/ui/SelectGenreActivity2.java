@@ -37,7 +37,6 @@ public class SelectGenreActivity2 extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_genre_2);
 
-        // 다음 버튼
         rightButton = (ImageButton) findViewById(R.id.nextButton);
         rightButton.setVisibility(ImageButton.INVISIBLE);
         rightButton.invalidate();

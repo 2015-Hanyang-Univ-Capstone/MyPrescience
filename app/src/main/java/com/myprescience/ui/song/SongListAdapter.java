@@ -22,7 +22,7 @@ import android.widget.Toast;
 import com.myprescience.R;
 import com.myprescience.dto.SongData;
 import com.myprescience.dto.UserData;
-import com.myprescience.ui.ViewHolder;
+import com.myprescience.util.ViewHolder;
 import com.myprescience.util.InsertUpdateQuery;
 
 import org.json.simple.JSONArray;

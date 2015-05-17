@@ -1,5 +1,7 @@
 package com.myprescience.search;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -7,25 +9,21 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
 import com.myprescience.util.Indicator;
-import com.myprescience.util.LocalMusicSyncThread;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.simple.JSONArray;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import static com.myprescience.util.Server.LUCENE_API;
 import static com.myprescience.util.Server.SEARCH_SONGS;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
+import static com.myprescience.util.Server.getStringFromUrl;
 
 /**
  * Created by dongjun on 15. 4. 6..
@@ -41,7 +39,6 @@ public class SearchListActivity extends ActionBarActivity {
     private int mListCount;
     private int mListAddCount;
     private int totalListSize;
-    private JSONArray mAlbumArray;
 
     private EditText mInputQuery;
 
@@ -66,6 +63,12 @@ public class SearchListActivity extends ActionBarActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 //텍스트 변경 후 발생할 이벤트를 작성.
+                mSearchListAdapter = new SearchListAdapter(SearchListActivity.this, userDTO.getId());
+                mSearchListView.setAdapter(mSearchListAdapter);
+                mSearchListAdapter.notifyDataSetChanged();
+                String input = mInputQuery.getText().toString();
+                Log.e("Search", input);
+                new getSearchResult(getApplicationContext()).execute(SERVER_ADDRESS + LUCENE_API + SEARCH_SONGS + input);
             }
 
             @Override
@@ -78,13 +81,8 @@ public class SearchListActivity extends ActionBarActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count)
             {
                 //텍스트가 변경될때마다 발생할 이벤트를 작성.
-                if (mInputQuery.isFocusable())
-                {
-                    String input = mInputQuery.getText().toString();
-                    Log.e("textChange", input);
-                    List<NameValuePair> parameters = new ArrayList<>();
-                    parameters.add(new BasicNameValuePair("q", input));
-                    new LocalMusicSyncThread(getApplicationContext(), SERVER_ADDRESS + LUCENE_API + SEARCH_SONGS, parameters).start();
+                if (mInputQuery.isFocusable()) {
+
                 }
             }
         };
@@ -96,31 +94,6 @@ public class SearchListActivity extends ActionBarActivity {
 
         mSearchListAdapter = new SearchListAdapter(this, userDTO.getId());
         mSearchListView.setAdapter(mSearchListAdapter);
-
-//        new getSimpleSongTask().execute(SERVER_ADDRESS+ARTIST_API+SELECT_MY_ARTISTS+WITH_USER+userDTO.getId());
-
-        mSearchListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                // 현재 가장 처음에 보이는 셀번호와 보여지는 셀번호를 더한값이
-                // 전체의 숫자와 동일해지면 가장 아래로 스크롤 되었다고 가정
-                if ( (totalItemCount+mListAddCount < totalListSize) && ((firstVisibleItem + visibleItemCount) == totalItemCount) && (mLockListView == false) ) {
-                    mListCount += mListAddCount;
-//                        else if(totalItemCount+10 > totalListSize && !(totalItemCount >= totalListSize))
-//                            mListCount = totalListSize - (10+1);
-                    mLockListView = true;
-                } else if(totalItemCount + mListAddCount >= totalListSize && totalListSize > 9) {
-                    mListCount += mListAddCount;
-                    mListAddCount =  totalListSize - mListCount;
-                    mSearchListView.setOnScrollListener(null);
-                }
-            }
-        });
     }
 
     public void setActionbar() {
@@ -149,5 +122,46 @@ public class SearchListActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     };
+
+
+    class getSearchResult extends AsyncTask<String, String, String> {
+
+        private Context mContext;
+
+        public getSearchResult(Context _context){
+            this.mContext = _context;
+        }
+
+        @Override
+        protected String doInBackground(String... url) {
+            return getStringFromUrl(url[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String songJSON) {
+            super.onPostExecute(songJSON);
+
+            try {
+                JSONParser jsonParser = new JSONParser();
+                JSONArray resultArray = (JSONArray) jsonParser.parse(songJSON);
+
+                for(int i = 0; i < resultArray.size(); i ++) {
+                    String result = (String) resultArray.get(i);
+                    String[] songInfo = result.split("/");
+                    if(songInfo.length == 3)
+                       mSearchListAdapter.addItem(songInfo[0], songInfo[1], songInfo[2]);
+                }
+                mSearchListAdapter.notifyDataSetChanged();
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+    }
 
 }

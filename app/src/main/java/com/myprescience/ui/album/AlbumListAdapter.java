@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.myprescience.R;
 import com.myprescience.dto.AlbumData;
-import com.myprescience.ui.ViewHolder;
+import com.myprescience.util.ViewHolder;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;

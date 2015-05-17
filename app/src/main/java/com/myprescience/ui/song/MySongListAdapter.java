@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,7 @@ import android.widget.TextView;
 
 import com.myprescience.R;
 import com.myprescience.dto.SongData;
-import com.myprescience.ui.ViewHolder;
+import com.myprescience.util.ViewHolder;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

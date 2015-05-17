@@ -33,9 +33,9 @@ public class Server {
                     LIVENESS_MODE = 105, SPEECHINESS_MODE = 106, ACOUSTIC_MODE = 107, INSTRUMENTAL_MODE = 108,
                     RANK_ORDER_MODE = 109;
 
-//    static public String SERVER_ADDRESS = "http://218.37.209.129/MyPrescience/db";
+    static public String SERVER_ADDRESS = "http://218.37.209.129/MyPrescience/db";
 //    static public String SERVER_ADDRESS = "http://172.200.152.173:8888/MyPrescience/db";
-    static public String SERVER_ADDRESS = "http://166.104.245.89/MyPrescience/db";
+//    static public String SERVER_ADDRESS = "http://166.104.245.89/MyPrescience/db";
     static public String SPOTIFY_API = "https://api.spotify.com/v1/";
     static public String WITH_USER = "&user_id=";
 
@@ -99,7 +99,7 @@ public class Server {
     static public String VIDEO_MOST_VIEW = "&order=viewCount";
 
     static public String LUCENE_API = "/Lucene.php?query=";
-    static public String SEARCH_SONGS = "searchSongs";
+    static public String SEARCH_SONGS = "searchSongs&q=";
 
     // Url으로부터 Server의 JSON - return (String)
     static public String getStringFromUrl(String url) {
