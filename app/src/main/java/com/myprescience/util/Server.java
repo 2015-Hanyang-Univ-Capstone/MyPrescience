@@ -33,9 +33,9 @@ public class Server {
                     LIVENESS_MODE = 105, SPEECHINESS_MODE = 106, ACOUSTIC_MODE = 107, INSTRUMENTAL_MODE = 108,
                     RANK_ORDER_MODE = 109;
 
-    static public String SERVER_ADDRESS = "http://218.37.209.129/MyPrescience/db";
+//    static public String SERVER_ADDRESS = "http://218.37.209.129/MyPrescience/db";
 //    static public String SERVER_ADDRESS = "http://172.200.152.173:8888/MyPrescience/db";
-//    static public String SERVER_ADDRESS = "http://166.104.245.89/MyPrescience/db";
+    static public String SERVER_ADDRESS = "http://166.104.245.89/MyPrescience/db";
     static public String SPOTIFY_API = "https://api.spotify.com/v1/";
     static public String WITH_USER = "&user_id=";
 
@@ -100,6 +100,7 @@ public class Server {
 
     static public String LUCENE_API = "/Lucene.php?query=";
     static public String SEARCH_SONGS = "searchSongs&q=";
+    static public String SEARCH_SONGID = "searchSongId";
 
     // Url으로부터 Server의 JSON - return (String)
     static public String getStringFromUrl(String url) {
@@ -135,10 +136,10 @@ public class Server {
                 "Music is My Life!"
         };
 
-        return LEVEL[songCount/50];
+        return LEVEL[songCount/100];
     }
 
-    public static void callByArrayParameters(String url, List<NameValuePair> parameters) {
+    public static String callByArrayParameters(String url, List<NameValuePair> parameters) {
         HttpClient client = new DefaultHttpClient();
         HttpPost post = new HttpPost(url);
 
@@ -164,7 +165,7 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("DB: Result: " + stringBuilder.toString());
+        return stringBuilder.toString();
     }
 }
 

@@ -24,17 +24,21 @@ import com.myprescience.ui.album.MyAlbumListActivity;
 import com.myprescience.ui.artist.MyArtistListActivity;
 import com.myprescience.ui.song.MySongListActivity;
 import com.myprescience.util.Indicator;
-import com.myprescience.util.LocalMusicSyncThread;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.myprescience.util.Server.INSERT_LOCAL_FILE_RATING;
-import static com.myprescience.util.Server.RATING_API;
+import static com.myprescience.util.Server.LUCENE_API;
+import static com.myprescience.util.Server.SEARCH_SONGID;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
+import static com.myprescience.util.Server.WITH_USER;
+import static com.myprescience.util.Server.callByArrayParameters;
 
 /**
  * Created by dongjun on 15. 4. 6..
@@ -117,7 +121,7 @@ public class MyPageActivity extends ActionBarActivity {
 
     private void syncLocalMusicFile() {
 
-        new ProgressDlgTest(MyPageActivity.this).execute(100);
+        new syncLocalMP3File(MyPageActivity.this).execute(100);
 
 //        ProgressDialog progressDialog = new ProgressDialog(MyPageActivity.this);
 //
@@ -169,72 +173,7 @@ public class MyPageActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     };
 
-    class syncLocalMP3File extends AsyncTask<String, String, Void> {
-
-        private ProgressDialog mProgressDialog;
-        private Cursor mMusiccursor;
-        private int count;
-
-        syncLocalMP3File(Context _context) {
-            count = 0;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            String[] songFile = {
-                    MediaStore.Audio.Media.TITLE,
-                    MediaStore.Video.Media.ARTIST };
-            mMusiccursor = managedQuery(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                    songFile, null, null, null);
-
-            mProgressDialog.setMessage("");
-            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.setMax(mMusiccursor.getCount());
-            mProgressDialog.show();
-        }
-
-        @Override
-        protected Void doInBackground(String... url) {
-
-            final List<NameValuePair> parameters = new ArrayList<>();
-            parameters.add(new BasicNameValuePair("user_id", userDTO.getId() + ""));
-
-            while(mMusiccursor.moveToNext()) {
-                count++;
-                int music_column_index = mMusiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
-                final String title = mMusiccursor.getString(music_column_index);
-
-                music_column_index = mMusiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST);
-                final String artist = mMusiccursor.getString(music_column_index);
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mProgressDialog.setMessage(title + " By " + artist);
-                        mProgressDialog.setProgress(count);
-                    }
-                });
-
-
-                parameters.add(new BasicNameValuePair("title[]", title));
-                parameters.add(new BasicNameValuePair("artist[]", artist));
-
-//                if(count % 3 == 0) {
-//                    new LocalMusicSyncThread(getApplicationContext(), SERVER_ADDRESS + RATING_API + INSERT_LOCAL_FILE_RATING, parameters).start();
-//                    parameters.clear();
-//                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-        }
-    }
-
-    public class ProgressDlgTest extends AsyncTask< Integer//excute()실행시 넘겨줄 데이터타입
+    public class syncLocalMP3File extends AsyncTask< Integer//excute()실행시 넘겨줄 데이터타입
             , String//진행정보 데이터 타입 publishProgress(), onProgressUpdate()의 인수
             , Integer//doInBackground() 종료시 리턴될 데이터 타입 onPostExecute()의 인수
             > {
@@ -243,7 +182,7 @@ public class MyPageActivity extends ActionBarActivity {
         private Cursor mMusiccursor;
         private int count;
 
-        public ProgressDlgTest(Context context) {
+        public syncLocalMP3File(Context context) {
             mContext = context;
 
             String[] songFile = {
@@ -262,8 +201,7 @@ public class MyPageActivity extends ActionBarActivity {
             mDlg.setMessage("음악 동기화 시작.");
             publishProgress("max", Integer.toString(mMusiccursor.getCount()));
             mDlg.show();
-            Toast.makeText(mContext, "Background에서 작업을 완료한 후 알려드립니다.", Toast.LENGTH_SHORT).show();
-            Toast.makeText(mContext, "창을 숨기려면 빈화면을 터치하세요!", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "정보를 입력 중 입니다.\n완료한 후 알려드리겠습니다.", Toast.LENGTH_LONG).show();
             super.onPreExecute();
         }
 
@@ -285,10 +223,14 @@ public class MyPageActivity extends ActionBarActivity {
                 music_column_index = mMusiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST);
                 final String artist = mMusiccursor.getString(music_column_index);
 
-                parameters.add(new BasicNameValuePair("title[]", title));
-                parameters.add(new BasicNameValuePair("artist[]", artist));
+                if(artist.equals("<unknown>") || artist.equals("FaceBook") || title.indexOf("Hangouts") != -1) {
 
-                publishProgress("progress", Integer.toString(count), title + " By " + artist);
+                } else {
+                    parameters.add(new BasicNameValuePair("title[]", title));
+                    parameters.add(new BasicNameValuePair("artist[]", artist));
+                }
+
+                publishProgress("progress", Integer.toString(count), title + "\n    " + artist);
 
                 try {
                     Thread.sleep(50);
@@ -298,8 +240,8 @@ public class MyPageActivity extends ActionBarActivity {
                 }
             }
 
-            new LocalMusicSyncThread(getApplicationContext(), SERVER_ADDRESS + RATING_API + INSERT_LOCAL_FILE_RATING, parameters).start();
-
+            new getSearchResult(getApplicationContext(), parameters, taskCnt).execute(
+                    SERVER_ADDRESS + LUCENE_API + SEARCH_SONGID + WITH_USER + userDTO.getId());
             return taskCnt;
         }
 
@@ -319,7 +261,45 @@ public class MyPageActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(Integer result) {
             mDlg.dismiss();
-            Toast.makeText(mContext, Integer.toString(result) + "개의 노래 동기화 완료", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    class getSearchResult extends AsyncTask<String, String, String> {
+
+        private Context mContext;
+        private List<NameValuePair> mParameters;
+        private int syncCount;
+
+        public getSearchResult(Context _context, List<NameValuePair> _parameters, int _count){
+            this.mContext = _context;
+            this.mParameters = _parameters;
+            this.syncCount = _count;
+        }
+
+        @Override
+        protected String doInBackground(String... url) {
+            return callByArrayParameters(url[0], mParameters);
+        }
+
+        @Override
+        protected void onPostExecute(String songJSON) {
+            super.onPostExecute(songJSON);
+
+            try {
+                JSONParser jsonParser = new JSONParser();
+                JSONObject resultJSON = (JSONObject) jsonParser.parse(songJSON);
+                String sync = (String) resultJSON.get("sync");
+                if(sync.equals("true"))
+                    Toast.makeText(mContext, syncCount + "개의 노래 동기화 완료", Toast.LENGTH_SHORT).show();
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
         }
     }
 

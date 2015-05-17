@@ -70,10 +70,12 @@ public class SearchListAdapter extends BaseAdapter {
         holder.resultLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), SongActivity.class);
-                intent.putExtra("song_id", v.getTag()+"");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                v.getContext().startActivity(intent);
+                if(v.getTag() != null) {
+                    Intent intent = new Intent(v.getContext(), SongActivity.class);
+                    intent.putExtra("song_id", v.getTag() + "");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    v.getContext().startActivity(intent);
+                }
             }
         });
 

@@ -3,6 +3,8 @@ package com.myprescience.search;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -20,6 +22,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import static com.myprescience.util.Server.LUCENE_API;
 import static com.myprescience.util.Server.SEARCH_SONGS;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
@@ -36,13 +41,31 @@ public class SearchListActivity extends ActionBarActivity {
     private SearchListAdapter mSearchListAdapter;
     private boolean mLockListView = false;
 
-    private int mListCount;
-    private int mListAddCount;
-    private int totalListSize;
-
     private EditText mInputQuery;
 
     Indicator mIndicator;
+
+    private final int TRIGGER_SERACH = 1;
+    private final long SEARCH_TRIGGER_DELAY_IN_MS = 750;
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == TRIGGER_SERACH) {
+                mSearchListAdapter = new SearchListAdapter(SearchListActivity.this, userDTO.getId());
+                mSearchListView.setAdapter(mSearchListAdapter);
+                mSearchListAdapter.notifyDataSetChanged();
+                String input = mInputQuery.getText().toString();
+                Log.e("Search", input);
+                try {
+                    new getSearchResult(getApplicationContext()).execute(
+                            SERVER_ADDRESS + LUCENE_API + SEARCH_SONGS + URLEncoder.encode(input, "utf-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,9 +74,6 @@ public class SearchListActivity extends ActionBarActivity {
         setContentView(R.layout.activity_search);
         userDTO = new UserData(getApplicationContext());
         setActionbar();
-
-        mListCount = 0;
-        mListAddCount = 5;
         mIndicator = new Indicator(this);
 
         mInputQuery = (EditText) findViewById(R.id.toolbar_search);
@@ -63,12 +83,8 @@ public class SearchListActivity extends ActionBarActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 //텍스트 변경 후 발생할 이벤트를 작성.
-                mSearchListAdapter = new SearchListAdapter(SearchListActivity.this, userDTO.getId());
-                mSearchListView.setAdapter(mSearchListAdapter);
-                mSearchListAdapter.notifyDataSetChanged();
-                String input = mInputQuery.getText().toString();
-                Log.e("Search", input);
-                new getSearchResult(getApplicationContext()).execute(SERVER_ADDRESS + LUCENE_API + SEARCH_SONGS + input);
+                handler.removeMessages(TRIGGER_SERACH);
+                handler.sendEmptyMessageDelayed(TRIGGER_SERACH, SEARCH_TRIGGER_DELAY_IN_MS);
             }
 
             @Override
@@ -145,6 +161,11 @@ public class SearchListActivity extends ActionBarActivity {
                 JSONParser jsonParser = new JSONParser();
                 JSONArray resultArray = (JSONArray) jsonParser.parse(songJSON);
 
+                if (resultArray.size() == 0) {
+                    mSearchListAdapter.addItem(null, "검색된 결과가 없습니다.", "");
+                    mSearchListAdapter.addItem(null, "", "조금 더 자세히 입력해주세요.");
+                }
+
                 for(int i = 0; i < resultArray.size(); i ++) {
                     String result = (String) resultArray.get(i);
                     String[] songInfo = result.split("/");
@@ -155,6 +176,8 @@ public class SearchListActivity extends ActionBarActivity {
 
             } catch (ParseException e) {
                 e.printStackTrace();
+                mSearchListAdapter.addItem(null, "검색된 결과가 없습니다.", "");
+                mSearchListAdapter.addItem(null, "", "조금 더 자세히 입력해주세요.");
             }
         }
 
