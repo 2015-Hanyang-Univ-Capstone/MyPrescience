@@ -269,6 +269,11 @@
                     </FrameLayout>
                 </android.support.v7.widget.CardView>
 
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    style="@style/GenreCard">
+                </android.support.v7.widget.CardView>
+
             </TableRow>
         </TableLayout>
     </ScrollView>
