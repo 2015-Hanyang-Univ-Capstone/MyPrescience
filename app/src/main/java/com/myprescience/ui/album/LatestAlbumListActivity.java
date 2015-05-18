@@ -2,6 +2,7 @@ package com.myprescience.ui.album;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
+import com.myprescience.search.SearchListActivity;
 import com.myprescience.util.Indicator;
 
 import org.json.simple.JSONArray;
@@ -23,9 +25,7 @@ import org.json.simple.parser.ParseException;
 
 import static com.myprescience.util.Server.ALBUM_API;
 import static com.myprescience.util.Server.SELECT_LATEST_ALBUMS;
-import static com.myprescience.util.Server.SELECT_MY_ALBUMS;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
-import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.getStringFromUrl;
 
 /**
@@ -194,6 +194,10 @@ public class LatestAlbumListActivity extends ActionBarActivity {
             case android.R.id.home:
                 // NavUtils.navigateUpFromSameTask(this);
                 finish();
+                return true;
+            case R.id.action_search:
+                Intent intent = new Intent(this, SearchListActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);

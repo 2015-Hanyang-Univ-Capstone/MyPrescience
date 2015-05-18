@@ -129,14 +129,29 @@ public class Server {
     static public String getLevel(int songCount) {
 
         String[] LEVEL = {
+                "Bronze",
+                "Silver",
+                "Gold",
+                "Platinum",
+                "Dia",
+                "Master"
+        };
+
+        return LEVEL[songCount/75];
+    }
+
+    static public String getLevelDescribe(int songCount) {
+
+        String[] LEVEL = {
                 "마음의 양식이 필요합니다. 노래를 들으세요.",
                 "이제 시작이군요! 얼쑤!",
                 "음악으로 풍요로워 지셨나요?",
+                "음악 좀 들으실 줄 아시는 군요!",
                 "노래 들으며 리듬타시는 모습이 보이는 군요!",
                 "Music is My Life!"
         };
 
-        return LEVEL[songCount/100];
+        return LEVEL[songCount/75];
     }
 
     public static String callByArrayParameters(String url, List<NameValuePair> parameters) {

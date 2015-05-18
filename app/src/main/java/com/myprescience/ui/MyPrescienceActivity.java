@@ -3,6 +3,7 @@ package com.myprescience.ui;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.myprescience.R;
+import com.myprescience.search.SearchListActivity;
 import com.myprescience.ui.song.RecommendSongListTab;
 import com.myprescience.ui.song.SearchSongTab;
 
@@ -179,8 +181,10 @@ public class MyPrescienceActivity extends ActionBarActivity implements
                 // NavUtils.navigateUpFromSameTask(this);
                 finish();
                 return true;
-            case R.id.action_settings:
-
+			case R.id.action_search:
+				Intent intent = new Intent(this, SearchListActivity.class);
+				startActivity(intent);
+				return true;
         }
         return super.onOptionsItemSelected(item);
     };

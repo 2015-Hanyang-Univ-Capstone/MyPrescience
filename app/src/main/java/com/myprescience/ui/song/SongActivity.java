@@ -32,23 +32,22 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
 import com.myprescience.ui.album.AlbumActivity;
 import com.myprescience.ui.artist.ArtistActivity;
 import com.myprescience.util.ErrorMsg;
 import com.myprescience.util.Indicator;
+import com.myprescience.util.InsertUpdateQuery;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
-import com.myprescience.util.InsertUpdateQuery;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -68,8 +67,8 @@ import static com.myprescience.util.Server.SPOTIFY_API;
 import static com.myprescience.util.Server.VIDEO_MOST_VIEW;
 import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.YOUTUBE_API;
-import static com.myprescience.util.Server.YOUTUBE_DEVELOPMENT_KEY;
 import static com.myprescience.util.Server.YOUTUBE_API_KEY;
+import static com.myprescience.util.Server.YOUTUBE_DEVELOPMENT_KEY;
 import static com.myprescience.util.Server.YOUTUBE_RESULT_FIVE;
 import static com.myprescience.util.Server.getStringFromUrl;
 
@@ -217,7 +216,10 @@ public class SongActivity extends YouTubeBaseActivity {
                     JSONObject rating = (JSONObject) response.get(0);
                     if(rating.get("rating") != null) {
                         int user_rating = Integer.parseInt((String) rating.get("rating"));
-                        userRatingTextView.setText(String.format("%.1f", user_rating / 2.0));
+                        if(user_rating > 10)
+                            userRatingTextView.setText("보유곡");
+                        else
+                            userRatingTextView.setText(String.format("%.1f", user_rating / 2.0));
                     }
                 }
             } catch (ParseException e) {

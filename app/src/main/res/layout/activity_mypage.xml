@@ -78,7 +78,7 @@
             android:weightSum="3">
 
             <LinearLayout
-                android:id="@+id/mysongTextView2"
+                android:id="@+id/myInfoButton"
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/mysongTextView4"
+                android:id="@+id/analizeSongButton"
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
