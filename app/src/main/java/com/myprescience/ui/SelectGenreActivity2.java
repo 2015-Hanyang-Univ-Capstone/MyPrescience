@@ -30,6 +30,7 @@ public class SelectGenreActivity2 extends ActionBarActivity {
     private TextView textView;
     private int selectCount;
     private Vector<CardView> genreCards = new Vector<>();
+    private Vector<TextView> genreCardsTexts = new Vector<>();
     public ArrayList<String> selectGenre = new ArrayList<>();
 
     @Override
@@ -60,6 +61,14 @@ public class SelectGenreActivity2 extends ActionBarActivity {
         genreCards.add((CardView) findViewById(R.id.rnb_card));
         genreCards.add((CardView) findViewById(R.id.club_card));
         genreCards.add((CardView) findViewById(R.id.country_card));
+        genreCardsTexts.add((TextView) findViewById(R.id.pop_card_text_view));
+        genreCardsTexts.add((TextView) findViewById(R.id.electronic_card_text_view));
+        genreCardsTexts.add((TextView) findViewById(R.id.hiphop_card_text_view));
+        genreCardsTexts.add((TextView) findViewById(R.id.rock_card_text_view));
+        genreCardsTexts.add((TextView) findViewById(R.id.rnb_card_text_view));
+        genreCardsTexts.add((TextView) findViewById(R.id.club_card_text_view));
+        genreCardsTexts.add((TextView) findViewById(R.id.country_card_text_view));
+
 
         for(CardView card : genreCards){
             card.setOnClickListener(new View.OnClickListener() {
@@ -67,10 +76,14 @@ public class SelectGenreActivity2 extends ActionBarActivity {
                 public void onClick(View view) {
                     String genre = (String) view.getContentDescription();
 
-                    if(selectGenre.indexOf(genre) == -1)
+                    if(selectGenre.indexOf(genre) == -1) {
                         selectGenre.add(genre);
-                    else
+                        genreCardsTexts.get(genreCards.indexOf(view)).setBackgroundColor(0xff009688);
+                    }
+                    else {
                         selectGenre.remove(genre);
+                        genreCardsTexts.get(genreCards.indexOf(view)).setBackgroundColor(0xAA000000);
+                    }
 
                     selectCount = selectGenre.size();
                     progressBar.setProgress( (selectCount >= 3)? 100 : selectCount*33 );
