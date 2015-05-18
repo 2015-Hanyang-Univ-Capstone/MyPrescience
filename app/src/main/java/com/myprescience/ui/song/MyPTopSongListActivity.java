@@ -1,19 +1,19 @@
 package com.myprescience.ui.song;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.AbsListView;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
+import com.myprescience.search.SearchListActivity;
 import com.myprescience.util.Indicator;
 
 import org.json.simple.JSONArray;
@@ -22,8 +22,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import static com.myprescience.util.Server.MYP_TOP100_SONGS;
-import static com.myprescience.util.Server.RECOMMEND_API;
-import static com.myprescience.util.Server.RECOMMEND_SONGS;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SONG_API;
 import static com.myprescience.util.Server.WITH_USER;
@@ -190,6 +188,10 @@ public class MyPTopSongListActivity extends ActionBarActivity {
             case android.R.id.home:
                 // NavUtils.navigateUpFromSameTask(this);
                 finish();
+                return true;
+            case R.id.action_search:
+                Intent intent = new Intent(this, SearchListActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);

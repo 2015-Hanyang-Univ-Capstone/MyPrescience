@@ -12,7 +12,6 @@ import com.myprescience.R;
 import com.myprescience.dto.UserData;
 import com.myprescience.ui.MyPrescienceActivity;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -52,9 +51,9 @@ public class RecommendThread extends Thread {
 
                     Notification.Builder mBuilder = new Notification.Builder(mContext);
                     mBuilder.setSmallIcon(R.drawable.logo_small);
-                    mBuilder.setTicker(userDTO.getName()+"님 음악분석이 완료되었습니다.");
+                    mBuilder.setTicker(userDTO.getName() + "님 음악분석이 완료되었습니다.");
                     mBuilder.setWhen(System.currentTimeMillis());
-                    mBuilder.setContentTitle(userDTO.getName()+"님 음악분석이 완료되었습니다.");
+                    mBuilder.setContentTitle(userDTO.getName() + "님 음악분석이 완료되었습니다.");
                     mBuilder.setContentText("지금 바로 My Prescience에서 당신에게 추천해주는 노래를 만나보세요!");
                     mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
                     mBuilder.setContentIntent(pendingIntent);

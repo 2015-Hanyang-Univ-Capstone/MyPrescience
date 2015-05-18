@@ -1,7 +1,9 @@
 package com.myprescience.ui;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
@@ -50,7 +52,8 @@ public class MyPageActivity extends ActionBarActivity {
     private int userId;
     private boolean mLockListView = false;
 
-    private LinearLayout mMySongButton, mMyAlbumButton, mMp3SyncButton, mMyArtistButton;
+    private LinearLayout mMyInfoButton, mMp3SyncButton, mAnalizeButton,
+                        mMySongButton, mMyAlbumButton, mMyArtistButton;
 
     Indicator mIndicator;
 
@@ -65,6 +68,48 @@ public class MyPageActivity extends ActionBarActivity {
 
 //        facebook_profile = (ImageView) findViewById(R.id.profileImageView);
 //        facebook_profile.setImageDrawable(getFACEBOOK_PROFILE_BITMAP());
+
+        mMyInfoButton = (LinearLayout) findViewById(R.id.myInfoButton);
+        mMyInfoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(MyPageActivity.this);
+                alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();     //닫기
+                    }
+                });
+                alert.setMessage("추후 추가 예정입니다.");
+                alert.show();
+                return;
+            }
+        });
+
+        mMp3SyncButton = (LinearLayout) findViewById(R.id.mp3SyncButton);
+        mMp3SyncButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                syncLocalMusicFile();
+            }
+        });
+
+        mAnalizeButton = (LinearLayout) findViewById(R.id.analizeSongButton);
+        mAnalizeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(MyPageActivity.this);
+                alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();     //닫기
+                    }
+                });
+                alert.setMessage("추후 추가 예정입니다.");
+                alert.show();
+                return;
+            }
+        });
 
         mMySongButton = (LinearLayout) findViewById(R.id.mySongButton);
         mMySongButton.setOnClickListener(new View.OnClickListener() {
@@ -81,14 +126,6 @@ public class MyPageActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MyPageActivity.this, MyAlbumListActivity.class);
                 startActivity(intent);
-            }
-        });
-
-        mMp3SyncButton = (LinearLayout) findViewById(R.id.mp3SyncButton);
-        mMp3SyncButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                syncLocalMusicFile();
             }
         });
 
