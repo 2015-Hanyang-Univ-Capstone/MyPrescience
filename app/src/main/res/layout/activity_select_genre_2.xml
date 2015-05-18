@@ -13,7 +13,7 @@
         android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,15 +58,9 @@
 
             <TableRow>
                 <android.support.v7.widget.CardView
+                    style="@style/GenreCard"
                     android:id="@+id/pop_card"
-                    android:contentDescription="pop"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    card_view:cardCornerRadius="4dp"
-                    card_view:cardUseCompatPadding="true"
-                    android:clickable="true"
-                    android:foreground="?android:attr/selectableItemBackground">
+                    android:contentDescription="pop">
 
                     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent"
@@ -80,6 +74,7 @@
                             android:adjustViewBounds="true"/>
 
                         <TextView
+                            android:id="@+id/pop_card_text_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal|bottom"
@@ -94,26 +89,21 @@
                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/electronic_card"
                     android:contentDescription="electronic"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    card_view:cardCornerRadius="4dp"
-                    card_view:cardUseCompatPadding="true"
-                    android:clickable="true"
-                    android:foreground="?android:attr/selectableItemBackground">
+                    style="@style/GenreCard">
 
                     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
                         <ImageView
-                            android:id="@+id/electto_card_view"
+                            android:id="@+id/electronic_card_view"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@drawable/card_electronic"
                             android:adjustViewBounds="true"/>
 
                         <TextView
+                            android:id="@+id/electronic_card_text_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal|bottom"
@@ -130,13 +120,8 @@
                 <android.support.v7.widget.CardView
                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/hiphop_card"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    card_view:cardCornerRadius="4dp"
-                    card_view:cardUseCompatPadding="true"
-                    android:clickable="true"
-                    android:foreground="?android:attr/selectableItemBackground">
+                    android:contentDescription="hiphop"
+                    style="@style/GenreCard">
 
                     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent"
@@ -150,6 +135,7 @@
                             android:adjustViewBounds="true"/>
 
                         <TextView
+                            android:id="@+id/hiphop_card_text_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal|bottom"
@@ -164,13 +150,7 @@
                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/rock_card"
                     android:contentDescription="rock"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    card_view:cardCornerRadius="4dp"
-                    card_view:cardUseCompatPadding="true"
-                    android:clickable="true"
-                    android:foreground="?android:attr/selectableItemBackground">
+                    style="@style/GenreCard">
 
                     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent"
@@ -184,6 +164,7 @@
                             android:adjustViewBounds="true"/>
 
                         <TextView
+                            android:id="@+id/rock_card_text_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal|bottom"
@@ -202,13 +183,7 @@
                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/rnb_card"
                     android:contentDescription="rnb"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    card_view:cardCornerRadius="4dp"
-                    card_view:cardUseCompatPadding="true"
-                    android:clickable="true"
-                    android:foreground="?android:attr/selectableItemBackground">
+                    style="@style/GenreCard">
 
                     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent"
@@ -222,6 +197,7 @@
                             android:adjustViewBounds="true"/>
 
                         <TextView
+                            android:id="@+id/rnb_card_text_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal|bottom"
@@ -236,13 +212,7 @@
                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/club_card"
                     android:contentDescription="club"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    card_view:cardCornerRadius="4dp"
-                    card_view:cardUseCompatPadding="true"
-                    android:clickable="true"
-                    android:foreground="?android:attr/selectableItemBackground">
+                    style="@style/GenreCard">
 
                     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent"
@@ -256,6 +226,7 @@
                             android:adjustViewBounds="true"/>
 
                         <TextView
+                            android:id="@+id/club_card_text_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal|bottom"
@@ -273,13 +244,7 @@
                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/country_card"
                     android:contentDescription="country"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    card_view:cardCornerRadius="4dp"
-                    card_view:cardUseCompatPadding="true"
-                    android:clickable="true"
-                    android:foreground="?android:attr/selectableItemBackground">
+                    style="@style/GenreCard">
 
                     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent"
@@ -293,6 +258,7 @@
                             android:adjustViewBounds="true"/>
 
                         <TextView
+                            android:id="@+id/country_card_text_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal|bottom"
