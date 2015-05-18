@@ -31,13 +31,43 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <ListView
-        android:id="@+id/searchListView"
+    <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:padding="10dp"
-        >
+        android:layout_height="fill_parent">
 
-    </ListView>
+        <ListView
+            android:id="@+id/searchListView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:padding="10dp"
+            />
+
+        <RelativeLayout
+            android:id="@+id/searchLoadingLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:visibility="gone"
+             >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/indicator_background"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true">
+
+                <com.myprescience.ui.material.ProgressBarCircular
+                    android:id="@+id/loadingProgressBar"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:textSize="24sp"
+                    android:layout_margin="20dp"
+                    android:layout_gravity="center" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </FrameLayout>
 
 </LinearLayout>

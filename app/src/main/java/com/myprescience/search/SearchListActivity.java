@@ -11,11 +11,14 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
+import com.myprescience.ui.material.ProgressBarCircular;
 import com.myprescience.util.Indicator;
 
 import org.json.simple.JSONArray;
@@ -44,6 +47,8 @@ public class SearchListActivity extends ActionBarActivity {
     private EditText mInputQuery;
 
     Indicator mIndicator;
+    private RelativeLayout mSearchLoadingLayout;
+    private ProgressBarCircular mProgressBarCircular;
 
     private final int TRIGGER_SERACH = 1;
     private final long SEARCH_TRIGGER_DELAY_IN_MS = 750;
@@ -52,6 +57,9 @@ public class SearchListActivity extends ActionBarActivity {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == TRIGGER_SERACH) {
+                mSearchLoadingLayout.setVisibility(View.GONE);
+                mProgressBarCircular.setVisibility(View.GONE);
+
                 mSearchListAdapter = new SearchListAdapter(SearchListActivity.this, userDTO.getId());
                 mSearchListView.setAdapter(mSearchListAdapter);
                 mSearchListAdapter.notifyDataSetChanged();
@@ -75,6 +83,7 @@ public class SearchListActivity extends ActionBarActivity {
         userDTO = new UserData(getApplicationContext());
         setActionbar();
         mIndicator = new Indicator(this);
+        mSearchLoadingLayout = (RelativeLayout) findViewById(R.id.searchLoadingLayout);
 
         mInputQuery = (EditText) findViewById(R.id.toolbar_search);
 
@@ -98,7 +107,8 @@ public class SearchListActivity extends ActionBarActivity {
             {
                 //텍스트가 변경될때마다 발생할 이벤트를 작성.
                 if (mInputQuery.isFocusable()) {
-
+                    mSearchLoadingLayout.setVisibility(View.VISIBLE);
+                    mProgressBarCircular.setVisibility(View.VISIBLE);
                 }
             }
         };
@@ -110,6 +120,9 @@ public class SearchListActivity extends ActionBarActivity {
 
         mSearchListAdapter = new SearchListAdapter(this, userDTO.getId());
         mSearchListView.setAdapter(mSearchListAdapter);
+
+        mProgressBarCircular = (ProgressBarCircular) findViewById(R.id.loadingProgressBar);
+        mProgressBarCircular.setBackgroundColor(getResources().getColor(R.color.color_base_theme));
     }
 
     public void setActionbar() {

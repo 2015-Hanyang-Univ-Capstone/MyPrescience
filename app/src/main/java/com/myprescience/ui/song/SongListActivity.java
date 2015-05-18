@@ -42,12 +42,12 @@ import static com.myprescience.util.Server.GENRE_TOP;
 import static com.myprescience.util.Server.HOT100;
 import static com.myprescience.util.Server.MODE;
 import static com.myprescience.util.Server.MYP_RANK_SONGS;
-import static com.myprescience.util.Server.RANDOM_MODE;
 import static com.myprescience.util.Server.RANDOM_SONGS;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SONG_API;
 import static com.myprescience.util.Server.SONG_WTIH_CLAUSE;
-import static com.myprescience.util.Server.SONG_WTIH_GENRE_CLAUSE;
+import static com.myprescience.util.Server.SYNC_MODE;
+import static com.myprescience.util.Server.TODAY_SONG_MODE;
 import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.getLevelDescribe;
 import static com.myprescience.util.Server.getStringFromUrl;
@@ -65,7 +65,7 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
 
     public static Activity sSonglistActivity;
     // 추천 받을 최소 곡 수
-    public static int MIN_SELECTED_SONG = 10;
+    public static int MIN_SELECTED_SONG = 15;
 
     private String genres;
     private Intent modeIntent;
@@ -93,6 +93,7 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
         userDTO = new UserData(getApplicationContext());
         setActionBar(R.string.title_section3);
 
+
         initSongList();
 
         mIndicator = new Indicator(this);
@@ -104,7 +105,6 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
 
         modeIntent = getIntent();
         MODE = modeIntent.getExtras().getInt("mode");
-        selectSongsWithMode(MODE, modeIntent);
 
         if(MODE == FIRST_MODE) {
             textView.setText("최소 " + MIN_SELECTED_SONG + "곡 이상 평가해주세요.");
@@ -118,8 +118,8 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
                     startActivity(intent);
                 }
             });
-        } else if(MODE == RANDOM_MODE) {
-            MIN_SELECTED_SONG = 300;
+        } else if(MODE == TODAY_SONG_MODE || MODE == SYNC_MODE) {
+            MIN_SELECTED_SONG = 500;
             textView.setText(getLevelDescribe(userDTO.getRatingSongCount()));
             progressBar.setProgress((int)(Math.min(1, userDTO.getRatingSongCount()/(double) MIN_SELECTED_SONG)*100));
             progressBar.invalidate();
@@ -169,6 +169,8 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
                 }
             }
         });
+
+        selectSongsWithMode(MODE, modeIntent);
     }
 
     private void setActionBar(int title) {
@@ -291,28 +293,28 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
 
     public void selectSongsWithMode(int mode, Intent intent) {
 
-        String korFilter = "country%20=%20%27kor%27";
-        String popFilter = "country%20is%20null";
+        String korFilter = "domestic";
+        String popFilter = "oversea";
         String bbhot100Filter = "country%20=%20%27bbhot100%27";
 
-        String genrePopFilter = "genres%20LIKE%20%22%25pop%25%22";
-        String genreHiphopFilter = "genres%20LIKE%20%22%25hip%20hop%25%22";
-        String genreRnBFilter = "genres%20LIKE%20%22%25r%26b%25%22";
-        String genreRockFilter = "genres%20LIKE%20%22%25rock%25%22";
-        String genreCountryFilter = "genres%20LIKE%20%22%25country%25%22";
-        String genreElectronicFilter = "genres%20LIKE%20%22%25electro%25%22";
-        String genreJazzFilter = "genres%20LIKE%20%22%25jazz%25%22";
-        String genreClubFilter = "genres%20LIKE%20%22%25club%25%22";
+        String genrePopFilter = "pop";
+        String genreHiphopFilter = "hiphop";
+        String genreRnBFilter = "rnb";
+        String genreRockFilter = "rock";
+        String genreCountryFilter = "country";
+        String genreElectronicFilter = "electro";
+        String genreJazzFilter = "jazz";
+        String genreDanceFilter = "dance";
 
         String degree = "0.75";
-        String valenceFilter = "valence%20%3E%20" + degree;
-        String loudnessFilter = "loudness%20%3E%20" + degree;
-        String dancabilityFilter = "danceability%20%3E%20" + degree;
-        String energyFilter = "energy%20%3E%20" + degree;
-        String livenessFilter = "liveness%20%3E%20" + degree;
-        String speechinessFilter = "speechiness%20%3E%20" + degree;
-        String acousticFilter = "acousticness%20%3E%20" + degree;
-        String instrumentalFilter = "instrumentalness%20%3E%20\" + degree";
+        String valenceFilter = "valence";
+        String loudnessFilter = "loudness";
+        String dancabilityFilter = "danceability";
+        String energyFilter = "energy";
+        String livenessFilter = "liveness";
+        String speechinessFilter = "speechiness";
+        String acousticFilter = "acousticness";
+        String instrumentalFilter = "instrumentalness";
 
         switch(mode) {
             case 0 :
@@ -325,8 +327,8 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
                 new getSimpleSongTask().execute(SERVER_ADDRESS+BILLBOARD_API+GENRE_TOP+genres+WITH_USER+userDTO.getId());
                 break;
             case 2 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS + SONG_API + SONG_WTIH_CLAUSE +
-                        korFilter + WITH_USER + userDTO.getId());
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_CLAUSE+
+                        korFilter+WITH_USER+userDTO.getId());
                 break;
             case 3 :
                 new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_CLAUSE+
@@ -338,36 +340,36 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
 
 
             case 41 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_GENRE_CLAUSE+
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_CLAUSE+
                         genrePopFilter+WITH_USER+userDTO.getId());
                 break;
             case 42 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_GENRE_CLAUSE+
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_CLAUSE+
                         genreHiphopFilter+WITH_USER+userDTO.getId());
                 break;
             case 43 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_GENRE_CLAUSE+
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_CLAUSE+
                         genreRnBFilter+WITH_USER+userDTO.getId());
                 break;
             case 44 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_GENRE_CLAUSE+
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_CLAUSE+
                         genreRockFilter+WITH_USER+userDTO.getId());
                 break;
             case 45 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS + SONG_API + SONG_WTIH_GENRE_CLAUSE +
+                new getSimpleSongTask().execute(SERVER_ADDRESS + SONG_API + SONG_WTIH_CLAUSE +
                         genreCountryFilter + WITH_USER + userDTO.getId());
                 break;
             case 46 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_GENRE_CLAUSE+
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_CLAUSE+
                         genreElectronicFilter+WITH_USER+userDTO.getId());
                 break;
             case 47 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_GENRE_CLAUSE+
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_CLAUSE+
                         genreJazzFilter+WITH_USER+userDTO.getId());
                 break;
             case 48 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_GENRE_CLAUSE+
-                        genreClubFilter+WITH_USER+userDTO.getId());
+                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_CLAUSE+
+                        genreDanceFilter+WITH_USER+userDTO.getId());
                 break;
 
 
@@ -406,6 +408,32 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
             case 109 :
                 new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+MYP_RANK_SONGS+WITH_USER+userDTO.getId());
                 break;
+
+            case 200 :
+                String syncJSON = intent.getExtras().getString("syncJSON");
+                JSONParser jsonParser = new JSONParser();
+                JSONArray songs = null;
+                try {
+                    songs = (JSONArray) jsonParser.parse(syncJSON);
+                    for(int i = 0; i < songs.size(); i++) {
+                        JSONObject song = (JSONObject) jsonParser.parse(songs.get(i).toString());
+
+                        String id = (String)song.get("id");
+                        String spotifyArtistID = (String) song.get("artist_spotify_id");
+                        String title = (String)song.get("title");
+                        String artist = (String)song.get("artist");
+                        String spotifyAlbumID = "albums/"+(String)song.get("album_spotify_id");
+                        String ratingStr = (String)song.get("rating");
+                        int rating = 0;
+                        if(ratingStr != null) {
+                            rating = Integer.parseInt(ratingStr);
+                        }
+                        songListAdapter.addItem(id, spotifyArtistID, spotifyAlbumID, title, artist, rating);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
         }
     }
 

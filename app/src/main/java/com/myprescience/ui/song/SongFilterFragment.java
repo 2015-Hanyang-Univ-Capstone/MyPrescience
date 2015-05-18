@@ -2,9 +2,7 @@ package com.myprescience.ui.song;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,12 +28,11 @@ import static com.myprescience.util.Server.INSTRUMENTAL_MODE;
 import static com.myprescience.util.Server.KPOP_MODE;
 import static com.myprescience.util.Server.LIVENESS_MODE;
 import static com.myprescience.util.Server.LOUDNESS_MODE;
-import static com.myprescience.util.Server.MYP_RANK_SONGS;
-import static com.myprescience.util.Server.POP_MODE;
-import static com.myprescience.util.Server.RANDOM_MODE;
 import static com.myprescience.util.Server.MODE;
+import static com.myprescience.util.Server.POP_MODE;
 import static com.myprescience.util.Server.RANK_ORDER_MODE;
 import static com.myprescience.util.Server.SPEECHINESS_MODE;
+import static com.myprescience.util.Server.TODAY_SONG_MODE;
 import static com.myprescience.util.Server.VALANCE_MODE;
 
 /**
@@ -83,7 +80,7 @@ public class SongFilterFragment extends Fragment {
 
         ArrayList<Button> button_list = new ArrayList<Button>(30);
         ArrayList<Integer> button_num = new ArrayList<Integer>(30);
-        button_list.add(mRandomSongFilterButton);               button_num.add(RANDOM_MODE);
+        button_list.add(mRandomSongFilterButton);               button_num.add(TODAY_SONG_MODE);
         button_list.add(mKpopSongFilterButton);                 button_num.add(KPOP_MODE);
         button_list.add(mPopSongFilterButton);                  button_num.add(POP_MODE);
         button_list.add(mBillboardHot100SongFilterButton);      button_num.add(BILLBOARDHOT_MODE);
@@ -127,7 +124,7 @@ public class SongFilterFragment extends Fragment {
     public void initButtonUI() {
         switch(MODE) {
             case 0 : activeButtonUI(mRandomSongFilterButton);
-                Clicked = RANDOM_MODE;
+                Clicked = TODAY_SONG_MODE;
                 break;
             case 2 : activeButtonUI(mKpopSongFilterButton);
                 Clicked = KPOP_MODE;

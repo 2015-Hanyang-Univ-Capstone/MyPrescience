@@ -49,7 +49,7 @@
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
                         android:textSize="13sp"
-                        android:text="모든노래"
+                        android:text="오늘의노래"
                         android:id="@+id/random_SongFilter" />
 
                     <Button

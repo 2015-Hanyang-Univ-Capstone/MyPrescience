@@ -25,13 +25,11 @@ import com.myprescience.dto.UserData;
 import com.myprescience.ui.album.MyAlbumListActivity;
 import com.myprescience.ui.artist.MyArtistListActivity;
 import com.myprescience.ui.song.MySongListActivity;
+import com.myprescience.ui.song.SongListActivity;
 import com.myprescience.util.Indicator;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +37,7 @@ import java.util.List;
 import static com.myprescience.util.Server.LUCENE_API;
 import static com.myprescience.util.Server.SEARCH_SONGID;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
+import static com.myprescience.util.Server.SYNC_MODE;
 import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.callByArrayParameters;
 
@@ -270,7 +269,7 @@ public class MyPageActivity extends ActionBarActivity {
                 publishProgress("progress", Integer.toString(count), title + "\n    " + artist);
 
                 try {
-                    Thread.sleep(50);
+                    Thread.sleep(100);
                     delay = false;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -298,6 +297,7 @@ public class MyPageActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(Integer result) {
             mDlg.dismiss();
+            mIndicator.show();
         }
     }
 
@@ -319,19 +319,25 @@ public class MyPageActivity extends ActionBarActivity {
         }
 
         @Override
-        protected void onPostExecute(String songJSON) {
-            super.onPostExecute(songJSON);
+        protected void onPostExecute(String syncJSON) {
+            super.onPostExecute(syncJSON);
 
-            try {
-                JSONParser jsonParser = new JSONParser();
-                JSONObject resultJSON = (JSONObject) jsonParser.parse(songJSON);
-                String sync = (String) resultJSON.get("sync");
-                if(sync.equals("true"))
-                    Toast.makeText(mContext, syncCount + "개의 노래 동기화 완료", Toast.LENGTH_SHORT).show();
+            mIndicator.hide();
+            Intent intent = new Intent(MyPageActivity.this, SongListActivity.class);
+            intent.putExtra("syncJSON", syncJSON);
+            intent.putExtra("mode", SYNC_MODE);
+            startActivity(intent);
 
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                JSONParser jsonParser = new JSONParser();
+//                JSONObject resultJSON = (JSONObject) jsonParser.parse(songJSON);
+//                String sync = (String) resultJSON.get("sync");
+//                if(sync.equals("true"))
+//                    Toast.makeText(mContext, syncCount + "개의 노래 동기화 완료", Toast.LENGTH_SHORT).show();
+//
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
         }
 
         @Override

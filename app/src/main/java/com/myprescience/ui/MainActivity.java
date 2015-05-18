@@ -49,7 +49,7 @@ import java.util.ArrayList;
 import static com.myprescience.util.PixelUtil.getProperImage;
 import static com.myprescience.util.Server.ALBUM_API;
 import static com.myprescience.util.Server.MYP_HOT_SONGS;
-import static com.myprescience.util.Server.RANDOM_MODE;
+import static com.myprescience.util.Server.TODAY_SONG_MODE;
 import static com.myprescience.util.Server.RATING_API;
 import static com.myprescience.util.Server.SELECT_MAIN_LATEST_ALBUMS;
 import static com.myprescience.util.Server.SELECT_SONG_COUNT;
@@ -212,7 +212,7 @@ public class MainActivity extends ActionBarActivity
             case 3:
 //                mTitle = getString(R.string.title_section2);
                 Intent section3 = new Intent(this, SongListActivity.class);
-                section3.putExtra("mode", RANDOM_MODE);
+                section3.putExtra("mode", TODAY_SONG_MODE);
                 startActivity(section3);
                 break;
             case 4:
