@@ -80,7 +80,7 @@ public class MySongListActivity extends ActionBarActivity {
 //                            mListCount = totalListSize - (10+1);
                     new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+WITH_USER+userDTO.getId());
                     mLockListView = true;
-                } else if(totalItemCount + mListAddCount >= totalListSize && totalListSize > 9) {
+                } else if(totalItemCount + mListAddCount >= totalListSize && totalListSize > 5) {
                     mListCount += mListAddCount;
                     mListAddCount =  totalListSize - mListCount;
                     new getSimpleSongTask().execute(SERVER_ADDRESS+RATING_API+SELECT_MYSONGS+WITH_USER+userDTO.getId());

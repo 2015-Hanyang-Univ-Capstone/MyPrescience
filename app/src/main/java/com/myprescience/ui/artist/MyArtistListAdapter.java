@@ -59,7 +59,6 @@ public class MyArtistListAdapter extends BaseAdapter {
 
             holder.albumImageView = (ImageView) convertView.findViewById(R.id.albumArtView);
             holder.titleTextView = (TextView) convertView.findViewById(R.id.titleTextView);
-            holder.artistTextView = (TextView) convertView.findViewById(R.id.artistTextView);
 
             convertView.setTag(holder);
         }else{
@@ -69,10 +68,6 @@ public class MyArtistListAdapter extends BaseAdapter {
         final ArtistData mData = mListData.get(position);
 
         holder.titleTextView.setText(mData.name);
-        if(mData.artist != null)
-            holder.artistTextView.setText(mData.artist);
-        else
-            holder.artistTextView.setText("Various Artist");
         holder.position = position;
 
         if(mData.image_300 != null) {

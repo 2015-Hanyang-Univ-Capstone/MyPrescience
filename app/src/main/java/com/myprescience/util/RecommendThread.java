@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -15,6 +16,8 @@ import com.myprescience.ui.MyPrescienceActivity;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import java.util.concurrent.ExecutionException;
 
 import static com.myprescience.util.Server.getStringFromUrl;
 
@@ -52,15 +55,27 @@ public class RecommendThread extends Thread {
                     Notification.Builder mBuilder = new Notification.Builder(mContext);
                     mBuilder.setSmallIcon(R.drawable.logo_small);
                     mBuilder.setTicker(userDTO.getName() + "님 음악분석이 완료되었습니다.");
-                    mBuilder.setWhen(System.currentTimeMillis());
-                    mBuilder.setContentTitle(userDTO.getName() + "님 음악분석이 완료되었습니다.");
-                    mBuilder.setContentText("지금 바로 My Prescience에서 당신에게 추천해주는 노래를 만나보세요!");
                     mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
                     mBuilder.setContentIntent(pendingIntent);
                     mBuilder.setAutoCancel(true);
 
-                    mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
+                    String image_300 = (String) recommend.get("image_300");
+                    Bitmap bigPicture = null;
+                    try {
+                        bigPicture = new ImageLoad(image_300).execute().get();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                    Notification.BigPictureStyle bigStyle = new Notification.BigPictureStyle(mBuilder);
+                    bigStyle.setBigContentTitle(userDTO.getName() + "님 음악분석이 완료되었습니다.");
+                    bigStyle.setSummaryText("지금 바로 My Prescience에서 당신에게 추천해주는 노래를 만나보세요!");
+                    if(bigPicture != null)
+                        bigStyle.bigPicture(bigPicture);
 
+                    mBuilder.setStyle(bigStyle);
+                    mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
                     nm.notify(111, mBuilder.build());
                 }
 

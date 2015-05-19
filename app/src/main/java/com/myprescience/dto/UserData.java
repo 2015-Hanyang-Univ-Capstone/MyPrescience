@@ -2,9 +2,8 @@ package com.myprescience.dto;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 
-import com.myprescience.ui.MainActivity;
-import com.myprescience.util.InsertUpdateQuery;
 import com.myprescience.util.RecommendThread;
 import com.myprescience.util.RoundImage;
 
@@ -42,6 +41,7 @@ public class UserData {
     public void addRatingSoungCount() {
         RatingSongCount++;
         if(RatingSongCount % triger == 0) {
+            Log.e("ExecRecommend", SERVER_ADDRESS + RECOMMEND_API + EXEC_RECOMMEND_ALGORITHM + WITH_USER + USER_ID);
             new RecommendThread(mContext, SERVER_ADDRESS + RECOMMEND_API + EXEC_RECOMMEND_ALGORITHM + WITH_USER + USER_ID).start();
             triger = (triger * 2) + 10;
         }

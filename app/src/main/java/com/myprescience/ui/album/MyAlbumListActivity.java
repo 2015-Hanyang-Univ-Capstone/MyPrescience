@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
-import com.myprescience.ui.song.MySongListAdapter;
 import com.myprescience.util.Indicator;
 
 import org.json.simple.JSONArray;
@@ -23,8 +22,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import static com.myprescience.util.Server.ALBUM_API;
-import static com.myprescience.util.Server.RATING_API;
-import static com.myprescience.util.Server.SELECT_MYSONGS;
 import static com.myprescience.util.Server.SELECT_MY_ALBUMS;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.WITH_USER;
@@ -83,7 +80,7 @@ public class MyAlbumListActivity extends ActionBarActivity {
 //                            mListCount = totalListSize - (10+1);
                     new getSimpleSongTask().execute();
                     mLockListView = true;
-                } else if(totalItemCount + mListAddCount >= totalListSize && totalListSize > 9) {
+                } else if(totalItemCount + mListAddCount >= totalListSize && totalListSize > 5) {
                     mListCount += mListAddCount;
                     mListAddCount =  totalListSize - mListCount;
                     new getSimpleSongTask().execute();

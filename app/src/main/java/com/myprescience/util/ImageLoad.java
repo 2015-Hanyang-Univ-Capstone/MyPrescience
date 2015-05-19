@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -26,6 +25,7 @@ public class ImageLoad extends AsyncTask<Void, Void, Bitmap> {
     private ImageView mImageView;
     private Indicator mIndicator;
     private Activity mActivity;
+    private boolean mJustGetImage;
 //        private Activity mActivity;
 
     public ImageLoad(Activity _activity, Indicator _indicator, String _url, ImageView _imageView) {
@@ -33,6 +33,11 @@ public class ImageLoad extends AsyncTask<Void, Void, Bitmap> {
         this.mImageView = _imageView;
         this.mActivity = _activity;
         this.mIndicator = _indicator;
+    }
+
+    public ImageLoad(String _url) {
+        this.mUrl = _url;
+        mJustGetImage = true;
     }
 
     @Override
@@ -55,12 +60,14 @@ public class ImageLoad extends AsyncTask<Void, Void, Bitmap> {
     @Override
     protected void onPostExecute(Bitmap result) {
         super.onPostExecute(result);
-        if(mIndicator.isShowing())
-            mIndicator.hide();
-        BitmapDrawable bitmapDrawable = new BitmapDrawable(mActivity.getResources(), result);
-        mImageView.setBackgroundDrawable(bitmapDrawable);
-        viewFadeIn(mImageView);
-        mActivity.overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        if(!mJustGetImage) {
+            if (mIndicator.isShowing())
+                mIndicator.hide();
+            BitmapDrawable bitmapDrawable = new BitmapDrawable(mActivity.getResources(), result);
+            mImageView.setBackgroundDrawable(bitmapDrawable);
+            viewFadeIn(mImageView);
+            mActivity.overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        }
     }
 
     private void viewFadeIn(View view) {
