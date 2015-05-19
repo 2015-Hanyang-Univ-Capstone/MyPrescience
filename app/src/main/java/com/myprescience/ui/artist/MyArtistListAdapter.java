@@ -59,6 +59,7 @@ public class MyArtistListAdapter extends BaseAdapter {
 
             holder.albumImageView = (ImageView) convertView.findViewById(R.id.albumArtView);
             holder.titleTextView = (TextView) convertView.findViewById(R.id.titleTextView);
+            holder.artistTextView  = (TextView) convertView.findViewById(R.id.artistTextView);
 
             convertView.setTag(holder);
         }else{
@@ -68,6 +69,7 @@ public class MyArtistListAdapter extends BaseAdapter {
         final ArtistData mData = mListData.get(position);
 
         holder.titleTextView.setText(mData.name);
+        holder.artistTextView.setVisibility(View.GONE);
         holder.position = position;
 
         if(mData.image_300 != null) {
@@ -84,8 +86,6 @@ public class MyArtistListAdapter extends BaseAdapter {
         } else {
             holder.albumImageView.setImageResource(R.drawable.image_not_exist_300);
         }
-
-        holder.albumImageView.setAdjustViewBounds(true);
 
         holder.albumImageView.setOnClickListener(new View.OnClickListener() {
             @Override

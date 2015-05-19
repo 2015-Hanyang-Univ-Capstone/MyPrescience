@@ -89,8 +89,6 @@ public class MyAlbumListAdapter extends BaseAdapter {
         } else {
             holder.albumImageView.setImageResource(R.drawable.image_not_exist_300);
         }
-        holder.albumImageView.setAdjustViewBounds(true);
-
         holder.albumImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
