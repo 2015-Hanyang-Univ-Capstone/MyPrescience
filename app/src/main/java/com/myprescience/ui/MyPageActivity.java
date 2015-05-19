@@ -36,6 +36,7 @@ import org.apache.http.message.BasicNameValuePair;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.myprescience.dto.UserData.triger;
 import static com.myprescience.util.Server.LUCENE_API;
 import static com.myprescience.util.Server.RESET_DATE;
 import static com.myprescience.util.Server.SEARCH_SONGID;
@@ -212,6 +213,8 @@ public class MyPageActivity extends ActionBarActivity {
             case R.id.action_reset:
                 // NavUtils.navigateUpFromSameTask(this);
                 new InsertUpdateQuery(getApplicationContext()).execute(SERVER_ADDRESS + USER_API + RESET_DATE + WITH_USER + userDTO.getId());
+                userDTO.setRatingSongCount(0);
+                triger = 15;
                 return true;
         }
         return super.onOptionsItemSelected(item);

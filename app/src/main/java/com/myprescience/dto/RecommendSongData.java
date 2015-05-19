@@ -1,9 +1,6 @@
 package com.myprescience.dto;
 
 import android.graphics.Bitmap;
-import android.widget.Button;
-
-import com.myprescience.R;
 
 /**
  * Created by hyeon-seob on 15. 3. 4..
@@ -13,6 +10,8 @@ public class RecommendSongData {
     public String id;
     public String artist_id;
     public String albumUrl;
+    public String similar_song_id;
+    public String similar_song;
     public Bitmap albumArt;
     public String title;
     public String artist;
@@ -32,4 +31,5 @@ public class RecommendSongData {
     public void setAlbumArt(Bitmap mAlbumArt) { albumArt = mAlbumArt; }
     public String getGenre() { return this.genre; }
     public void setGenre(String _genre) { genre = _genre; }
+    public void setSimilarSong(String _song) { similar_song = _song; }
 }

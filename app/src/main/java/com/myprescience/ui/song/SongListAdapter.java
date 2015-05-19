@@ -147,9 +147,6 @@ public class SongListAdapter extends BaseAdapter{
                     setProgress(ratingCount);
                     Log.e("ratingCount", ratingCount + "");
 
-                    userDTO.addRatingSoungCount();
-
-//                    textView.setText(ratingCount + "곡을 평가했습니다.");
                     textView.invalidate();
 
                     if(ratingCount >= SongListActivity.MIN_SELECTED_SONG)
@@ -161,6 +158,8 @@ public class SongListAdapter extends BaseAdapter{
                 new InsertUpdateQuery(mContext).execute(SERVER_ADDRESS+RATING_API+INSERT_RATING+
                         "user_id=" + userId + "&song_id=" + mListData.get(index).id + "&rating=" + mListData.get(index).rating +
                         "&artist_id=" + mListData.get(index).artist_id + "&album_id=" + mListData.get(index).albumUrl.substring(7));
+
+                userDTO.addRatingSoungCount(mListData.get(index).id, mListData.get(index).rating);
 
                 Toast toast = Toast.makeText(mContext, rating+"/5.0점으로 평가되었습니다!", Toast.LENGTH_SHORT);
                 toast.show();

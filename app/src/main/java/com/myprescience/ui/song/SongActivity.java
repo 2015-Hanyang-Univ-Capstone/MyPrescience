@@ -595,7 +595,7 @@ public class SongActivity extends YouTubeBaseActivity {
                         Toast toast = Toast.makeText(getApplicationContext(), rating+"/5.0점으로 평가되었습니다!", Toast.LENGTH_SHORT);
                         toast.show();
 
-                        userDTO.addRatingSoungCount();
+                        userDTO.addRatingSoungCount(SONG_ID, ratingInt);
 
                         new getRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_RATING + SONG_ID + WITH_USER + userDTO.getId());
                         new getAvgRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_AVG_RATING + SONG_ID);

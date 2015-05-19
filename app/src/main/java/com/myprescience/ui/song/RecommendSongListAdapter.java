@@ -45,7 +45,9 @@ import static com.myprescience.util.Server.GENRES_API;
 import static com.myprescience.util.Server.INSERT_RATING;
 import static com.myprescience.util.Server.RATING_API;
 import static com.myprescience.util.Server.SELECT_GENRE_WITH_DETAIL;
+import static com.myprescience.util.Server.SELECT_TITLE_ARTIST;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
+import static com.myprescience.util.Server.SONG_API;
 import static com.myprescience.util.Server.SPOTIFY_API;
 import static com.myprescience.util.Server.getStringFromUrl;
 
@@ -69,12 +71,13 @@ public class RecommendSongListAdapter extends BaseAdapter {
         userDTO = new UserData(mContext);
     }
 
-    public void addItem(String _id, String _artist_id, String _albumArtURL, String _title, String _artist, int _rating, String _genres, String _song_type,
+    public void addItem(String _id, String _artist_id, String _albumArtURL, String _similar_song_id, String _title, String _artist, int _rating, String _genres, String _song_type,
                         float _valence, float _danceability, float _energy, float _liveness, float _speechiness, float _acousticness,
                         float _instrumentalness){
         RecommendSongData temp = new RecommendSongData();
         temp.id = _id;
         temp.artist_id = _artist_id;
+        temp.similar_song_id = _similar_song_id;
         temp.title = _title;
         temp.artist = _artist;
         temp.rating = _rating;
@@ -116,6 +119,7 @@ public class RecommendSongListAdapter extends BaseAdapter {
             holder.artistTextView = (TextView) convertView.findViewById(R.id.recommendArtistTextView);
             holder.ratingTextView = (TextView) convertView.findViewById(R.id.recommendRatingTextView);
             holder.genreTextView = (TextView) convertView.findViewById(R.id.recommendGenreTextView);
+            holder.similarSongTextView = (TextView) convertView.findViewById(R.id.similarSongTextView);
 
             holder.valenceButton = (Button) convertView.findViewById(R.id.recommendValenceButton);
             holder.speechinessButton = (Button) convertView.findViewById(R.id.recommendSpeechinessButton);
@@ -144,10 +148,22 @@ public class RecommendSongListAdapter extends BaseAdapter {
         holder.titleTextView.setText(mData.title);
         holder.artistTextView.setText(mData.artist);
 
+        if(mData.similar_song_id != null) {
+            if (mData.similar_song == null) {
+                new getTitleArtist(position, holder, mData).execute(SERVER_ADDRESS + SONG_API + SELECT_TITLE_ARTIST + "&id=" + mData.similar_song_id);
+            } else {
+                holder.similarSongTextView.setText(mData.similar_song);
+            }
+        } else {
+            holder.similarSongTextView.setVisibility(View.GONE);
+        }
+
         float rating = mData.rating;
         if(rating < maxRating) {
             rating = (float) (mData.rating/(20.0*maxRating/100));
             holder.ratingTextView.setText(String.format("%.1f", rating));
+        } else if(rating == 0) {
+            holder.ratingTextView.setText("  ?");
         } else {
             holder.ratingTextView.setText(5.0+"");
         }
@@ -263,7 +279,7 @@ public class RecommendSongListAdapter extends BaseAdapter {
                         Toast toast = Toast.makeText(mContext, rating+"/5.0점으로 평가되었습니다!", Toast.LENGTH_SHORT);
                         toast.show();
 
-                        userDTO.addRatingSoungCount();
+                        userDTO.addRatingSoungCount(mData.id, ratingInt);
 
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
@@ -427,11 +443,57 @@ public class RecommendSongListAdapter extends BaseAdapter {
         button.setBackgroundResource(R.drawable.rectangle_not_active);
     }
 
+    class getTitleArtist extends AsyncTask<String, String, String> {
+
+        private int mPosition;
+        private ViewHolder mHolder = null;
+        private RecommendSongData songData;
+
+        public getTitleArtist(int positon, ViewHolder holder, RecommendSongData mSongData){
+            this.mPosition = positon;
+            this.mHolder = holder;
+            this.songData = mSongData;
+        }
+
+        @Override
+        protected String doInBackground(String... url) {
+            return getStringFromUrl(url[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String songJSON) {
+            super.onPostExecute(songJSON);
+
+            try {
+                JSONParser jsonParser = new JSONParser();
+                JSONArray results = (JSONArray) jsonParser.parse(songJSON);
+                JSONObject result = (JSONObject) results.get(0);
+                String title = (String) result.get("title");
+                String artist = (String) result.get("artist");
+
+                String text = artist + "의\n " + title + " 노래와\n유사한 곡 입니다.";
+                songData.setSimilarSong(text);
+                if (mHolder.position == mPosition) {
+                    mHolder.similarSongTextView.setText(text);
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+    }
+
     public class ViewHolder {
         public ImageView albumImageView;
         public TextView titleTextView;
         public TextView artistTextView;
         public TextView ratingTextView;
+        public TextView similarSongTextView;
         public int position;
         public TextView genreTextView;
         public Button valenceButton;

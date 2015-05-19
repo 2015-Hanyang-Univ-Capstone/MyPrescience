@@ -266,7 +266,7 @@ public class MyPTopSongListAdapter extends BaseAdapter {
                         Toast toast = Toast.makeText(mContext, rating+"/5.0점으로 평가되었습니다!", Toast.LENGTH_SHORT);
                         toast.show();
 
-                        userDTO.addRatingSoungCount();
+                        userDTO.addRatingSoungCount(mData.id, ratingInt);
 
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {

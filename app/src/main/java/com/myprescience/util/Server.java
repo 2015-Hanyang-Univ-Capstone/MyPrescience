@@ -47,6 +47,7 @@ public class Server {
     static public String RESET_DATE = "resetUserData";
 
     static public String SONG_API = "/Song.php?query=";
+    static public String SELECT_TITLE_ARTIST = "selectTitleArtistWithId";
     static public String SONG_WITH_ID = "selectAllWithId&id=";
     static public String RANDOM_SONGS = "selectRanSongs";
     static public String SONG_WTIH_CLAUSE = "selectSongsWithClause&clause=";
@@ -75,6 +76,7 @@ public class Server {
     static public String CLAUSE = "&clause=AND%20";
     static public String RECOMMEND_SEARCH_SONGS_WITH_GENRE = "selectRecommendSearchSongsWithGenre&genre=";
     static public String EXEC_RECOMMEND_ALGORITHM = "execRecommendAlgorithm";
+    static public String INSERT_SIMILAR_SONG = "insertSimilarSong";
 
     static public String GENRES_API = "/Genres.php?query=";
     static public String INSERT_GENRE_DETAIL = "InsertGenreDetail";

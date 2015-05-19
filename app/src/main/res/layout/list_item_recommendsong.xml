@@ -29,6 +29,18 @@
                     android:adjustViewBounds="true" />
 
                 <TextView
+                    android:id="@+id/similarSongTextView"
+                    android:layout_width="120dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="right|top"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/trasparent_background"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:id="@+id/recommendSongDetailTextView"
                     android:layout_width="80dp"
                     android:layout_height="50dp"

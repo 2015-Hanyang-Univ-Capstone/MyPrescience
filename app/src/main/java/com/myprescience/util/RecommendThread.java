@@ -31,29 +31,35 @@ public class RecommendThread extends Thread {
     private UserData userDTO;
     private Context mContext;
     private String mUrl;
+    private int mMode;
 
-    public RecommendThread(Context _context, String _url) {
+    private int RECOMMEND_ALGOLITHM = 0, SIMILAR_SONG = 1;
+
+    public RecommendThread(Context _context, String _url, int _mode) {
         this.mContext = _context;
         this.mUrl = _url;
+        this.mMode = _mode;
         userDTO = new UserData(mContext);
     }
 
     @Override
     public void run() {
 
-        String recommendStr = getStringFromUrl(mUrl);
-        Log.e("recommendStr", recommendStr);
-        JSONParser jsonParser = new JSONParser();
-        JSONObject recommend = null;
-        if(recommendStr != null) {
-            try {
-                recommend = (JSONObject) jsonParser.parse(recommendStr.toString());
-                String result = (String) recommend.get("recommend");
-                String image_300 = (String) recommend.get("image_300");
+        if(mMode == RECOMMEND_ALGOLITHM) {
 
-                if(result.equals("true") && (String) recommend.get("image_300") != null) {
+            String recommendStr = getStringFromUrl(mUrl);
+            Log.e("recommendStr", recommendStr);
+            JSONParser jsonParser = new JSONParser();
+            JSONObject recommend = null;
+            if (recommendStr != null) {
+                try {
+                    recommend = (JSONObject) jsonParser.parse(recommendStr.toString());
+                    String result = (String) recommend.get("recommend");
+                    String image_300 = (String) recommend.get("image_300");
 
-                    Bitmap bigPicture = null;
+                    if (result.equals("true") && (String) recommend.get("image_300") != null) {
+
+                        Bitmap bigPicture = null;
                         try {
                             bigPicture = new ImageLoad(image_300).execute().get();
 //                        bigPicture = Bitmap.createScaledBitmap(bigPicture, 120, 120, false);
@@ -64,7 +70,6 @@ public class RecommendThread extends Thread {
                         } catch (ExecutionException e) {
                             e.printStackTrace();
                         }
-
 
 
 //                    NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -128,12 +133,20 @@ public class RecommendThread extends Thread {
                         mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
                         nm.notify(111, mBuilder.build());
 //                    }
-                }
+                    }
 
-            } catch (ParseException e) {
-                e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
+
+        } else if (mMode == SIMILAR_SONG) {
+
+            String similarStr = getStringFromUrl(mUrl);
+            Log.e("similarStr", similarStr);
+
         }
+
         recommRunning = false;
     }
 
