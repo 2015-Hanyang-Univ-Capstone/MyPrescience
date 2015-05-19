@@ -136,6 +136,7 @@ public class LoginActivity extends FragmentActivity {
             if(users != null) {
                 JSONObject user = (JSONObject) users.get(0);
                 userDTO.setId(Integer.parseInt((String) user.get("user_id")));
+                Log.e("user_id", userDTO.getId() + "is login." );
             }
             return null;
         }

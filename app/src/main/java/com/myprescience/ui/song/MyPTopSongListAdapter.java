@@ -8,7 +8,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,6 @@ import android.widget.Toast;
 
 import com.myprescience.R;
 import com.myprescience.dto.MypTopSongData;
-import com.myprescience.dto.RecommendSongData;
 import com.myprescience.dto.UserData;
 import com.myprescience.util.InsertUpdateQuery;
 
@@ -339,7 +337,13 @@ public class MyPTopSongListAdapter extends BaseAdapter {
                 connection.setDoInput(true);
                 connection.connect();
                 InputStream input = connection.getInputStream();
-                myBitmap = BitmapFactory.decodeStream(input);
+
+                BitmapFactory.Options option = new BitmapFactory.Options();
+                option.inSampleSize = 1;
+                option.inPurgeable = true;
+                option.inDither = true;
+
+                myBitmap = BitmapFactory.decodeStream(input, null, option);
             } catch (Exception e) {
                 e.printStackTrace();
             }

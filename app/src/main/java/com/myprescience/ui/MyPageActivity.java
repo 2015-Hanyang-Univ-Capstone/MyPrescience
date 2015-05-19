@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -27,6 +28,7 @@ import com.myprescience.ui.artist.MyArtistListActivity;
 import com.myprescience.ui.song.MySongListActivity;
 import com.myprescience.ui.song.SongListActivity;
 import com.myprescience.util.Indicator;
+import com.myprescience.util.InsertUpdateQuery;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -35,9 +37,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.myprescience.util.Server.LUCENE_API;
+import static com.myprescience.util.Server.RESET_DATE;
 import static com.myprescience.util.Server.SEARCH_SONGID;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SYNC_MODE;
+import static com.myprescience.util.Server.USER_API;
 import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.callByArrayParameters;
 
@@ -192,8 +196,8 @@ public class MyPageActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.search_menu, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
         return true;
     }
 
@@ -204,6 +208,10 @@ public class MyPageActivity extends ActionBarActivity {
             case android.R.id.home:
                 // NavUtils.navigateUpFromSameTask(this);
                 finish();
+                return true;
+            case R.id.action_reset:
+                // NavUtils.navigateUpFromSameTask(this);
+                new InsertUpdateQuery(getApplicationContext()).execute(SERVER_ADDRESS + USER_API + RESET_DATE + WITH_USER + userDTO.getId());
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -237,7 +245,7 @@ public class MyPageActivity extends ActionBarActivity {
             mDlg.setMessage("음악 동기화 시작.");
             publishProgress("max", Integer.toString(mMusiccursor.getCount()));
             mDlg.show();
-            Toast.makeText(mContext, "정보를 입력 중 입니다.\n완료한 후 알려드리겠습니다.", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "노래정보를 읽는 중 입니다.", Toast.LENGTH_LONG).show();
             super.onPreExecute();
         }
 
@@ -246,38 +254,43 @@ public class MyPageActivity extends ActionBarActivity {
 
             int taskCnt = mMusiccursor.getCount();
 
-            final List<NameValuePair> parameters = new ArrayList<>();
-            parameters.add(new BasicNameValuePair("user_id", userDTO.getId() + ""));
-            boolean delay = false;
+            if(taskCnt < 30) {
 
-            while(!delay && mMusiccursor.moveToNext()) {
-                delay = true;
-                count++;
-                int music_column_index = mMusiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
-                final String title = mMusiccursor.getString(music_column_index);
+                final List<NameValuePair> parameters = new ArrayList<>();
+                parameters.add(new BasicNameValuePair("user_id", userDTO.getId() + ""));
+                boolean delay = false;
 
-                music_column_index = mMusiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST);
-                final String artist = mMusiccursor.getString(music_column_index);
+                while (!delay && mMusiccursor.moveToNext()) {
+                    delay = true;
+                    count++;
+                    int music_column_index = mMusiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
+                    final String title = mMusiccursor.getString(music_column_index);
 
-                if(artist.equals("<unknown>") || artist.equals("FaceBook") || title.indexOf("Hangouts") != -1) {
+                    music_column_index = mMusiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST);
+                    final String artist = mMusiccursor.getString(music_column_index);
 
-                } else {
-                    parameters.add(new BasicNameValuePair("title[]", title));
-                    parameters.add(new BasicNameValuePair("artist[]", artist));
+                    if (artist.equals("<unknown>") || artist.equals("FaceBook") || title.indexOf("Hangouts") != -1) {
+
+                    } else {
+                        parameters.add(new BasicNameValuePair("title[]", title));
+                        parameters.add(new BasicNameValuePair("artist[]", artist));
+                    }
+
+                    publishProgress("progress", Integer.toString(count), title + "\n    " + artist);
+
+                    try {
+                        Thread.sleep(100);
+                        delay = false;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
 
-                publishProgress("progress", Integer.toString(count), title + "\n    " + artist);
+                new getSearchResult(getApplicationContext(), parameters, taskCnt).execute(
+                        SERVER_ADDRESS + LUCENE_API + SEARCH_SONGID + WITH_USER + userDTO.getId());
 
-                try {
-                    Thread.sleep(100);
-                    delay = false;
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
 
-            new getSearchResult(getApplicationContext(), parameters, taskCnt).execute(
-                    SERVER_ADDRESS + LUCENE_API + SEARCH_SONGID + WITH_USER + userDTO.getId());
             return taskCnt;
         }
 
@@ -296,8 +309,13 @@ public class MyPageActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(Integer result) {
-            mDlg.dismiss();
-            mIndicator.show();
+            if(result < 30) {
+                mDlg.dismiss();
+                mIndicator.show();
+            } else {
+                mDlg.dismiss();
+                Toast.makeText(mContext, "노래의 수가 많습니다. 아직 최적화가 안 되어 오래걸립니다. 다음에 업데이트 할 예정입니다.", Toast.LENGTH_LONG).show();
+            }
         }
     }
 

@@ -49,12 +49,11 @@ public class RecommendThread extends Thread {
             try {
                 recommend = (JSONObject) jsonParser.parse(recommendStr.toString());
                 String result = (String) recommend.get("recommend");
+                String image_300 = (String) recommend.get("image_300");
 
-                if(result.equals("true")) {
+                if(result.equals("true") && (String) recommend.get("image_300") != null) {
 
                     Bitmap bigPicture = null;
-                    if((String) recommend.get("image_300") != null) {
-                        String image_300 = (String) recommend.get("image_300");
                         try {
                             bigPicture = new ImageLoad(image_300).execute().get();
 //                        bigPicture = Bitmap.createScaledBitmap(bigPicture, 120, 120, false);
@@ -65,7 +64,7 @@ public class RecommendThread extends Thread {
                         } catch (ExecutionException e) {
                             e.printStackTrace();
                         }
-                    }
+
 
 
 //                    NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);

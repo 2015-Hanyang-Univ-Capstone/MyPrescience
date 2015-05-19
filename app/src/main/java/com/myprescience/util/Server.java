@@ -44,6 +44,8 @@ public class Server {
     static public String INSERT_FACEBOOK_ID = "insertUser&facebookId=";
     static public String USER_ID_WITH_FACEBOOK_ID = "searchUser&facebookId=";
 
+    static public String RESET_DATE = "resetUserData";
+
     static public String SONG_API = "/Song.php?query=";
     static public String SONG_WITH_ID = "selectAllWithId&id=";
     static public String RANDOM_SONGS = "selectRanSongs";

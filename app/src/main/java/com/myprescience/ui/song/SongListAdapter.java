@@ -226,7 +226,13 @@ public class SongListAdapter extends BaseAdapter{
                     connection.setDoInput(true);
                     connection.connect();
                     InputStream input = connection.getInputStream();
-                    myBitmap = BitmapFactory.decodeStream(input);
+
+                    BitmapFactory.Options option = new BitmapFactory.Options();
+                    option.inSampleSize = 1;
+                    option.inPurgeable = true;
+                    option.inDither = true;
+
+                    myBitmap = BitmapFactory.decodeStream(input, null, option);
 
                 } catch (Exception e) {
                     e.printStackTrace();
