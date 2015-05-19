@@ -21,6 +21,7 @@ import org.json.simple.parser.ParseException;
 import java.util.concurrent.ExecutionException;
 
 import static com.myprescience.util.Server.getStringFromUrl;
+import static com.myprescience.dto.UserData.recommRunning;
 
 /**
  * Created by dongjun on 15. 5. 9..
@@ -51,17 +52,19 @@ public class RecommendThread extends Thread {
 
                 if(result.equals("true")) {
 
-                    String image_300 = (String) recommend.get("image_300");
                     Bitmap bigPicture = null;
-                    try {
-                        bigPicture = new ImageLoad(image_300).execute().get();
+                    if((String) recommend.get("image_300") != null) {
+                        String image_300 = (String) recommend.get("image_300");
+                        try {
+                            bigPicture = new ImageLoad(image_300).execute().get();
 //                        bigPicture = Bitmap.createScaledBitmap(bigPicture, 120, 120, false);
 //                        int px_dp_256 = dpToPx(256);
-                        bigPicture = Bitmap.createScaledBitmap(bigPicture, 600, 300, true);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
+                            bigPicture = Bitmap.createScaledBitmap(bigPicture, 600, 300, true);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
                     }
 
 
@@ -132,6 +135,7 @@ public class RecommendThread extends Thread {
                 e.printStackTrace();
             }
         }
+        recommRunning = false;
     }
 
     public int dpToPx(int dp) {

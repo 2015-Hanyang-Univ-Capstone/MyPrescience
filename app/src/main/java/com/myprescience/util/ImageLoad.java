@@ -49,7 +49,13 @@ public class ImageLoad extends AsyncTask<Void, Void, Bitmap> {
             connection.setDoInput(true);
             connection.connect();
             InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+
+            BitmapFactory.Options option = new BitmapFactory.Options();
+            option.inSampleSize = 1;
+            option.inPurgeable = true;
+            option.inDither = true;
+
+            Bitmap myBitmap = BitmapFactory.decodeStream(input, null, option);
             return myBitmap;
         } catch (Exception e) {
             e.printStackTrace();

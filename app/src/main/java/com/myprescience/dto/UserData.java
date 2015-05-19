@@ -36,11 +36,13 @@ public class UserData {
     public void setName(String user_name) { this.USER_NAME = user_name; };
 
     static private int RatingSongCount = 0, triger = 15;
+    static public boolean recommRunning = false;
     public int getRatingSongCount() { return RatingSongCount; }
     public void setRatingSongCount(int ratingSongCount) { this.RatingSongCount = ratingSongCount; }
     public void addRatingSoungCount() {
         RatingSongCount++;
-        if(RatingSongCount % triger == 0) {
+        if(RatingSongCount % triger == 0 && !recommRunning) {
+            recommRunning = true;
             Log.e("ExecRecommend", SERVER_ADDRESS + RECOMMEND_API + EXEC_RECOMMEND_ALGORITHM + WITH_USER + USER_ID);
             new RecommendThread(mContext, SERVER_ADDRESS + RECOMMEND_API + EXEC_RECOMMEND_ALGORITHM + WITH_USER + USER_ID).start();
             triger = (triger * 2) + 10;
