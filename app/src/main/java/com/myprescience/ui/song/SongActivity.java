@@ -441,18 +441,36 @@ public class SongActivity extends YouTubeBaseActivity {
                 int timeSignature = Integer.parseInt((String)song.get("time_signature"));
                 double duration = Math.round(Double.parseDouble((String)song.get("duration"))*100) / 100.0;
                 int songMode = Integer.parseInt((String)song.get("song_mode"));
-                int songKey = Integer.parseInt((String)song.get("song_key"));
+                int songKey = Integer.parseInt((String) song.get("song_key"));
 
-                int valence = Math.round(Float.parseFloat((String)song.get("valence"))*100);
-                int loudness = Math.round(Float.parseFloat((String)song.get("loudness"))*100);
-                int danceability = Math.round(Float.parseFloat((String)song.get("danceability"))*100);
-                int energy = Math.round(Float.parseFloat((String)song.get("energy"))*100);
-                int liveness = Math.round(Float.parseFloat((String)song.get("liveness"))*100);
-                int speechiness = Math.round(Float.parseFloat((String)song.get("speechiness"))*100);
-                int acousticness = Math.round(Float.parseFloat((String)song.get("acousticness"))*100);
-                int instrumentalness = 0;
-                if(song.get("instrumentalness") != null)
-                    instrumentalness = Math.round(Float.parseFloat((String)song.get("instrumentalness"))*100);
+                float valence = (float)0.5;
+                if((String) song.get("valence") != null)
+                    valence = Float.parseFloat((String) song.get("valence"));
+
+
+                float danceability = (float)0.5;
+                if((String) song.get("danceability") != null)
+                    danceability = Float.parseFloat((String) song.get("danceability"));
+
+                float energy = (float)0.5;
+                if((String) song.get("energy") != null)
+                    energy = Float.parseFloat((String) song.get("energy"));
+
+                float liveness = (float)0.5;
+                if((String) song.get("liveness") != null)
+                    liveness = Float.parseFloat((String) song.get("liveness"));
+
+                float speechiness = (float)0.5;
+                if((String) song.get("speechiness") != null)
+                    speechiness = Float.parseFloat((String) song.get("speechiness"));
+
+                float acousticness = (float)0.5;
+                if((String) song.get("acousticness") != null)
+                    acousticness = Float.parseFloat((String) song.get("acousticness"));
+
+                float instrumentalness = (float)0.5;
+                if((String) song.get("instrumentalness") != null)
+                    instrumentalness = Float.parseFloat((String) song.get("instrumentalness"));
 
                 titleTextView.setText(title);
                 artistTextView.setText(artist);
@@ -811,17 +829,17 @@ public class SongActivity extends YouTubeBaseActivity {
         }
     }
 
-    private void setSongPropertyText(TextView propertyTextView, int property) {
+    private void setSongPropertyText(TextView propertyTextView, float property) {
 
         int px = 0;
         Log.e("Tag", (String) propertyTextView.getTag());
         String[] propertyText = ((String) propertyTextView.getTag()).split("#");
 
-        if(property >= 50) {
-            if (property >= 80) {
+        if(property >= 0.5) {
+            if (property >= 0.8) {
                 propertyTextView.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_DeviceDefault_Large);
                 px = 10;
-            } else if (property >= 60 && property < 80) {
+            } else if (property >= 0.6 && property < 0.8) {
                 propertyTextView.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_DeviceDefault_Medium);
                 px = 5;
             } else {
@@ -831,10 +849,10 @@ public class SongActivity extends YouTubeBaseActivity {
             propertyTextView.setText(propertyText[0]);
             setActiveView(propertyTextView, px);
         } else {
-            if(property < 20) {
+            if(property < 0.2) {
                 propertyTextView.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_DeviceDefault_Large);
                 px = 10;
-            } else if(property >= 20 && property < 40) {
+            } else if(property >= 0.2 && property < 0.4) {
                 propertyTextView.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_DeviceDefault_Medium);
                 px = 5;
             } else {

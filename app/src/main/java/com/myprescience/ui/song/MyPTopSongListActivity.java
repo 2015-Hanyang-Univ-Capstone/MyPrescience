@@ -148,14 +148,32 @@ public class MyPTopSongListActivity extends ActionBarActivity {
                     if (avg_ratingStr != null)
                         avg_rating = Float.parseFloat(avg_ratingStr);
 
-                    float valence = Float.parseFloat((String) song.get("valence"));
-                    float danceability = Float.parseFloat((String) song.get("danceability"));
-                    float energy = Float.parseFloat((String) song.get("energy"));
-                    float liveness = Float.parseFloat((String) song.get("liveness"));
-                    float speechiness = Float.parseFloat((String) song.get("speechiness"));
-                    float acousticness = Float.parseFloat((String) song.get("acousticness"));
-                    float instrumentalness = 0;
-                    if(song.get("instrumentalness") != null)
+                    float valence = (float)0.5;
+                    if((String) song.get("valence") != null)
+                        valence = Float.parseFloat((String) song.get("valence"));
+
+                    float danceability = (float)0.5;
+                    if((String) song.get("danceability") != null)
+                        danceability = Float.parseFloat((String) song.get("danceability"));
+
+                    float energy = (float)0.5;
+                    if((String) song.get("energy") != null)
+                        energy = Float.parseFloat((String) song.get("energy"));
+
+                    float liveness = (float)0.5;
+                    if((String) song.get("liveness") != null)
+                        liveness = Float.parseFloat((String) song.get("liveness"));
+
+                    float speechiness = (float)0.5;
+                    if((String) song.get("speechiness") != null)
+                        speechiness = Float.parseFloat((String) song.get("speechiness"));
+
+                    float acousticness = (float)0.5;
+                    if((String) song.get("acousticness") != null)
+                        acousticness = Float.parseFloat((String) song.get("acousticness"));
+
+                    float instrumentalness = (float)0.5;
+                    if((String) song.get("instrumentalness") != null)
                         instrumentalness = Float.parseFloat((String) song.get("instrumentalness"));
 
                     mMyPTopSongListAdapter.addItem(id, spotifyArtistID, spotifyAlbumID, title, artist, user_rating, avg_rating, genres,

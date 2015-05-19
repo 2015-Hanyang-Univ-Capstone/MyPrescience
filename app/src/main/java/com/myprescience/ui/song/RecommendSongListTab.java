@@ -14,21 +14,20 @@ import android.widget.AbsListView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
-import static com.myprescience.util.Server.RECOMMEND_API;
-import static com.myprescience.util.Server.RECOMMEND_SONGS;
-import static com.myprescience.util.Server.SERVER_ADDRESS;
-import static com.myprescience.util.Server.WITH_USER;
-import static com.myprescience.util.Server.getStringFromUrl;
-
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
-import com.myprescience.ui.MyPrescienceActivity;
 import com.myprescience.util.Indicator;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import static com.myprescience.util.Server.RECOMMEND_API;
+import static com.myprescience.util.Server.RECOMMEND_SONGS;
+import static com.myprescience.util.Server.SERVER_ADDRESS;
+import static com.myprescience.util.Server.WITH_USER;
+import static com.myprescience.util.Server.getStringFromUrl;
 
 @SuppressLint("ValidFragment")
 public class RecommendSongListTab extends Fragment {
@@ -159,13 +158,33 @@ public class RecommendSongListTab extends Fragment {
                         rating = Integer.parseInt(ratingStr);
                     }
 
-                    float valence = Float.parseFloat((String) song.get("valence"));
-                    float danceability = Float.parseFloat((String) song.get("danceability"));
-                    float energy = Float.parseFloat((String) song.get("energy"));
-                    float liveness = Float.parseFloat((String) song.get("liveness"));
-                    float speechiness = Float.parseFloat((String) song.get("speechiness"));
-                    float acousticness = Float.parseFloat((String) song.get("acousticness"));
-                    float instrumentalness = Float.parseFloat((String) song.get("instrumentalness"));
+                    float valence = (float)0.5;
+                    if((String) song.get("valence") != null)
+                        valence = Float.parseFloat((String) song.get("valence"));
+
+                    float danceability = (float)0.5;
+                    if((String) song.get("danceability") != null)
+                        danceability = Float.parseFloat((String) song.get("danceability"));
+
+                    float energy = (float)0.5;
+                    if((String) song.get("energy") != null)
+                        energy = Float.parseFloat((String) song.get("energy"));
+
+                    float liveness = (float)0.5;
+                    if((String) song.get("liveness") != null)
+                        liveness = Float.parseFloat((String) song.get("liveness"));
+
+                    float speechiness = (float)0.5;
+                    if((String) song.get("speechiness") != null)
+                        speechiness = Float.parseFloat((String) song.get("speechiness"));
+
+                    float acousticness = (float)0.5;
+                    if((String) song.get("acousticness") != null)
+                        acousticness = Float.parseFloat((String) song.get("acousticness"));
+
+                    float instrumentalness = (float)0.5;
+                    if((String) song.get("instrumentalness") != null)
+                        instrumentalness = Float.parseFloat((String) song.get("instrumentalness"));
 
                     mRecommendSongListAdapter.addItem(id, spotifyArtistID, spotifyAlbumID, title, artist, rating, genres, song_type,
                             valence, danceability, energy, liveness, speechiness, acousticness, instrumentalness);

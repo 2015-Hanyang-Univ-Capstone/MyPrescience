@@ -6,11 +6,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.widget.RemoteViews;
 
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
@@ -57,31 +55,57 @@ public class RecommendThread extends Thread {
                     Bitmap bigPicture = null;
                     try {
                         bigPicture = new ImageLoad(image_300).execute().get();
-                        bigPicture = Bitmap.createScaledBitmap(bigPicture, 120, 120, false);
+//                        bigPicture = Bitmap.createScaledBitmap(bigPicture, 120, 120, false);
 //                        int px_dp_256 = dpToPx(256);
-//                        bigPicture = Bitmap.createScaledBitmap(bigPicture, px_dp_256, px_dp_256, true);
+                        bigPicture = Bitmap.createScaledBitmap(bigPicture, 600, 300, true);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     }
 
-                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 
-                        Notification myNotification = new Notification();
+//                    NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+//                    PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, new Intent(mContext, MyPrescienceActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//                    RemoteViews views;
+//                    views = new RemoteViews(mContext.getPackageName(), R.layout.remote_notifyimage);
+//                    views.setImageViewBitmap(R.id.big_picture, bigPicture);
+//
+//                    Notification notification = new Notification(R.drawable.icon_recom_complete,
+//                            userDTO.getName() + "님 음악분석이 완료되었습니다.", System.currentTimeMillis());
+//
+//                    // These flags should be self explanatory
+//                    notification.flags |= Notification.FLAG_NO_CLEAR;
+//                    notification.flags |= Notification.FLAG_ONGOING_EVENT;
+//
+//                    // This is where you select the xml for you custm view
+//
+//                    notification.contentView   = views;
+//                    notification.contentIntent = pendingIntent;
+//
+////                    mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
+//                    nm.notify(111, notification);
 
-                        RemoteViews views;
-                        views = new RemoteViews(mContext.getPackageName(), R.layout.remote_notifyimage);
-                        views.setImageViewBitmap(R.id.big_picture, bigPicture);
-                        myNotification.bigContentView = views;
-
-                        NotificationManager notificationManager = (NotificationManager)
-                                mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-
-                        notificationManager.notify(111, myNotification);
-
-                    } else {
-
+//                    NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+//                    PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, new Intent(mContext, MyPrescienceActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//                    Notification myNotification = new Notification();
+//
+//                    RemoteViews views;
+//                    views = new RemoteViews(mContext.getPackageName(), R.layout.remote_notifyimage);
+//                    views.setImageViewBitmap(R.id.big_picture, bigPicture);
+//                    views.setOnClickPendingIntent(R.id.big_picture, pendingIntent);
+//                    myNotification.bigContentView = views;
+//
+//                    nm.notify(111, myNotification);
+//
+//                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//
+//
+//
+//                    } else {
+//
                         NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
                         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, new Intent(mContext, MyPrescienceActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -101,7 +125,7 @@ public class RecommendThread extends Thread {
                         mBuilder.setStyle(bigStyle);
                         mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
                         nm.notify(111, mBuilder.build());
-                    }
+//                    }
                 }
 
             } catch (ParseException e) {
