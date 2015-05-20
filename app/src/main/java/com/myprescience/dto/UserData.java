@@ -39,7 +39,7 @@ public class UserData {
 
     public static int RatingSongCount = 0, triger = 15;
     private int RECOMMEND_ALGORITHM = 0, SIMILAR_SONG = 1;
-    static public boolean recommRunning = false;
+    static public boolean recommRunning = false, similarRunning = false;
     public int getRatingSongCount() { return RatingSongCount; }
     public void setRatingSongCount(int ratingSongCount) { this.RatingSongCount = ratingSongCount; }
     public void addRatingSoungCount(String song_id, int rating) {
@@ -48,8 +48,8 @@ public class UserData {
 
         RatingSongCount++;
 
-        if(rating > 9 && !recommRunning) {
-            recommRunning = true;
+        if(rating > 8 && !similarRunning) {
+            similarRunning = true;
             new RecommendThread(mContext, SERVER_ADDRESS + RECOMMEND_API + INSERT_SIMILAR_SONG
                     + WITH_USER + getId() + "&song_id=" + song_id, SIMILAR_SONG).start();
         } else if(RatingSongCount % triger == 0 && !recommRunning) {

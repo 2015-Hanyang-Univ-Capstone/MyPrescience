@@ -20,6 +20,7 @@ import org.json.simple.parser.ParseException;
 
 import java.util.concurrent.ExecutionException;
 
+import static com.myprescience.dto.UserData.similarRunning;
 import static com.myprescience.util.Server.getStringFromUrl;
 import static com.myprescience.dto.UserData.recommRunning;
 
@@ -140,14 +141,18 @@ public class RecommendThread extends Thread {
                 }
             }
 
+            recommRunning = false;
+
         } else if (mMode == SIMILAR_SONG) {
 
             String similarStr = getStringFromUrl(mUrl);
             Log.e("similarStr", similarStr);
 
+            similarRunning = false;
+
         }
 
-        recommRunning = false;
+
     }
 
     public int dpToPx(int dp) {
