@@ -1,8 +1,6 @@
-package com.myprescience.ui;
+package com.myprescience.ui.main;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -32,6 +30,7 @@ import com.myprescience.dto.UserData;
 import com.myprescience.search.SearchListActivity;
 import com.myprescience.ui.album.AlbumListAdapter;
 import com.myprescience.ui.album.LatestAlbumListActivity;
+import com.myprescience.ui.mix_play.MixPlayActivity;
 import com.myprescience.ui.song.MyPTopSongListActivity;
 import com.myprescience.ui.song.SongActivity;
 import com.myprescience.ui.song.SongListActivity;
@@ -49,13 +48,13 @@ import java.util.ArrayList;
 import static com.myprescience.util.PixelUtil.getProperImage;
 import static com.myprescience.util.Server.ALBUM_API;
 import static com.myprescience.util.Server.MYP_HOT_SONGS;
-import static com.myprescience.util.Server.TODAY_SONG_MODE;
 import static com.myprescience.util.Server.RATING_API;
 import static com.myprescience.util.Server.SELECT_MAIN_LATEST_ALBUMS;
 import static com.myprescience.util.Server.SELECT_SONG_COUNT;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SONG_API;
 import static com.myprescience.util.Server.SPOTIFY_API;
+import static com.myprescience.util.Server.TODAY_SONG_MODE;
 import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.getStringFromUrl;
 
@@ -158,16 +157,8 @@ public class MainActivity extends ActionBarActivity
         mMixPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
-                alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();     //닫기
-                    }
-                });
-                alert.setMessage("추후 추가 예정입니다.");
-                alert.show();
-                return;
+                Intent intent = new Intent(MainActivity.this, MixPlayActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -272,6 +263,9 @@ public class MainActivity extends ActionBarActivity
         if (id == R.id.action_search) {
             Intent intent = new Intent(this, SearchListActivity.class);
             startActivity(intent);
+            return true;
+        } else if (id == R.id.action_bell) {
+            Log.e("Bell", "아티스트에 대한 소식을 알림.");
             return true;
         }
 

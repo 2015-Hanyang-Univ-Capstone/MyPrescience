@@ -1,4 +1,4 @@
-package com.myprescience.ui;
+package com.myprescience.ui.main;
 
 /**
  * Created by dongjun on 15. 4. 17..

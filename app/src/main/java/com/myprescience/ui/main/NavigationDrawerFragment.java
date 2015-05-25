@@ -1,4 +1,4 @@
-package com.myprescience.ui;
+package com.myprescience.ui.main;
 
 import android.app.Activity;
 import android.content.SharedPreferences;

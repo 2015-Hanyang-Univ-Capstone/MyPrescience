@@ -1,7 +1,4 @@
-package com.myprescience.ui;
-
-import java.util.Arrays;
-import java.util.List;
+package com.myprescience.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +13,9 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
 import com.myprescience.R;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * facebook 로그인용 fragment

@@ -12,7 +12,7 @@ import android.util.Log;
 
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
-import com.myprescience.ui.MyPrescienceActivity;
+import com.myprescience.ui.main.MyPrescienceActivity;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

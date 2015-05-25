@@ -353,7 +353,7 @@ public class SearchSongTab extends Fragment {
                         String similarSongID = (String) song.get("similar_song_id");
                         String title = (String) song.get("title");
                         String artist = (String) song.get("artist");
-                        String spotifyAlbumID = "albums/" + (String) song.get("album_spotify_id");
+                        String image_300 = (String) song.get("image_300");
                         String genres = (String) song.get("genres");
                         String song_type = (String) song.get("song_type");
                         String ratingStr = (String) song.get("rating");
@@ -371,7 +371,7 @@ public class SearchSongTab extends Fragment {
                         float instrumentalness = 0;
                         if (song.get("instrumentalness") != null)
                             instrumentalness = Float.parseFloat((String) song.get("instrumentalness"));
-                        mRecommendSongListAdapter.addItem(id, spotifyArtistID, spotifyAlbumID, similarSongID, title, artist, rating, genres, song_type,
+                        mRecommendSongListAdapter.addItem(id, spotifyArtistID, image_300, similarSongID, title, artist, rating, genres, song_type,
                                 valence, danceability, energy, liveness, speechiness, acousticness, instrumentalness);
                     }
                     mRecommendSongListAdapter.notifyDataSetChanged();

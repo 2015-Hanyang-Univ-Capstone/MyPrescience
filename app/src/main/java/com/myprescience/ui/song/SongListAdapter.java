@@ -22,13 +22,8 @@ import android.widget.Toast;
 import com.myprescience.R;
 import com.myprescience.dto.SongData;
 import com.myprescience.dto.UserData;
-import com.myprescience.util.ViewHolder;
 import com.myprescience.util.InsertUpdateQuery;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import com.myprescience.util.ViewHolder;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -38,8 +33,6 @@ import java.util.ArrayList;
 import static com.myprescience.util.Server.INSERT_RATING;
 import static com.myprescience.util.Server.RATING_API;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
-import static com.myprescience.util.Server.SPOTIFY_API;
-import static com.myprescience.util.Server.getStringFromUrl;
 
 /**
  * Created by hyeon-seob on 15. 3. 4..
@@ -121,11 +114,11 @@ public class SongListAdapter extends BaseAdapter{
 
         // 앨범아트 가져오기
         // Spotify에 앨범아트 정보가 있을 경우
-        if(!(mData.albumUrl).equals("albums/")) {
+        if(!(mData.albumUrl).equals("")) {
             if(mData.albumArt == null) {
                 holder.albumImageView.setImageResource(R.drawable.image_loading);
                 try {
-                    new LoadAlbumArt(position, holder, mData).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, SPOTIFY_API + mData.albumUrl);
+                    new LoadAlbumArt(position, holder, mData).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mData.albumUrl);
                 } catch (Exception e) { e.printStackTrace(); }
             }
             else
@@ -203,39 +196,26 @@ public class SongListAdapter extends BaseAdapter{
 
         @Override
         protected Bitmap doInBackground(String... url) {
-            String spotifyAlbumJSON = getStringFromUrl(url[0]);
 
-            JSONParser jsonParser = new JSONParser();
-            JSONObject album = null;
-            try {
-                album = (JSONObject) jsonParser.parse(spotifyAlbumJSON);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            JSONArray images = (JSONArray) album.get("images");
             Bitmap myBitmap = null;
-            if(images.size() != 0) {
-                JSONObject image = (JSONObject) images.get(images.size()-1);
-                // Image 역시 UI Thread에서 바로 작업 불가.
-                try {
-                    URL urlConnection = new URL((String) image.get("url"));
-                    HttpURLConnection connection = (HttpURLConnection) urlConnection
-                            .openConnection();
-                    connection.setDoInput(true);
-                    connection.connect();
-                    InputStream input = connection.getInputStream();
 
-                    BitmapFactory.Options option = new BitmapFactory.Options();
-                    option.inSampleSize = 1;
-                    option.inPurgeable = true;
-                    option.inDither = true;
+            try {
+                URL urlConnection = new URL(url[0]);
+                HttpURLConnection connection = (HttpURLConnection) urlConnection
+                        .openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
 
-                    myBitmap = BitmapFactory.decodeStream(input, null, option);
+                BitmapFactory.Options option = new BitmapFactory.Options();
+                option.inSampleSize = 1;
+                option.inPurgeable = true;
+                option.inDither = true;
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                myBitmap = BitmapFactory.decodeStream(input, null, option);
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             return myBitmap;
         }

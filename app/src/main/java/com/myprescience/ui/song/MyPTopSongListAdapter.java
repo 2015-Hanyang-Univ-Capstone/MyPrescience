@@ -40,13 +40,11 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-import static com.myprescience.util.PixelUtil.getProperImage;
 import static com.myprescience.util.Server.GENRES_API;
 import static com.myprescience.util.Server.INSERT_RATING;
 import static com.myprescience.util.Server.RATING_API;
 import static com.myprescience.util.Server.SELECT_GENRE_WITH_DETAIL;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
-import static com.myprescience.util.Server.SPOTIFY_API;
 import static com.myprescience.util.Server.getStringFromUrl;
 
 /**
@@ -148,11 +146,11 @@ public class MyPTopSongListAdapter extends BaseAdapter {
 
         // 앨범아트 가져오기
         // Spotify에 앨범아트 정보가 있을 경우
-        if(!(mData.albumUrl).equals("albums/")) {
+        if(!(mData.albumUrl).equals("")) {
             if(mData.albumArt == null) {
                 holder.albumImageView.setImageResource(R.drawable.image_loading);
                 try {
-                    new LoadAlbumArt(position, holder, mData).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, SPOTIFY_API + mData.albumUrl);
+                    new LoadAlbumArt(position, holder, mData).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mData.albumUrl);
                 } catch (Exception e) { e.printStackTrace(); }
             }
             else
@@ -315,23 +313,11 @@ public class MyPTopSongListAdapter extends BaseAdapter {
 
         @Override
         protected Bitmap doInBackground(String... url) {
-            String spotifyAlbumJSON = getStringFromUrl(url[0]);
-
-            JSONParser jsonParser = new JSONParser();
-            JSONObject album = null;
-            try {
-                album = (JSONObject) jsonParser.parse(spotifyAlbumJSON);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            JSONArray images = (JSONArray) album.get("images");
-            JSONObject image = getProperImage(images, mHolder.albumImageView.getWidth());
 
             // Image 역시 UI Thread에서 바로 작업 불가.
             Bitmap myBitmap = null;
             try {
-                URL urlConnection = new URL((String)image.get("url"));
+                URL urlConnection = new URL(url[0]);
                 HttpURLConnection connection = (HttpURLConnection) urlConnection
                         .openConnection();
                 connection.setDoInput(true);

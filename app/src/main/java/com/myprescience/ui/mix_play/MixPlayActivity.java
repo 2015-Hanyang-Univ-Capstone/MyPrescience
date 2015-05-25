@@ -1,9 +1,7 @@
-package com.myprescience.ui;
+package com.myprescience.ui.mix_play;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
@@ -15,17 +13,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
-import com.myprescience.ui.album.MyAlbumListActivity;
-import com.myprescience.ui.artist.MyArtistListActivity;
-import com.myprescience.ui.song.MySongListActivity;
 import com.myprescience.ui.song.SongListActivity;
 import com.myprescience.util.Indicator;
 import com.myprescience.util.InsertUpdateQuery;
@@ -49,12 +42,9 @@ import static com.myprescience.util.Server.callByArrayParameters;
 /**
  * Created by dongjun on 15. 4. 6..
  */
-public class MyPageActivity extends ActionBarActivity {
+public class MixPlayActivity extends ActionBarActivity {
 
     private UserData userDTO;
-    private GridView gridView;
-    private int userId;
-    private boolean mLockListView = false;
 
     private LinearLayout mMyInfoButton, mMp3SyncButton, mAnalizeButton,
                         mMySongButton, mMyAlbumButton, mMyArtistButton;
@@ -64,83 +54,12 @@ public class MyPageActivity extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mypage);
-        setActionBar(R.string.title_section4);
+        setContentView(R.layout.activity_mix_play);
+        setActionBar(R.string.title_activity_MixPlay);
         userDTO = new UserData(getApplicationContext());
 
         mIndicator = new Indicator(this);
 
-//        facebook_profile = (ImageView) findViewById(R.id.profileImageView);
-//        facebook_profile.setImageDrawable(getFACEBOOK_PROFILE_BITMAP());
-
-        mMyInfoButton = (LinearLayout) findViewById(R.id.myInfoButton);
-        mMyInfoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(MyPageActivity.this);
-                alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();     //닫기
-                    }
-                });
-                alert.setMessage("추후 추가 예정입니다.");
-                alert.show();
-                return;
-            }
-        });
-
-        mMp3SyncButton = (LinearLayout) findViewById(R.id.mp3SyncButton);
-        mMp3SyncButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                syncLocalMusicFile();
-            }
-        });
-
-        mAnalizeButton = (LinearLayout) findViewById(R.id.analizeSongButton);
-        mAnalizeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(MyPageActivity.this);
-                alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();     //닫기
-                    }
-                });
-                alert.setMessage("추후 추가 예정입니다.");
-                alert.show();
-                return;
-            }
-        });
-
-        mMySongButton = (LinearLayout) findViewById(R.id.mySongButton);
-        mMySongButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MyPageActivity.this, MySongListActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        mMyAlbumButton = (LinearLayout) findViewById(R.id.myAlbumButton);
-        mMyAlbumButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MyPageActivity.this, MyAlbumListActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        mMyArtistButton = (LinearLayout) findViewById(R.id.myArtistButton);
-        mMyArtistButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MyPageActivity.this, MyArtistListActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     private void setActionBar(int title) {
@@ -162,7 +81,7 @@ public class MyPageActivity extends ActionBarActivity {
 
     private void syncLocalMusicFile() {
 
-        new syncLocalMP3File(MyPageActivity.this).execute(100);
+        new syncLocalMP3File(MixPlayActivity.this).execute(100);
 
 //        ProgressDialog progressDialog = new ProgressDialog(MyPageActivity.this);
 //
@@ -344,7 +263,7 @@ public class MyPageActivity extends ActionBarActivity {
             super.onPostExecute(syncJSON);
 
             mIndicator.hide();
-            Intent intent = new Intent(MyPageActivity.this, SongListActivity.class);
+            Intent intent = new Intent(MixPlayActivity.this, SongListActivity.class);
             intent.putExtra("syncJSON", syncJSON);
             intent.putExtra("mode", SYNC_MODE);
             startActivity(intent);

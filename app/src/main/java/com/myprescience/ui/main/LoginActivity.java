@@ -1,4 +1,4 @@
-package com.myprescience.ui;
+package com.myprescience.ui.main;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -7,6 +7,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 import com.facebook.AppEventsLogger;
@@ -42,6 +45,7 @@ public class LoginActivity extends FragmentActivity {
     private MainFragment mainFragment;
     private Button guestButton;
     private UserData userDTO;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +115,12 @@ public class LoginActivity extends FragmentActivity {
 //                finish();
 //            }
 //        });
+    }
+
+    private void viewFadeIn(View layout) {
+        Animation animation = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.abc_fade_in);
+        layout.startAnimation(animation);
+        layout.setVisibility(View.VISIBLE);
     }
 
     public void initSetting(GraphUser user) {

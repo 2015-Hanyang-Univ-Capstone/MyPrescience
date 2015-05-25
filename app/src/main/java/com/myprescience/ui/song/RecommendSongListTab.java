@@ -148,54 +148,59 @@ public class RecommendSongListTab extends Fragment {
                 for (int i = mListCount; i < mListCount + mListAddCount; i++) {
                     JSONObject song = (JSONObject) jsonParser.parse(mSongArray.get(i).toString());
 
-                    String id = (String) song.get("id");
-                    String spotifyArtistID = (String) song.get("artist_spotify_id");
-                    String similarSongID = (String) song.get("similar_song_id");
-                    String title = (String) song.get("title");
-                    String artist = (String) song.get("artist");
-                    String spotifyAlbumID = "albums/" + (String) song.get("album_spotify_id");
-                    String genres = (String) song.get("genres");
-                    String song_type = (String) song.get("song_type");
-                    String ratingStr = (String) song.get("rating");
-                    int rating = 0;
-                    if (ratingStr != null) {
-                        rating = Integer.parseInt(ratingStr);
+                    if(i == 0) {
+                        int maxRating = Integer.parseInt((String) song.get("max_rating"));
+                        mRecommendSongListAdapter.setMaxRating(maxRating);
+                    } else {
+
+                        String id = (String) song.get("id");
+                        String spotifyArtistID = (String) song.get("artist_spotify_id");
+                        String similarSongID = (String) song.get("similar_song_id");
+                        String title = (String) song.get("title");
+                        String artist = (String) song.get("artist");
+                        String image_300 = (String) song.get("image_300");
+                        String genres = (String) song.get("genres");
+                        String song_type = (String) song.get("song_type");
+                        String ratingStr = (String) song.get("rating");
+                        int rating = 0;
+                        if (ratingStr != null) {
+                            rating = Integer.parseInt(ratingStr);
+                        }
+
+                        float valence = (float) 0.5;
+                        if ((String) song.get("valence") != null)
+                            valence = Float.parseFloat((String) song.get("valence"));
+
+                        float danceability = (float) 0.5;
+                        if ((String) song.get("danceability") != null)
+                            danceability = Float.parseFloat((String) song.get("danceability"));
+
+                        float energy = (float) 0.5;
+                        if ((String) song.get("energy") != null)
+                            energy = Float.parseFloat((String) song.get("energy"));
+
+                        float liveness = (float) 0.5;
+                        if ((String) song.get("liveness") != null)
+                            liveness = Float.parseFloat((String) song.get("liveness"));
+
+                        float speechiness = (float) 0.5;
+                        if ((String) song.get("speechiness") != null)
+                            speechiness = Float.parseFloat((String) song.get("speechiness"));
+
+                        float acousticness = (float) 0.5;
+                        if ((String) song.get("acousticness") != null)
+                            acousticness = Float.parseFloat((String) song.get("acousticness"));
+
+                        float instrumentalness = (float) 0.5;
+                        if ((String) song.get("instrumentalness") != null)
+                            instrumentalness = Float.parseFloat((String) song.get("instrumentalness"));
+
+                        mRecommendSongListAdapter.addItem(id, spotifyArtistID, image_300, similarSongID, title, artist, rating, genres, song_type,
+                                valence, danceability, energy, liveness, speechiness, acousticness, instrumentalness);
                     }
-
-                    float valence = (float)0.5;
-                    if((String) song.get("valence") != null)
-                        valence = Float.parseFloat((String) song.get("valence"));
-
-                    float danceability = (float)0.5;
-                    if((String) song.get("danceability") != null)
-                        danceability = Float.parseFloat((String) song.get("danceability"));
-
-                    float energy = (float)0.5;
-                    if((String) song.get("energy") != null)
-                        energy = Float.parseFloat((String) song.get("energy"));
-
-                    float liveness = (float)0.5;
-                    if((String) song.get("liveness") != null)
-                        liveness = Float.parseFloat((String) song.get("liveness"));
-
-                    float speechiness = (float)0.5;
-                    if((String) song.get("speechiness") != null)
-                        speechiness = Float.parseFloat((String) song.get("speechiness"));
-
-                    float acousticness = (float)0.5;
-                    if((String) song.get("acousticness") != null)
-                        acousticness = Float.parseFloat((String) song.get("acousticness"));
-
-                    float instrumentalness = (float)0.5;
-                    if((String) song.get("instrumentalness") != null)
-                        instrumentalness = Float.parseFloat((String) song.get("instrumentalness"));
-
-                    mRecommendSongListAdapter.addItem(id, spotifyArtistID, spotifyAlbumID, similarSongID, title, artist, rating, genres, song_type,
-                            valence, danceability, energy, liveness, speechiness, acousticness, instrumentalness);
                 }
-                if (mRecommendSongListAdapter.getCount() > 4) {
-                    mRecommendSongListAdapter.notifyDataSetChanged();
-                }
+
+                mRecommendSongListAdapter.notifyDataSetChanged();
                 if (mIndicator.isShowing())
                     mIndicator.hide();
 

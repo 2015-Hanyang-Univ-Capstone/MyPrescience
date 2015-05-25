@@ -8,6 +8,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-import static com.myprescience.util.PixelUtil.getProperImage;
 import static com.myprescience.util.Server.GENRES_API;
 import static com.myprescience.util.Server.INSERT_RATING;
 import static com.myprescience.util.Server.RATING_API;
@@ -48,7 +48,6 @@ import static com.myprescience.util.Server.SELECT_GENRE_WITH_DETAIL;
 import static com.myprescience.util.Server.SELECT_TITLE_ARTIST;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SONG_API;
-import static com.myprescience.util.Server.SPOTIFY_API;
 import static com.myprescience.util.Server.getStringFromUrl;
 
 /**
@@ -62,7 +61,7 @@ public class RecommendSongListAdapter extends BaseAdapter {
     private ArrayList<RecommendSongData> mListData = new ArrayList<>();
     private ViewHolder holder;
     private float ACTIVE_NUM = (float) 0.75;
-    private int maxRating = 150;
+    private static int maxRating;
 
     public RecommendSongListAdapter(Context mContext, int _userId) {
         super();
@@ -106,6 +105,10 @@ public class RecommendSongListAdapter extends BaseAdapter {
         mListData.add(temp);
     }
 
+    public void setMaxRating(int _maxRating) {
+        this.maxRating = _maxRating;
+    }
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
@@ -142,13 +145,10 @@ public class RecommendSongListAdapter extends BaseAdapter {
 
         final RecommendSongData mData = mListData.get(position);
 
-        if(position == 0)
-            maxRating = mData.rating;
-
         holder.titleTextView.setText(mData.title);
         holder.artistTextView.setText(mData.artist);
 
-        if(mData.similar_song_id != null) {
+        if (mData.similar_song_id != null) {
             if (mData.similar_song == null) {
                 new getTitleArtist(position, holder, mData).execute(SERVER_ADDRESS + SONG_API + SELECT_TITLE_ARTIST + "&id=" + mData.similar_song_id);
             } else {
@@ -159,26 +159,27 @@ public class RecommendSongListAdapter extends BaseAdapter {
         }
 
         float rating = mData.rating;
-        if(rating < maxRating) {
-            rating = (float) (mData.rating/(20.0*maxRating/100));
+        if (rating < maxRating) {
+            rating = (float) (mData.rating / (20.0 * maxRating / 100));
             holder.ratingTextView.setText(String.format("%.1f", rating));
-        } else if(rating == 0) {
+        } else if (rating == 0) {
             holder.ratingTextView.setText("  ?");
         } else {
-            holder.ratingTextView.setText(5.0+"");
+            holder.ratingTextView.setText(5.0 + "");
         }
         holder.position = position;
 
         // 앨범아트 가져오기
         // Spotify에 앨범아트 정보가 있을 경우
-        if(!(mData.albumUrl).equals("albums/")) {
-            if(mData.albumArt == null) {
+        if (!(mData.albumUrl).equals("")) {
+            if (mData.albumArt == null) {
                 holder.albumImageView.setImageResource(R.drawable.image_loading);
                 try {
-                    new LoadAlbumArt(position, holder, mData).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, SPOTIFY_API + mData.albumUrl);
-                } catch (Exception e) { e.printStackTrace(); }
-            }
-            else
+                    new LoadAlbumArt(position, holder, mData).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mData.albumUrl);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else
                 holder.albumImageView.setImageBitmap(mData.albumArt);
 
         } else {
@@ -188,7 +189,7 @@ public class RecommendSongListAdapter extends BaseAdapter {
 //        holder.ratingBar.setTag(position);
 
         String[] genres = mData.genres.split(",");
-        if(genres.length != 0 && mData.genre.equals(""))
+        if (genres.length != 0 && mData.genre.equals(""))
             try {
                 new extractGenreWithDetail(position, holder, mData).execute(SERVER_ADDRESS + GENRES_API + SELECT_GENRE_WITH_DETAIL + URLEncoder.encode(genres[0], "utf-8"));
             } catch (UnsupportedEncodingException e) {
@@ -197,47 +198,47 @@ public class RecommendSongListAdapter extends BaseAdapter {
         else
             holder.genreTextView.setText(mData.genre);
 
-        if(mData.valenceProperty > ACTIVE_NUM)
+        if (mData.valenceProperty > ACTIVE_NUM)
             activePropertyButton(holder.valenceButton);
         else
             notActivePropertyButton(holder.valenceButton);
 
-        if(mData.speechinessProperty > ACTIVE_NUM)
+        if (mData.speechinessProperty > ACTIVE_NUM)
             activePropertyButton(holder.speechinessButton);
         else
             notActivePropertyButton(holder.speechinessButton);
 
-        if(mData.energyProperty > ACTIVE_NUM)
+        if (mData.energyProperty > ACTIVE_NUM)
             activePropertyButton(holder.energyButton);
         else
             notActivePropertyButton(holder.energyButton);
 
-        if(mData.danceablilityProperty > ACTIVE_NUM)
+        if (mData.danceablilityProperty > ACTIVE_NUM)
             activePropertyButton(holder.danceablilityButton);
         else
             notActivePropertyButton(holder.danceablilityButton);
 
-        if(mData.acousticProperty > ACTIVE_NUM)
+        if (mData.acousticProperty > ACTIVE_NUM)
             activePropertyButton(holder.acousticButton);
         else
             notActivePropertyButton(holder.acousticButton);
 
-        if(mData.instrumentalnessProperty > ACTIVE_NUM)
+        if (mData.instrumentalnessProperty > ACTIVE_NUM)
             activePropertyButton(holder.instrumentalnessButton);
         else
             notActivePropertyButton(holder.instrumentalnessButton);
 
-        if(mData.livenessProperty > ACTIVE_NUM)
+        if (mData.livenessProperty > ACTIVE_NUM)
             activePropertyButton(holder.livenessButton);
         else
             notActivePropertyButton(holder.livenessButton);
 
-        if(mData.vocalProperty)
+        if (mData.vocalProperty)
             activePropertyButton(holder.vocalButton);
         else
             notActivePropertyButton(holder.vocalButton);
 
-        if(mData.studioProperty)
+        if (mData.studioProperty)
             activePropertyButton(holder.studioButton);
         else
             notActivePropertyButton(holder.studioButton);
@@ -272,11 +273,11 @@ public class RecommendSongListAdapter extends BaseAdapter {
                 holder.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                     @Override
                     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                        int ratingInt = (int)(rating*2);
+                        int ratingInt = (int) (rating * 2);
                         new InsertUpdateQuery(mContext).execute(SERVER_ADDRESS + RATING_API + INSERT_RATING +
                                 "user_id=" + userId + "&song_id=" + mData.id + "&rating=" + ratingInt +
                                 "&artist_id=" + mData.artist_id + "&album_id=" + mData.albumUrl.substring(7));
-                        Toast toast = Toast.makeText(mContext, rating+"/5.0점으로 평가되었습니다!", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(mContext, rating + "/5.0점으로 평가되었습니다!", Toast.LENGTH_SHORT);
                         toast.show();
 
                         userDTO.addRatingSoungCount(mData.id, ratingInt);
@@ -301,7 +302,7 @@ public class RecommendSongListAdapter extends BaseAdapter {
                         ratingLayout.startAnimation(fadeOutAnimation);
                     }
                 });
-            }
+                }
         });
 
         return convertView;
@@ -336,23 +337,13 @@ public class RecommendSongListAdapter extends BaseAdapter {
 
         @Override
         protected Bitmap doInBackground(String... url) {
-            String spotifyAlbumJSON = getStringFromUrl(url[0]);
 
-            JSONParser jsonParser = new JSONParser();
-            JSONObject album = null;
-            try {
-                album = (JSONObject) jsonParser.parse(spotifyAlbumJSON);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            JSONArray images = (JSONArray) album.get("images");
-            JSONObject image = getProperImage(images, mHolder.albumImageView.getWidth());
+            Log.e("URL", url[0]);
 
             // Image 역시 UI Thread에서 바로 작업 불가.
             Bitmap myBitmap = null;
             try {
-                URL urlConnection = new URL((String)image.get("url"));
+                URL urlConnection = new URL(url[0]);
                 HttpURLConnection connection = (HttpURLConnection) urlConnection
                         .openConnection();
                 connection.setDoInput(true);

@@ -25,7 +25,7 @@ import android.widget.Toast;
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
 import com.myprescience.search.SearchListActivity;
-import com.myprescience.ui.MainActivity;
+import com.myprescience.ui.main.MainActivity;
 import com.myprescience.util.Indicator;
 import com.myprescience.util.RoundImage;
 
@@ -261,13 +261,13 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
                     String spotifyArtistID = (String) song.get("artist_spotify_id");
                     String title = (String)song.get("title");
                     String artist = (String)song.get("artist");
-                    String spotifyAlbumID = "albums/"+(String)song.get("album_spotify_id");
+                    String image_64 = (String)song.get("image_64");
                     String ratingStr = (String)song.get("rating");
                     int rating = 0;
                     if(ratingStr != null) {
                         rating = Integer.parseInt(ratingStr);
                     }
-                    songListAdapter.addItem(id, spotifyArtistID, spotifyAlbumID, title, artist, rating);
+                    songListAdapter.addItem(id, spotifyArtistID, image_64, title, artist, rating);
 
                     if(songListAdapter.getCount() > 4) {
                         songListAdapter.notifyDataSetChanged();
