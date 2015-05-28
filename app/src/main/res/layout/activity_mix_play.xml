@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@android:color/white">
 
     <android.support.v7.widget.Toolbar
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -64,289 +65,397 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp"
-            android:weightSum="3">
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
 
             <LinearLayout
-                android:id="@+id/myInfoButton"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_background"
-                android:layout_weight="1"
-                android:padding="10dp">
+                android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/icon_human" />
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
                     android:paddingTop="5dp"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:id="@+id/myInfoButton"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_background"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="3dp"
+                            android:src="@drawable/theme_happy"
+                            android:adjustViewBounds="true"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_gravity="center"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/color_base_blue"
+                            android:text="기분 좋은 날"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/mp3SyncButton"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_background"
+                        android:layout_weight="1" >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="3dp"
+                            android:src="@drawable/theme_sad"
+                            android:adjustViewBounds="true"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_gravity="center"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/color_base_blue"
+                            android:text="우울한 날"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/analizeSongButton"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_background"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="3dp"
+                            android:src="@drawable/theme_dance"
+                            android:adjustViewBounds="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_gravity="center"
+                            android:textAppearance="?android:attr/textAppearance"
+                            android:textColor="@color/color_base_blue"
+                            android:text="몸이 들썩들썩"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:id="@+id/mySongButton2"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_background"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="3dp"
+                            android:src="@drawable/theme_emotion"
+                            android:adjustViewBounds="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_gravity="center"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/color_base_blue"
+                            android:text="감성 충만"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/myArtistButton"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_background"
+                        android:layout_weight="1" >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="3dp"
+                            android:src="@drawable/theme_comfort"
+                            android:adjustViewBounds="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_gravity="center"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/color_base_blue"
+                            android:text="편안한 휴식"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/myAlbumButton"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_background"
+                        android:layout_weight="1" >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="3dp"
+                            android:src="@drawable/theme_new_song"
+                            android:adjustViewBounds="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_gravity="center"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/color_base_blue"
+                            android:text="신상이야"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:paddingBottom="5dp"
-                    android:layout_gravity="center"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/color_base_blue"
-                    android:text="기분 좋은 날"/>
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:id="@+id/mySongButton"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_background"
+                        android:layout_weight="1" >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="3dp"
+                            android:src="@drawable/theme_cheer_up"
+                            android:adjustViewBounds="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_gravity="center"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/color_base_blue"
+                            android:text="힘이 필요해"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/myArtistButton4"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_background"
+                        android:layout_weight="1" >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="3dp"
+                            android:src="@drawable/theme_run"
+                            android:adjustViewBounds="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_gravity="center"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/color_base_blue"
+                            android:text="달리자"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/myAlbumButton2"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_background"
+                        android:layout_weight="1" >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="3dp"
+                            android:src="@drawable/theme_old_song"
+                            android:adjustViewBounds="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_gravity="center"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/color_base_blue"
+                            android:text="추억속으로"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:id="@+id/mySongButton12"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_background"
+                        android:layout_weight="1" >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="3dp"
+                            android:src="@drawable/theme_genre"
+                            android:adjustViewBounds="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_gravity="center"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/color_base_blue"
+                            android:text="장르 선택"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/myArtistButton2312"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_background"
+                        android:layout_weight="1" >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="3dp"
+                            android:src="@drawable/theme_billboard"
+                            android:adjustViewBounds="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_gravity="center"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/color_base_blue"
+                            android:text="빌보드Hot100"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/myAlbumButton2121"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_background"
+                        android:layout_weight="1" >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="3dp"
+                            android:src="@drawable/theme_recommend"
+                            android:adjustViewBounds="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_gravity="center"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/color_base_blue"
+                            android:text="MyP 추천곡"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/mp3SyncButton"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_background"
-                android:layout_weight="1"
-                android:padding="10dp">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/icon_song2" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:layout_gravity="center"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/color_base_blue"
-                    android:text="우울한 날"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/analizeSongButton"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_background"
-                android:layout_weight="1"
-                android:padding="10dp">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/icon_analysis" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:layout_gravity="center"
-                    android:textAppearance="?android:attr/textAppearance"
-                    android:textColor="@color/color_base_blue"
-                    android:text="몸이 들썩들썩"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:weightSum="3">
-
-            <LinearLayout
-                android:id="@+id/mySongButton2"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_background"
-                android:layout_weight="1"
-                android:padding="10dp">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/icon_song" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:layout_gravity="center"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/color_base_blue"
-                    android:text="감성 충만"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/myArtistButton"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_background"
-                android:layout_weight="1"
-                android:padding="10dp">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/icon_singer" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:layout_gravity="center"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/color_base_blue"
-                    android:text="편안한 휴식"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/myAlbumButton"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_background"
-                android:layout_weight="1"
-                android:padding="10dp">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/icon_album" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:layout_gravity="center"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/color_base_blue"
-                    android:text="신상이야"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:weightSum="3">
-
-            <LinearLayout
-                android:id="@+id/mySongButton"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_background"
-                android:layout_weight="1"
-                android:padding="10dp">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/icon_song" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:layout_gravity="center"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/color_base_blue"
-                    android:text="힘이 필요해"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/myArtistButton2"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_background"
-                android:layout_weight="1"
-                android:padding="10dp">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/icon_singer" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:layout_gravity="center"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/color_base_blue"
-                    android:text="달리자"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/myAlbumButton2"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_background"
-                android:layout_weight="1"
-                android:padding="10dp">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/icon_album" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:layout_gravity="center"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/color_base_blue"
-                    android:text="추억속으로"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
 
