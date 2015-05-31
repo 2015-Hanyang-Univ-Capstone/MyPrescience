@@ -42,21 +42,14 @@
             android:orientation="horizontal"
             android:gravity="center">
 
-            <CheckBox
+            <RadioButton
                 android:id="@+id/tintradio1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_base_blue"
-                android:text="추천노래" />
+                android:text="추천노래+내 노래" />
 
-            <CheckBox
-                android:id="@+id/tintradio2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/color_base_blue"
-                android:text="내 노래" />
-
-            <CheckBox
+            <RadioButton
                 android:id="@+id/tintradio3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -84,7 +77,7 @@
                     android:weightSum="3">
 
                     <LinearLayout
-                        android:id="@+id/myInfoButton"
+                        android:id="@+id/themeHappyButton"
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

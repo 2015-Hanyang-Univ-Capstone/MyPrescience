@@ -148,7 +148,7 @@ public class RecommendSongListAdapter extends BaseAdapter {
         holder.titleTextView.setText(mData.title);
         holder.artistTextView.setText(mData.artist);
 
-        if (mData.similar_song_id != null) {
+        if (mData.similar_song_id != "") {
             if (mData.similar_song == null) {
                 new getTitleArtist(position, holder, mData).execute(SERVER_ADDRESS + SONG_API + SELECT_TITLE_ARTIST + "&id=" + mData.similar_song_id);
             } else {

@@ -12,12 +12,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -78,8 +81,9 @@ public class MainActivity extends ActionBarActivity
     private ViewGroup mMyPTop1_FrameLayout, mMyPTop_LinearLayout1, mMyPTop_LinearLayout2, mMyPTop_LinearLayout3;
     private ArrayList<ViewGroup> mMyTopList;
 
+    private CardView mFeatureDetailLayout;
     private LinearLayout mMypTop100Button, mMyPrescienceButton, mLatestAlbumButton, mMixPlayButton;
-    private Button mMypTopMoreButton, mMoreLatestAlbumButton;
+    private Button mMypTopMoreButton, mMoreLatestAlbumButton, mFeatureDetailButton;
 
     private HorizontalListView mHorizontalListView;
     private AlbumListAdapter mHorizontalListAdapter;
@@ -107,6 +111,16 @@ public class MainActivity extends ActionBarActivity
         mMyTopList.add(mMyPTop_LinearLayout1);
         mMyTopList.add(mMyPTop_LinearLayout2);
         mMyTopList.add(mMyPTop_LinearLayout3);
+
+        mFeatureDetailLayout = (CardView) findViewById(R.id.featureDetailLayout);
+        mFeatureDetailButton = (Button) findViewById(R.id.featureDetailButton);
+        mFeatureDetailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewFadeOut(mFeatureDetailButton);
+                viewFadeIn(mFeatureDetailLayout);
+            }
+        });
 
         mMypTop100Button = (LinearLayout) findViewById(R.id.mypTop100Button);
         mMypTop100Button.setOnClickListener(new View.OnClickListener() {
@@ -243,7 +257,7 @@ public class MainActivity extends ActionBarActivity
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.search_menu, menu);
+            getMenuInflater().inflate(R.menu.menu_search, menu);
             restoreActionBar();
             return true;
         } else {
@@ -544,6 +558,18 @@ public class MainActivity extends ActionBarActivity
             Log.e("song_count", song_count+"");
             userDTO.setRatingSongCount(song_count);
         }
+    }
+
+    private void viewFadeIn(View layout) {
+        Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.abc_fade_in);
+        layout.startAnimation(animation);
+        layout.setVisibility(View.VISIBLE);
+    }
+
+    private void viewFadeOut(View layout) {
+        Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.abc_fade_out);
+        layout.startAnimation(animation);
+        layout.setVisibility(View.GONE);
     }
 
 }
