@@ -107,6 +107,9 @@ public class Server {
     static public String SEARCH_SONGS = "searchSongs&q=";
     static public String SEARCH_SONGID = "searchSongId";
 
+    static public String MIX_PLAY_API = "/MixPlay.php?query=";
+    static public String SELECT_THEME = "selectThemeMixPlay&theme=";
+
     // Url으로부터 Server의 JSON - return (String)
     static public String getStringFromUrl(String url) {
         DefaultHttpClient httpclient = new DefaultHttpClient();

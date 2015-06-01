@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:gravity="center">
 
-        <LinearLayout
+        <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -43,20 +43,20 @@
             android:gravity="center">
 
             <RadioButton
-                android:id="@+id/tintradio1"
+                android:id="@+id/myRecomSongButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_base_blue"
                 android:text="추천노래+내 노래" />
 
             <RadioButton
-                android:id="@+id/tintradio3"
+                android:id="@+id/ranSongButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_base_blue"
                 android:text="랜덤 노래" />
 
-        </LinearLayout>
+        </RadioGroup>
 
         <ScrollView
             android:layout_width="fill_parent"
@@ -105,7 +105,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/mp3SyncButton"
+                        android:id="@+id/themeSadButton"
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/analizeSongButton"
+                        android:id="@+id/themeDanceButton"
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -171,7 +171,7 @@
                     android:weightSum="3">
 
                     <LinearLayout
-                        android:id="@+id/mySongButton2"
+                        android:id="@+id/themeEmotionButton"
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -199,7 +199,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/myArtistButton"
+                        android:id="@+id/themeComfortButton"
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -227,7 +227,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/myAlbumButton"
+                        android:id="@+id/themeNewSongButton"
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -266,7 +266,7 @@
                     android:weightSum="3">
 
                     <LinearLayout
-                        android:id="@+id/mySongButton"
+                        android:id="@+id/themeCheerUpButton"
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -294,7 +294,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/myArtistButton4"
+                        android:id="@+id/themeRunButton"
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -322,7 +322,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/myAlbumButton2"
+                        android:id="@+id/themeOldSongButton"
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -361,7 +361,7 @@
                     android:weightSum="3">
 
                     <LinearLayout
-                        android:id="@+id/mySongButton12"
+                        android:id="@+id/themeGenreButton"
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -389,7 +389,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/myArtistButton2312"
+                        android:id="@+id/themeBillboardButton"
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -417,7 +417,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/myAlbumButton2121"
+                        android:id="@+id/themeMyPRecomButton"
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
