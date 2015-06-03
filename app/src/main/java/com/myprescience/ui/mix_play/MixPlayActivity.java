@@ -25,8 +25,10 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import static com.myprescience.util.Server.MIX_PLAY_API;
+import static com.myprescience.util.Server.SELECT_MIX_BILLBOARD;
 import static com.myprescience.util.Server.SELECT_THEME;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
+import static com.myprescience.util.Server.WITH_MODE;
 import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.getStringFromUrl;
 
@@ -35,7 +37,11 @@ import static com.myprescience.util.Server.getStringFromUrl;
  */
 public class MixPlayActivity extends ActionBarActivity {
 
-    private String[] playlist = new String[100];
+    private int MYRECOM = 0, RAN = 1;
+    private String HAPPY = "happy", SAD = "sad", DANCE = "dance", COMFORT = "comfort", CHEERUP = "cheerup", RUN = "run",
+                LATEST = "latest", OLD = "old";
+
+    private String[] playlist = new String[200];
 
     private UserData userDTO;
 
@@ -63,13 +69,16 @@ public class MixPlayActivity extends ActionBarActivity {
         mThemeHappyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(!mMyRecomSongButton.isChecked() && !mRanSongButton.isChecked()) {
-                    showClickSongAlert();
-                } else {
-                    String happy = "happy";
-                    new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_THEME + happy + WITH_USER + userDTO.getId());
-                }
+            if(!mMyRecomSongButton.isChecked() && !mRanSongButton.isChecked()) {
+                showClickSongAlert();
+            } else {
+                if(mMyRecomSongButton.isChecked())
+                    new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_THEME + HAPPY
+                            + WITH_MODE + MYRECOM + WITH_USER + userDTO.getId());
+                else if(mRanSongButton.isChecked())
+                    new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_THEME + HAPPY
+                            + WITH_MODE + RAN + WITH_USER + userDTO.getId());
+            }
             }
         });
 
@@ -77,6 +86,16 @@ public class MixPlayActivity extends ActionBarActivity {
         mThemeSadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!mMyRecomSongButton.isChecked() && !mRanSongButton.isChecked()) {
+                    showClickSongAlert();
+                } else {
+                    if(mMyRecomSongButton.isChecked())
+                        new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_THEME + SAD
+                                + WITH_MODE + MYRECOM + WITH_USER + userDTO.getId());
+                    else if(mRanSongButton.isChecked())
+                        new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_THEME + SAD
+                                + WITH_MODE + RAN + WITH_USER + userDTO.getId());
+                }
             }
         });
 
@@ -84,6 +103,16 @@ public class MixPlayActivity extends ActionBarActivity {
         mThemeDanceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!mMyRecomSongButton.isChecked() && !mRanSongButton.isChecked()) {
+                    showClickSongAlert();
+                } else {
+                    if(mMyRecomSongButton.isChecked())
+                        new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_THEME + DANCE
+                                + WITH_MODE + MYRECOM + WITH_USER + userDTO.getId());
+                    else if(mRanSongButton.isChecked())
+                        new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_THEME + DANCE
+                                + WITH_MODE + RAN + WITH_USER + userDTO.getId());
+                }
             }
         });
 
@@ -98,6 +127,16 @@ public class MixPlayActivity extends ActionBarActivity {
         mThemeComfortButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!mMyRecomSongButton.isChecked() && !mRanSongButton.isChecked()) {
+                    showClickSongAlert();
+                } else {
+                    if(mMyRecomSongButton.isChecked())
+                        new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_THEME + COMFORT
+                                + WITH_MODE + MYRECOM + WITH_USER + userDTO.getId());
+                    else if(mRanSongButton.isChecked())
+                        new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_THEME + COMFORT
+                                + WITH_MODE + RAN + WITH_USER + userDTO.getId());
+                }
             }
         });
 
@@ -105,6 +144,16 @@ public class MixPlayActivity extends ActionBarActivity {
         mThemeNewSongButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!mMyRecomSongButton.isChecked() && !mRanSongButton.isChecked()) {
+                    showClickSongAlert();
+                } else {
+                    if(mMyRecomSongButton.isChecked())
+                        new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_THEME + LATEST
+                                + WITH_MODE + MYRECOM + WITH_USER + userDTO.getId());
+                    else if(mRanSongButton.isChecked())
+                        new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_THEME + LATEST
+                                + WITH_MODE + RAN + WITH_USER + userDTO.getId());
+                }
             }
         });
 
@@ -112,6 +161,16 @@ public class MixPlayActivity extends ActionBarActivity {
         mThemeCheerUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!mMyRecomSongButton.isChecked() && !mRanSongButton.isChecked()) {
+                    showClickSongAlert();
+                } else {
+                    if(mMyRecomSongButton.isChecked())
+                        new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_THEME + CHEERUP
+                                + WITH_MODE + MYRECOM + WITH_USER + userDTO.getId());
+                    else if(mRanSongButton.isChecked())
+                        new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_THEME + CHEERUP
+                                + WITH_MODE + RAN + WITH_USER + userDTO.getId());
+                }
             }
         });
 
@@ -119,6 +178,16 @@ public class MixPlayActivity extends ActionBarActivity {
         mThemeRunButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!mMyRecomSongButton.isChecked() && !mRanSongButton.isChecked()) {
+                    showClickSongAlert();
+                } else {
+                    if(mMyRecomSongButton.isChecked())
+                        new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_THEME + RUN
+                                + WITH_MODE + MYRECOM + WITH_USER + userDTO.getId());
+                    else if(mRanSongButton.isChecked())
+                        new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_THEME + RUN
+                                + WITH_MODE + RAN + WITH_USER + userDTO.getId());
+                }
             }
         });
 
@@ -126,6 +195,16 @@ public class MixPlayActivity extends ActionBarActivity {
         mThemeOldSongButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!mMyRecomSongButton.isChecked() && !mRanSongButton.isChecked()) {
+                    showClickSongAlert();
+                } else {
+                    if(mMyRecomSongButton.isChecked())
+                        new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_THEME + OLD
+                                + WITH_MODE + MYRECOM + WITH_USER + userDTO.getId());
+                    else if(mRanSongButton.isChecked())
+                        new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_THEME + OLD
+                                + WITH_MODE + RAN + WITH_USER + userDTO.getId());
+                }
             }
         });
 
@@ -140,6 +219,11 @@ public class MixPlayActivity extends ActionBarActivity {
         mThemeBillboardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!mMyRecomSongButton.isChecked() && !mRanSongButton.isChecked()) {
+                    showClickSongAlert();
+                } else {
+                    new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_MIX_BILLBOARD);
+                }
             }
         });
 

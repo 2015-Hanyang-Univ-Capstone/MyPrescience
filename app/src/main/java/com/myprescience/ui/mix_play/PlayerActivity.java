@@ -34,7 +34,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-import static com.myprescience.util.Server.VIDEO_MOST_VIEW;
 import static com.myprescience.util.Server.YOUTUBE_API;
 import static com.myprescience.util.Server.YOUTUBE_API_KEY;
 import static com.myprescience.util.Server.YOUTUBE_DEVELOPMENT_KEY;
@@ -142,8 +141,8 @@ public class PlayerActivity extends YouTubeBaseActivity {
             }
         });
 
-        youtubes_id = new ArrayList<String>();
-        youtubes_title = new ArrayList<String>();
+        youtubes_id = new ArrayList<String>(200);
+        youtubes_title = new ArrayList<String>(200);
 
         mYouTubeView = (YouTubePlayerView) findViewById(R.id.playerYouTubeView);
 
@@ -177,13 +176,16 @@ public class PlayerActivity extends YouTubeBaseActivity {
 //                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park"
 //                            };
 
-        Log.e("songCount", playlist.length+"");
+        
         for(int i = 0; i < playlist.length; i++) {
             boolean start = false;
             if(i == 0)
                 start = true;
             try {
-                new setYouTubeTask(mYouTubeView, start).execute(YOUTUBE_API + URLEncoder.encode(playlist[i], "utf-8") + YOUTUBE_RESULT_ONE + YOUTUBE_API_KEY + VIDEO_MOST_VIEW);
+                if(playlist[i] != null && !this.isFinishing()) {
+                    new setYouTubeTask(mYouTubeView, start).execute(YOUTUBE_API + URLEncoder.encode(playlist[i], "utf-8")
+                            + YOUTUBE_RESULT_ONE + YOUTUBE_API_KEY);
+                }
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -234,13 +236,27 @@ public class PlayerActivity extends YouTubeBaseActivity {
         }
 
         @Override
+        protected void onCancelled() {
+            // TODO 작업이 취소된후에 호출된다.
+            super.onCancelled();
+        }
+
+        @Override
         protected String doInBackground(String... url) {
+            if (this.isCancelled()) {
+                // 비동기작업을 cancel해도 자동으로 취소해주지 않으므로,
+                // 작업중에 이런식으로 취소 체크를 해야 한다.
+                return null;
+            }
             return getStringFromUrl(url[0]);
         }
 
         @Override
         protected void onPostExecute(String youtubeJSON) {
             super.onPostExecute(youtubeJSON);
+
+            if(youtubeJSON == null)
+                return ;
 
             JSONParser jsonParser = new JSONParser();
             try {
@@ -356,6 +372,7 @@ public class PlayerActivity extends YouTubeBaseActivity {
 //                    mPlaylist.get(mCurrent_Video).setTextColor(getResources().getColor(R.color.darker_gray));
                     if(mCurrent_Video != 0)
                         mCurrent_Video--;
+                    player.loadVideos(youtubes_id, mCurrent_Video, youtubes_id.size() - 1);
                     mPlayerTitleTextView.setText(youtubes_title.get(mCurrent_Video));
                 }
 
@@ -364,9 +381,8 @@ public class PlayerActivity extends YouTubeBaseActivity {
 //                    mPlaylist.get(mCurrent_Video).setTextColor(getResources().getColor(R.color.darker_gray));
                     if(mCurrent_Video != youtubes_id.size()-1)
                         mCurrent_Video++;
-
+                    player.loadVideos(youtubes_id, mCurrent_Video, youtubes_id.size() - 1);
                     mPlayerTitleTextView.setText(youtubes_title.get(mCurrent_Video));
-                    Log.e("youtubes_id Count", youtubes_id.size() + "");
                 }
 
                 @Override
@@ -421,7 +437,9 @@ public class PlayerActivity extends YouTubeBaseActivity {
 
                 @Override
                 public void onError(YouTubePlayer.ErrorReason errorReason) {
-
+                    mCurrent_Video++;
+                    player.loadVideos(youtubes_id, mCurrent_Video, youtubes_id.size() - 1);
+                    mPlayerTitleTextView.setText(youtubes_title.get(mCurrent_Video));
                 }
             });
         }
