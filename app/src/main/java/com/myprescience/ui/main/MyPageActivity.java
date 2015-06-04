@@ -65,7 +65,7 @@ public class MyPageActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
-        setActionBar(R.string.title_section4);
+        setActionBar(R.string.title_activity_MyPage);
         userDTO = new UserData(getApplicationContext());
 
         mIndicator = new Indicator(this);

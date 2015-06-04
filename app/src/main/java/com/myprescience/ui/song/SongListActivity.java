@@ -91,7 +91,7 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
 
         setContentView(R.layout.activity_song_list);
         userDTO = new UserData(getApplicationContext());
-        setActionBar(R.string.title_section3);
+        setActionBar(R.string.title_activity_rating);
 
 
         initSongList();

@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.myprescience.R;
@@ -35,11 +36,11 @@ import static com.myprescience.util.Server.getStringFromUrl;
 /**
  * Created by dongjun on 15. 4. 6..
  */
-public class MixPlayActivity extends ActionBarActivity {
+public class MixThemeActivity extends ActionBarActivity {
 
     private int MYRECOM = 0, RAN = 1;
-    private String HAPPY = "happy", SAD = "sad", DANCE = "dance", COMFORT = "comfort", CHEERUP = "cheerup", RUN = "run",
-                LATEST = "latest", OLD = "old";
+    private String HAPPY = "happy", SAD = "sad", DANCE = "dance", COMFORT = "comfort", CHEERUP = "cheerup",
+                RUN = "run", EMOTION = "emotion", LATEST = "latest", OLD = "old";
 
     private String[] playlist = new String[200];
 
@@ -50,6 +51,7 @@ public class MixPlayActivity extends ActionBarActivity {
                         mThemeEmotionButton, mThemeComfortButton, mThemeNewSongButton,
                         mThemeCheerUpButton, mThemeRunButton, mThemeOldSongButton,
                         mThemeGenreButton, mThemeBillboardButton, mThemeMyPRecomButton;
+    private RelativeLayout mPlayerGenreSelectLayout;
 
     Indicator mIndicator;
 
@@ -120,6 +122,16 @@ public class MixPlayActivity extends ActionBarActivity {
         mThemeEmotionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!mMyRecomSongButton.isChecked() && !mRanSongButton.isChecked()) {
+                    showClickSongAlert();
+                } else {
+                    if(mMyRecomSongButton.isChecked())
+                        new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_THEME + EMOTION
+                                + WITH_MODE + MYRECOM + WITH_USER + userDTO.getId());
+                    else if(mRanSongButton.isChecked())
+                        new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_THEME + EMOTION
+                                + WITH_MODE + RAN + WITH_USER + userDTO.getId());
+                }
             }
         });
 
@@ -212,6 +224,16 @@ public class MixPlayActivity extends ActionBarActivity {
         mThemeGenreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!mMyRecomSongButton.isChecked() && !mRanSongButton.isChecked()) {
+                    showClickSongAlert();
+                } else {
+                    Intent intent = new Intent(MixThemeActivity.this, SelectGenreActivity.class);
+                    if(mMyRecomSongButton.isChecked())
+                        intent.putExtra("mode", MYRECOM);
+                    else if(mRanSongButton.isChecked())
+                        intent.putExtra("mode", RAN);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -219,11 +241,7 @@ public class MixPlayActivity extends ActionBarActivity {
         mThemeBillboardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!mMyRecomSongButton.isChecked() && !mRanSongButton.isChecked()) {
-                    showClickSongAlert();
-                } else {
-                    new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_MIX_BILLBOARD);
-                }
+                new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_MIX_BILLBOARD);
             }
         });
 
@@ -231,12 +249,44 @@ public class MixPlayActivity extends ActionBarActivity {
         mThemeMyPRecomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                playlist[0] = "Talking to the moon Bruno mars";
+                playlist[1] = "Lay Me Down Sam Smith";
+                playlist[2] = "Until It Gone Linkin Park";
+                playlist[3] = "when i was your man Bruno mars";
+                playlist[4] = "가슴 시린 이야기 휘성";
+                playlist[5] = "독기 아이언";
+                playlist[6] = "일리어네어 연결고리";
+                playlist[7] = "불한당가 불한당가";
+                playlist[8] = "AMOR FATI 에픽하이";
+                playlist[9] = "독 이센스";
+                playlist[10] = "진격의 거인 둘 다이나믹 듀오";
+                playlist[11] = "The Show Must Go On Queen";
+                playlist[12] = "Let it Go James Bay";
+                playlist[13] = "Long Drive Jason Mraz";
+                playlist[14] = "Lost In The Echo Linkin Park";
+                playlist[15] = "Mad World Adam lambert";
+                playlist[16] = "청춘연가 넬";
+                playlist[17] = "Octagon 아웃사이더";
+                playlist[18] = "map the soul 에픽하이";
+                playlist[19] = "Sing Ed Sheeran";
+                playlist[20] = "Smoke and Mirrors Imagine Dragons";
+                playlist[21] = "Somebody to Love Queen";
+                playlist[22] = "Someday 리쌍";
+                playlist[23] = "Uptown Funk Mark Ronson";
+                playlist[24] = "What I've Done Linkin Park";
+                playlist[25] = "Whataya Want From Me Adam Lambert";
+                playlist[26] = "Warriors Papa Roach";
+                playlist[28] = "211 바스코";
+                playlist[29] = "사랑놀이 MFBTY";
+                playlist[30] = "시간과 낙엽 악동뮤지션";
+
+                startMixPlay();
             }
         });
     }
 
     public void showClickSongAlert() {
-        AlertDialog.Builder alert = new AlertDialog.Builder(MixPlayActivity.this);
+        AlertDialog.Builder alert = new AlertDialog.Builder(MixThemeActivity.this);
         alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -249,7 +299,7 @@ public class MixPlayActivity extends ActionBarActivity {
     }
 
     public void startMixPlay() {
-        Intent intent = new Intent(MixPlayActivity.this, PlayerActivity.class);
+        Intent intent = new Intent(MixThemeActivity.this, PlayerActivity.class);
         intent.putExtra("playlist", playlist);
         startActivity(intent);
     }

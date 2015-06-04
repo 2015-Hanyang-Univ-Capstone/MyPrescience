@@ -58,7 +58,7 @@ public class MyPrescienceActivity extends ActionBarActivity implements
 
         setContentView(R.layout.activity_my_prescience);
 
-        setActionBar(R.string.title_section2);
+        setActionBar(R.string.title_activity_my_prescience);
 
 //		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 

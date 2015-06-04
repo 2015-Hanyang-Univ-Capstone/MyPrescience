@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:hmkcode="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/action_bell"
-        android:orderInCategory="1"
-        hmkcode:showAsAction="always"
-        android:icon="@drawable/icon_bell"
-        android:title="Bell"/>
+    <!--<item-->
+        <!--android:id="@+id/action_bell"-->
+        <!--android:orderInCategory="1"-->
+        <!--hmkcode:showAsAction="always"-->
+        <!--android:icon="@drawable/icon_bell"-->
+        <!--android:title="Bell"/>-->
 
     <item
         android:id="@+id/action_search"

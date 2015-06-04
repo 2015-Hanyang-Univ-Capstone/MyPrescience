@@ -147,36 +147,7 @@ public class PlayerActivity extends YouTubeBaseActivity {
         mYouTubeView = (YouTubePlayerView) findViewById(R.id.playerYouTubeView);
 
         String[] playlist = getIntent().getExtras().getStringArray("playlist");
-//        String[] keyword = {
-//                            "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park",
-//                "Talking to the moon Bruno mars", "Lay Me Down Sam Smith", "Until It Gone Linkin Park"
-//                            };
 
-        
         for(int i = 0; i < playlist.length; i++) {
             boolean start = false;
             if(i == 0)

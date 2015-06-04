@@ -13,7 +13,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,7 +32,7 @@ import com.myprescience.dto.UserData;
 import com.myprescience.search.SearchListActivity;
 import com.myprescience.ui.album.AlbumListAdapter;
 import com.myprescience.ui.album.LatestAlbumListActivity;
-import com.myprescience.ui.mix_play.MixPlayActivity;
+import com.myprescience.ui.mix_play.MixThemeActivity;
 import com.myprescience.ui.song.MyPTopSongListActivity;
 import com.myprescience.ui.song.SongActivity;
 import com.myprescience.ui.song.SongListActivity;
@@ -51,14 +50,11 @@ import java.util.ArrayList;
 import static com.myprescience.util.PixelUtil.getProperImage;
 import static com.myprescience.util.Server.ALBUM_API;
 import static com.myprescience.util.Server.MYP_HOT_SONGS;
-import static com.myprescience.util.Server.RATING_API;
 import static com.myprescience.util.Server.SELECT_MAIN_LATEST_ALBUMS;
-import static com.myprescience.util.Server.SELECT_SONG_COUNT;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SONG_API;
 import static com.myprescience.util.Server.SPOTIFY_API;
 import static com.myprescience.util.Server.TODAY_SONG_MODE;
-import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.getStringFromUrl;
 
 
@@ -171,7 +167,7 @@ public class MainActivity extends ActionBarActivity
         mMixPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MixPlayActivity.class);
+                Intent intent = new Intent(MainActivity.this, MixThemeActivity.class);
                 startActivity(intent);
             }
         });
@@ -192,7 +188,6 @@ public class MainActivity extends ActionBarActivity
     public void initSetting() {
         new getMyPHotSongs().execute(SERVER_ADDRESS + SONG_API + MYP_HOT_SONGS);
         new getLatestAlbums().execute(SERVER_ADDRESS+ALBUM_API+SELECT_MAIN_LATEST_ALBUMS);
-        new selectSongCountTask().execute(SERVER_ADDRESS+RATING_API+SELECT_SONG_COUNT+WITH_USER+userDTO.getId());
     }
 
 
@@ -215,20 +210,21 @@ public class MainActivity extends ActionBarActivity
                 startActivity(section2);
                 break;
             case 3:
-//                mTitle = getString(R.string.title_section2);
-                Intent section3 = new Intent(this, SongListActivity.class);
-                section3.putExtra("mode", TODAY_SONG_MODE);
+                Intent section3 = new Intent(this, MixThemeActivity.class);
                 startActivity(section3);
                 break;
             case 4:
-//                mTitle = getString(R.string.title_section3);
-                Intent section4 = new Intent(this, MyPageActivity.class);
+//                mTitle = getString(R.string.title_section2);
+                Intent section4 = new Intent(this, SongListActivity.class);
+                section4.putExtra("mode", TODAY_SONG_MODE);
                 startActivity(section4);
                 break;
             case 5:
-                Intent section5 = new Intent(this, SelectGenreActivity2.class);
+//                mTitle = getString(R.string.title_section3);
+                Intent section5 = new Intent(this, MyPageActivity.class);
                 startActivity(section5);
                 break;
+
         }
     }
 
@@ -278,10 +274,11 @@ public class MainActivity extends ActionBarActivity
             Intent intent = new Intent(this, SearchListActivity.class);
             startActivity(intent);
             return true;
-        } else if (id == R.id.action_bell) {
-            Log.e("Bell", "아티스트에 대한 소식을 알림.");
-            return true;
         }
+//        else if (id == R.id.action_bell) {
+//            Log.e("Bell", "아티스트에 대한 소식을 알림.");
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -530,34 +527,6 @@ public class MainActivity extends ActionBarActivity
         //super.onBackPressed();
         backPressCloseHandler.onBackPressed();
 
-    }
-
-    class selectSongCountTask extends AsyncTask<String, String, Integer> {
-
-        @Override
-        protected Integer doInBackground(String... url) {
-            String userIdJSON = getStringFromUrl(url[0]);
-            JSONParser jsonParser = new JSONParser();
-            JSONArray users = null;
-            try {
-                users = (JSONArray) jsonParser.parse(userIdJSON);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            int songCount = 0;
-            if(users != null) {
-                JSONObject user = (JSONObject) users.get(0);
-                songCount = Integer.parseInt((String)user.get("song_count"));
-            }
-            return songCount;
-        }
-
-        @Override
-        protected void onPostExecute(Integer song_count) {
-            Log.e("song_count", song_count+"");
-            userDTO.setRatingSongCount(song_count);
-        }
     }
 
     private void viewFadeIn(View layout) {

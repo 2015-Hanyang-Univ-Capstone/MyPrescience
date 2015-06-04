@@ -125,13 +125,14 @@ public class NavigationDrawerFragment extends Fragment {
         int[] selectedposition = new int[] { mCurrentSelectedPosition };
         String[] titles = new String[]{
                 getString(R.string.title_section1), getString(R.string.title_section2),
-                getString(R.string.title_section3), getString(R.string.title_section4),
-                "첫 시작 장르선택"
+                getString(R.string.title_section3),
+                getString(R.string.title_section4), getString(R.string.title_section5),
+
         };
         int[] images = new int[]{
-                R.drawable.icon_home, R.drawable.icon_myprescience,
-                R.drawable.icon_rating, R.drawable.icon_mypage,
-                R.drawable.icon_jazz
+                R.drawable.navi_home, R.drawable.navi_myprescience,
+                R.drawable.navi_mix_play, R.drawable.navi_rating,
+                R.drawable.navi_mypage
         };
 
         mNaviAdapter = new NaviAdapter(

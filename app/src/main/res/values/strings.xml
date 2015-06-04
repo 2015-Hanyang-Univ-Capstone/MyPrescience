@@ -16,10 +16,11 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_artist">ArtistActivity</string>
 
-    <string name="title_section1">Home</string>
-    <string name="title_section2">My Prescience</string>
-    <string name="title_section3">노래 평가하기</string>
-    <string name="title_section4">My Page</string>
+    <string name="title_section1">홈</string>
+    <string name="title_section2">음악추천</string>
+    <string name="title_section3">테마별 음악듣기</string>
+    <string name="title_section4">노래 평가하기</string>
+    <string name="title_section5">마이페이지</string>
 
     <string name="title_tab1">추천 노래</string>
     <string name="title_tab2">노래 찾기</string>
@@ -31,12 +32,14 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_example"></string>
+    <string name="title_activity_rating">Music Rating</string>
     <string name="title_activity_my_prescience">My Prescience</string>
     <string name="title_activity_MyPTopSongListactivty">My Prescience Top 100</string>
+    <string name="title_activity_MyPage">My Page</string>
     <string name="title_activity_MyAlbum">My Album</string>
     <string name="title_activity_MyArtist">My Artist</string>
-    <string name="title_activity_LatestAlbumList">최신 앨범</string>
-    <string name="title_activity_SearchList">음악 검색</string>
+    <string name="title_activity_LatestAlbumList">Latest Album</string>
+    <string name="title_activity_SearchList">Search Music</string>
     <string name="title_activity_MixPlay">Mix Play</string>
 
     <string name="demo_min_label">Min</string>

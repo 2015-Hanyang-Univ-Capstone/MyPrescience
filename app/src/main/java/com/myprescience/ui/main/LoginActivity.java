@@ -34,10 +34,13 @@ import java.util.Arrays;
 
 import static com.myprescience.util.Server.FACEBOOK_PROFILE;
 import static com.myprescience.util.Server.INSERT_FACEBOOK_ID;
+import static com.myprescience.util.Server.RATING_API;
+import static com.myprescience.util.Server.SELECT_SONG_COUNT;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.USER_API;
 import static com.myprescience.util.Server.USER_ID_WITH_FACEBOOK_ID;
 import static com.myprescience.util.Server.WIDTH_150;
+import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.getStringFromUrl;
 
 
@@ -154,6 +157,7 @@ public class LoginActivity extends FragmentActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
+            new selectSongCountTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_COUNT + WITH_USER + userDTO.getId());
         }
     }
 
@@ -189,10 +193,6 @@ public class LoginActivity extends FragmentActivity {
         protected void onPostExecute(Bitmap albumArt) {
             super.onPostExecute(albumArt);
             userDTO.setFacebook_profile(albumArt);
-
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
         }
     }
 
@@ -210,5 +210,42 @@ public class LoginActivity extends FragmentActivity {
 
         // Logs 'app deactivate' App Event.
         AppEventsLogger.deactivateApp(this);
+    }
+
+    class selectSongCountTask extends AsyncTask<String, String, Integer> {
+
+        @Override
+        protected Integer doInBackground(String... url) {
+            String userIdJSON = getStringFromUrl(url[0]);
+            JSONParser jsonParser = new JSONParser();
+            JSONArray users = null;
+            try {
+                users = (JSONArray) jsonParser.parse(userIdJSON);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            int songCount = 0;
+            if(users != null) {
+                JSONObject user = (JSONObject) users.get(0);
+                songCount = Integer.parseInt((String)user.get("song_count"));
+            }
+            return songCount;
+        }
+
+        @Override
+        protected void onPostExecute(Integer song_count) {
+            Log.e("song_count", song_count + "");
+            userDTO.setRatingSongCount(song_count);
+
+            if(song_count == 0) {
+                Intent intent = new Intent(LoginActivity.this, SelectGenreActivity2.class);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+            finish();
+        }
     }
 }

@@ -124,13 +124,17 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".ui.mix_play.MixPlayActivity"
+            android:name=".ui.mix_play.MixThemeActivity"
             android:label="@string/title_activity_MixPlay"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ui.mix_play.PlayerActivity"
             android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".ui.mix_play.SelectGenreActivity"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 
