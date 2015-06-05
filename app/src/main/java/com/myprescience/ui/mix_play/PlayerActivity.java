@@ -365,7 +365,7 @@ public class PlayerActivity extends YouTubeBaseActivity {
             player.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
                 @Override
                 public void onLoading() {
-
+                    mPlayerPlayButtonView.setVisibility(View.GONE);
                 }
 
                 @Override

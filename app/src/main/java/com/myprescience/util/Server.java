@@ -109,7 +109,7 @@ public class Server {
 
     static public String MIX_PLAY_API = "/MixPlay.php?query=";
     static public String SELECT_THEME = "selectTheme&theme=";
-    static public String SELECT_GENRE = "selectGenre&genre=";
+    static public String SELECT_GENRE = "selectGenre&theme=";
     static public String SELECT_MIX_BILLBOARD = "selectBillboard";
     static public String WITH_MODE = "&mode=";
 

@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.CardView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -63,9 +64,7 @@ public class SelectGenreActivity extends ActionBarActivity {
         rightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String Genre = "";
-                for(String select : selectGenre)
-                    Genre += select + " ";
+                String Genre = TextUtils.join(",", selectGenre);
                 new getPlayList().execute(SERVER_ADDRESS + MIX_PLAY_API + SELECT_GENRE + Genre
                         + WITH_MODE + MODE + WITH_USER + userDTO.getId());
             }
@@ -156,6 +155,7 @@ public class SelectGenreActivity extends ActionBarActivity {
                     String title = (String) song.get("title");
                     String artist = (String) song.get("artist");
                     playlist[i] = title + " " + artist;
+                    Log.e("playlist", playlist[i]);
                 }
 
             } catch (ParseException e) {
