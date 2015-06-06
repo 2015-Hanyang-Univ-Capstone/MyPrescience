@@ -42,6 +42,7 @@ public class MixThemeActivity extends ActionBarActivity {
     private String HAPPY = "happy", SAD = "sad", DANCE = "dance", COMFORT = "comfort", CHEERUP = "cheerup",
                 RUN = "run", EMOTION = "emotion", LATEST = "latest", OLD = "old";
 
+    private String[] playlist_id = new String[200];
     private String[] playlist = new String[200];
 
     private UserData userDTO;
@@ -301,6 +302,7 @@ public class MixThemeActivity extends ActionBarActivity {
     public void startMixPlay() {
         Intent intent = new Intent(MixThemeActivity.this, PlayerActivity.class);
         intent.putExtra("playlist", playlist);
+        intent.putExtra("playlist_id", playlist_id);
         startActivity(intent);
     }
 
@@ -360,6 +362,9 @@ public class MixThemeActivity extends ActionBarActivity {
 
                 for(int i = 0; i < playlistJSON.size(); i ++) {
                     JSONObject song = (JSONObject) playlistJSON.get(i);
+                    String id = (String) song.get("id");
+                    playlist_id[i] = id;
+
                     String title = (String) song.get("title");
                     String artist = (String) song.get("artist");
                     playlist[i] = title + " " + artist;

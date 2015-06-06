@@ -1,5 +1,6 @@
 package com.myprescience.ui.mix_play;
 
+import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -45,13 +47,17 @@ import static com.myprescience.util.Server.getStringFromUrl;
  */
 public class PlayerActivity extends YouTubeBaseActivity {
 
+    private static final String LIST_FRAGMENT_TAG = "song_fragment";
+
     private UserData userDTO;
     private YouTubePlayer mPlayer;
     private YouTubePlayerView mYouTubeView;
 
-    private ArrayList<String> youtubes_id, youtubes_title;
+    private ArrayList<String> youtubes_id, youtubes_title, song_id;
+    private String[] mPlaylist_id;
     private int mCurrent_Video;
 
+    private FrameLayout mFilterFragment;
     private LinearLayout mPlayerBarLayout, mPlayerLoadingProgressBar;
     private ImageView mPlayerSongListButtonView, mPlayerPrevButtonView, mPlayerPlayButtonView, mPlayerNextButtonView;
     private TextView mPlayerTitleTextView;
@@ -67,6 +73,8 @@ public class PlayerActivity extends YouTubeBaseActivity {
         userDTO = new UserData(getApplicationContext());
 
         mIndicator = new Indicator(this);
+
+        mFilterFragment = (FrameLayout) findViewById(R.id.filterFragment_Container);
 
         mPlayerBarLayout = (LinearLayout) findViewById(R.id.playerBarLayout);
         mPlayerLoadingProgressBar = (LinearLayout) findViewById(R.id.playerLoadingProgressBar);
@@ -114,7 +122,7 @@ public class PlayerActivity extends YouTubeBaseActivity {
         mPlayerSongListButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int dpValue = 250; // margin in dips
+                int dpValue = 400; // margin in dips
                 float dpPoint = getApplicationContext().getResources().getDisplayMetrics().density;
                 int marginRight = (int)(dpValue * dpPoint); // margin in pixels
                 int marginBottom = mPlayerBarLayout.getHeight();
@@ -123,7 +131,11 @@ public class PlayerActivity extends YouTubeBaseActivity {
                 youtubeMargin.setMargins(0, 0, marginRight, marginBottom);
                 mYouTubeView.setLayoutParams(youtubeMargin);
 
-                viewFadeIn(mPlayerPlayListView);
+//                viewFadeIn(mPlayerPlayListView);
+
+                int FragmentView = (mPlayerPlayListView.getVisibility() == View.GONE)?
+                        View.VISIBLE : View.GONE;
+                mPlayerPlayListView.setVisibility(FragmentView);
             }
         });
 
@@ -143,10 +155,12 @@ public class PlayerActivity extends YouTubeBaseActivity {
 
         youtubes_id = new ArrayList<String>(200);
         youtubes_title = new ArrayList<String>(200);
+        song_id = new ArrayList<String>(200);
 
         mYouTubeView = (YouTubePlayerView) findViewById(R.id.playerYouTubeView);
 
         String[] playlist = getIntent().getExtras().getStringArray("playlist");
+        mPlaylist_id = getIntent().getExtras().getStringArray("playlist_id");
 
         for(int i = 0; i < playlist.length; i++) {
             boolean start = false;
@@ -154,7 +168,7 @@ public class PlayerActivity extends YouTubeBaseActivity {
                 start = true;
             try {
                 if(playlist[i] != null && !this.isFinishing()) {
-                    new setYouTubeTask(mYouTubeView, start).execute(YOUTUBE_API + URLEncoder.encode(playlist[i], "utf-8")
+                    new setYouTubeTask(mYouTubeView, start, i).execute(YOUTUBE_API + URLEncoder.encode(playlist[i], "utf-8")
                             + YOUTUBE_RESULT_ONE + YOUTUBE_API_KEY);
                 }
             } catch (UnsupportedEncodingException e) {
@@ -198,12 +212,13 @@ public class PlayerActivity extends YouTubeBaseActivity {
     class setYouTubeTask extends AsyncTask<String, String, String> implements YouTubePlayer.OnInitializedListener {
 
         private YouTubePlayerView mYouTubePlayerView;
-
+        private int mIndex;
         private boolean mVideoStart;
 
-        public setYouTubeTask(YouTubePlayerView _YouTubePlayerView, boolean _videoStart){
+        public setYouTubeTask(YouTubePlayerView _YouTubePlayerView, boolean _videoStart, int _index){
             this.mYouTubePlayerView = _YouTubePlayerView;
             this.mVideoStart = _videoStart;
+            this.mIndex = _index;
         }
 
         @Override
@@ -243,6 +258,8 @@ public class PlayerActivity extends YouTubeBaseActivity {
                         String video_title = (String) snippet.get("title");
                         youtubes_title.add(video_title);
                     }
+                    if(mPlaylist_id[mIndex] != null)
+                        song_id.add(mPlaylist_id[mIndex]);
                 }
                 if(mVideoStart) {
                     mPlayerLoadingProgressBar.setVisibility(View.GONE);
@@ -341,31 +358,36 @@ public class PlayerActivity extends YouTubeBaseActivity {
                 @Override
                 public void onPrevious() {
 //                    mPlaylist.get(mCurrent_Video).setTextColor(getResources().getColor(R.color.darker_gray));
-                    if(mCurrent_Video != 0)
+                    if (mCurrent_Video != 0)
                         mCurrent_Video--;
                     player.loadVideos(youtubes_id, mCurrent_Video, youtubes_id.size() - 1);
                     mPlayerTitleTextView.setText(youtubes_title.get(mCurrent_Video));
+                    Log.e("onPrevious", mCurrent_Video + " : " + youtubes_title.get(mCurrent_Video));
                 }
 
                 @Override
                 public void onNext() {
 //                    mPlaylist.get(mCurrent_Video).setTextColor(getResources().getColor(R.color.darker_gray));
-                    if(mCurrent_Video != youtubes_id.size()-1)
+                    if (mCurrent_Video != youtubes_id.size() - 1)
                         mCurrent_Video++;
                     player.loadVideos(youtubes_id, mCurrent_Video, youtubes_id.size() - 1);
                     mPlayerTitleTextView.setText(youtubes_title.get(mCurrent_Video));
+                    Log.e("onNext", mCurrent_Video + " : " + youtubes_title.get(mCurrent_Video));
                 }
 
                 @Override
                 public void onPlaylistEnded() {
-
+                    if (mCurrent_Video == youtubes_id.size() - 1) {
+                        mPlayerTitleTextView.setText("모든 노래를 플레이하였습니다.");
+                    }
+                    Log.e("onPlaylistEnded", mCurrent_Video + " : " + youtubes_title.get(mCurrent_Video));
                 }
             });
 
             player.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
                 @Override
                 public void onLoading() {
-                    mPlayerPlayButtonView.setVisibility(View.GONE);
+                    mPlayerPlayButtonView.setVisibility(View.INVISIBLE);
                 }
 
                 @Override
@@ -383,6 +405,9 @@ public class PlayerActivity extends YouTubeBaseActivity {
 
                 @Override
                 public void onVideoStarted() {
+
+                    getSongFragment();
+
                     mPlayerTitleTextView.setText(youtubes_title.get(mCurrent_Video));
                     if (mCurrent_Video != 0)
                         mPlayerPrevButtonView.setVisibility(View.VISIBLE);
@@ -400,20 +425,38 @@ public class PlayerActivity extends YouTubeBaseActivity {
 
                 @Override
                 public void onVideoEnded() {
-                    if (mCurrent_Video == 0) {
-                        player.loadVideos(youtubes_id, 1, youtubes_id.size() - 1);
-                        mPlayerTitleTextView.setText(youtubes_title.get(mCurrent_Video));
-                    }
+//                    mCurrent_Video++;
+//                    player.loadVideos(youtubes_id, mCurrent_Video, youtubes_id.size() - 1);
+//                    mPlayerTitleTextView.setText(youtubes_title.get(mCurrent_Video));
+                    Log.e("onVideoEnded", mCurrent_Video + " : " + youtubes_title.get(mCurrent_Video));
                 }
 
                 @Override
                 public void onError(YouTubePlayer.ErrorReason errorReason) {
-                    mCurrent_Video++;
-                    player.loadVideos(youtubes_id, mCurrent_Video, youtubes_id.size() - 1);
-                    mPlayerTitleTextView.setText(youtubes_title.get(mCurrent_Video));
+                    Log.e("onError", mCurrent_Video + " : " + youtubes_title.get(mCurrent_Video));
                 }
             });
         }
+    }
+
+    private void getSongFragment() {
+
+        getIntent().putExtra("song_id", song_id.get(mCurrent_Video));
+
+        Fragment f = getFragmentManager().findFragmentByTag(LIST_FRAGMENT_TAG);
+        if (f != null) {
+            getFragmentManager().popBackStack();
+        }
+
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_up,
+                        R.anim.slide_down,
+                        R.anim.slide_up,
+                        R.anim.slide_down)
+                .add(R.id.filterFragment_Container, SongFragment
+                                .instantiate(this, SongFragment.class.getName()),
+                        LIST_FRAGMENT_TAG
+                ).addToBackStack(null).commit();
     }
 
 }

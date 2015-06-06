@@ -39,6 +39,7 @@ public class SelectGenreActivity extends ActionBarActivity {
     private int MODE;
     private Indicator mIndicator;
     private String[] playlist = new String[200];
+    private String[] playlist_id = new String[200];
 
     public static Activity sRecommendActivity;
     private ImageButton rightButton;
@@ -129,6 +130,7 @@ public class SelectGenreActivity extends ActionBarActivity {
     public void startMixPlay() {
         Intent intent = new Intent(SelectGenreActivity.this, PlayerActivity.class);
         intent.putExtra("playlist", playlist);
+        intent.putExtra("playlist_id", playlist_id);
         startActivity(intent);
     }
 
@@ -152,10 +154,12 @@ public class SelectGenreActivity extends ActionBarActivity {
 
                 for(int i = 0; i < playlistJSON.size(); i ++) {
                     JSONObject song = (JSONObject) playlistJSON.get(i);
+                    String id = (String) song.get("id");
+                    playlist_id[i] = id;
+
                     String title = (String) song.get("title");
                     String artist = (String) song.get("artist");
                     playlist[i] = title + " " + artist;
-                    Log.e("playlist", playlist[i]);
                 }
 
             } catch (ParseException e) {
