@@ -95,7 +95,7 @@ android:id="@+id/scrollView" >
                             android:ellipsize="end"
                             android:maxLines="2"
                             android:textAlignment="center"
-                            android:text="Title" />
+                            android:text="음악을" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -113,7 +113,7 @@ android:id="@+id/scrollView" >
                             android:ellipsize="end"
                             android:maxLines="2"
                             android:textAlignment="center"
-                            android:text="Artist"
+                            android:text="로딩중입니다."
                             android:clickable="true"/>
                     </LinearLayout>
 
@@ -133,7 +133,7 @@ android:id="@+id/scrollView" >
                             android:ellipsize="end"
                             android:maxLines="2"
                             android:textAlignment="center"
-                            android:text="Album" />
+                            android:text="짐시만" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -148,7 +148,7 @@ android:id="@+id/scrollView" >
                             android:id="@+id/trackNumTextView"
                             android:textSize="9sp"
                             android:textColor="@color/WhiteSmoke"
-                            android:text="Track Number" />
+                            android:text="기다려주세요." />
                     </LinearLayout>
 
                     <LinearLayout
@@ -185,7 +185,7 @@ android:id="@+id/scrollView" >
                             android:layout_marginTop="10dp"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/WhiteSmoke"
-                            android:text="Preview\nLoading... " />
+                            android:text="" />
 
                     </LinearLayout>
 

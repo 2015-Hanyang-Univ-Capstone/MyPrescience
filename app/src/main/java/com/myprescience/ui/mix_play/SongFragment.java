@@ -59,6 +59,11 @@ import static com.myprescience.util.Server.getStringFromUrl;
 
 public class SongFragment extends Fragment {
 
+    public static String SPOTIFY_ARTIST_ID;
+    public static String SPOTIFY_ALBUM_ID;
+
+    private static final String LIST_FRAGMENT_TAG = "song_fragment";
+
     private UserData userDTO;
 
     String SONG_URL = SERVER_ADDRESS+SONG_API+SONG_WITH_ID;
@@ -93,7 +98,8 @@ public class SongFragment extends Fragment {
         View root_view = inflater.inflate(R.layout.fragment_song, container, false);
         userDTO = new UserData(getActivity());
 
-        SONG_ID = getActivity().getIntent().getExtras().getString("song_id");
+        if(getActivity().getIntent().getExtras().getString("song_id") != null)
+            SONG_ID = getActivity().getIntent().getExtras().getString("song_id");
 
 //        mIndicator = new Indicator(getActivity());
         mErrorMsg = new ErrorMsg();
@@ -148,7 +154,17 @@ public class SongFragment extends Fragment {
         mRatingRelativeLayout = (RelativeLayout) root_view.findViewById(R.id.ratingRelativeLayout);
         mCloseButton = (Button) root_view.findViewById(R.id.closeButton);
 
-        new getSongTask().execute(SONG_URL+SONG_ID);
+        if(SONG_ID != null) {
+            try {
+                new getSongTask().execute(SONG_URL + SONG_ID);
+            } catch (Exception e) {
+                titleTextView.setText("음악정보를");
+                artistTextView.setText("불러오는 중");
+                albumNameTextView.setText("오류가");
+                trackNumTextView.setText("발생하였습니다.");
+                e.printStackTrace();
+            }
+        }
 
         return root_view;
     }
@@ -399,190 +415,197 @@ public class SongFragment extends Fragment {
                 JSONArray songArray = (JSONArray) jsonParser.parse(songJSON);
                 JSONObject song = (JSONObject) jsonParser.parse(songArray.get(0).toString());
 
-                String title = (String)song.get("title");
-                String artist = (String)song.get("artist");
-                String songType = (String)song.get("song_type");
+                if(song != null) {
 
-                double tempo = Math.round(Double.parseDouble((String) song.get("tempo")) * 100) / 100.0;
-                int timeSignature = Integer.parseInt((String)song.get("time_signature"));
-                double duration = Math.round(Double.parseDouble((String)song.get("duration"))*100) / 100.0;
-                int songMode = Integer.parseInt((String)song.get("song_mode"));
-                int songKey = Integer.parseInt((String) song.get("song_key"));
+                    String title = (String) song.get("title");
+                    String artist = (String) song.get("artist");
+                    String songType = (String) song.get("song_type");
 
-                float valence = (float)0.5;
-                if((String) song.get("valence") != null)
-                    valence = Float.parseFloat((String) song.get("valence"));
+                    double tempo = Math.round(Double.parseDouble((String) song.get("tempo")) * 100) / 100.0;
+                    int timeSignature = Integer.parseInt((String) song.get("time_signature"));
+                    double duration = Math.round(Double.parseDouble((String) song.get("duration")) * 100) / 100.0;
+                    int songMode = Integer.parseInt((String) song.get("song_mode"));
+                    int songKey = Integer.parseInt((String) song.get("song_key"));
+
+                    float valence = (float) 0.5;
+                    if ((String) song.get("valence") != null)
+                        valence = Float.parseFloat((String) song.get("valence"));
 
 
-                float danceability = (float)0.5;
-                if((String) song.get("danceability") != null)
-                    danceability = Float.parseFloat((String) song.get("danceability"));
+                    float danceability = (float) 0.5;
+                    if ((String) song.get("danceability") != null)
+                        danceability = Float.parseFloat((String) song.get("danceability"));
 
-                float energy = (float)0.5;
-                if((String) song.get("energy") != null)
-                    energy = Float.parseFloat((String) song.get("energy"));
+                    float energy = (float) 0.5;
+                    if ((String) song.get("energy") != null)
+                        energy = Float.parseFloat((String) song.get("energy"));
 
-                float liveness = (float)0.5;
-                if((String) song.get("liveness") != null)
-                    liveness = Float.parseFloat((String) song.get("liveness"));
+                    float liveness = (float) 0.5;
+                    if ((String) song.get("liveness") != null)
+                        liveness = Float.parseFloat((String) song.get("liveness"));
 
-                float speechiness = (float)0.5;
-                if((String) song.get("speechiness") != null)
-                    speechiness = Float.parseFloat((String) song.get("speechiness"));
+                    float speechiness = (float) 0.5;
+                    if ((String) song.get("speechiness") != null)
+                        speechiness = Float.parseFloat((String) song.get("speechiness"));
 
-                float acousticness = (float)0.5;
-                if((String) song.get("acousticness") != null)
-                    acousticness = Float.parseFloat((String) song.get("acousticness"));
+                    float acousticness = (float) 0.5;
+                    if ((String) song.get("acousticness") != null)
+                        acousticness = Float.parseFloat((String) song.get("acousticness"));
 
-                float instrumentalness = (float)0.5;
-                if((String) song.get("instrumentalness") != null)
-                    instrumentalness = Float.parseFloat((String) song.get("instrumentalness"));
+                    float instrumentalness = (float) 0.5;
+                    if ((String) song.get("instrumentalness") != null)
+                        instrumentalness = Float.parseFloat((String) song.get("instrumentalness"));
 
-                titleTextView.setText(title);
-                artistTextView.setText(artist);
+                    titleTextView.setText(title);
+                    artistTextView.setText(artist);
 //                songTypeTextView.setText(songType);
-                String[] songTypes = songType.split(",");
-                for(int i = 0; i < songTypes.length; i++) {
-                    if(songTypes[i].equals("studio"))
-                        setActivePropertyView(songType1Textview, 3);
-                    if(songTypes[i].equals("christmas"))
-                        setActivePropertyView(songType2Textview, 3);
-                    if(songTypes[i].equals("electric"))
-                        setActivePropertyView(songType3Textview, 3);
-                    if(songTypes[i].equals("vocal"))
-                        setActivePropertyView(songType4Textview, 3);
-                }
+                    String[] songTypes = songType.split(",");
+                    for (int i = 0; i < songTypes.length; i++) {
+                        if (songTypes[i].equals("studio"))
+                            setActivePropertyView(songType1Textview, 3);
+                        if (songTypes[i].equals("christmas"))
+                            setActivePropertyView(songType2Textview, 3);
+                        if (songTypes[i].equals("electric"))
+                            setActivePropertyView(songType3Textview, 3);
+                        if (songTypes[i].equals("vocal"))
+                            setActivePropertyView(songType4Textview, 3);
+                    }
 
-                tempoTextView.setText(Double.toString(tempo) + " bpm");
-                timeSignatureTextView.setText(timeSignature + " 박자");
-                durationTextView.setText(convertMS((int)duration));
-                songModeTextView.setText(modes[songMode]);
-                songKeyTextView.setText(keys[songKey]);
+                    tempoTextView.setText(Double.toString(tempo) + " bpm");
+                    timeSignatureTextView.setText(timeSignature + " 박자");
+                    durationTextView.setText(convertMS((int) duration));
+                    songModeTextView.setText(modes[songMode]);
+                    songKeyTextView.setText(keys[songKey]);
 
-                setSongPropertyText(valanceTextview, valence);
-                setSongPropertyText(danceablilityTextview, danceability);
-                setSongPropertyText(energyTextview, energy);
-                setSongPropertyText(livenessTextview, liveness);
-                setSongPropertyText(speechinessTextview, speechiness);
-                setSongPropertyText(acousticnessTextview, acousticness);
-                setSongPropertyText(instrumentalnessTextview, instrumentalness);
+                    setSongPropertyText(valanceTextview, valence);
+                    setSongPropertyText(danceablilityTextview, danceability);
+                    setSongPropertyText(energyTextview, energy);
+                    setSongPropertyText(livenessTextview, liveness);
+                    setSongPropertyText(speechinessTextview, speechiness);
+                    setSongPropertyText(acousticnessTextview, acousticness);
+                    setSongPropertyText(instrumentalnessTextview, instrumentalness);
 
-                String spotifyTrackID = "tracks/"+(String)song.get("track_spotify_id");
-                if(spotifyTrackID.equals("tracks/")) {
-                    trackNumTextView.setText(mErrorMsg.NOT_FOUND);
-                    popularityProgressBar.setProgress(0);
-                    previewButton.setImageResource(R.drawable.icon_x_mark);
-                    previewTextview.setText("Preview ");
-                    mPreviewClick.setVisibility(View.VISIBLE);
-                } else {
-                    new getTrackTask().execute(SPOTIFY_API+spotifyTrackID);
-                }
+                    String spotifyTrackID = "tracks/" + (String) song.get("track_spotify_id");
+                    if (spotifyTrackID.equals("tracks/")) {
+                        trackNumTextView.setText(mErrorMsg.NOT_FOUND);
+                        popularityProgressBar.setProgress(0);
+                        previewButton.setImageResource(R.drawable.icon_x_mark);
+                        previewTextview.setText("Preview ");
+                        mPreviewClick.setVisibility(View.VISIBLE);
+                    } else {
+                        new getTrackTask().execute(SPOTIFY_API + spotifyTrackID);
+                    }
 
-                final String spotifyArtistID = "artists/"+(String)song.get("artist_spotify_id");
+                    final String spotifyArtistID = "artists/" + (String) song.get("artist_spotify_id");
+                    SPOTIFY_ARTIST_ID = spotifyArtistID;
 //                String spotifyArtistJSON = new getArtistTask().execute(spotifyAPI+spotifyArtistID).get();
 
-                mArtistButton.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(spotifyArtistID.equals("artists/")) {
-                            AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                            alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();     //닫기
-                                }
-                            });
-                            alert.setMessage("아티스트에 대한 정보가 없습니다.");
-                            alert.show();
-                        } else {
+                    mArtistButton.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (spotifyArtistID.equals("artists/")) {
+                                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                                alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();     //닫기
+                                    }
+                                });
+                                alert.setMessage("아티스트에 대한 정보가 없습니다.");
+                                alert.show();
+                            } else {
+                                getArtistFragment(spotifyArtistID);
 //                            Intent intent = new Intent(SongFragment.this, ArtistActivity.class);
 //                            intent.putExtra("spotifyArtistID", spotifyArtistID);
 //                            startActivity(intent);
 //                            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-                        }
-                    }
-                });
-
-                final String spotifyAlbumID = "albums/"+(String)song.get("album_spotify_id");
-                if(spotifyAlbumID.equals("albums/")) {
-                    genreTextView.setText(mErrorMsg.NOT_FOUND);
-                    albumNameTextView.setText(mErrorMsg.NOT_FOUND);
-                    albumArtView.setImageResource(R.drawable.image_not_exist_600);
-
-                    mAlbumButton.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                            alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();     //닫기
-                                }
-                            });
-                            alert.setMessage("앨범에 대한 정보가 없습니다.");
-                            alert.show();
+                            }
                         }
                     });
+
+                    final String spotifyAlbumID = "albums/" + (String) song.get("album_spotify_id");
+                    SPOTIFY_ALBUM_ID = spotifyAlbumID;
+                    if (spotifyAlbumID.equals("albums/")) {
+                        genreTextView.setText(mErrorMsg.NOT_FOUND);
+                        albumNameTextView.setText(mErrorMsg.NOT_FOUND);
+                        albumArtView.setImageResource(R.drawable.image_not_exist_600);
+
+                        mAlbumButton.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                                alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();     //닫기
+                                    }
+                                });
+                                alert.setMessage("앨범에 대한 정보가 없습니다.");
+                                alert.show();
+                            }
+                        });
 //                    mIndicator.hide();
-                } else {
-                    new getAlbumTask().execute(SPOTIFY_API+spotifyAlbumID);
+                    } else {
+                        new getAlbumTask().execute(SPOTIFY_API + spotifyAlbumID);
 
-                    mAlbumButton.setOnClickListener(new OnClickListener() {
+                        mAlbumButton.setOnClickListener(new OnClickListener() {
 
-                        @Override
-                        public void onClick(View v) {
+                            @Override
+                            public void onClick(View v) {
+                                getAlbumFragment(spotifyAlbumID);
 //                            Intent intent = new Intent(SongFragment.this, AlbumActivity.class);
 //                            intent.putExtra("spotifyAlbumID", spotifyAlbumID );
 //                            startActivity(intent);
 //                            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+                            }
+                        });
+                    }
+
+                    new getRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_RATING + SONG_ID + WITH_USER + userDTO.getId());
+                    new getAvgRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_AVG_RATING + SONG_ID);
+
+                    mEvaluationButton.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Animation fadeInAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.abc_fade_in);
+                            mRatingRelativeLayout.setVisibility(View.VISIBLE);
+                            mRatingRelativeLayout.startAnimation(fadeInAnimation);
+                        }
+                    });
+
+                    mSongActivityRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                        @Override
+                        public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                            int ratingInt = (int) (rating * 2);
+                            new InsertUpdateQuery(getActivity()).execute(SERVER_ADDRESS + RATING_API + INSERT_RATING +
+                                    "user_id=" + userDTO.getId() + "&song_id=" + SONG_ID + "&rating=" + ratingInt +
+                                    "&artist_id=" + spotifyArtistID + "&album_id=" + spotifyAlbumID.substring(7));
+                            Toast toast = Toast.makeText(getActivity(), rating + "/5.0점으로 평가되었습니다!", Toast.LENGTH_SHORT);
+                            toast.show();
+
+                            userDTO.addRatingSoungCount(SONG_ID, ratingInt);
+
+                            new getRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_RATING + SONG_ID + WITH_USER + userDTO.getId());
+                            new getAvgRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_AVG_RATING + SONG_ID);
+
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                public void run() {
+                                    mCloseButton.callOnClick();
+                                }
+                            }, 1000);
+                        }
+                    });
+
+                    mCloseButton.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Animation fadeOutAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.abc_fade_out);
+                            mRatingRelativeLayout.setVisibility(View.GONE);
+                            mRatingRelativeLayout.startAnimation(fadeOutAnimation);
                         }
                     });
                 }
-
-                new getRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_RATING + SONG_ID + WITH_USER + userDTO.getId());
-                new getAvgRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_AVG_RATING + SONG_ID);
-
-                mEvaluationButton.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Animation fadeInAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.abc_fade_in);
-                        mRatingRelativeLayout.setVisibility(View.VISIBLE);
-                        mRatingRelativeLayout.startAnimation(fadeInAnimation);
-                    }
-                });
-
-                mSongActivityRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                    @Override
-                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                        int ratingInt = (int) (rating * 2);
-                        new InsertUpdateQuery(getActivity()).execute(SERVER_ADDRESS + RATING_API + INSERT_RATING +
-                                "user_id=" + userDTO.getId() + "&song_id=" + SONG_ID + "&rating=" + ratingInt +
-                                "&artist_id=" + spotifyArtistID + "&album_id=" + spotifyAlbumID.substring(7));
-                        Toast toast = Toast.makeText(getActivity(), rating + "/5.0점으로 평가되었습니다!", Toast.LENGTH_SHORT);
-                        toast.show();
-
-                        userDTO.addRatingSoungCount(SONG_ID, ratingInt);
-
-                        new getRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_RATING + SONG_ID + WITH_USER + userDTO.getId());
-                        new getAvgRatingTask().execute(SERVER_ADDRESS + RATING_API + SELECT_SONG_AVG_RATING + SONG_ID);
-
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            public void run() {
-                                mCloseButton.callOnClick();
-                            }
-                        }, 1000);
-                    }
-                });
-
-                mCloseButton.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Animation fadeOutAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.abc_fade_out);
-                        mRatingRelativeLayout.setVisibility(View.GONE);
-                        mRatingRelativeLayout.startAnimation(fadeOutAnimation);
-                    }
-                });
 
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -699,6 +722,46 @@ public class SongFragment extends Fragment {
         int left = view.getPaddingLeft();
         view.setBackgroundResource(R.drawable.button_property2_background);
         view.setPadding(left + px, top + px, right + px, bottom + px);
+    }
+
+    private void getArtistFragment(String artist_id) {
+
+        getActivity().getIntent().putExtra("spotifyArtistID", artist_id);
+
+        Fragment f = getFragmentManager().findFragmentByTag(LIST_FRAGMENT_TAG);
+        if (f != null) {
+            getFragmentManager().popBackStack();
+        }
+
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_up,
+                        R.anim.slide_down,
+                        R.anim.slide_up,
+                        R.anim.slide_down)
+                .add(R.id.filterFragment_Container, ArtistFragment
+                                .instantiate(getActivity(), ArtistFragment.class.getName()),
+                        LIST_FRAGMENT_TAG
+                ).addToBackStack(null).commit();
+    }
+
+    private void getAlbumFragment(String album_id) {
+
+        getActivity().getIntent().putExtra("spotifyAlbumID", album_id);
+
+        Fragment f = getFragmentManager().findFragmentByTag(LIST_FRAGMENT_TAG);
+        if (f != null) {
+            getFragmentManager().popBackStack();
+        }
+
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_up,
+                        R.anim.slide_down,
+                        R.anim.slide_up,
+                        R.anim.slide_down)
+                .add(R.id.filterFragment_Container, AlbumFragment
+                                .instantiate(getActivity(), AlbumFragment.class.getName()),
+                        LIST_FRAGMENT_TAG
+                ).addToBackStack(null).commit();
     }
 
 }

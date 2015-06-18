@@ -25,6 +25,7 @@ import com.google.android.youtube.player.YouTubePlayerView;
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
 import com.myprescience.ui.material.ProgressBarCircular;
+import com.myprescience.util.BackPressCloseHandler;
 import com.myprescience.util.Indicator;
 
 import org.json.simple.JSONArray;
@@ -42,6 +43,9 @@ import static com.myprescience.util.Server.YOUTUBE_DEVELOPMENT_KEY;
 import static com.myprescience.util.Server.YOUTUBE_RESULT_ONE;
 import static com.myprescience.util.Server.getStringFromUrl;
 
+import static com.myprescience.ui.mix_play.SongFragment.SPOTIFY_ARTIST_ID;
+import static com.myprescience.ui.mix_play.SongFragment.SPOTIFY_ALBUM_ID;
+
 /**
  * Created by dongjun on 15. 4. 6..
  */
@@ -50,6 +54,7 @@ public class PlayerActivity extends YouTubeBaseActivity {
     private static final String LIST_FRAGMENT_TAG = "song_fragment";
 
     private UserData userDTO;
+    private BackPressCloseHandler backPressCloseHandler;
     private YouTubePlayer mPlayer;
     private YouTubePlayerView mYouTubeView;
 
@@ -62,7 +67,7 @@ public class PlayerActivity extends YouTubeBaseActivity {
     private ImageView mPlayerSongListButtonView, mPlayerPrevButtonView, mPlayerPlayButtonView, mPlayerNextButtonView;
     private TextView mPlayerTitleTextView;
     private CardView mPlayerPlayListView;
-    private Button mPlayListCloseButton;
+    private Button mPlayListArtistButton, mPlayListAlbumButton, mPlayListSongButton, mPlayListCloseButton;
 
     Indicator mIndicator;
 
@@ -73,6 +78,7 @@ public class PlayerActivity extends YouTubeBaseActivity {
         userDTO = new UserData(getApplicationContext());
 
         mIndicator = new Indicator(this);
+        backPressCloseHandler = new BackPressCloseHandler(this);
 
         mFilterFragment = (FrameLayout) findViewById(R.id.filterFragment_Container);
 
@@ -139,6 +145,36 @@ public class PlayerActivity extends YouTubeBaseActivity {
             }
         });
 
+        mPlayListArtistButton = (Button) findViewById(R.id.playListArtistButton);
+        mPlayListArtistButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(SPOTIFY_ARTIST_ID != null)
+                    getArtistFragment();
+                else
+                    Toast.makeText(PlayerActivity.this, "음악 정보를 받아오는 중 입니다. 조금 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mPlayListAlbumButton = (Button) findViewById(R.id.playListAlbumButton);
+        mPlayListAlbumButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(SPOTIFY_ALBUM_ID != null)
+                    getAlbumFragment();
+                else
+                    Toast.makeText(PlayerActivity.this, "음악 정보를 받아오는 중 입니다. 조금 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mPlayListSongButton = (Button) findViewById(R.id.playListSongButton);
+        mPlayListSongButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSongFragment();
+            }
+        });
+
         mPlayListCloseButton = (Button) findViewById(R.id.playListCloseButton);
         mPlayListCloseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,6 +212,12 @@ public class PlayerActivity extends YouTubeBaseActivity {
             }
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        backPressCloseHandler.onBackPressed(1);
     }
 
     @Override
@@ -425,9 +467,11 @@ public class PlayerActivity extends YouTubeBaseActivity {
 
                 @Override
                 public void onVideoEnded() {
-//                    mCurrent_Video++;
-//                    player.loadVideos(youtubes_id, mCurrent_Video, youtubes_id.size() - 1);
-//                    mPlayerTitleTextView.setText(youtubes_title.get(mCurrent_Video));
+                    if(mCurrent_Video == 0 && !player.hasNext()) {
+                        mCurrent_Video++;
+                        player.loadVideos(youtubes_id, mCurrent_Video, youtubes_id.size() - 1);
+                        mPlayerTitleTextView.setText(youtubes_title.get(mCurrent_Video));
+                    }
                     Log.e("onVideoEnded", mCurrent_Video + " : " + youtubes_title.get(mCurrent_Video));
                 }
 
@@ -455,6 +499,46 @@ public class PlayerActivity extends YouTubeBaseActivity {
                         R.anim.slide_down)
                 .add(R.id.filterFragment_Container, SongFragment
                                 .instantiate(this, SongFragment.class.getName()),
+                        LIST_FRAGMENT_TAG
+                ).addToBackStack(null).commit();
+    }
+
+    private void getArtistFragment() {
+
+        getIntent().putExtra("spotifyArtistID", SPOTIFY_ARTIST_ID);
+
+        Fragment f = getFragmentManager().findFragmentByTag(LIST_FRAGMENT_TAG);
+        if (f != null) {
+            getFragmentManager().popBackStack();
+        }
+
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_up,
+                        R.anim.slide_down,
+                        R.anim.slide_up,
+                        R.anim.slide_down)
+                .add(R.id.filterFragment_Container, ArtistFragment
+                                .instantiate(this, ArtistFragment.class.getName()),
+                        LIST_FRAGMENT_TAG
+                ).addToBackStack(null).commit();
+    }
+
+    private void getAlbumFragment() {
+
+        getIntent().putExtra("spotifyAlbumID", SPOTIFY_ALBUM_ID);
+
+        Fragment f = getFragmentManager().findFragmentByTag(LIST_FRAGMENT_TAG);
+        if (f != null) {
+            getFragmentManager().popBackStack();
+        }
+
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_up,
+                        R.anim.slide_down,
+                        R.anim.slide_up,
+                        R.anim.slide_down)
+                .add(R.id.filterFragment_Container, AlbumFragment
+                                .instantiate(this, AlbumFragment.class.getName()),
                         LIST_FRAGMENT_TAG
                 ).addToBackStack(null).commit();
     }
