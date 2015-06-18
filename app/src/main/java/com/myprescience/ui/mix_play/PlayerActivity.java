@@ -150,7 +150,10 @@ public class PlayerActivity extends YouTubeBaseActivity {
             @Override
             public void onClick(View v) {
                 if(SPOTIFY_ARTIST_ID != null)
-                    getArtistFragment();
+                    if(SPOTIFY_ARTIST_ID.equals("artists/"))
+                        Toast.makeText(PlayerActivity.this, "아티스트에 대한 정보가 없습니다.", Toast.LENGTH_SHORT).show();
+                    else
+                        getArtistFragment();
                 else
                     Toast.makeText(PlayerActivity.this, "음악 정보를 받아오는 중 입니다. 조금 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
             }
@@ -161,6 +164,9 @@ public class PlayerActivity extends YouTubeBaseActivity {
             @Override
             public void onClick(View v) {
                 if(SPOTIFY_ALBUM_ID != null)
+                    if(SPOTIFY_ALBUM_ID.equals("albums/"))
+                        Toast.makeText(PlayerActivity.this, "앨범에 대한 정보가 없습니다.", Toast.LENGTH_SHORT).show();
+                    else
                     getAlbumFragment();
                 else
                     Toast.makeText(PlayerActivity.this, "음악 정보를 받아오는 중 입니다. 조금 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
