@@ -329,7 +329,8 @@ public class MainActivity extends ActionBarActivity
         ViewGroup inLinearLayout = (ViewGroup) linearLayout.getChildAt(0);
         RatingBar avgRatingBar = (RatingBar) inLinearLayout.getChildAt(0);
         TextView avgTextView = (TextView) inLinearLayout.getChildAt(1);
-        TextView countTextView = (TextView) linearLayout.getChildAt(1);
+        ViewGroup inLinearLayout2 = (ViewGroup) linearLayout.getChildAt(1);
+        TextView countTextView = (TextView) inLinearLayout2.getChildAt(0);
         TextView titleTextView = (TextView) linearLayout.getChildAt(2);
         TextView artistTextView = (TextView) linearLayout.getChildAt(3);
 
@@ -339,8 +340,8 @@ public class MainActivity extends ActionBarActivity
         int avg_rating = Math.round(avg);
 
         avgRatingBar.setProgress(avg_rating);
-        avgTextView.setText(String.format("(%.1f)", avg/2));
-        countTextView.setText(count + "명이 평가했습니다.");
+        avgTextView.setText(String.format("(%.1f)", avg / 2));
+        countTextView.setText(count+" ");
         titleTextView.setText(title);
         artistTextView.setText(artist);
     }
@@ -358,13 +359,14 @@ public class MainActivity extends ActionBarActivity
         ViewGroup ininLinearLayout = (ViewGroup) inLinearLayout.getChildAt(2);
         TextView avgRatingTextView = (TextView) ininLinearLayout.getChildAt(1);
 
-        TextView countTextView = (TextView) inLinearLayout.getChildAt(3);
+        ViewGroup ininLinearLayout2 = (ViewGroup) inLinearLayout.getChildAt(3);
+        TextView countTextView = (TextView) ininLinearLayout2.getChildAt(0);
 
         titleTextView.setText(title);
         artistTextView.setText(artist);
 
         avgRatingTextView.setText(String.format("%.1f", avg/2.0));
-        countTextView.setText(count + "명이 평가했습니다.");
+        countTextView.setText(count + " ");
     }
 
     public ImageView getMypTopListImageView(ViewGroup linearLayout) {

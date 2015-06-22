@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">My Prescience</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_intro">IntroActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="welcome">Welcome to\nMy Prescience</string>
+    <string name="facebook_app_id">1604156769815801</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_recommend">RecommendActivity</string>
+    <string name="select_genre">장르를 3개 이상 선택하세요.</string>
+    <string name="select_genre_3">3개 이상 선택되었습니다.</string>
+    <string name="title_activity_song_list">노래 평가하기</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_artist">ArtistActivity</string>
+
+    // Login
+    <string name="login_prescience">선견지명</string>
+
+    // Main
+
+    <string name="main_mix_play">추천 노래\n Mix Play</string>
+    <string name="main_latest_album">최신 앨범\n　조회</string>
+    <string name="main_recommend_song">추천 노래\n　조회</string>
+
+    <string name="main_introduce_title1">나만의 음악을 원한다면!</string>
+    <string name="main_introduce_content1_1">My Prescience는</string>
+    <string name="main_introduce_content1_2">음악 추천 &amp; YouTube 스트리밍 서비스입니다.</string>
+    <string name="main_introduce_content1_3">음악을 평가하시고 당신만을 위한 음악을 즐기세요!</string>
+
+    <string name="main_introduce_more">특징 더 보기</string>
+
+    <string name="main_introduce_title2">1.음악 추천</string>
+    <string name="main_introduce_content2_1">당신에게 꼭 맞는 음악을 추천해드립니다.</string>
+    <string name="main_introduce_content2_2">보다 정확한 추천을 위해 노래를 평가해주세요!</string>
+
+    <string name="main_introduce_title3">2.음악 분석</string>
+    <string name="main_introduce_content3_1">밝은 분위기, 비트가 강한, 빠르고 시끄러운</string>
+    <string name="main_introduce_content3_2">춤추고 싶은, 파워 넘치는, 어쿠스틱, 라이브 등</string>
+    <string name="main_introduce_content3_3">노래의 속성으로 자신이 원하는 노래를 찾아보세요.</string>
+
+    <string name="main_introduce_title4">3.Youtube 플레이어</string>
+    <string name="main_introduce_content4_1">추천노래를 기분과 상황에 따라</string>
+    <string name="main_introduce_content4_2">YouTube로 틀어드립니다. 즐기세요!</string>
+
+    <string name="main_rating_avg">전체평균 : </string>
+    <string name="main_rating_count">명이 평가했습니다.</string>
+    <string name="main_detail">조회</string>
+    <string name="main_more">더보기</string>
+
+    // Navi
+
+    <string name="title_section1">홈</string>
+    <string name="title_section2">음악추천</string>
+    <string name="title_section3">테마별 음악듣기</string>
+    <string name="title_section4">노래 평가하기</string>
+    <string name="title_section5">마이페이지</string>
+
+    // 음악 추천
+
+    <string name="recommend_tab1">추천 노래</string>
+    <string name="recommend_tab2">노래 찾기</string>
+
+    <string name="recommend_expect_rating">예상평점</string>
+    <string name="recommend_view_detail">상세보기</string>
+    <string name="recommend_rating">평가하기</string>
+    <string name="recommend_rating_explain">노래를 평가해주세요!\n평가 후 창은 자동으로 사라집니다.</string>
+    <string name="recommend_rating_close">닫기</string>
+
+    <string name="recommend_song_property1">밝은\n분위기</string>
+    <string name="recommend_song_property2">멘트가\n 많은</string>
+    <string name="recommend_song_property3">파워가\n 있는</string>
+    <string name="recommend_song_property4">스튜\n디오</string>
+    <string name="recommend_song_property5">흥이\n나는</string>
+    <string name="recommend_song_property6">어쿠\n스틱</string>
+    <string name="recommend_song_property7">연주곡</string>
+    <string name="recommend_song_property8">보컬</string>
+    <string name="recommend_song_property9">라이브</string>
+
+    <string name="recommend_search_title">당신이 원하는 노래를 찾아드립니다.</string>
+    <string name="recommend_search_subtitle1">1. 어느 노래에서 찾아드릴까요?</string>
+    <string name="recommend_search_subtitle2">2. 좋아하시는 장르는요?</string>
+    <string name="recommend_search_subtitle3">3. 마지막으로 속성을 선택해주세요!</string>
+
+    <string name="recommend_search_song1">모든 노래</string>
+    <string name="recommend_search_song2">한국 노래</string>
+    <string name="recommend_search_song3">외국 노래</string>
+
+     // 장르
+
+    <string name="genrePop">POP</string>
+    <string name="genreHiphop">HIP HOP</string>
+    <string name="genreRnB">R&amp;B</string>
+    <string name="genreRock">ROCK</string>
+    <string name="genreClub">Dance</string>
+    <string name="genreDance">DANCE</string>
+    <string name="genreJazz">JAZZ</string>
+    <string name="genreCountry">COUNTRY</string>
+    <string name="genreClassic">CLASSIC</string>
+    <string name="genreElectronic">ELECTRONIC</string>
+
+     // 음악 속성
+
+    <string name="propertyValence">밝은 분위기</string>
+    <string name="propertyLoudness">시끄러운</string>
+    <string name="propertyDanceablility">흥겨운</string>
+    <string name="propertyEnergy">파워 넘치는</string>
+    <string name="propertyLiveness">라이브</string>
+    <string name="propertySpeechiness">멘트가 많은</string>
+    <string name="propertyAcousticness">어쿠스틱 악기</string>
+    <string name="propertyInstrumentalness">연주곡</string>
+
+    <string name="recommend_search">검색하기</string>
+    <string name="recommend_search_again">다시 검색하기</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    // 음악 플레이
+
+    <string name="play_mode1">추천노래+내 노래</string>
+    <string name="play_mode2">랜덤 노래</string>
+
+    <string name="play_theme1">기분 좋은 날</string>
+    <string name="play_theme2">우울한 날</string>
+    <string name="play_theme3">몸이 들썩들썩</string>
+    <string name="play_theme4">감성 충만</string>
+    <string name="play_theme5">편안한 휴식</string>
+    <string name="play_theme6">신상이야</string>
+    <string name="play_theme7">힘이 필요해</string>
+    <string name="play_theme8">달리자</string>
+    <string name="play_theme9">추억속으로</string>
+    <string name="play_theme10">장르 선택</string>
+    <string name="play_theme11">빌보드Hot100</string>
+    <string name="play_theme12">MyP 추천곡</string>
+
+    <string name="play_loading">음악을 불러오는 중 입니다. 잠시만 기다려주세요...</string>
+
+    // 음악 평가하기
+
+    <string name="rating_level1">Bronze</string>
+    <string name="rating_level2">Silver</string>
+    <string name="rating_level3">Gold</string>
+    <string name="rating_level4">Pratinum</string>
+    <string name="rating_level5">Dia</string>
+    <string name="rating_level6">Master</string>
+    <string name="rating_level7">Grand Master</string>
+
+    <string name="rating_level1_explain">마음의 양식이 필요합니다. 노래를 들으세요.</string>
+    <string name="rating_level2_explain">이제 시작이군요! 얼쑤!</string>
+    <string name="rating_level3_explain">음악으로 풍요로워 지셨나요?</string>
+    <string name="rating_level4_explain">좋아하는 가수가 여럿있겠는데요?</string>
+    <string name="rating_level5_explain">음악 좀 들으실 줄 아시는 군요!</string>
+    <string name="rating_level6_explain">노래 들으며 리듬타시는 모습이 보이는 군요!</string>
+    <string name="rating_level7_explain">Music is My Life!</string>
+
+    // 음악 필터
+
+    <string name="song_filter_kind1">음악종류</string>
+    <string name="song_filter_kind2">음악장르</string>
+    <string name="song_filter_kind3">음악속성</string>
+
+    <string name="song_filter_song1">모든 노래</string>
+    <string name="song_filter_song2">한국 노래</string>
+    <string name="song_filter_song3">Billboard Hot100</string>
+
+    // 마이 페이지
+
+    <string name="mypage_mp3sync">MP3 Sync</string>
+    <string name="mypage_song">노래</string>
+    <string name="mypage_album">앨범</string>
+    <string name="mypage_artist">아티스트</string>
+
+    // Title
+
+    <string name="action_example"></string>
+    <string name="title_mysong_List">My Song</string>
+    <string name="title_activity_rating">Music Rating</string>
+    <string name="title_activity_my_prescience">My Prescience</string>
+    <string name="title_activity_MyPTopSongListactivty">My Prescience Top 100</string>
+    <string name="title_activity_MyPage">My Page</string>
+    <string name="title_activity_MyAlbum">My Album</string>
+    <string name="title_activity_MyArtist">My Artist</string>
+    <string name="title_activity_LatestAlbumList">Latest Album</string>
+    <string name="title_activity_SearchList">Search</string>
+    <string name="title_activity_MixPlay">Music Play</string>
+
+    <string name="demo_min_label">Min</string>
+    <string name="demo_max_label">Max</string>
+
+
+
+    / 유투브 음악 오류
+
+    <string name="YouTubeError">에러가 발생했습니다. 다시 시도해주세요!</string>
+
+    <string name="title_activity_select_genre_activity2">SelectGenreActivity2</string>
+
+</resources>

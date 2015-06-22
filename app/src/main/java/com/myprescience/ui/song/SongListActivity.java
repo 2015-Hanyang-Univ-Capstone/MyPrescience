@@ -120,7 +120,11 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
             });
         } else if(MODE == TODAY_SONG_MODE || MODE == SYNC_MODE) {
             MIN_SELECTED_SONG = 500;
-            textView.setText(getLevelDescribe(userDTO.getRatingSongCount()));
+
+            if(userDTO.getRatingSongCount() > 400)
+                textView.setText(getString(getLevelDescribe(400)));
+            else
+                textView.setText(getString(getLevelDescribe(userDTO.getRatingSongCount())));
             progressBar.setProgress((int)(Math.min(1, userDTO.getRatingSongCount()/(double) MIN_SELECTED_SONG)*100));
             progressBar.invalidate();
 

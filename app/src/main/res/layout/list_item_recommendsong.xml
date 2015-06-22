@@ -52,7 +52,7 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@android:color/white"
                     android:background="@drawable/trasparent_background"
-                    android:text="상세보기"
+                    android:text="@string/recommend_view_detail"
                     android:textStyle="bold" />
 
                 <TextView
@@ -67,7 +67,7 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@android:color/white"
                     android:background="@drawable/trasparent_background"
-                    android:text="평가하기"
+                    android:text="@string/recommend_rating"
                     android:textStyle="bold" />
 
             </FrameLayout>
@@ -135,7 +135,7 @@
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
                             android:textSize="10dp"
-                            android:text="밝은\n분위기" />
+                            android:text="@string/recommend_song_property1" />
 
                         <Button
                             android:id="@+id/recommendSpeechinessButton"
@@ -145,7 +145,7 @@
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
                             android:textSize="10dp"
-                            android:text="멘트가\n 많은" />
+                            android:text="@string/recommend_song_property2" />
 
                         <Button
                             android:id="@+id/recommendEnergyButton"
@@ -155,7 +155,7 @@
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
                             android:textSize="10dp"
-                            android:text="파워가\n 있는" />
+                            android:text="@string/recommend_song_property3" />
 
                     </TableRow>
 
@@ -172,7 +172,7 @@
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
                             android:textSize="10dp"
-                            android:text="스튜\n디오" />
+                            android:text="@string/recommend_song_property4" />
 
                         <Button
                             android:id="@+id/recommendDanceablilityButton"
@@ -182,7 +182,7 @@
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
                             android:textSize="10dp"
-                            android:text="흥이\n나는" />
+                            android:text="@string/recommend_song_property5" />
 
                         <Button
                             android:id="@+id/recommendAcousticButton"
@@ -192,7 +192,7 @@
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
                             android:textSize="10dp"
-                            android:text="어쿠\n스틱" />
+                            android:text="@string/recommend_song_property6" />
 
                     </TableRow>
 
@@ -208,8 +208,8 @@
                             android:layout_weight="1"
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
-                            android:textSize="10dp"
-                            android:text="연주곡" />
+                            android:textSize="9dp"
+                            android:text="@string/recommend_song_property7" />
 
                         <Button
                             android:id="@+id/recommendVocalButton"
@@ -219,7 +219,7 @@
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
                             android:textSize="10dp"
-                            android:text="보컬" />
+                            android:text="@string/recommend_song_property8" />
 
                         <Button
                             android:id="@+id/recommendLivenessButton"
@@ -229,7 +229,7 @@
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
                             android:textSize="10dp"
-                            android:text="라이브" />
+                            android:text="@string/recommend_song_property9" />
 
                     </TableRow>
 
@@ -267,7 +267,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="예상평점"
+            android:text="@string/recommend_expect_rating"
             android:paddingLeft="1dp"
             android:paddingRight="1dp"
             android:textSize="12dp"
@@ -301,7 +301,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/color_base_blue"
                 android:textAlignment="center"
-                android:text="노래를 평가해주세요!\n평가 후 창은 자동으로 사라집니다." />
+                android:text="@string/recommend_rating_explain" />
 
             <RatingBar
                 android:layout_width="wrap_content"
@@ -317,7 +317,7 @@
                 android:layout_gravity="center"
                 android:textColor="@color/color_base_blue"
                 android:textSize="12sp"
-                android:text="닫기"
+                android:text="@string/recommend_rating_close"
                 android:background="@drawable/button_background"/>
 
         </LinearLayout>

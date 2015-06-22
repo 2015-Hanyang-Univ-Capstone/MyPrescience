@@ -33,7 +33,7 @@
                     android:textColor="@color/title"
                     android:padding="10dp"
                     android:textStyle="bold"
-                    android:text="음악종류" />
+                    android:text="@string/song_filter_kind1" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -49,7 +49,7 @@
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
                         android:textSize="13sp"
-                        android:text="오늘의노래"
+                        android:text="@string/song_filter_song1"
                         android:id="@+id/random_SongFilter" />
 
                     <Button
@@ -59,7 +59,7 @@
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
                         android:textSize="13sp"
-                        android:text="한국 노래"
+                        android:text="@string/song_filter_song2"
                         android:id="@+id/kpop_SongFilter" />
 
                 </LinearLayout>
@@ -90,7 +90,7 @@
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
                         android:textSize="10sp"
-                        android:text="Billboard Hot100"
+                        android:text="@string/song_filter_song3"
                         android:id="@+id/billboardHot100_SongFilter" />
 
                 </LinearLayout>
@@ -103,7 +103,7 @@
                     android:textColor="@color/title"
                     android:padding="10dp"
                     android:textStyle="bold"
-                    android:text="음악장르" />
+                    android:text="@string/song_filter_kind2" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -232,7 +232,7 @@
                     android:textColor="@color/title"
                     android:padding="10dp"
                     android:textStyle="bold"
-                    android:text="음악속성" />
+                    android:text="@string/song_filter_kind3" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

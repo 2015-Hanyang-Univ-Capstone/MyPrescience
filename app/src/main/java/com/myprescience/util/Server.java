@@ -1,5 +1,7 @@
 package com.myprescience.util;
 
+import com.myprescience.R;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -137,32 +139,36 @@ public class Server {
         return total.toString();
     }
 
-    static public String getLevel(int songCount) {
+    static private int songDegree = 60;
 
-        String[] LEVEL = {
-                "Bronze",
-                "Silver",
-                "Gold",
-                "Platinum",
-                "Dia",
-                "Master"
+    static public int getLevel(int songCount) {
+
+        int[] LEVEL = {
+                R.string.rating_level1,
+                R.string.rating_level2,
+                R.string.rating_level3,
+                R.string.rating_level4,
+                R.string.rating_level5,
+                R.string.rating_level6,
+                R.string.rating_level7
         };
 
-        return LEVEL[songCount/75];
+        return LEVEL[songCount/songDegree];
     }
 
-    static public String getLevelDescribe(int songCount) {
+    static public int getLevelDescribe(int songCount) {
 
-        String[] LEVEL = {
-                "마음의 양식이 필요합니다. 노래를 들으세요.",
-                "이제 시작이군요! 얼쑤!",
-                "음악으로 풍요로워 지셨나요?",
-                "음악 좀 들으실 줄 아시는 군요!",
-                "노래 들으며 리듬타시는 모습이 보이는 군요!",
-                "Music is My Life!"
+        int[] LEVEL = {
+                R.string.rating_level1_explain,
+                R.string.rating_level2_explain,
+                R.string.rating_level3_explain,
+                R.string.rating_level4_explain,
+                R.string.rating_level5_explain,
+                R.string.rating_level6_explain,
+                R.string.rating_level7_explain
         };
 
-        return LEVEL[songCount/75];
+        return LEVEL[songCount/songDegree];
     }
 
     public static String callByArrayParameters(String url, List<NameValuePair> parameters) {

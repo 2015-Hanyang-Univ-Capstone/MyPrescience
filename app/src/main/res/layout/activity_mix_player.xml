@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="5dp"
-            android:text="음악을 불러오는 중 입니다. 잠시만 기다려주세요..."
+            android:text="@string/play_loading"
             android:textSize="18sp"
             android:textColor="@android:color/white"
             android:id="@+id/playerTitleTextView" />
@@ -140,7 +140,7 @@
                     android:layout_height="30dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="15dp"
-                    android:text="닫기"
+                    android:text="@string/recommend_rating_close"
                     android:textColor="@android:color/white"
                     android:textSize="14sp"
                     android:background="@color/color_base_light_blue"/>

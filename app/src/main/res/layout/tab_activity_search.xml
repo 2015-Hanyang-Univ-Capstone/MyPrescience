@@ -32,7 +32,7 @@
                     android:gravity="center"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/color_base_blue"
-                    android:text="당신이 원하는 노래를 찾아드립니다." />
+                    android:text="@string/recommend_search_title" />
 
 
                 <TextView
@@ -42,7 +42,7 @@
                     android:layout_marginTop="10dp"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/color_base_blue"
-                    android:text="1. 어떤 노래에서 찾아드릴까요?" />
+                    android:text="@string/recommend_search_subtitle1" />
 
                 <TableLayout
                     android:id="@+id/step1TableLayout"
@@ -63,7 +63,7 @@
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
                             android:textSize="10dp"
-                            android:text="모든 노래"
+                            android:text="@string/recommend_search_song1"
                             android:tag="all" />
 
                         <Button
@@ -73,7 +73,7 @@
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
                             android:textSize="10dp"
-                            android:text="한국 노래"
+                            android:text="@string/recommend_search_song2"
                             android:tag="country = 'kor'"/>
 
                         <Button
@@ -83,7 +83,7 @@
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
                             android:textSize="10dp"
-                            android:text="외국 노래"
+                            android:text="@string/recommend_search_song3"
                             android:tag="country is null"/>
 
                     </TableRow>
@@ -141,7 +141,7 @@
                     android:layout_marginTop="10dp"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/color_base_blue"
-                    android:text="2. 좋아하는 장르는요?"
+                    android:text="@string/recommend_search_subtitle2"
                     android:visibility="gone" />
 
                 <TableLayout
@@ -275,7 +275,7 @@
                     android:layout_marginTop="10dp"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/color_base_blue"
-                    android:text="3. 마지막으로 속성을 설정해주세요!"
+                    android:text="@string/recommend_search_subtitle3"
                     android:visibility="gone" />
 
                 <TableLayout
@@ -399,8 +399,7 @@
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
                             android:textSize="10dp"
-                            android:text="모든 속성"
-                            android:tag="" />
+                            android:visibility="invisible"/>
 
                     </TableRow>
 
@@ -432,7 +431,7 @@
                 android:layout_marginTop="2dp"
                 android:layout_gravity="center"
                 android:padding="10dp"
-                android:text="검색하기"
+                android:text="@string/recommend_search"
                 android:textColor="@color/color_base_blue"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:background="@drawable/button_background"
@@ -445,7 +444,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="2dp"
                 android:padding="10dp"
-                android:text="다시 검색하기"
+                android:text="@string/recommend_search_again"
                 android:textColor="@color/color_base_blue"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:background="@drawable/button_background"

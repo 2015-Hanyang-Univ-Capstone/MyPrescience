@@ -75,12 +75,26 @@
                         </LinearLayout>
 
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="10sp"
-                            android:textColor="@android:color/white"
-                            android:text="n 명이 평가했습니다." />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textColor="@android:color/white"
+                                android:textSize="10sp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/main_rating_count"
+                                android:textColor="@android:color/white"
+                                android:textSize="10sp"/>
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -160,7 +174,7 @@
                             android:layout_marginTop="5dp"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/color_base_blue"
-                            android:text="추천 노래\nMix Play"/>
+                            android:text="@string/main_mix_play"/>
 
                     </LinearLayout>
 
@@ -187,7 +201,7 @@
                             android:layout_marginTop="5dp"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/color_base_blue"
-                            android:text="   최신\n앨범 조회"/>
+                            android:text="@string/main_latest_album"/>
 
                     </LinearLayout>
 
@@ -214,7 +228,7 @@
                             android:layout_marginTop="5dp"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/color_base_blue"
-                            android:text="   추천\n노래 조회"/>
+                            android:text="@string/main_recommend_song"/>
 
                     </LinearLayout>
 
@@ -244,7 +258,7 @@
                             android:background="@drawable/rectangle_active"
                             android:textSize="15sp"
                             android:padding="10dp"
-                            android:text="나만의 음악을 원한다면!"
+                            android:text="@string/main_introduce_title1"
                             android:layout_gravity="center"
                             />
 
@@ -255,7 +269,7 @@
                             android:layout_marginTop="5dp"
                             android:layout_gravity="center"
                             android:textColor="@color/color_base_blue"
-                            android:text="My Prescience는" />
+                            android:text="@string/main_introduce_content1_1" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -264,7 +278,7 @@
                             android:layout_marginTop="5dp"
                             android:layout_gravity="center"
                             android:textColor="@color/sub_title"
-                            android:text="음악 추천 &amp; YouTube 스트리밍 서비스입니다.." />
+                            android:text="@string/main_introduce_content1_2" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -272,7 +286,7 @@
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:layout_gravity="center"
                             android:textColor="@color/sub_title"
-                            android:text="음악을 평가하시고 당신만을 위한 음악을 즐기세요!"
+                            android:text="@string/main_introduce_content1_3"
                             android:layout_marginBottom="20dp"/>
 
                         <Button
@@ -281,7 +295,7 @@
                             android:layout_height="30dp"
                             android:layout_marginBottom="15dp"
                             android:background="@color/color_base_light_blue"
-                            android:text="특징 더 보기"
+                            android:text="@string/main_introduce_more"
                             android:textColor="@android:color/white"
                             android:textSize="15sp"
                             android:padding="5dp"
@@ -326,7 +340,7 @@
                             android:background="@drawable/rectangle_active_light"
                             android:textSize="13sp"
                             android:padding="10dp"
-                            android:text="1. 음악 추천 서비스"
+                            android:text="@string/main_introduce_title2"
                             android:layout_gravity="center"
                             />
 
@@ -337,7 +351,7 @@
                             android:layout_gravity="center"
                             android:textSize="11sp"
                             android:textColor="@color/sub_title"
-                            android:text="당신에게 꼭 맞는 음악을 추천해드립니다."
+                            android:text="@string/main_introduce_content2_1"
                             />
 
                         <TextView
@@ -347,7 +361,7 @@
                             android:layout_gravity="center"
                             android:textColor="@color/sub_title"
                             android:textSize="11sp"
-                            android:text="보다 정확한 추천을 위해 노래를 평가해주세요!"
+                            android:text="@string/main_introduce_content2_2"
                             android:layout_marginBottom="20dp"/>
 
                     </LinearLayout>
@@ -366,7 +380,7 @@
                             android:background="@drawable/rectangle_active"
                             android:textSize="13sp"
                             android:padding="10dp"
-                            android:text="2. 음악 분석을 통한 검색"
+                            android:text="@string/main_introduce_title3"
                             android:layout_gravity="center"
                             />
 
@@ -377,7 +391,7 @@
                             android:layout_gravity="center"
                             android:textColor="@color/sub_title"
                             android:textSize="11sp"
-                            android:text="밝은 분위기, 비트가 강한, 빠르고 시끄러운" />
+                            android:text="@string/main_introduce_content3_1" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -386,7 +400,7 @@
                             android:layout_gravity="center"
                             android:textColor="@color/sub_title"
                             android:textSize="11sp"
-                            android:text="춤추고 싶은, 파워 넘치는, 어쿠스틱, 라이브 등" />
+                            android:text="@string/main_introduce_content3_2" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -395,7 +409,7 @@
                             android:layout_gravity="center"
                             android:textColor="@color/sub_title"
                             android:textSize="11sp"
-                            android:text="노래의 속성으로 자신이 원하는 노래를 찾아보세요."
+                            android:text="@string/main_introduce_content3_3"
                             android:layout_marginBottom="20dp" />
 
                     </LinearLayout>
@@ -415,7 +429,7 @@
                             android:background="@drawable/rectangle_active_blue"
                             android:textSize="13sp"
                             android:padding="10dp"
-                            android:text="3. 다양한 상황에 따른 Youtube 음악플레이어"
+                            android:text="@string/main_introduce_title4"
                             android:layout_gravity="center"
                             />
 
@@ -427,7 +441,7 @@
                             android:layout_gravity="center"
                             android:textColor="@color/sub_title"
                             android:textSize="11sp"
-                            android:text="분석된 노래 기반으로 상황별, 기분별 음악을"/>
+                            android:text="@string/main_introduce_content4_1"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -436,7 +450,7 @@
                             android:layout_gravity="center"
                             android:textColor="@color/sub_title"
                             android:textSize="11sp"
-                            android:text="유투브로 감상해보세요!"
+                            android:text="@string/main_introduce_content4_2"
                             android:layout_marginBottom="20dp"/>
 
                     </LinearLayout>
@@ -512,7 +526,7 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="전체평균 : "
+                                        android:text="@string/main_rating_avg"
                                         android:textColor="@color/title"
                                         android:textSize="12sp"/>
 
@@ -528,13 +542,27 @@
 
                                 </LinearLayout>
 
-                                <TextView
-                                    android:id="@+id/artistcount"
+                                <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="0 명이 평가했습니다."
-                                    android:textColor="@color/sub_title"
-                                    android:textSize="12sp"/>
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/artistcount1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text=""
+                                        android:textColor="@color/sub_title"
+                                        android:textSize="12sp"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/main_rating_count"
+                                        android:textColor="@color/sub_title"
+                                        android:textSize="12sp"/>
+
+                                </LinearLayout>
 
                             </LinearLayout>
 
@@ -582,7 +610,7 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="전체평균 : "
+                                        android:text="@string/main_rating_avg"
                                         android:textColor="@color/title"
                                         android:textSize="12sp"/>
 
@@ -598,13 +626,27 @@
 
                                 </LinearLayout>
 
-                                <TextView
-                                    android:id="@+id/artistc12ount"
+                                <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="0 명이 평가했습니다."
-                                    android:textColor="@color/sub_title"
-                                    android:textSize="12sp"/>
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/artistcount2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text=""
+                                        android:textColor="@color/sub_title"
+                                        android:textSize="12sp"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/main_rating_count"
+                                        android:textColor="@color/sub_title"
+                                        android:textSize="12sp"/>
+
+                                </LinearLayout>
 
                             </LinearLayout>
 
@@ -652,7 +694,7 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="전체평균 : "
+                                        android:text="@string/main_rating_avg"
                                         android:textColor="@color/title"
                                         android:textSize="12sp"/>
 
@@ -668,13 +710,27 @@
 
                                 </LinearLayout>
 
-                                <TextView
-                                    android:id="@+id/artistcount3"
+                                <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="0 명이 평가했습니다."
-                                    android:textColor="@color/sub_title"
-                                    android:textSize="12sp"/>
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/artistcount3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text=""
+                                        android:textColor="@color/sub_title"
+                                        android:textSize="12sp"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/main_rating_count"
+                                        android:textColor="@color/sub_title"
+                                        android:textSize="12sp"/>
+
+                                </LinearLayout>
 
                             </LinearLayout>
 
@@ -689,7 +745,7 @@
                             android:layout_marginTop="5dp"
                             android:layout_marginBottom="5dp"
                             android:padding="5dp"
-                            android:text="더보기"
+                            android:text="@string/main_more"
                             android:textColor="@android:color/white"
                             android:textSize="14sp"
                             android:background="@color/color_base_light_blue"/>
@@ -743,7 +799,7 @@
                             android:layout_marginTop="5dp"
                             android:layout_marginBottom="5dp"
                             android:padding="5dp"
-                            android:text="더보기"
+                            android:text="@string/main_more"
                             android:textColor="@android:color/white"
                             android:textSize="14sp"
                             android:background="@color/color_base_light_blue"/>

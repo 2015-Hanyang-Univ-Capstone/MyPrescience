@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="15sp"
-        android:text="선견지명"
+        android:text="@string/login_prescience"
         android:id="@+id/textView"
         android:layout_below="@+id/logoView"
         android:layout_centerHorizontal="true"

@@ -112,7 +112,11 @@ public class NavigationDrawerFragment extends Fragment {
         nameTextView.setText(userDTO.getName());
 
         TextView levelTextView = (TextView) framelayout.getChildAt(3);
-        levelTextView.setText(getLevel(userDTO.getRatingSongCount()));
+
+        if(userDTO.getRatingSongCount() > 400)
+            levelTextView.setText(getString(getLevel(400)));
+        else
+            levelTextView.setText(getString(getLevel(userDTO.getRatingSongCount())));
 
         mNaviListView = (ListView) mNaviGroup.getChildAt(1);
         mNaviListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -59,7 +59,7 @@
             android:layout_gravity="center"
             android:textSize="14sp"
             android:textColor="@color/color_base_blue"
-            android:text="조회"
+            android:text="@string/main_detail"
             android:background="@drawable/button_background"/>
 
     </LinearLayout>

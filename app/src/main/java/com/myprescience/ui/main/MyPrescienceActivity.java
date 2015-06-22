@@ -166,9 +166,9 @@ public class MyPrescienceActivity extends ActionBarActivity implements
 			Locale l = Locale.getDefault();
 			switch (position) {
 			case 0:
-				return getString(R.string.title_tab1).toUpperCase(l);
+				return getString(R.string.recommend_tab1).toUpperCase(l);
 			case 1:
-				return getString(R.string.title_tab2).toUpperCase(l);
+				return getString(R.string.recommend_tab2).toUpperCase(l);
 			}
 			return null;
 		}

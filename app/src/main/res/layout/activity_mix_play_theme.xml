@@ -47,14 +47,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_base_blue"
-                android:text="추천노래+내 노래" />
+                android:text="@string/play_mode1" />
 
             <RadioButton
                 android:id="@+id/ranSongButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_base_blue"
-                android:text="랜덤 노래" />
+                android:text="@string/play_mode2" />
 
         </RadioGroup>
 
@@ -100,7 +100,7 @@
                             android:layout_gravity="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/color_base_blue"
-                            android:text="기분 좋은 날"/>
+                            android:text="@string/play_theme1"/>
 
                     </LinearLayout>
 
@@ -128,7 +128,7 @@
                             android:layout_gravity="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/color_base_blue"
-                            android:text="우울한 날"/>
+                            android:text="@string/play_theme2"/>
 
                     </LinearLayout>
 
@@ -156,7 +156,7 @@
                             android:layout_gravity="center"
                             android:textAppearance="?android:attr/textAppearance"
                             android:textColor="@color/color_base_blue"
-                            android:text="몸이 들썩들썩"/>
+                            android:text="@string/play_theme3"/>
 
                     </LinearLayout>
 
@@ -194,7 +194,7 @@
                             android:layout_gravity="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/color_base_blue"
-                            android:text="감성 충만"/>
+                            android:text="@string/play_theme4"/>
 
                     </LinearLayout>
 
@@ -222,7 +222,7 @@
                             android:layout_gravity="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/color_base_blue"
-                            android:text="편안한 휴식"/>
+                            android:text="@string/play_theme5"/>
 
                     </LinearLayout>
 
@@ -250,7 +250,7 @@
                             android:layout_gravity="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/color_base_blue"
-                            android:text="신상이야"/>
+                            android:text="@string/play_theme6"/>
 
                     </LinearLayout>
 
@@ -289,7 +289,7 @@
                             android:layout_gravity="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/color_base_blue"
-                            android:text="힘이 필요해"/>
+                            android:text="@string/play_theme7"/>
 
                     </LinearLayout>
 
@@ -317,7 +317,7 @@
                             android:layout_gravity="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/color_base_blue"
-                            android:text="달리자"/>
+                            android:text="@string/play_theme8"/>
 
                     </LinearLayout>
 
@@ -345,7 +345,7 @@
                             android:layout_gravity="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/color_base_blue"
-                            android:text="추억속으로"/>
+                            android:text="@string/play_theme9"/>
 
                     </LinearLayout>
 
@@ -384,7 +384,7 @@
                             android:layout_gravity="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/color_base_blue"
-                            android:text="장르 선택"/>
+                            android:text="@string/play_theme10"/>
 
                     </LinearLayout>
 
@@ -412,7 +412,7 @@
                             android:layout_gravity="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/color_base_blue"
-                            android:text="빌보드Hot100"/>
+                            android:text="@string/play_theme11"/>
 
                     </LinearLayout>
 
@@ -440,7 +440,7 @@
                             android:layout_gravity="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/color_base_blue"
-                            android:text="MyP 추천곡"/>
+                            android:text="@string/play_theme12"/>
 
                     </LinearLayout>
 
