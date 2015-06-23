@@ -151,11 +151,11 @@ public class PlayerActivity extends YouTubeBaseActivity {
             public void onClick(View v) {
                 if(SPOTIFY_ARTIST_ID != null)
                     if(SPOTIFY_ARTIST_ID.equals("artists/"))
-                        Toast.makeText(PlayerActivity.this, "아티스트에 대한 정보가 없습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PlayerActivity.this, getString(R.string.song_no_artist), Toast.LENGTH_SHORT).show();
                     else
                         getArtistFragment();
                 else
-                    Toast.makeText(PlayerActivity.this, "음악 정보를 받아오는 중 입니다. 조금 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PlayerActivity.this, getString(R.string.play_loading), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -165,11 +165,11 @@ public class PlayerActivity extends YouTubeBaseActivity {
             public void onClick(View v) {
                 if(SPOTIFY_ALBUM_ID != null)
                     if(SPOTIFY_ALBUM_ID.equals("albums/"))
-                        Toast.makeText(PlayerActivity.this, "앨범에 대한 정보가 없습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PlayerActivity.this, getString(R.string.song_no_album), Toast.LENGTH_SHORT).show();
                     else
                     getAlbumFragment();
                 else
-                    Toast.makeText(PlayerActivity.this, "음악 정보를 받아오는 중 입니다. 조금 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PlayerActivity.this, getString(R.string.play_loading), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -416,17 +416,22 @@ public class PlayerActivity extends YouTubeBaseActivity {
                 @Override
                 public void onNext() {
 //                    mPlaylist.get(mCurrent_Video).setTextColor(getResources().getColor(R.color.darker_gray));
-                    if (mCurrent_Video != youtubes_id.size() - 1)
-                        mCurrent_Video++;
-                    player.loadVideos(youtubes_id, mCurrent_Video, youtubes_id.size() - 1);
-                    mPlayerTitleTextView.setText(youtubes_title.get(mCurrent_Video));
-                    Log.e("onNext", mCurrent_Video + " : " + youtubes_title.get(mCurrent_Video));
+
+                    if(SPOTIFY_ALBUM_ID != null) {
+                        if (mCurrent_Video != youtubes_id.size() - 1)
+                            mCurrent_Video++;
+                        player.loadVideos(youtubes_id, mCurrent_Video, youtubes_id.size() - 1);
+                        mPlayerTitleTextView.setText(youtubes_title.get(mCurrent_Video));
+                        Log.e("onNext", mCurrent_Video + " : " + youtubes_title.get(mCurrent_Video));
+                    } else {
+                        Toast.makeText(PlayerActivity.this, getString(R.string.play_loading), Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 @Override
                 public void onPlaylistEnded() {
                     if (mCurrent_Video == youtubes_id.size() - 1) {
-                        mPlayerTitleTextView.setText("모든 노래를 플레이하였습니다.");
+                        mPlayerTitleTextView.setText(getString(R.string.play_end));
                     }
                     Log.e("onPlaylistEnded", mCurrent_Video + " : " + youtubes_title.get(mCurrent_Video));
                 }
@@ -445,7 +450,7 @@ public class PlayerActivity extends YouTubeBaseActivity {
 
                 @Override
                 public void onAdStarted() {
-                    mPlayerTitleTextView.setText("광고 중 입니다. 잠시만 기다려주세요.");
+                    mPlayerTitleTextView.setText(getString(R.string.play_ad_start));
                     mPlayerPrevButtonView.setVisibility(View.INVISIBLE);
                     mPlayerPlayButtonView.setVisibility(View.INVISIBLE);
                     mPlayerNextButtonView.setVisibility(View.INVISIBLE);

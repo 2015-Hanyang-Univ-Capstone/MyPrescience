@@ -255,7 +255,7 @@ public class SongActivity extends YouTubeBaseActivity {
                         ratingTextView.setText(String.format("%.1f", avg / 2.0));
 
                         int rating_count = Integer.parseInt((String) rating.get("rating_count"));
-                        ratindCountTextView.setText(rating_count + "명이 이 노래를 평가했습니다!");
+                        ratindCountTextView.setText(rating_count + " " + getString(R.string.main_rating_count));
                     }
                 }
             } catch (ParseException e) {
@@ -488,7 +488,7 @@ public class SongActivity extends YouTubeBaseActivity {
                 }
 
                 tempoTextView.setText(Double.toString(tempo) + " bpm");
-                timeSignatureTextView.setText(timeSignature + " 박자");
+                timeSignatureTextView.setText(timeSignature + "");
                 durationTextView.setText(convertMS((int)duration));
                 songModeTextView.setText(modes[songMode]);
                 songKeyTextView.setText(keys[songKey]);
@@ -520,13 +520,13 @@ public class SongActivity extends YouTubeBaseActivity {
                     public void onClick(View v) {
                         if(spotifyArtistID.equals("artists/")) {
                             AlertDialog.Builder alert = new AlertDialog.Builder(SongActivity.this);
-                            alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();     //닫기
                                 }
                             });
-                            alert.setMessage("아티스트에 대한 정보가 없습니다.");
+                            alert.setMessage(getString(R.string.song_no_artist));
                             alert.show();
                         } else {
                             Intent intent = new Intent(SongActivity.this, ArtistActivity.class);
@@ -553,7 +553,7 @@ public class SongActivity extends YouTubeBaseActivity {
                                     dialog.dismiss();     //닫기
                                 }
                             });
-                            alert.setMessage("앨범에 대한 정보가 없습니다.");
+                            alert.setMessage(getString(R.string.song_no_album));
                             alert.show();
                         }
                     });
@@ -592,7 +592,7 @@ public class SongActivity extends YouTubeBaseActivity {
                         new InsertUpdateQuery(getApplicationContext()).execute(SERVER_ADDRESS + RATING_API + INSERT_RATING +
                                 "user_id=" + userDTO.getId() + "&song_id=" + SONG_ID + "&rating=" + ratingInt +
                                 "&artist_id=" + spotifyArtistID + "&album_id=" + spotifyAlbumID.substring(7));
-                        Toast toast = Toast.makeText(getApplicationContext(), rating+"/5.0점으로 평가되었습니다!", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(getApplicationContext(), rating + getString(R.string.song_rating_score), Toast.LENGTH_SHORT);
                         toast.show();
 
                         userDTO.addRatingSoungCount(SONG_ID, ratingInt);

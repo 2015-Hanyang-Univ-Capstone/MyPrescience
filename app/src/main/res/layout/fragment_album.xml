@@ -26,15 +26,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="앨범 정보를"
+                android:text="@string/play_album_loading1"
                 android:id="@+id/nameTextView"
                 android:layout_gravity="center" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="가지고 오는 중입니다."
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/play_loading2"
                 android:id="@+id/genresTextView"
                 android:layout_gravity="center" />
 
@@ -42,7 +42,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="잠시만"
                 android:id="@+id/releaseTextView"
                 android:layout_gravity="center" />
 
@@ -53,7 +52,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="기다려주세요."
                 android:maxLines="2"
                 android:ellipsize="end"
                 android:id="@+id/copyrightTextView"

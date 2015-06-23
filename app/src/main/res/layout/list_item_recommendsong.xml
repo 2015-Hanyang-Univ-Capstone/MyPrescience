@@ -53,6 +53,7 @@
                     android:textColor="@android:color/white"
                     android:background="@drawable/trasparent_background"
                     android:text="@string/recommend_view_detail"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -68,6 +69,7 @@
                     android:textColor="@android:color/white"
                     android:background="@drawable/trasparent_background"
                     android:text="@string/recommend_rating"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
             </FrameLayout>
@@ -134,7 +136,7 @@
                             android:layout_weight="1"
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
-                            android:textSize="10dp"
+                            android:textSize="8dp"
                             android:text="@string/recommend_song_property1" />
 
                         <Button
@@ -144,7 +146,7 @@
                             android:layout_weight="1"
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
-                            android:textSize="10dp"
+                            android:textSize="8dp"
                             android:text="@string/recommend_song_property2" />
 
                         <Button
@@ -154,7 +156,7 @@
                             android:layout_weight="1"
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
-                            android:textSize="10dp"
+                            android:textSize="8dp"
                             android:text="@string/recommend_song_property3" />
 
                     </TableRow>
@@ -171,7 +173,7 @@
                             android:layout_weight="1"
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
-                            android:textSize="10dp"
+                            android:textSize="8dp"
                             android:text="@string/recommend_song_property4" />
 
                         <Button
@@ -181,7 +183,7 @@
                             android:layout_weight="1"
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
-                            android:textSize="10dp"
+                            android:textSize="8dp"
                             android:text="@string/recommend_song_property5" />
 
                         <Button
@@ -191,7 +193,7 @@
                             android:layout_weight="1"
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
-                            android:textSize="10dp"
+                            android:textSize="8dp"
                             android:text="@string/recommend_song_property6" />
 
                     </TableRow>
@@ -208,7 +210,7 @@
                             android:layout_weight="1"
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
-                            android:textSize="9dp"
+                            android:textSize="8dp"
                             android:text="@string/recommend_song_property7" />
 
                         <Button
@@ -218,7 +220,7 @@
                             android:layout_weight="1"
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
-                            android:textSize="10dp"
+                            android:textSize="8dp"
                             android:text="@string/recommend_song_property8" />
 
                         <Button
@@ -228,7 +230,7 @@
                             android:layout_weight="1"
                             android:textColor="@android:color/white"
                             android:background="@drawable/rectangle_not_active"
-                            android:textSize="10dp"
+                            android:textSize="8dp"
                             android:text="@string/recommend_song_property9" />
 
                     </TableRow>

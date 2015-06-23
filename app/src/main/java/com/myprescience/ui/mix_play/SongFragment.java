@@ -237,7 +237,7 @@ public class SongFragment extends Fragment {
                         ratingTextView.setText(String.format("%.1f", avg / 2.0));
 
                         int rating_count = Integer.parseInt((String) rating.get("rating_count"));
-                        ratindCountTextView.setText(rating_count + "명이 이 노래를 평가했습니다!");
+                        ratindCountTextView.setText(rating_count + " " + getString(R.string.main_rating_count));
                     }
                 }
             } catch (ParseException e) {
@@ -477,13 +477,17 @@ public class SongFragment extends Fragment {
                     songModeTextView.setText(modes[songMode]);
                     songKeyTextView.setText(keys[songKey]);
 
-                    setSongPropertyText(valanceTextview, valence);
-                    setSongPropertyText(danceablilityTextview, danceability);
-                    setSongPropertyText(energyTextview, energy);
-                    setSongPropertyText(livenessTextview, liveness);
-                    setSongPropertyText(speechinessTextview, speechiness);
-                    setSongPropertyText(acousticnessTextview, acousticness);
-                    setSongPropertyText(instrumentalnessTextview, instrumentalness);
+                    try {
+                        setSongPropertyText(valanceTextview, valence);
+                        setSongPropertyText(danceablilityTextview, danceability);
+                        setSongPropertyText(energyTextview, energy);
+                        setSongPropertyText(livenessTextview, liveness);
+                        setSongPropertyText(speechinessTextview, speechiness);
+                        setSongPropertyText(acousticnessTextview, acousticness);
+                        setSongPropertyText(instrumentalnessTextview, instrumentalness);
+                    } catch (Exception e) {
+
+                    }
 
                     String spotifyTrackID = "tracks/" + (String) song.get("track_spotify_id");
                     if (spotifyTrackID.equals("tracks/")) {
@@ -505,13 +509,13 @@ public class SongFragment extends Fragment {
                         public void onClick(View v) {
                             if (spotifyArtistID.equals("artists/")) {
                                 AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                                alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();     //닫기
                                     }
                                 });
-                                alert.setMessage("아티스트에 대한 정보가 없습니다.");
+                                alert.setMessage(getString(R.string.song_no_artist));
                                 alert.show();
                             } else {
                                 getArtistFragment(spotifyArtistID);
@@ -534,13 +538,13 @@ public class SongFragment extends Fragment {
                             @Override
                             public void onClick(View v) {
                                 AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                                alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();     //닫기
                                     }
                                 });
-                                alert.setMessage("앨범에 대한 정보가 없습니다.");
+                                alert.setMessage(getString(R.string.song_no_album));
                                 alert.show();
                             }
                         });
@@ -580,7 +584,7 @@ public class SongFragment extends Fragment {
                             new InsertUpdateQuery(getActivity()).execute(SERVER_ADDRESS + RATING_API + INSERT_RATING +
                                     "user_id=" + userDTO.getId() + "&song_id=" + SONG_ID + "&rating=" + ratingInt +
                                     "&artist_id=" + spotifyArtistID + "&album_id=" + spotifyAlbumID.substring(7));
-                            Toast toast = Toast.makeText(getActivity(), rating + "/5.0점으로 평가되었습니다!", Toast.LENGTH_SHORT);
+                            Toast toast = Toast.makeText(getActivity(), rating + getString(R.string.song_rating_score), Toast.LENGTH_SHORT);
                             toast.show();
 
                             userDTO.addRatingSoungCount(SONG_ID, ratingInt);

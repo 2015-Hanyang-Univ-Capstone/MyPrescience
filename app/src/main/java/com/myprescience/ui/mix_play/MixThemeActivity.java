@@ -288,13 +288,13 @@ public class MixThemeActivity extends ActionBarActivity {
 
     public void showClickSongAlert() {
         AlertDialog.Builder alert = new AlertDialog.Builder(MixThemeActivity.this);
-        alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();     //닫기
             }
         });
-        alert.setMessage("음악종류를 먼저 선택해주세요!");
+        alert.setMessage(getString(R.string.play_chose_mode));
         alert.show();
         return;
     }

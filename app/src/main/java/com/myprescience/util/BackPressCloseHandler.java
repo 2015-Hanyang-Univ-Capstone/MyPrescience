@@ -3,6 +3,8 @@ package com.myprescience.util;
 import android.app.Activity;
 import android.widget.Toast;
 
+import com.myprescience.R;
+
 public class BackPressCloseHandler {
 
     private int MAIN = 0, PLAYER = 1;
@@ -32,13 +34,13 @@ public class BackPressCloseHandler {
 
     public void showGuide() {
         toast = Toast.makeText(activity,
-                "\'뒤로\'버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
+                activity.getString(R.string.util_back_button1), Toast.LENGTH_SHORT);
         toast.show();
     }
 
     public void showGuide2() {
         toast = Toast.makeText(activity,
-                "\'뒤로\'버튼을 한번 더 누르시면 음악 선택화면으로 돌아갑니다.", Toast.LENGTH_SHORT);
+                activity.getString(R.string.util_back_button2), Toast.LENGTH_SHORT);
         toast.show();
     }
 }

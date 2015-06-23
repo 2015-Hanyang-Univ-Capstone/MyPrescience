@@ -69,10 +69,10 @@ android:id="@+id/scrollView" >
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="나의평점"
+                            android:text="@string/song_my_score"
                             android:paddingLeft="1dp"
                             android:paddingRight="1dp"
-                            android:textSize="12dp"
+                            android:textSize="10dp"
                             android:textColor="@color/color_base_blue"
                             />
 
@@ -95,7 +95,7 @@ android:id="@+id/scrollView" >
                             android:ellipsize="end"
                             android:maxLines="2"
                             android:textAlignment="center"
-                            android:text="음악을" />
+                            android:text="@string/play_song_loading1" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -113,7 +113,7 @@ android:id="@+id/scrollView" >
                             android:ellipsize="end"
                             android:maxLines="2"
                             android:textAlignment="center"
-                            android:text="로딩중입니다."
+                            android:text="@string/play_loading2"
                             android:clickable="true"/>
                     </LinearLayout>
 
@@ -133,7 +133,7 @@ android:id="@+id/scrollView" >
                             android:ellipsize="end"
                             android:maxLines="2"
                             android:textAlignment="center"
-                            android:text="짐시만" />
+                            android:text="Album" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -148,7 +148,7 @@ android:id="@+id/scrollView" >
                             android:id="@+id/trackNumTextView"
                             android:textSize="9sp"
                             android:textColor="@color/WhiteSmoke"
-                            android:text="기다려주세요." />
+                            android:text="Track Number" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -185,7 +185,7 @@ android:id="@+id/scrollView" >
                             android:layout_marginTop="10dp"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/WhiteSmoke"
-                            android:text="" />
+                            android:text="Preview\nLoading... " />
 
                     </LinearLayout>
 
@@ -232,7 +232,7 @@ android:id="@+id/scrollView" >
                         android:layout_marginTop="7dp"
                         android:textSize="15sp"
                         android:textColor="@color/color_base_blue"
-                        android:text="전체 평균 : " />
+                        android:text="@string/main_rating_avg" />
 
                     <TextView
                         android:layout_width="35dp"
@@ -252,7 +252,7 @@ android:id="@+id/scrollView" >
                         android:layout_marginLeft="10dp"
                         android:textSize="12sp"
                         android:textColor="@color/color_base_blue"
-                        android:text="이 노래에 대한 평가가 없습니다. \n첫 평가자가 되어주세요!" />
+                        android:text="@string/song_no_rating" />
 
                 </LinearLayout>
 
@@ -273,7 +273,7 @@ android:id="@+id/scrollView" >
                         android:layout_weight="1"
                         android:gravity="center"
                         android:textColor="@color/color_base_blue"
-                        android:text="인기도(Spotify) : " />
+                        android:text="@string/song_popularity_spotify" />
 
                     <ProgressBar
                         style="?android:attr/progressBarStyleHorizontal"
@@ -321,7 +321,7 @@ android:id="@+id/scrollView" >
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/color_base_blue"
-                        android:text="아티스트"/>
+                        android:text="@string/mypage_artist"/>
 
                 </LinearLayout>
 
@@ -346,7 +346,7 @@ android:id="@+id/scrollView" >
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/color_base_blue"
-                        android:text="앨범조회"/>
+                        android:text="@string/mypage_album"/>
 
                 </LinearLayout>
 
@@ -371,7 +371,7 @@ android:id="@+id/scrollView" >
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/color_base_blue"
-                        android:text="평가하기"/>
+                        android:text="@string/recommend_rating"/>
 
                 </LinearLayout>
 
@@ -382,7 +382,8 @@ android:id="@+id/scrollView" >
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_background"
                     android:layout_marginRight="10dp"
-                    android:padding="10dp">
+                    android:padding="10dp"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="25dp"
@@ -425,7 +426,7 @@ android:id="@+id/scrollView" >
                         android:layout_weight="2"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/title"
-                        android:text="노래 세부사항" />
+                        android:text="@string/song_detail" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -446,7 +447,7 @@ android:id="@+id/scrollView" >
                                 android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:textColor="@color/title"
                                 android:textStyle="bold"
-                                android:text="조표        " />
+                                android:text="@string/song_mode" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -473,7 +474,7 @@ android:id="@+id/scrollView" >
                                 android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:textColor="@color/title"
                                 android:textStyle="bold"
-                                android:text="Key        " />
+                                android:text="@string/song_key" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -500,7 +501,7 @@ android:id="@+id/scrollView" >
                                 android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:textColor="@color/title"
                                 android:textStyle="bold"
-                                android:text="빠르기    " />
+                                android:text="@string/song_tempo" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -527,7 +528,7 @@ android:id="@+id/scrollView" >
                                 android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:textColor="@color/title"
                                 android:textStyle="bold"
-                                android:text="박자       " />
+                                android:text="@string/song_time_signature" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -554,7 +555,7 @@ android:id="@+id/scrollView" >
                                 android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:textColor="@color/title"
                                 android:textStyle="bold"
-                                android:text="재생시간   " />
+                                android:text="@string/song_duration" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -597,7 +598,7 @@ android:id="@+id/scrollView" >
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="#FFF"
                         android:textStyle="bold"
-                        android:text="이 노래는.." />
+                        android:text="@string/song_this_song" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -623,8 +624,7 @@ android:id="@+id/scrollView" >
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:textColor="#FFF"
                                 android:background="@drawable/rectangle_not_active"
-                                android:text=""
-                                android:tag="밝은 분위기#차분한 분위기"/>
+                                android:tag="@string/song_property1"/>
 
                             <TextView
                                 android:id="@+id/songType1Textview"
@@ -635,7 +635,7 @@ android:id="@+id/scrollView" >
                                 android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:textColor="#FFF"
                                 android:background="@drawable/rectangle_not_active"
-                                android:text="스튜디오"
+                                android:text="@string/song_property2"
                                 android:tag="studio" />
 
                             <TextView
@@ -647,7 +647,7 @@ android:id="@+id/scrollView" >
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:textColor="#FFF"
                                 android:background="@drawable/rectangle_not_active"
-                                android:tag="라이브 음악#레코딩 음악" />
+                                android:tag="@string/song_property3" />
 
                         </LinearLayout>
 
@@ -667,8 +667,7 @@ android:id="@+id/scrollView" >
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:textColor="#FFF"
                                 android:background="@drawable/rectangle_not_active"
-                                android:text=""
-                                android:tag="비트가 강한#비트가 약한" />
+                                android:tag="@string/song_property4" />
 
                             <TextView
                                 android:id="@+id/songType2Textview"
@@ -679,7 +678,7 @@ android:id="@+id/scrollView" >
                                 android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:textColor="#FFF"
                                 android:background="@drawable/rectangle_not_active"
-                                android:text="크리스마스"
+                                android:text="@string/song_property5"
                                 android:tag="christmas" />
 
                             <TextView
@@ -691,8 +690,7 @@ android:id="@+id/scrollView" >
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:textColor="#FFF"
                                 android:background="@drawable/rectangle_not_active"
-                                android:text=""
-                                android:tag="어쿠스틱 악기로 이루어진#기계음이 섞인" />
+                                android:tag="@string/song_property6" />
 
                         </LinearLayout>
 
@@ -712,7 +710,7 @@ android:id="@+id/scrollView" >
                                 android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:textColor="#FFF"
                                 android:background="@drawable/rectangle_not_active"
-                                android:text="보컬"
+                                android:text="@string/song_property7"
                                 android:tag="vocal" />
 
                             <TextView
@@ -724,8 +722,7 @@ android:id="@+id/scrollView" >
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:textColor="#FFF"
                                 android:background="@drawable/rectangle_not_active"
-                                android:text=""
-                                android:tag="멘트가 많은#멘트가 적은" />
+                                android:tag="@string/song_property8" />
 
                             <TextView
                                 android:id="@+id/instrumentalnessTextview"
@@ -736,8 +733,7 @@ android:id="@+id/scrollView" >
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:textColor="#FFF"
                                 android:background="@drawable/rectangle_not_active"
-                                android:text=""
-                                android:tag="연주로만 이루어진#보컬이 있는" />
+                                android:tag="@string/song_property9" />
 
                         </LinearLayout>
 
@@ -757,8 +753,7 @@ android:id="@+id/scrollView" >
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:textColor="#FFF"
                                 android:background="@drawable/rectangle_not_active"
-                                android:text=""
-                                android:tag="빠르고 힘있는#조용하고 잔잔한" />
+                                android:tag="@string/song_property10" />
 
                             <TextView
                                 android:id="@+id/songType3Textview"
@@ -769,7 +764,7 @@ android:id="@+id/scrollView" >
                                 android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:textColor="#FFF"
                                 android:background="@drawable/rectangle_not_active"
-                                android:text="일렉트릭"
+                                android:text="@string/song_property11"
                                 android:tag="electric" />
 
                         </LinearLayout>
@@ -785,7 +780,7 @@ android:id="@+id/scrollView" >
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="#FFF"
                         android:textStyle="bold"
-                        android:text=".. 한 노래입니다." />
+                        android:text="@string/song_like.." />
 
                 </LinearLayout>
 
@@ -818,7 +813,7 @@ android:id="@+id/scrollView" >
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/color_base_blue"
                     android:textAlignment="center"
-                    android:text="노래를 평가해주세요!\n평가 후 창은 자동으로 사라집니다." />
+                    android:text="@string/recommend_rating_explain" />
 
                 <RatingBar
                     android:id="@+id/songActivityRatingBar"
@@ -836,7 +831,7 @@ android:id="@+id/scrollView" >
                     android:layout_gravity="center"
                     android:textColor="@color/color_base_blue"
                     android:textSize="12sp"
-                    android:text="닫기"
+                    android:text="@string/recommend_rating_close"
                     android:background="@drawable/button_background"/>
 
             </LinearLayout>

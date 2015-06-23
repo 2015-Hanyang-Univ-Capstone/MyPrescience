@@ -121,8 +121,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
+                    android:padding="5dp"
                     android:background="@color/color_base_background"
                     android:gravity="center">
 
@@ -146,9 +145,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:gravity="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/color_base_blue"
-                            android:text="   MyP\nTop100"/>
+                            android:text="MyP\nTop100"/>
 
                     </LinearLayout>
 
@@ -172,6 +172,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:gravity="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/color_base_blue"
                             android:text="@string/main_mix_play"/>
@@ -199,6 +200,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:gravity="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/color_base_blue"
                             android:text="@string/main_latest_album"/>
@@ -211,7 +213,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/button_background"
-                        android:layout_marginRight="10dp"
                         android:padding="10dp">
 
                         <ImageView
@@ -226,6 +227,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:gravity="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/color_base_blue"
                             android:text="@string/main_recommend_song"/>

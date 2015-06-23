@@ -21,11 +21,11 @@
 
     // Main
 
-    <string name="main_mix_play">　Music　\n　Play　</string>
-    <string name="main_latest_album">　Latest　\n　Album　</string>
-    <string name="main_recommend_song">Recommend\nSong View</string>
+    <string name="main_mix_play">Music\nPlay</string>
+    <string name="main_latest_album">Latest\nAlbum</string>
+    <string name="main_recommend_song">Recommend\nSong</string>
 
-    <string name="main_introduce_title1">If want music for only you!</string>
+    <string name="main_introduce_title1">WE KNOW MUSIC WHAT YOU LOVE!</string>
     <string name="main_introduce_content1_1">My Prescience is</string>
     <string name="main_introduce_content1_2">Recommend Music &amp; YouTube Streaming Service.</string>
     <string name="main_introduce_content1_3">Rating music, Enjoy music for you!</string>
@@ -45,6 +45,8 @@
     <string name="main_introduce_content4_1">Play Song with depending on the mood </string>
     <string name="main_introduce_content4_2">or circumstances. Enjoy!</string>
 
+    <string name="main_rating_avg">Avg : </string>
+    <string name="main_top_avg">Avg</string>
     <string name="main_rating_count"> people rate this.</string>
     <string name="main_detail">View</string>
     <string name="main_more">See More</string>
@@ -75,8 +77,8 @@
     <string name="recommend_song_property5">Dance</string>
     <string name="recommend_song_property6">Acoustic</string>
     <string name="recommend_song_property7">Instru\nmental</string>
-    <string name="recommend_song_property8">Vocal</string>
-    <string name="recommend_song_property9">Live</string>
+    <string name="recommend_song_property8">Vocal\n</string>
+    <string name="recommend_song_property9">Live\n</string>
 
     <string name="recommend_search_title">We can search song what you want.</string>
     <string name="recommend_search_subtitle1">1. Which song?</string>
@@ -135,7 +137,17 @@
     <string name="play_theme11">Billboard HOT100</string>
     <string name="play_theme12">MyP Recommend</string>
 
-    <string name="play_loading">Music isl loading...</string>
+    <string name="play_chose_mode">First, Choose Song Kind!</string>
+
+    <string name="play_loading">Music is loading...</string>
+
+    <string name="play_song_loading1">Song is loading.</string>
+    <string name="play_artist_loading1">Artist is loading.</string>
+    <string name="play_album_loading1">Album is loading.</string>
+    <string name="play_loading2">Please wait.</string>
+
+    <string name="play_ad_start">Ad start. Please wait.</string>
+    <string name="play_end">Playlist id end.</string>
 
     // 음악 평가하기
 
@@ -165,12 +177,48 @@
     <string name="song_filter_song2">Korean Song</string>
     <string name="song_filter_song3">Billboard Hot100</string>
 
+    <string name="song_filter_rating_order">Good Rating</string>
+
     // 마이 페이지
 
     <string name="mypage_mp3sync">MP3 Sync</string>
     <string name="mypage_song">Song</string>
     <string name="mypage_album">Album</string>
     <string name="mypage_artist">Artist</string>
+
+    // 검색
+    <string name="search_hint">Insert title or artist!</string>
+
+    // Song Detail
+
+    <string name="song_my_score">My Score</string>
+    <string name="song_no_rating">There is no rating. \nBe first one who rate this.</string>
+    <string name="song_popularity_spotify">Popularity(Spotify)　:　</string>
+
+    <string name="song_detail">Song Detail</string>
+    <string name="song_mode">Mode　　　　　</string>
+    <string name="song_key">Key　　　　　　　</string>
+    <string name="song_tempo">Tempo　　　　</string>
+    <string name="song_time_signature">Time Signature　</string>
+    <string name="song_duration">Duration　　　　　</string>
+
+    <string name="song_this_song">This Song is..</string>
+    <string name="song_like..">..Like this.</string>
+
+    <string name="song_property1">Valence#Unvalence</string>
+    <string name="song_property2">Studio</string>
+    <string name="song_property3">Live#Recording</string>
+    <string name="song_property4">Energy#Calm</string>
+    <string name="song_property5">Christmas</string>
+    <string name="song_property6">Acoustic#Electronic</string>
+    <string name="song_property7">Vocal</string>
+    <string name="song_property8">Spechiness#No Speech</string>
+    <string name="song_property9">Intrumental#Vocal</string>
+    <string name="song_property10">Fast&amp;Loud#Slow&amp;Calm</string>
+    <string name="song_property11">Eloctro</string>
+
+    <string name="song_play_all">Play All</string>
+    <string name="song_no_video">There is no Video.</string>
 
     // Title
 
@@ -190,11 +238,15 @@
     <string name="demo_max_label">Max</string>
 
 
-
     / 유투브 음악 오류
 
     <string name="YouTubeError">An error has occurred. Please try again!</string>
 
     <string name="title_activity_select_genre_activity2">SelectGenreActivity2</string>
+
+    // 뒤로가기
+
+    <string name="util_back_button1">If you press \'Back\' button one more time, this app is finish.</string>
+    <string name="util_back_button2">If you press \'Back\' button one more time, back to Select Theme Page.</string>
 
 </resources>

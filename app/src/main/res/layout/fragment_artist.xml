@@ -25,15 +25,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="아티스트 정보를"
+                android:text="@string/play_artist_loading1"
                 android:id="@+id/nameTextView"
                 android:layout_gravity="center" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="가지고 오는 중입니다."
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/play_loading2"
                 android:id="@+id/genresTextView"
                 android:layout_gravity="center" />
 
@@ -75,14 +75,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/followersTextView"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="1.7" />
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="명이 이 노래를 좋아합니다!" />
+                    android:text="@string/main_rating_count" />
 
                 <TextView
                     android:layout_width="wrap_content"

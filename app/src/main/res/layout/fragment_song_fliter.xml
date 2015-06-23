@@ -248,7 +248,7 @@
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
                         android:textSize="13sp"
-                        android:text="평가좋은"
+                        android:text="@string/song_filter_rating_order"
                         android:id="@+id/MypRankOrder_SongFilter" />
 
                     <Button

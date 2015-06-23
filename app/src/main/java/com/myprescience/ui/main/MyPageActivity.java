@@ -13,8 +13,6 @@ import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -28,7 +26,6 @@ import com.myprescience.ui.artist.MyArtistListActivity;
 import com.myprescience.ui.song.MySongListActivity;
 import com.myprescience.ui.song.SongListActivity;
 import com.myprescience.util.Indicator;
-import com.myprescience.util.InsertUpdateQuery;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -36,13 +33,10 @@ import org.apache.http.message.BasicNameValuePair;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.myprescience.dto.UserData.triger;
 import static com.myprescience.util.Server.LUCENE_API;
-import static com.myprescience.util.Server.RESET_DATE;
 import static com.myprescience.util.Server.SEARCH_SONGID;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SYNC_MODE;
-import static com.myprescience.util.Server.USER_API;
 import static com.myprescience.util.Server.WITH_USER;
 import static com.myprescience.util.Server.callByArrayParameters;
 
@@ -195,12 +189,12 @@ public class MyPageActivity extends ActionBarActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.main, menu);
+//        return true;
+//    }
 
     // 뒤로가기 버튼
     @Override
@@ -210,12 +204,12 @@ public class MyPageActivity extends ActionBarActivity {
                 // NavUtils.navigateUpFromSameTask(this);
                 finish();
                 return true;
-            case R.id.action_reset:
-                // NavUtils.navigateUpFromSameTask(this);
-                new InsertUpdateQuery(getApplicationContext()).execute(SERVER_ADDRESS + USER_API + RESET_DATE + WITH_USER + userDTO.getId());
-                userDTO.setRatingSongCount(0);
-                triger = 15;
-                return true;
+//            case R.id.action_reset:
+//                // NavUtils.navigateUpFromSameTask(this);
+//                new InsertUpdateQuery(getApplicationContext()).execute(SERVER_ADDRESS + USER_API + RESET_DATE + WITH_USER + userDTO.getId());
+//                userDTO.setRatingSongCount(0);
+//                triger = 15;
+//                return true;
         }
         return super.onOptionsItemSelected(item);
     };
