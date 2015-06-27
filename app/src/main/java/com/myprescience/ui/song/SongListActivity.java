@@ -2,6 +2,7 @@ package com.myprescience.ui.song;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,26 +30,33 @@ import com.myprescience.ui.main.MainActivity;
 import com.myprescience.util.Indicator;
 import com.myprescience.util.RoundImage;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.myprescience.util.Server.BILLBOARD_API;
 import static com.myprescience.util.Server.FIRST_MODE;
 import static com.myprescience.util.Server.GENRE_TOP;
 import static com.myprescience.util.Server.HOT100;
+import static com.myprescience.util.Server.LUCENE_API;
 import static com.myprescience.util.Server.MODE;
 import static com.myprescience.util.Server.MYP_RANK_SONGS;
+import static com.myprescience.util.Server.NEW_SONGS;
 import static com.myprescience.util.Server.RANDOM_SONGS;
+import static com.myprescience.util.Server.SEARCH_SONGID;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SONG_API;
 import static com.myprescience.util.Server.SONG_WTIH_CLAUSE;
 import static com.myprescience.util.Server.SYNC_MODE;
 import static com.myprescience.util.Server.TODAY_SONG_MODE;
 import static com.myprescience.util.Server.WITH_USER;
+import static com.myprescience.util.Server.callByArrayParameters;
 import static com.myprescience.util.Server.getLevelDescribe;
 import static com.myprescience.util.Server.getStringFromUrl;
 
@@ -84,6 +92,9 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
     private int mListCount;
     private int mListAddCount;
     private JSONArray mSongArray;
+
+    private ArrayList<String> syncTitles;
+    private ArrayList<String> syncArtists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,7 +169,7 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
                 // 현재 가장 처음에 보이는 셀번호와 보여지는 셀번호를 더한값이
                 // 전체의 숫자와 동일해지면 가장 아래로 스크롤 되었다고 가정
                 if ((totalItemCount + mListAddCount < totalListSize) && ((firstVisibleItem + visibleItemCount) == totalItemCount)
-                        && (mLockListView == false) && (totalItemCount > 0)) {
+                        && (mLockListView == false)) {
                     mListCount += mListAddCount;
 //                        else if(totalItemCount+10 > totalListSize && !(totalItemCount >= totalListSize))
 //                            mListCount = totalListSize - (10+1);
@@ -298,7 +309,7 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
     public void selectSongsWithMode(int mode, Intent intent) {
 
         String korFilter = "domestic";
-        String popFilter = "oversea";
+        String newFilter = "new";
         String bbhot100Filter = "country%20=%20%27bbhot100%27";
 
         String genrePopFilter = "pop";
@@ -335,13 +346,11 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
                         korFilter+WITH_USER+userDTO.getId());
                 break;
             case 3 :
-                new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_CLAUSE+
-                        popFilter+WITH_USER+userDTO.getId());
+                new getSimpleSongTask().execute(SERVER_ADDRESS + SONG_API + NEW_SONGS + WITH_USER + userDTO.getId());
                 break;
             case 4 :
                 new getSimpleSongTask().execute(SERVER_ADDRESS+BILLBOARD_API+HOT100+WITH_USER+userDTO.getId());
                 break;
-
 
             case 41 :
                 new getSimpleSongTask().execute(SERVER_ADDRESS+SONG_API+SONG_WTIH_CLAUSE+
@@ -414,30 +423,102 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
                 break;
 
             case 200 :
-                String syncJSON = intent.getExtras().getString("syncJSON");
-                JSONParser jsonParser = new JSONParser();
-                JSONArray songs = null;
-                try {
-                    songs = (JSONArray) jsonParser.parse(syncJSON);
-                    for(int i = 0; i < songs.size(); i++) {
-                        JSONObject song = (JSONObject) jsonParser.parse(songs.get(i).toString());
 
-                        String id = (String)song.get("id");
-                        String spotifyArtistID = (String) song.get("artist_spotify_id");
-                        String title = (String)song.get("title");
-                        String artist = (String)song.get("artist");
-                        String spotifyAlbumID = "albums/"+(String)song.get("album_spotify_id");
-                        String ratingStr = (String)song.get("rating");
-                        int rating = 0;
-                        if(ratingStr != null) {
-                            rating = Integer.parseInt(ratingStr);
-                        }
-                        songListAdapter.addItem(id, spotifyArtistID, spotifyAlbumID, title, artist, rating);
+                if(syncTitles == null) {
+                    syncTitles = (ArrayList<String>) intent.getExtras().get("syncTitle");
+                    if (syncTitles == null) {
+                        Toast.makeText(SongListActivity.this, getString(R.string.main_mp3_sync_no_song), Toast.LENGTH_SHORT).show();
+                        finish();
+                        return;
                     }
-                } catch (ParseException e) {
+                }
+                if(syncArtists == null)
+                    syncArtists = (ArrayList<String>) intent.getExtras().get("syncArtist");
+
+                List<NameValuePair> parameters = new ArrayList<>();
+                parameters.add(new BasicNameValuePair("user_id", userDTO.getId() + ""));
+
+                for(int i = mListCount; i < mListCount + mListAddCount; i++) {
+                    if(mListCount >= syncTitles.size())
+                        return ;
+                    parameters.add(new BasicNameValuePair("title[]", syncTitles.get(i)));
+                    parameters.add(new BasicNameValuePair("artist[]", syncArtists.get(i)));
+
+                    Log.e("Sync", (syncTitles.get(i) + " " + syncArtists.get(i)));
+                }
+
+                new getSearchResult(getApplicationContext(), parameters).execute(
+                        SERVER_ADDRESS + LUCENE_API + SEARCH_SONGID);
+
+                totalListSize = syncTitles.size();
+
+                try {
+                    Thread.sleep(30);
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
+        }
+    }
+
+    class getSearchResult extends AsyncTask<String, String, String> {
+
+        private Context mContext;
+        private List<NameValuePair> mParameters;
+
+        public getSearchResult(Context _context, List<NameValuePair> _parameters){
+            this.mContext = _context;
+            this.mParameters = _parameters;
+        }
+
+        @Override
+        protected String doInBackground(String... url) {
+            return callByArrayParameters(url[0], mParameters);
+        }
+
+        @Override
+        protected void onPostExecute(String syncJSON) {
+            super.onPostExecute(syncJSON);
+
+            System.out.println(syncJSON);
+
+            JSONParser jsonParser = new JSONParser();
+            JSONArray songs = null;
+            try {
+                songs = (JSONArray) jsonParser.parse(syncJSON);
+                for(int i = 0; i < songs.size(); i++) {
+                    JSONObject song = (JSONObject) jsonParser.parse(songs.get(i).toString());
+
+                    String id = (String)song.get("id");
+                    String spotifyArtistID = (String) song.get("artist_spotify_id");
+                    String title = (String)song.get("title");
+                    String artist = (String)song.get("artist");
+                    String image_64 = (String)song.get("image_64");
+                    String ratingStr = (String)song.get("rating");
+                    int rating = 0;
+                    if(ratingStr != null) {
+                        rating = Integer.parseInt(ratingStr);
+                    }
+                    songListAdapter.addItem(id, spotifyArtistID, image_64, title, artist, rating);
+                }
+                if(songListAdapter.getCount() > 0) {
+                    songListAdapter.notifyDataSetChanged();
+                    if (mIndicator.isShowing())
+                        mIndicator.hide();
+                }
+                mLockListView = false;
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if (!mIndicator.isShowing())
+                mIndicator.show();
         }
     }
 

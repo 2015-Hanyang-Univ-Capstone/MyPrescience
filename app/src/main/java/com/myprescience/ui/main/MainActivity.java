@@ -1,18 +1,26 @@
 package com.myprescience.ui.main;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.meetme.android.horizontallistview.HorizontalListView;
 import com.myprescience.R;
@@ -49,11 +58,13 @@ import java.util.ArrayList;
 
 import static com.myprescience.util.PixelUtil.getProperImage;
 import static com.myprescience.util.Server.ALBUM_API;
+import static com.myprescience.util.Server.FIRST_MODE;
 import static com.myprescience.util.Server.MYP_HOT_SONGS;
 import static com.myprescience.util.Server.SELECT_MAIN_LATEST_ALBUMS;
 import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SONG_API;
 import static com.myprescience.util.Server.SPOTIFY_API;
+import static com.myprescience.util.Server.SYNC_MODE;
 import static com.myprescience.util.Server.TODAY_SONG_MODE;
 import static com.myprescience.util.Server.getStringFromUrl;
 
@@ -89,6 +100,11 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         userDTO = new UserData(getApplicationContext());
+
+        errorHandle();
+
+        if(userDTO.getRatingSongCount() == 0)
+            DialogInitChoice();
 
         mIndicater = new Indicator(this);
         backPressCloseHandler = new BackPressCloseHandler(this);
@@ -185,6 +201,15 @@ public class MainActivity extends ActionBarActivity
         
     }
 
+    public void errorHandle() {
+        if(userDTO.getId() == 0) {
+            Toast.makeText(this, getString(R.string.main_error), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
     public void initSetting() {
         new getMyPHotSongs().execute(SERVER_ADDRESS + SONG_API + MYP_HOT_SONGS);
         new getLatestAlbums().execute(SERVER_ADDRESS+ALBUM_API+SELECT_MAIN_LATEST_ALBUMS);
@@ -214,17 +239,19 @@ public class MainActivity extends ActionBarActivity
                 startActivity(section3);
                 break;
             case 4:
-//                mTitle = getString(R.string.title_section2);
                 Intent section4 = new Intent(this, SongListActivity.class);
                 section4.putExtra("mode", TODAY_SONG_MODE);
                 startActivity(section4);
                 break;
             case 5:
-//                mTitle = getString(R.string.title_section3);
                 Intent section5 = new Intent(this, MyPageActivity.class);
                 startActivity(section5);
                 break;
-
+            case 6:
+                Uri uri = Uri.parse("mailto:humanbrain.info@gmail.com");
+                Intent it = new Intent(Intent.ACTION_SENDTO, uri);
+                startActivity(it);
+                break;
         }
     }
 
@@ -541,6 +568,122 @@ public class MainActivity extends ActionBarActivity
         Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.abc_fade_out);
         layout.startAnimation(animation);
         layout.setVisibility(View.GONE);
+    }
+
+    private void DialogInitChoice(){
+        final CharSequence[] mainMenu = {getString(R.string.main_init_menu1), getString(R.string.main_init_menu2)};
+        AlertDialog.Builder alt_bld = new AlertDialog.Builder(MainActivity.this);
+        alt_bld.setTitle(getString(R.string.main_init_message));
+//        alt_bld.setMessage(getString(R.string.main_init_message));
+        alt_bld.setItems(mainMenu, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (item == 0) {
+                    new syncLocalMP3File(MainActivity.this).execute(100);
+                } else if (item == 1) {
+                    Intent intent = new Intent(MainActivity.this, SelectGenreActivity2.class);
+                    intent.putExtra("mode", FIRST_MODE);
+                    startActivity(intent);
+                }
+            }
+        });
+        AlertDialog alert = alt_bld.create();
+        alert.show();
+    }
+
+    public class syncLocalMP3File extends AsyncTask< Integer//excute()실행시 넘겨줄 데이터타입
+            , String//진행정보 데이터 타입 publishProgress(), onProgressUpdate()의 인수
+            , Integer//doInBackground() 종료시 리턴될 데이터 타입 onPostExecute()의 인수
+            > {
+        private ProgressDialog mDlg;
+        private Context mContext;
+        private Cursor mMusiccursor;
+        private int count;
+
+        public syncLocalMP3File(Context context) {
+            mContext = context;
+
+            String[] songFile = {
+                    MediaStore.Audio.Media.TITLE,
+                    MediaStore.Video.Media.ARTIST};
+            mMusiccursor = managedQuery(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                    songFile, null, null, null);
+
+            count = 0;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            mDlg = new ProgressDialog(mContext);
+            mDlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            mDlg.setMessage(getString(R.string.main_mp3_sync_start));
+            publishProgress("max", Integer.toString(mMusiccursor.getCount()));
+            mDlg.show();
+            Toast.makeText(mContext, getString(R.string.main_mp3_sync_explain), Toast.LENGTH_LONG).show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Integer doInBackground(Integer... params) {
+
+            int taskCnt = mMusiccursor.getCount();
+
+            ArrayList<String> titles = new ArrayList<>();
+            ArrayList<String> artists = new ArrayList<>();
+
+            boolean delay = false;
+
+            while (!delay && mMusiccursor.moveToNext()) {
+                delay = true;
+                count++;
+                int music_column_index = mMusiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
+                final String title = mMusiccursor.getString(music_column_index);
+
+                music_column_index = mMusiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST);
+                final String artist = mMusiccursor.getString(music_column_index);
+
+                if (artist.equals("<unknown>") || artist.equals("FaceBook") || title.indexOf("Hangouts") != -1) {
+
+                } else {
+                    titles.add(title);
+                    artists.add(artist);
+                }
+
+                publishProgress("progress", Integer.toString(count), title + "\n    " + artist);
+
+                try {
+                    Thread.sleep(30);
+                    delay = false;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            Intent intent = new Intent(MainActivity.this, SongListActivity.class);
+            intent.putExtra("syncTitle", titles);
+            intent.putExtra("syncArtist", artists);
+            intent.putExtra("mode", SYNC_MODE);
+            startActivity(intent);
+
+            return taskCnt;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... progress) {
+            if (progress[0].equals("progress")) {
+                mDlg.setProgress(Integer.parseInt(progress[1]));
+                mDlg.setMessage(progress[2]);
+
+                Log.e("background", progress[2]);
+            } else if (progress[0].equals("max")) {
+                mDlg.setMax(Integer.parseInt(progress[1]));
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            mDlg.dismiss();
+        }
     }
 
 }

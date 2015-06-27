@@ -26,10 +26,10 @@ import static com.myprescience.util.Server.Genre_ROCK_MODE;
 import static com.myprescience.util.Server.Genre_RnB_MODE;
 import static com.myprescience.util.Server.INSTRUMENTAL_MODE;
 import static com.myprescience.util.Server.KPOP_MODE;
+import static com.myprescience.util.Server.LATEST_MODE;
 import static com.myprescience.util.Server.LIVENESS_MODE;
 import static com.myprescience.util.Server.LOUDNESS_MODE;
 import static com.myprescience.util.Server.MODE;
-import static com.myprescience.util.Server.POP_MODE;
 import static com.myprescience.util.Server.RANK_ORDER_MODE;
 import static com.myprescience.util.Server.SPEECHINESS_MODE;
 import static com.myprescience.util.Server.TODAY_SONG_MODE;
@@ -40,7 +40,7 @@ import static com.myprescience.util.Server.VALANCE_MODE;
  */
 public class SongFilterFragment extends Fragment {
 
-    private Button mRandomSongFilterButton, mKpopSongFilterButton, mPopSongFilterButton, mBillboardHot100SongFilterButton,
+    private Button mRandomSongFilterButton, mKpopSongFilterButton, mLatestSongFilterButton, mBillboardHot100SongFilterButton,
                     mGenrePopFilterButton, mGenreHiphopFilterButton, mGenreRnBFilterButton, mGenreRockFilterButton,
                     mGenreCountryFilterButton, mGenreElectronicFilterButton, mGenreJazzFilterButton, mGenreClubFilterButton,
                     mValenceSongFilterButton, mLoudnessSongFilterButton, mDancabilitySongFilterButton, mEnergySongFilterButton,
@@ -56,7 +56,7 @@ public class SongFilterFragment extends Fragment {
 
         mRandomSongFilterButton = (Button) filter_view.findViewById(R.id.random_SongFilter);
         mKpopSongFilterButton = (Button) filter_view.findViewById(R.id.kpop_SongFilter);
-        mPopSongFilterButton = (Button) filter_view.findViewById(R.id.pop_SongFilter);
+        mLatestSongFilterButton = (Button) filter_view.findViewById(R.id.latest_SongFilter);
         mBillboardHot100SongFilterButton = (Button) filter_view.findViewById(R.id.billboardHot100_SongFilter);
 
         mGenrePopFilterButton = (Button) filter_view.findViewById(R.id.genrePop_SongFilter);
@@ -82,7 +82,7 @@ public class SongFilterFragment extends Fragment {
         ArrayList<Integer> button_num = new ArrayList<Integer>(30);
         button_list.add(mRandomSongFilterButton);               button_num.add(TODAY_SONG_MODE);
         button_list.add(mKpopSongFilterButton);                 button_num.add(KPOP_MODE);
-        button_list.add(mPopSongFilterButton);                  button_num.add(POP_MODE);
+        button_list.add(mLatestSongFilterButton);                  button_num.add(LATEST_MODE);
         button_list.add(mBillboardHot100SongFilterButton);      button_num.add(BILLBOARDHOT_MODE);
         button_list.add(mGenrePopFilterButton);                 button_num.add(Genre_POP_MODE);
         button_list.add(mGenreHiphopFilterButton);              button_num.add(Genre_HIPHOP_MODE);
@@ -129,8 +129,8 @@ public class SongFilterFragment extends Fragment {
             case 2 : activeButtonUI(mKpopSongFilterButton);
                 Clicked = KPOP_MODE;
                 break;
-            case 3 : activeButtonUI(mPopSongFilterButton);
-                Clicked = POP_MODE;
+            case 3 : activeButtonUI(mLatestSongFilterButton);
+                Clicked = LATEST_MODE;
                 break;
             case 4 : activeButtonUI(mBillboardHot100SongFilterButton);
                 Clicked = BILLBOARDHOT_MODE;

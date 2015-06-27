@@ -40,7 +40,6 @@ import com.myprescience.R;
 import com.myprescience.dto.UserData;
 import com.myprescience.ui.album.AlbumActivity;
 import com.myprescience.ui.artist.ArtistActivity;
-import com.myprescience.util.ErrorMsg;
 import com.myprescience.util.Indicator;
 import com.myprescience.util.InsertUpdateQuery;
 
@@ -81,7 +80,6 @@ public class SongActivity extends YouTubeBaseActivity {
     String SONG_ID;
 
     Indicator mIndicator;
-    ErrorMsg mErrorMsg;
 
     private Activity mActivity = this;
 
@@ -117,7 +115,6 @@ public class SongActivity extends YouTubeBaseActivity {
         SONG_ID = intent.getExtras().getString("song_id");
 
         mIndicator = new Indicator(this);
-        mErrorMsg = new ErrorMsg();
 
         scrollView = (ScrollView) findViewById(R.id.scrollView);
         scrollView.scrollTo(0, 0);
@@ -503,7 +500,7 @@ public class SongActivity extends YouTubeBaseActivity {
 
                 String spotifyTrackID = "tracks/"+(String)song.get("track_spotify_id");
                 if(spotifyTrackID.equals("tracks/")) {
-                    trackNumTextView.setText(mErrorMsg.NOT_FOUND);
+                    trackNumTextView.setText(getString(R.string.error_not_found));
                     popularityProgressBar.setProgress(0);
                     previewButton.setImageResource(R.drawable.icon_x_mark);
                     previewTextview.setText("Preview ");
@@ -539,8 +536,8 @@ public class SongActivity extends YouTubeBaseActivity {
 
                 final String spotifyAlbumID = "albums/"+(String)song.get("album_spotify_id");
                 if(spotifyAlbumID.equals("albums/")) {
-                    genreTextView.setText(mErrorMsg.NOT_FOUND);
-                    albumNameTextView.setText(mErrorMsg.NOT_FOUND);
+                    genreTextView.setText(getString(R.string.error_not_found));
+                    albumNameTextView.setText(getString(R.string.error_not_found));
                     albumArtView.setImageResource(R.drawable.image_not_exist_600);
 
                     mAlbumButton.setOnClickListener(new OnClickListener() {

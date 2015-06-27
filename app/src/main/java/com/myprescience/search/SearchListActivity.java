@@ -175,8 +175,8 @@ public class SearchListActivity extends ActionBarActivity {
                 JSONArray resultArray = (JSONArray) jsonParser.parse(songJSON);
 
                 if (resultArray.size() == 0) {
-                    mSearchListAdapter.addItem(null, "검색된 결과가 없습니다.", "");
-                    mSearchListAdapter.addItem(null, "", "조금 더 자세히 입력해주세요.");
+                    mSearchListAdapter.addItem(null, getString(R.string.search_no_result1), "");
+                    mSearchListAdapter.addItem(null, "", getString(R.string.search_no_result2));
                 }
 
                 for(int i = 0; i < resultArray.size(); i ++) {
@@ -189,8 +189,8 @@ public class SearchListActivity extends ActionBarActivity {
 
             } catch (ParseException e) {
                 e.printStackTrace();
-                mSearchListAdapter.addItem(null, "검색된 결과가 없습니다.", "");
-                mSearchListAdapter.addItem(null, "", "조금 더 자세히 입력해주세요.");
+                mSearchListAdapter.addItem(null, getString(R.string.search_no_result1), "");
+                mSearchListAdapter.addItem(null, "", getString(R.string.search_no_result2));
             }
         }
 

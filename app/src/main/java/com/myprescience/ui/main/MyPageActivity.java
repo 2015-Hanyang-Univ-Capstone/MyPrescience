@@ -27,18 +27,9 @@ import com.myprescience.ui.song.MySongListActivity;
 import com.myprescience.ui.song.SongListActivity;
 import com.myprescience.util.Indicator;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
 import java.util.ArrayList;
-import java.util.List;
 
-import static com.myprescience.util.Server.LUCENE_API;
-import static com.myprescience.util.Server.SEARCH_SONGID;
-import static com.myprescience.util.Server.SERVER_ADDRESS;
 import static com.myprescience.util.Server.SYNC_MODE;
-import static com.myprescience.util.Server.WITH_USER;
-import static com.myprescience.util.Server.callByArrayParameters;
 
 /**
  * Created by dongjun on 15. 4. 6..
@@ -72,7 +63,7 @@ public class MyPageActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(MyPageActivity.this);
-                alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();     //닫기
@@ -97,7 +88,7 @@ public class MyPageActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(MyPageActivity.this);
-                alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();     //닫기
@@ -239,10 +230,10 @@ public class MyPageActivity extends ActionBarActivity {
         protected void onPreExecute() {
             mDlg = new ProgressDialog(mContext);
             mDlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            mDlg.setMessage("음악 동기화 시작.");
+            mDlg.setMessage(getString(R.string.main_mp3_sync_start));
             publishProgress("max", Integer.toString(mMusiccursor.getCount()));
             mDlg.show();
-            Toast.makeText(mContext, "노래정보를 읽는 중 입니다.", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, getString(R.string.main_mp3_sync_explain), Toast.LENGTH_LONG).show();
             super.onPreExecute();
         }
 
@@ -251,42 +242,43 @@ public class MyPageActivity extends ActionBarActivity {
 
             int taskCnt = mMusiccursor.getCount();
 
-            if(taskCnt < 30) {
+            ArrayList<String> titles = new ArrayList<>();
+            ArrayList<String> artists = new ArrayList<>();
 
-                final List<NameValuePair> parameters = new ArrayList<>();
-                parameters.add(new BasicNameValuePair("user_id", userDTO.getId() + ""));
-                boolean delay = false;
 
-                while (!delay && mMusiccursor.moveToNext()) {
-                    delay = true;
-                    count++;
-                    int music_column_index = mMusiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
-                    final String title = mMusiccursor.getString(music_column_index);
+            boolean delay = false;
 
-                    music_column_index = mMusiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST);
-                    final String artist = mMusiccursor.getString(music_column_index);
+            while (!delay && mMusiccursor.moveToNext()) {
+                delay = true;
+                count++;
+                int music_column_index = mMusiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
+                final String title = mMusiccursor.getString(music_column_index);
 
-                    if (artist.equals("<unknown>") || artist.equals("FaceBook") || title.indexOf("Hangouts") != -1) {
+                music_column_index = mMusiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST);
+                final String artist = mMusiccursor.getString(music_column_index);
 
-                    } else {
-                        parameters.add(new BasicNameValuePair("title[]", title));
-                        parameters.add(new BasicNameValuePair("artist[]", artist));
-                    }
+                if (artist.equals("<unknown>") || artist.equals("FaceBook") || title.indexOf("Hangouts") != -1) {
 
-                    publishProgress("progress", Integer.toString(count), title + "\n    " + artist);
-
-                    try {
-                        Thread.sleep(100);
-                        delay = false;
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                } else {
+                    titles.add(title);
+                    artists.add(artist);
                 }
 
-                new getSearchResult(getApplicationContext(), parameters, taskCnt).execute(
-                        SERVER_ADDRESS + LUCENE_API + SEARCH_SONGID + WITH_USER + userDTO.getId());
+                publishProgress("progress", Integer.toString(count), title + "\n    " + artist);
 
+                try {
+                    Thread.sleep(30);
+                    delay = false;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+
+            Intent intent = new Intent(MyPageActivity.this, SongListActivity.class);
+            intent.putExtra("syncTitle", titles);
+            intent.putExtra("syncArtist", artists);
+            intent.putExtra("mode", SYNC_MODE);
+            startActivity(intent);
 
             return taskCnt;
         }
@@ -306,59 +298,10 @@ public class MyPageActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(Integer result) {
-            if(result < 30) {
-                mDlg.dismiss();
-                mIndicator.show();
-            } else {
-                mDlg.dismiss();
-                Toast.makeText(mContext, "노래의 수가 많습니다. 아직 최적화가 안 되어 오래걸립니다. 다음에 업데이트 할 예정입니다.", Toast.LENGTH_LONG).show();
-            }
+            mDlg.dismiss();
         }
     }
 
-    class getSearchResult extends AsyncTask<String, String, String> {
 
-        private Context mContext;
-        private List<NameValuePair> mParameters;
-        private int syncCount;
-
-        public getSearchResult(Context _context, List<NameValuePair> _parameters, int _count){
-            this.mContext = _context;
-            this.mParameters = _parameters;
-            this.syncCount = _count;
-        }
-
-        @Override
-        protected String doInBackground(String... url) {
-            return callByArrayParameters(url[0], mParameters);
-        }
-
-        @Override
-        protected void onPostExecute(String syncJSON) {
-            super.onPostExecute(syncJSON);
-
-            mIndicator.hide();
-            Intent intent = new Intent(MyPageActivity.this, SongListActivity.class);
-            intent.putExtra("syncJSON", syncJSON);
-            intent.putExtra("mode", SYNC_MODE);
-            startActivity(intent);
-
-//            try {
-//                JSONParser jsonParser = new JSONParser();
-//                JSONObject resultJSON = (JSONObject) jsonParser.parse(songJSON);
-//                String sync = (String) resultJSON.get("sync");
-//                if(sync.equals("true"))
-//                    Toast.makeText(mContext, syncCount + "개의 노래 동기화 완료", Toast.LENGTH_SHORT).show();
-//
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-    }
 
 }

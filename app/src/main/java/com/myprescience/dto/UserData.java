@@ -61,4 +61,5 @@ public class UserData {
             triger = (triger * 2) + 10;
         }
     }
+
 }

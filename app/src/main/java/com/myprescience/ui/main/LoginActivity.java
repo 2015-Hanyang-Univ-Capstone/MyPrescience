@@ -1,5 +1,7 @@
 package com.myprescience.ui.main;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -48,6 +50,7 @@ public class LoginActivity extends FragmentActivity {
     private MainFragment mainFragment;
     private Button guestButton;
     private UserData userDTO;
+    private Boolean login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,21 +74,6 @@ public class LoginActivity extends FragmentActivity {
 
         // 현제 페이스북 로그인 세션 확인
         LoginButton authButton = (LoginButton) findViewById(R.id.authButton);
-        Session session = Session.getActiveSession();
-        if(session != null){
-            if(session.isOpened()){
-                Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
-                    // callback after Graph API response with user object
-                    @Override
-                    public void onCompleted(GraphUser user, Response response) {
-//                        Toast.makeText(LoginActivity.this, user.getName()+"님 환영합니다!", Toast.LENGTH_SHORT).show();
-                        initSetting(user);
-//                        Toast.makeText(LoginActivity.this, "Loading...", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        }
-
         // 페이스북 로그인
         authButton.setReadPermissions(Arrays.asList("public_profile"));
         authButton.setSessionStatusCallback(new Session.StatusCallback() {
@@ -96,14 +84,25 @@ public class LoginActivity extends FragmentActivity {
                         // callback after Graph API response with user object
                         @Override
                         public void onCompleted(GraphUser user, Response response) {
-//                            Toast.makeText(LoginActivity.this, user.getName()+"님 환영합니다!", Toast.LENGTH_SHORT).show();
-                            initSetting(user);
-//                            Toast.makeText(LoginActivity.this, "Loading...", Toast.LENGTH_SHORT).show();
+                        initSetting(user);
                         }
                     });
                 }
             }
         });
+
+        Session session = Session.getActiveSession();
+        if(session != null){
+            if(session.isOpened()){
+                Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+                    // callback after Graph API response with user object
+                    @Override
+                    public void onCompleted(GraphUser user, Response response) {
+                    initSetting(user);
+                    }
+                });
+            }
+        }
 
         // 임시용 게스트 로그인 버튼
 //        guestButton = (Button) findViewById(R.id.guestButton);
@@ -127,10 +126,13 @@ public class LoginActivity extends FragmentActivity {
     }
 
     public void initSetting(GraphUser user) {
-        new insertUserTask().execute(SERVER_ADDRESS+USER_API+INSERT_FACEBOOK_ID+user.getId());
-        new searchUserTask().execute(SERVER_ADDRESS+USER_API+USER_ID_WITH_FACEBOOK_ID+user.getId());
-        new LoadProfileImage().execute(FACEBOOK_PROFILE+user.getId()+WIDTH_150);
-        userDTO.setName(user.getName());
+        if(!login) {
+            login = true;
+            new insertUserTask().execute(SERVER_ADDRESS + USER_API + INSERT_FACEBOOK_ID + user.getId());
+            new searchUserTask().execute(SERVER_ADDRESS + USER_API + USER_ID_WITH_FACEBOOK_ID + user.getId());
+            new LoadProfileImage().execute(FACEBOOK_PROFILE + user.getId() + WIDTH_150);
+            userDTO.setName(user.getName());
+        }
     }
 
     class searchUserTask extends AsyncTask<String, String, Void> {
@@ -149,7 +151,7 @@ public class LoginActivity extends FragmentActivity {
             if(users != null) {
                 JSONObject user = (JSONObject) users.get(0);
                 userDTO.setId(Integer.parseInt((String) user.get("user_id")));
-                Log.e("user_id", userDTO.getId() + "is login." );
+                Log.e("user_id", userDTO.getId() + " is login." );
             }
             return null;
         }
@@ -247,5 +249,51 @@ public class LoginActivity extends FragmentActivity {
             }
             finish();
         }
+    }
+
+//    public void AlertDialog() {
+//        final TextView message = new TextView(LoginActivity.this);
+//        // i.e.: R.string.dialog_message =>
+//        // "Test this dialog following the link to dtmilano.blogspot.com"
+//        final SpannableString s =
+//                new SpannableString(getText(R.string.dialog_message));
+//        Linkify.addLinks(s, Linkify.WEB_URLS);
+//        message.setText(s);
+//        message.setMovementMethod(LinkMovementMethod.getInstance());
+//
+//        return new AlertDialog.Builder(LoginActivity.this)
+//                .setTitle(R.string.dialog_title)
+//                .setCancelable(true)
+//                .setIcon(android.R.drawable.ic_dialog_info)
+//                .setPositiveButton("Yes",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                            }
+//                }).setNegativeButton("No",
+//                new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.cancel();
+//                    }
+//                })
+//                .setView(message)
+//                .create();
+//    }
+
+    private void DialogPrivacy(){
+        AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+        alt_bld.setMessage("Do you want to close this window ?").setCancelable(
+                false).setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                }).setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = alt_bld.create();
+        alert.setTitle("Title");
+        alert.show();
     }
 }

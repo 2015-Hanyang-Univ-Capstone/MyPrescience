@@ -51,6 +51,17 @@
     <string name="main_detail">View</string>
     <string name="main_more">See More</string>
 
+    <string name="main_init_menu1">MP3 Sync</string>
+    <string name="main_init_menu2">Rating Song</string>
+    <string name="main_init_title">Welcome to My Prescience!</string>
+    <string name="main_init_message">For recommend Music, rating song!</string>
+
+    <string name="main_error">There is a Error. Sorry.\nRe Login Please.</string>
+
+    <string name="main_mp3_sync_start">Start MP3 Sync</string>
+    <string name="main_mp3_sync_explain">Reading MP3\'s information..</string>
+    <string name="main_mp3_sync_no_song">There is no mp3 or mp3\'s title and artist are incorrect.</string>
+
     // Navi
 
     <string name="title_section1">HOME</string>
@@ -58,6 +69,7 @@
     <string name="title_section3">PLAY MUSIC</string>
     <string name="title_section4">RATING MUSIC</string>
     <string name="title_section5">MY PAGE</string>
+    <string name="title_section6">INQUIRY</string>
 
     // 음악 추천
 
@@ -88,6 +100,8 @@
     <string name="recommend_search_song1">All song</string>
     <string name="recommend_search_song2">Korean song</string>
     <string name="recommend_search_song3">Pop song</string>
+
+    <string name="recommend_not_recomm">We are recommneding for you!\nIf you want more accurate song,\nRating more song you like.</string>
 
     // 장르
 
@@ -175,7 +189,8 @@
 
     <string name="song_filter_song1">ALL Song</string>
     <string name="song_filter_song2">Korean Song</string>
-    <string name="song_filter_song3">Billboard Hot100</string>
+    <string name="song_filter_song3">Latest Song</string>
+    <string name="song_filter_song4">Billboard Hot100</string>
 
     <string name="song_filter_rating_order">Good Rating</string>
 
@@ -188,6 +203,9 @@
 
     // 검색
     <string name="search_hint">Insert title or artist!</string>
+
+    <string name="search_no_result1">There is no result.</string>
+    <string name="search_no_result2">Type more detail Please.</string>
 
     // Song Detail
 
@@ -217,8 +235,12 @@
     <string name="song_property10">Fast&amp;Loud#Slow&amp;Calm</string>
     <string name="song_property11">Eloctro</string>
 
+    <string name="song_rating_score">/5.0 Rated this song.</string>
+
     <string name="song_play_all">Play All</string>
     <string name="song_no_video">There is no Video.</string>
+    <string name="song_no_artist">There is no Artist Info.</string>
+    <string name="song_no_album">There is no Album Info.</string>
 
     // Title
 
@@ -236,6 +258,10 @@
 
     <string name="demo_min_label">Min</string>
     <string name="demo_max_label">Max</string>
+
+    // 에러
+
+    <string name="error_not_found">Not Found.</string>
 
 
     / 유투브 음악 오류

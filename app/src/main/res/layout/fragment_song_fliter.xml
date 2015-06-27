@@ -79,9 +79,8 @@
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
                         android:textSize="13sp"
-                        android:text="외국 노래"
-                        android:id="@+id/pop_SongFilter"
-                        android:visibility="invisible"/>
+                        android:text="@string/song_filter_song3"
+                        android:id="@+id/latest_SongFilter"/>
 
                     <Button
                         android:layout_width="100dp"
@@ -90,7 +89,7 @@
                         android:textColor="@color/color_base_blue"
                         android:background="@drawable/button_background"
                         android:textSize="10sp"
-                        android:text="@string/song_filter_song3"
+                        android:text="@string/song_filter_song4"
                         android:id="@+id/billboardHot100_SongFilter" />
 
                 </LinearLayout>

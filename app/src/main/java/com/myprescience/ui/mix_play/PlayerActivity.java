@@ -1,6 +1,7 @@
 package com.myprescience.ui.mix_play;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -24,6 +25,7 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
+import com.myprescience.ui.main.LoginActivity;
 import com.myprescience.ui.material.ProgressBarCircular;
 import com.myprescience.util.BackPressCloseHandler;
 import com.myprescience.util.Indicator;
@@ -76,6 +78,8 @@ public class PlayerActivity extends YouTubeBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mix_player);
         userDTO = new UserData(getApplicationContext());
+
+        errorHandle();
 
         mIndicator = new Indicator(this);
         backPressCloseHandler = new BackPressCloseHandler(this);
@@ -218,6 +222,15 @@ public class PlayerActivity extends YouTubeBaseActivity {
             }
         }
 
+    }
+
+    public void errorHandle() {
+        if(userDTO.getId() == 0) {
+            Toast.makeText(this, getString(R.string.main_error), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override
@@ -434,6 +447,7 @@ public class PlayerActivity extends YouTubeBaseActivity {
                         mPlayerTitleTextView.setText(getString(R.string.play_end));
                     }
                     Log.e("onPlaylistEnded", mCurrent_Video + " : " + youtubes_title.get(mCurrent_Video));
+                    Log.e("onPlaylistEnded", player.getCurrentTimeMillis() + "");
                 }
             });
 

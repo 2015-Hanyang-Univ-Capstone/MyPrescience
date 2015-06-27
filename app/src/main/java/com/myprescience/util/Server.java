@@ -28,7 +28,7 @@ public class Server {
     static public String ECHONEST_API_KEY = "ZZKPLNLJYHUVPSMXD";
     static public String ECHONEST_GENRE_SEARCH = "http://developer.echonest.com/api/v4/genre/search?api_key="+ECHONEST_API_KEY+"&format=json&results=500&name=";
 
-    static public int MODE, TODAY_SONG_MODE = 0, FIRST_MODE = 1, KPOP_MODE = 2, POP_MODE = 3, BILLBOARDHOT_MODE = 4,
+    static public int MODE, TODAY_SONG_MODE = 0, FIRST_MODE = 1, KPOP_MODE = 2, LATEST_MODE = 3, BILLBOARDHOT_MODE = 4,
                     Genre_POP_MODE = 41, Genre_HIPHOP_MODE = 42, Genre_RnB_MODE = 43, Genre_ROCK_MODE = 44,
                     Genre_COUNTRY_MODE = 45, Genre_ELECTRONIC_MODE = 46, Genre_JAZZ_MODE = 47, Genre_CLUB_MODE = 48,
                     VALANCE_MODE = 101, LOUDNESS_MODE = 102, DANCABILITY_MODE = 103, ENERGY_MODE = 104,
@@ -56,6 +56,7 @@ public class Server {
     static public String SONG_WTIH_GENRE_CLAUSE = "selectSongsWithGenreClause&clause=";
     static public String MYP_HOT_SONGS = "selectMyPHotSongs";
     static public String MYP_RANK_SONGS = "selectMypRankSongs";
+    static public String NEW_SONGS = "selectNewSongs";
     static public String MYP_TOP100_SONGS = "selectMyPTop100Songs";
     static public String SELECT_SONG_WITH_TRACKID = "selectSongWithTrackId&track_id=";
 

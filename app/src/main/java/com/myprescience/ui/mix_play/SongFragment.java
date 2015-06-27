@@ -33,7 +33,6 @@ import android.widget.Toast;
 
 import com.myprescience.R;
 import com.myprescience.dto.UserData;
-import com.myprescience.util.ErrorMsg;
 import com.myprescience.util.InsertUpdateQuery;
 
 import org.json.simple.JSONArray;
@@ -70,8 +69,6 @@ public class SongFragment extends Fragment {
     String SONG_ID;
 
 //    Indicator mIndicator;
-    ErrorMsg mErrorMsg;
-
 //    private Activity mActivity = this;
 
     private ScrollView scrollView;
@@ -102,7 +99,6 @@ public class SongFragment extends Fragment {
             SONG_ID = getActivity().getIntent().getExtras().getString("song_id");
 
 //        mIndicator = new Indicator(getActivity());
-        mErrorMsg = new ErrorMsg();
 
         scrollView = (ScrollView) root_view.findViewById(R.id.scrollView);
         scrollView.scrollTo(0, 0);
@@ -472,7 +468,7 @@ public class SongFragment extends Fragment {
                     }
 
                     tempoTextView.setText(Double.toString(tempo) + " bpm");
-                    timeSignatureTextView.setText(timeSignature + " 박자");
+                    timeSignatureTextView.setText(timeSignature + "");
                     durationTextView.setText(convertMS((int) duration));
                     songModeTextView.setText(modes[songMode]);
                     songKeyTextView.setText(keys[songKey]);
@@ -491,7 +487,7 @@ public class SongFragment extends Fragment {
 
                     String spotifyTrackID = "tracks/" + (String) song.get("track_spotify_id");
                     if (spotifyTrackID.equals("tracks/")) {
-                        trackNumTextView.setText(mErrorMsg.NOT_FOUND);
+                        trackNumTextView.setText(getString(R.string.error_not_found));
                         popularityProgressBar.setProgress(0);
                         previewButton.setImageResource(R.drawable.icon_x_mark);
                         previewTextview.setText("Preview ");
@@ -530,8 +526,8 @@ public class SongFragment extends Fragment {
                     final String spotifyAlbumID = "albums/" + (String) song.get("album_spotify_id");
                     SPOTIFY_ALBUM_ID = spotifyAlbumID;
                     if (spotifyAlbumID.equals("albums/")) {
-                        genreTextView.setText(mErrorMsg.NOT_FOUND);
-                        albumNameTextView.setText(mErrorMsg.NOT_FOUND);
+                        genreTextView.setText(getString(R.string.error_not_found));
+                        albumNameTextView.setText(getString(R.string.error_not_found));
                         albumArtView.setImageResource(R.drawable.image_not_exist_600);
 
                         mAlbumButton.setOnClickListener(new OnClickListener() {
