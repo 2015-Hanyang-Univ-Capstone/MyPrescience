@@ -110,6 +110,14 @@
 
     <string name="recommend_not_recomm">We are recommneding for you!\nIf you want more accurate song,\nRating more song you like.</string>
 
+    <string name="recommend_start_recom">Start recommending! After recommending is finished, we push it.</string>
+    <string name="recommend_finish_recom"> music recommend finish!</string>
+    <string name="recommend_noti_recom1">You may like this songs!</string>
+    <string name="recommend_noti_recom2">Click this notification and see the songs Right now!</string>
+
+    <string name="recommend_search_no_result1">There is no song.</string>
+    <string name="recommend_search_no_result2">Re search Please!</string>
+
     // 장르
 
     <string name="genrePop">POP</string>
@@ -126,11 +134,11 @@
     // 음악 속성
 
     <string name="propertyValence">Valence</string>
-    <string name="propertyLoudness">Loudn</string>
+    <string name="propertyLoudness">Loudness</string>
     <string name="propertyDanceablility">Dance</string>
     <string name="propertyEnergy">Energy</string>
     <string name="propertyLiveness">Live</string>
-    <string name="propertySpeechiness">Speech</string>
+    <string name="propertySpeechiness">Speechness</string>
     <string name="propertyAcousticness">Acoustic</string>
     <string name="propertyInstrumentalness">Instrumental</string>
 
@@ -169,6 +177,9 @@
 
     <string name="play_ad_start">Ad start. Please wait.</string>
     <string name="play_end">Playlist id end.</string>
+
+    <string name="play_select_genre1">genres are selected.</string>
+    <string name="play_select_genre2">Choose genre to three or less.</string>
 
     // 음악 평가하기
 

@@ -87,11 +87,11 @@ public class SelectGenreActivity2 extends ActionBarActivity {
                     progressBar.invalidate();
 
                     if(selectGenre.size() < 3){
-                        textView.setText(R.string.select_genre);
+                        textView.setText(getString(R.string.select_genre));
                         rightButton.setVisibility(ImageButton.INVISIBLE);
                     }
                     else{
-                        textView.setText(R.string.select_genre_3);
+                        textView.setText(getString(R.string.select_genre_3));
                         rightButton.setVisibility(ImageButton.VISIBLE);
                     }
                     textView.invalidate();

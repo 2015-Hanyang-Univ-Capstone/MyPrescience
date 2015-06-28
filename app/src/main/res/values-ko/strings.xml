@@ -109,6 +109,14 @@
 
     <string name="recommend_not_recomm">노래를 추천해드리는 중입니다!\n좀 더 정확히 추천 받고 싶으시다면\n좋아하시는 노래를 더 평가해주세요.</string>
 
+    <string name="recommend_start_recom">음악분석을 시작합니다. 완료 후 알려드리겠습니다!</string>
+    <string name="recommend_finish_recom">님 음악분석이 완료되었습니다.</string>
+    <string name="recommend_noti_recom1">음악취향 분석이 완료되었습니다.</string>
+    <string name="recommend_noti_recom2">지금 바로 My Prescience에서 당신에게 추천해주는 노래를 만나보세요!</string>
+
+    <string name="recommend_search_no_result1">노래가 없습니다.</string>
+    <string name="recommend_search_no_result2">다시 검색해보세요!</string>
+
      // 장르
 
     <string name="genrePop">POP</string>
@@ -168,6 +176,9 @@
 
     <string name="play_ad_start">광고 중 입니다. 잠시만 기다려주세요.</string>
     <string name="play_end">모든 노래를 플레이하였습니다.</string>
+
+    <string name="play_select_genre1">개 선택되었습니다.</string>
+    <string name="play_select_genre2">장르를 3개 이하로 선택하세요.</string>
 
     // 음악 평가하기
 

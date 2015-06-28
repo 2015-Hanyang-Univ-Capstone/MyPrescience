@@ -73,6 +73,7 @@ public class SelectGenreActivity extends ActionBarActivity {
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         textView = (TextView) findViewById(R.id.toolbar_title);
+        textView.setText(getString(R.string.play_select_genre2));
         genreCards.add((CardView) findViewById(R.id.pop_card));
         genreCards.add((CardView) findViewById(R.id.electronic_card));
         genreCards.add((CardView) findViewById(R.id.hiphop_card));
@@ -89,7 +90,6 @@ public class SelectGenreActivity extends ActionBarActivity {
         genreCardsTexts.add((TextView) findViewById(R.id.club_card_text_view));
         genreCardsTexts.add((TextView) findViewById(R.id.country_card_text_view));
         genreCardsTexts.add((TextView) findViewById(R.id.jazz_card_text_view));
-
 
         for(CardView card : genreCards){
             card.setOnClickListener(new View.OnClickListener() {
@@ -111,11 +111,11 @@ public class SelectGenreActivity extends ActionBarActivity {
                     progressBar.invalidate();
 
                     if(selectGenre.size() > 3){
-                        textView.setText("장르를 3개 이하 선택하세요.");
+                        textView.setText(getString(R.string.play_select_genre2));
                         rightButton.setVisibility(ImageButton.INVISIBLE);
                     }
                     else{
-                        textView.setText(selectGenre.size() + " 개 선택되었습니다.");
+                        textView.setText(selectGenre.size() + " " + getString(R.string.play_select_genre1));
                         rightButton.setVisibility(ImageButton.VISIBLE);
                     }
                     textView.invalidate();

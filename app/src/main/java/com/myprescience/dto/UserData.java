@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.myprescience.R;
 import com.myprescience.util.RecommendThread;
 import com.myprescience.util.RoundImage;
 
@@ -54,7 +55,7 @@ public class UserData {
                     + WITH_USER + getId() + "&song_id=" + song_id, SIMILAR_SONG).start();
         } else if(RatingSongCount % triger == 0 && !recommRunning) {
             recommRunning = true;
-            Toast.makeText(mContext, "음악분석을 시작합니다. 완료 후 알려드리겠습니다!", Toast.LENGTH_LONG);
+            Toast.makeText(mContext, mContext.getString(R.string.recommend_start_recom), Toast.LENGTH_LONG);
             Log.e("ExecRecommend", SERVER_ADDRESS + RECOMMEND_API + EXEC_RECOMMEND_ALGORITHM + WITH_USER + USER_ID);
             new RecommendThread(mContext, SERVER_ADDRESS + RECOMMEND_API + EXEC_RECOMMEND_ALGORITHM + WITH_USER + USER_ID,
                     RECOMMEND_ALGORITHM).start();

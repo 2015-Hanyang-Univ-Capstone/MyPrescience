@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -102,7 +101,7 @@ public class ArtistActivity extends Activity {
             genresTextview.setText(genre);
 
             JSONObject followers = (JSONObject) artist.get("followers");
-            followersTextView.setText( followers.get("total")+"" );
+            followersTextView.setText( followers.get("total")+ " " );
 
             long popularity = (long)artist.get("popularity");
             popularityProgressBar.setProgress((int)popularity);

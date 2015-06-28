@@ -105,6 +105,9 @@ public class RecommendSongListAdapter extends BaseAdapter {
         mListData.add(temp);
     }
 
+    public int getMaxRating() {
+        return maxRating;
+    }
     public void setMaxRating(int _maxRating) {
         this.maxRating = _maxRating;
     }
@@ -277,7 +280,7 @@ public class RecommendSongListAdapter extends BaseAdapter {
                         new InsertUpdateQuery(mContext).execute(SERVER_ADDRESS + RATING_API + INSERT_RATING +
                                 "user_id=" + userId + "&song_id=" + mData.id + "&rating=" + ratingInt +
                                 "&artist_id=" + mData.artist_id + "&album_id=" + mData.albumUrl.substring(7));
-                        Toast toast = Toast.makeText(mContext, rating + "/5.0점으로 평가되었습니다!", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(mContext, rating + mContext.getString(R.string.song_rating_score), Toast.LENGTH_SHORT);
                         toast.show();
 
                         userDTO.addRatingSoungCount(mData.id, ratingInt);

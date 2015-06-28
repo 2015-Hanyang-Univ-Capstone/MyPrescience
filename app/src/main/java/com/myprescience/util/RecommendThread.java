@@ -58,13 +58,11 @@ public class RecommendThread extends Thread {
                     String result = (String) recommend.get("recommend");
                     String image_300 = (String) recommend.get("image_300");
 
-                    if (result.equals("true") && (String) recommend.get("image_300") != null) {
+                    if (result.equals("true") && image_300 != null) {
 
                         Bitmap bigPicture = null;
                         try {
                             bigPicture = new ImageLoad(image_300).execute().get();
-//                        bigPicture = Bitmap.createScaledBitmap(bigPicture, 120, 120, false);
-//                        int px_dp_256 = dpToPx(256);
                             bigPicture = Bitmap.createScaledBitmap(bigPicture, 600, 300, true);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -72,68 +70,25 @@ public class RecommendThread extends Thread {
                             e.printStackTrace();
                         }
 
-
-//                    NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-//                    PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, new Intent(mContext, MyPrescienceActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-//
-//                    RemoteViews views;
-//                    views = new RemoteViews(mContext.getPackageName(), R.layout.remote_notifyimage);
-//                    views.setImageViewBitmap(R.id.big_picture, bigPicture);
-//
-//                    Notification notification = new Notification(R.drawable.icon_recom_complete,
-//                            userDTO.getName() + "님 음악분석이 완료되었습니다.", System.currentTimeMillis());
-//
-//                    // These flags should be self explanatory
-//                    notification.flags |= Notification.FLAG_NO_CLEAR;
-//                    notification.flags |= Notification.FLAG_ONGOING_EVENT;
-//
-//                    // This is where you select the xml for you custm view
-//
-//                    notification.contentView   = views;
-//                    notification.contentIntent = pendingIntent;
-//
-////                    mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
-//                    nm.notify(111, notification);
-
-//                    NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-//                    PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, new Intent(mContext, MyPrescienceActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-//
-//                    Notification myNotification = new Notification();
-//
-//                    RemoteViews views;
-//                    views = new RemoteViews(mContext.getPackageName(), R.layout.remote_notifyimage);
-//                    views.setImageViewBitmap(R.id.big_picture, bigPicture);
-//                    views.setOnClickPendingIntent(R.id.big_picture, pendingIntent);
-//                    myNotification.bigContentView = views;
-//
-//                    nm.notify(111, myNotification);
-//
-//                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//
-//
-//
-//                    } else {
-//
                         NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
                         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, new Intent(mContext, MyPrescienceActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
                         Notification.Builder mBuilder = new Notification.Builder(mContext);
                         mBuilder.setSmallIcon(R.drawable.logo_small);
-                        mBuilder.setTicker(userDTO.getName() + "님 음악분석이 완료되었습니다.");
+                        mBuilder.setTicker(userDTO.getName() + mContext.getString(R.string.recommend_finish_recom));
                         mBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
                         mBuilder.setContentIntent(pendingIntent);
                         mBuilder.setAutoCancel(true);
 
                         Notification.BigPictureStyle bigStyle = new Notification.BigPictureStyle(mBuilder);
-                        bigStyle.setBigContentTitle("음악취향 분석이 완료되었습니다.");
-                        bigStyle.setSummaryText("지금 바로 My Prescience에서 당신에게 추천해주는 노래를 만나보세요!");
+                        bigStyle.setBigContentTitle(mContext.getString(R.string.recommend_noti_recom1));
+                        bigStyle.setSummaryText(mContext.getString(R.string.recommend_noti_recom2));
                         if (bigPicture != null)
                             bigStyle.bigPicture(bigPicture);
 
                         mBuilder.setStyle(bigStyle);
                         mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
                         nm.notify(111, mBuilder.build());
-//                    }
                     }
 
                 } catch (ParseException e) {

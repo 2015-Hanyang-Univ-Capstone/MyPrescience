@@ -87,6 +87,8 @@ public class SearchSongTab extends Fragment {
         mRecommendSongListAdapter = new RecommendSongListAdapter(mContext, userDTO.getId());
         mRecommendListView.setAdapter(mRecommendSongListAdapter);
 
+//        mRecommendSongListAdapter.setMaxRating(mRecommendSongListAdapter.getMaxRating()-50);
+
         // 스크롤 했을 때 마지막 셀이 보인다면 추가로 로딩
         mRecommendListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -376,7 +378,9 @@ public class SearchSongTab extends Fragment {
                     }
                     mRecommendSongListAdapter.notifyDataSetChanged();
                 } else {
-                    mRecommendSongListAdapter.addItem("", "", "albums/", "", "노래가 없습니다.", "다시 검색해보세요!", 0, "", "",
+                    mRecommendSongListAdapter.addItem("", "", "albums/", "",
+                            mContext.getString(R.string.recommend_search_no_result1),
+                            mContext.getString(R.string.recommend_search_no_result2), 0, "", "",
                             0, 0, 0, 0, 0, 0, 0);
                     mRecommendSongListAdapter.notifyDataSetChanged();
                 }

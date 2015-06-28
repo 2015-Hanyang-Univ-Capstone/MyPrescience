@@ -78,23 +78,6 @@ public class LoginActivity extends FragmentActivity {
         // 현제 페이스북 로그인 세션 확인
         LoginButton authButton = (LoginButton) findViewById(R.id.authButton);
 
-        // 페이스북 로그인
-        authButton.setReadPermissions(Arrays.asList("public_profile"));
-        authButton.setSessionStatusCallback(new Session.StatusCallback() {
-            @Override
-            public void call(Session session, SessionState state, Exception exception) {
-                if (session.isOpened()) {
-                    Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
-                        // callback after Graph API response with user object
-                        @Override
-                        public void onCompleted(GraphUser user, Response response) {
-                            initSetting(user);
-                        }
-                    });
-                }
-            }
-        });
-
         Session session = Session.getActiveSession();
         if(session != null){
             if(session.isOpened()){
@@ -103,6 +86,23 @@ public class LoginActivity extends FragmentActivity {
                     @Override
                     public void onCompleted(GraphUser user, Response response) {
                         initSetting(user);
+                    }
+                });
+            } else {
+                // 페이스북 로그인
+                authButton.setReadPermissions(Arrays.asList("public_profile"));
+                authButton.setSessionStatusCallback(new Session.StatusCallback() {
+                    @Override
+                    public void call(Session session, SessionState state, Exception exception) {
+                        if (session.isOpened()) {
+                            Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+                                // callback after Graph API response with user object
+                                @Override
+                                public void onCompleted(GraphUser user, Response response) {
+                                    initSetting(user);
+                                }
+                            });
+                        }
                     }
                 });
             }
@@ -244,7 +244,6 @@ public class LoginActivity extends FragmentActivity {
             Log.e("song_count", song_count + "");
             userDTO.setRatingSongCount(song_count);
 
-            song_count = 0;
             if(song_count == 0) {
                 DialogPrivacy().show();
             } else {

@@ -150,7 +150,7 @@ public class RecommendSongListTab extends Fragment {
 
                     if(i == 0) {
                         int maxRating = Integer.parseInt((String) song.get("max_rating"));
-                        mRecommendSongListAdapter.setMaxRating(maxRating-30);
+                        mRecommendSongListAdapter.setMaxRating(maxRating-50);
                     } else {
 
                         String id = (String) song.get("id");
