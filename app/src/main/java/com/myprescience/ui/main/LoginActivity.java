@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.facebook.AppEventsLogger;
 import com.facebook.Request;
@@ -57,6 +59,7 @@ public class LoginActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        login = false;
         userDTO = new UserData(getApplicationContext());
 
         if (savedInstanceState == null) {
@@ -74,6 +77,7 @@ public class LoginActivity extends FragmentActivity {
 
         // 현제 페이스북 로그인 세션 확인
         LoginButton authButton = (LoginButton) findViewById(R.id.authButton);
+
         // 페이스북 로그인
         authButton.setReadPermissions(Arrays.asList("public_profile"));
         authButton.setSessionStatusCallback(new Session.StatusCallback() {
@@ -84,7 +88,7 @@ public class LoginActivity extends FragmentActivity {
                         // callback after Graph API response with user object
                         @Override
                         public void onCompleted(GraphUser user, Response response) {
-                        initSetting(user);
+                            initSetting(user);
                         }
                     });
                 }
@@ -98,7 +102,7 @@ public class LoginActivity extends FragmentActivity {
                     // callback after Graph API response with user object
                     @Override
                     public void onCompleted(GraphUser user, Response response) {
-                    initSetting(user);
+                        initSetting(user);
                     }
                 });
             }
@@ -240,60 +244,57 @@ public class LoginActivity extends FragmentActivity {
             Log.e("song_count", song_count + "");
             userDTO.setRatingSongCount(song_count);
 
+            song_count = 0;
             if(song_count == 0) {
-                Intent intent = new Intent(LoginActivity.this, SelectGenreActivity2.class);
-                startActivity(intent);
+                DialogPrivacy().show();
             } else {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             }
-            finish();
         }
     }
 
-//    public void AlertDialog() {
-//        final TextView message = new TextView(LoginActivity.this);
-//        // i.e.: R.string.dialog_message =>
-//        // "Test this dialog following the link to dtmilano.blogspot.com"
-//        final SpannableString s =
-//                new SpannableString(getText(R.string.dialog_message));
-//        Linkify.addLinks(s, Linkify.WEB_URLS);
-//        message.setText(s);
-//        message.setMovementMethod(LinkMovementMethod.getInstance());
-//
-//        return new AlertDialog.Builder(LoginActivity.this)
-//                .setTitle(R.string.dialog_title)
-//                .setCancelable(true)
-//                .setIcon(android.R.drawable.ic_dialog_info)
-//                .setPositiveButton("Yes",
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                            }
-//                }).setNegativeButton("No",
-//                new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        dialog.cancel();
-//                    }
-//                })
-//                .setView(message)
-//                .create();
-//    }
+    public AlertDialog DialogPrivacy() {
+        final TextView message = new TextView(LoginActivity.this);
+        message.setText(getString(R.string.privacy_explain));
+        message.setTextColor(getResources().getColor(R.color.button_material_light));
+        message.setPadding(50, 50, 50, 50);
+        message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                Uri u = Uri.parse(getString(R.string.privacy_url));
+                i.setData(u);
+                startActivity(i);
+            }
+        });
 
-    private void DialogPrivacy(){
-        AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
-        alt_bld.setMessage("Do you want to close this window ?").setCancelable(
-                false).setPositiveButton("Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                }).setNegativeButton("No",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this)
+                .setTitle(getString(R.string.privacy_title))
+                .setView(message)
+                .setCancelable(true)
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .setPositiveButton(getString(R.string.privacy_agree),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                })
+                .setNegativeButton(getString(R.string.privacy_no),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
                 });
-        AlertDialog alert = alt_bld.create();
-        alert.setTitle("Title");
-        alert.show();
+
+
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        return dialog;
     }
+
 }

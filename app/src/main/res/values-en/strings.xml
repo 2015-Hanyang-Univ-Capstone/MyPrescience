@@ -19,6 +19,13 @@
     // Login
     <string name="login_prescience">Welcome to My Prescience.</string>
 
+    <string name="privacy_title">Consent to the collection and use of personal information</string>
+    <string name="privacy_explain">We store your facebook ID and song rating info.\nIf you want see detail, touch this.</string>
+    <string name="privacy_url">http://166.104.245.89/MyPrescience/privacy_policy_eng.html</string>
+
+    <string name="privacy_agree">Consent</string>
+    <string name="privacy_no">No</string>
+
     // Main
 
     <string name="main_mix_play">Music\nPlay</string>
@@ -180,6 +187,10 @@
     <string name="rating_level5_explain">You know how to listen to music!</string>
     <string name="rating_level6_explain">Your body is dancing!</string>
     <string name="rating_level7_explain">Music is My Life!</string>
+
+    <string name="rating_least1">Least </string>
+    <string name="rating_least2">song rate!</string>
+    <string name="rating_get_all">Get all song. refresh please.</string>
 
     // 음악 필터
 

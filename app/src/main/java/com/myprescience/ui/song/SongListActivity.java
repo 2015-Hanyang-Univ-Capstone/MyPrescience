@@ -118,7 +118,7 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
         MODE = modeIntent.getExtras().getInt("mode");
 
         if(MODE == FIRST_MODE) {
-            textView.setText("최소 " + MIN_SELECTED_SONG + "곡 이상 평가해주세요.");
+            textView.setText(getString(R.string.rating_least1) + MIN_SELECTED_SONG + getString(R.string.rating_least2));
 
             rightButton.setVisibility(ImageButton.INVISIBLE);
             rightButton.setOnClickListener(new View.OnClickListener() {
@@ -179,7 +179,7 @@ public class SongListActivity extends ActionBarActivity implements SongFilterFra
                     mListCount += mListAddCount;
                     mListAddCount = totalListSize - mListCount;
                     selectSongsWithMode(MODE, getIntent());
-                    Toast.makeText(getApplicationContext(), "노래를 전부 가져왔습니다.", Toast.LENGTH_LONG);
+                    Toast.makeText(getApplicationContext(), getString(R.string.rating_get_all), Toast.LENGTH_LONG);
                     songListView.setOnScrollListener(null);
                 }
             }

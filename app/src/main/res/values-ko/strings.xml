@@ -18,6 +18,13 @@
     // Login
     <string name="login_prescience">선견지명</string>
 
+    <string name="privacy_title">개인정보 수집 및 이용동의</string>
+    <string name="privacy_explain">페이스북 ID 및 노래 평가정보를 저장합니다.\n자세히 보시려면 여기를 눌러주세요.</string>
+    <string name="privacy_url">http://166.104.245.89/MyPrescience/privacy_policy_kor.html</string>
+
+    <string name="privacy_agree">동의합니다.</string>
+    <string name="privacy_no">안합니다.</string>
+
     // Main
 
     <string name="main_mix_play">추천 노래\n Mix Play</string>
@@ -179,6 +186,10 @@
     <string name="rating_level5_explain">음악 좀 들으실 줄 아시는 군요!</string>
     <string name="rating_level6_explain">노래 들으며 리듬타시는 모습이 보이는 군요!</string>
     <string name="rating_level7_explain">Music is My Life!</string>
+
+    <string name="rating_least1">최소 </string>
+    <string name="rating_least2">곡 이상 평가해주세요.</string>
+    <string name="rating_get_all">노래를 전부 가져왔습니다. 새로고침을 해보세요.</string>
 
     // 음악 필터
 
