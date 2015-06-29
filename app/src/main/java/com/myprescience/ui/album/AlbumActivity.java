@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -100,13 +99,13 @@ public class AlbumActivity extends Activity{
                     startActivity(intent);
                 } else {
                     AlertDialog.Builder alert = new AlertDialog.Builder(AlbumActivity.this);
-                    alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();     //닫기
                         }
                     });
-                    alert.setMessage("해당 트랙에 대한 정보가 없습니다.");
+                    alert.setMessage(getString(R.string.album_no_track));
                     alert.show();
                 }
             } catch (ParseException e) {

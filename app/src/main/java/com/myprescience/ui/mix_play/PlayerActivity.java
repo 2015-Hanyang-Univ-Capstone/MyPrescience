@@ -116,8 +116,11 @@ public class PlayerActivity extends YouTubeBaseActivity {
             public void onClick(View v) {
 
                 if(!mPlayer.hasNext()) {
-                    mCurrent_Video++;
-                    mPlayer.loadVideos(youtubes_id, mCurrent_Video, youtubes_id.size()-1);
+                    if(SPOTIFY_ALBUM_ID != null) {
+                        mCurrent_Video++;
+                        mPlayer.loadVideos(youtubes_id, mCurrent_Video, youtubes_id.size() - 1);
+                    } else
+                        Toast.makeText(PlayerActivity.this, getString(R.string.play_loading), Toast.LENGTH_SHORT).show();
                 } else {
                     mPlayer.next();
                 }
@@ -410,7 +413,7 @@ public class PlayerActivity extends YouTubeBaseActivity {
 
                 @Override
                 public void onSeekTo(int i) {
-
+                    Log.e("onSeekTo", youtubes_title.get(mCurrent_Video));
                 }
             });
 
@@ -429,16 +432,11 @@ public class PlayerActivity extends YouTubeBaseActivity {
                 @Override
                 public void onNext() {
 //                    mPlaylist.get(mCurrent_Video).setTextColor(getResources().getColor(R.color.darker_gray));
-
-                    if(SPOTIFY_ALBUM_ID != null) {
-                        if (mCurrent_Video != youtubes_id.size() - 1)
-                            mCurrent_Video++;
-                        player.loadVideos(youtubes_id, mCurrent_Video, youtubes_id.size() - 1);
-                        mPlayerTitleTextView.setText(youtubes_title.get(mCurrent_Video));
-                        Log.e("onNext", mCurrent_Video + " : " + youtubes_title.get(mCurrent_Video));
-                    } else {
-                        Toast.makeText(PlayerActivity.this, getString(R.string.play_loading), Toast.LENGTH_SHORT).show();
-                    }
+                    if (mCurrent_Video != youtubes_id.size() - 1)
+                        mCurrent_Video++;
+                    player.loadVideos(youtubes_id, mCurrent_Video, youtubes_id.size() - 1);
+                    mPlayerTitleTextView.setText(youtubes_title.get(mCurrent_Video));
+                    Log.e("onNext", mCurrent_Video + " : " + youtubes_title.get(mCurrent_Video));
                 }
 
                 @Override
@@ -447,7 +445,6 @@ public class PlayerActivity extends YouTubeBaseActivity {
                         mPlayerTitleTextView.setText(getString(R.string.play_end));
                     }
                     Log.e("onPlaylistEnded", mCurrent_Video + " : " + youtubes_title.get(mCurrent_Video));
-                    Log.e("onPlaylistEnded", player.getCurrentTimeMillis() + "");
                 }
             });
 
@@ -455,11 +452,12 @@ public class PlayerActivity extends YouTubeBaseActivity {
                 @Override
                 public void onLoading() {
                     mPlayerPlayButtonView.setVisibility(View.INVISIBLE);
+                    Log.e("onLoading", mCurrent_Video + " : " + youtubes_title.get(mCurrent_Video));
                 }
 
                 @Override
                 public void onLoaded(String s) {
-
+                    Log.e("onLoaded", mCurrent_Video + " : " + youtubes_title.get(mCurrent_Video));
                 }
 
                 @Override
@@ -473,6 +471,7 @@ public class PlayerActivity extends YouTubeBaseActivity {
                 @Override
                 public void onVideoStarted() {
 
+                    SPOTIFY_ALBUM_ID = null;
                     getSongFragment();
 
                     mPlayerTitleTextView.setText(youtubes_title.get(mCurrent_Video));
@@ -488,6 +487,8 @@ public class PlayerActivity extends YouTubeBaseActivity {
                         mPlayerNextButtonView.setVisibility(View.VISIBLE);
                     else
                         mPlayerNextButtonView.setVisibility(View.INVISIBLE);
+
+                    Log.e("onVideoStarted", mCurrent_Video + " : " + youtubes_title.get(mCurrent_Video));
                 }
 
                 @Override
@@ -505,6 +506,7 @@ public class PlayerActivity extends YouTubeBaseActivity {
                     Log.e("onError", mCurrent_Video + " : " + youtubes_title.get(mCurrent_Video));
                 }
             });
+
         }
     }
 
